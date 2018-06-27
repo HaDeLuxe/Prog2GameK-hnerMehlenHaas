@@ -7,8 +7,11 @@ namespace Prog2GameKühnerMehlenDavid {
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game {
+        Texture2D textureBall;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+       
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -36,6 +39,8 @@ namespace Prog2GameKühnerMehlenDavid {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            textureBall = Content.Load<Texture2D>("Images\\ball");
         }
 
         /// <summary>
@@ -68,6 +73,10 @@ namespace Prog2GameKühnerMehlenDavid {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(textureBall, new Vector2(0, 0), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
