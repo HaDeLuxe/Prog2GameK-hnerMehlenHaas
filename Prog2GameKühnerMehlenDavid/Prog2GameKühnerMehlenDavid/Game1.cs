@@ -1,21 +1,32 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Prog2GameKühnerMehlenDavid {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game {
-        Texture2D textureBall;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-       
+        Texture2D textureBall;
+        Vector2 ballPosition;
+        float ballSpeed;
+
+
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            Debug.Write("Game1 Constructor used");
         }
 
         /// <summary>
@@ -26,7 +37,8 @@ namespace Prog2GameKühnerMehlenDavid {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-
+            ballPosition = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
+            ballSpeed = 100f;
             base.Initialize();
         }
 
@@ -59,7 +71,16 @@ namespace Prog2GameKühnerMehlenDavid {
         protected override void Update(GameTime gameTime) {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            var kstate = Keyboard.GetState();
 
+            if (kstate.IsKeyDown(Keys.Up))
+                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (kstate.IsKeyDown(Keys.Down))
+                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (kstate.IsKeyDown(Keys.Left))
+                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if(kstate.IsKeyDown(Keys.Right))
+                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -75,7 +96,7 @@ namespace Prog2GameKühnerMehlenDavid {
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
-            spriteBatch.Draw(textureBall, new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(textureBall, ballPosition,null, Color.White,0f,new Vector2(textureBall.Width/2, textureBall.Height / 2), Vector2.One, SpriteEffects.None, 0f );
             spriteBatch.End();
 
             base.Draw(gameTime);
