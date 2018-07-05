@@ -72,6 +72,8 @@ namespace Prog2GameKühnerMehlenDavid {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             var kstate = Keyboard.GetState();
+           
+            //nun
 
             if (kstate.IsKeyDown(Keys.Up))
                 ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
