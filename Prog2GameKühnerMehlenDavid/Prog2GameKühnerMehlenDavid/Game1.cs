@@ -15,16 +15,18 @@ namespace Prog2GameKühnerMehlenDavid {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D texture;
-        Vector2 position;
-      
+
+        Texture2D textureBall;
+        Vector2 ballPosition;
+        float ballSpeed;
+
+
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            position = new Vector2(0,0);
 
-            this.Activated += (sender,args) => {this.Window.Title = "Active Application";};
-            
+            Debug.Write("Game1 Constructor used");
         }
 
         /// <summary>
@@ -35,14 +37,8 @@ namespace Prog2GameKühnerMehlenDavid {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            texture = new Texture2D(this.GraphicsDevice,100,100);
-            Color[] colorData = new Color[100*100];
-            for(int i = 0; i < 10000; i++)
-                {
-                    colorData[i] = Color.Red;
-                }
-
-            texture.SetData<Color>(colorData);
+            ballPosition = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
+            ballSpeed = 100f;
             base.Initialize();
         }
 
@@ -56,7 +52,7 @@ namespace Prog2GameKühnerMehlenDavid {
 
             // TODO: use this.Content to load your game content here
 
-           
+            textureBall = Content.Load<Texture2D>("Images\\ball");
         }
 
         /// <summary>
@@ -75,17 +71,21 @@ namespace Prog2GameKühnerMehlenDavid {
         protected override void Update(GameTime gameTime) {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if(IsActive){
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    Exit();
-                 position.X += 1;
-                if(position.X > this.GraphicsDevice.Viewport.Width)
-                     position.X = 0;
-                base.Update(gameTime);
-            }
-
-            // TODO: Add your update logic here
+            var kstate = Keyboard.GetState();
            
+            //nun
+
+            if (kstate.IsKeyDown(Keys.Up))
+                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (kstate.IsKeyDown(Keys.Down))
+                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (kstate.IsKeyDown(Keys.Left))
+                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if(kstate.IsKeyDown(Keys.Right))
+                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            // TODO: Add your update logic here
+
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Prog2GameKühnerMehlenDavid {
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
-            spriteBatch.Draw(texture,position);
+            spriteBatch.Draw(textureBall, ballPosition,null, Color.White,0f,new Vector2(textureBall.Width/2, textureBall.Height / 2), Vector2.One, SpriteEffects.None, 0f );
             spriteBatch.End();
 
             base.Draw(gameTime);
