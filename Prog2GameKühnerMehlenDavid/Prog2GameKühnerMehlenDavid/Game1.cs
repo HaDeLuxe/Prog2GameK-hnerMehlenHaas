@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
+
 namespace Prog2GameKühnerMehlenDavid {
     /// <summary>
     /// This is the main type for your game.
@@ -15,18 +16,18 @@ namespace Prog2GameKühnerMehlenDavid {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        Texture2D textureBall;
-        Vector2 ballPosition;
-        float ballSpeed;
-
+        private List<Sprite> SpriteList;
+        public Player WormPlayer;
+        //Texture2D PlayerMoveSpriteSheet;
+        
 
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            Debug.Write("Game1 Constructor used");
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.PreferredBackBufferWidth = 1800;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -37,8 +38,7 @@ namespace Prog2GameKühnerMehlenDavid {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            ballPosition = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
-            ballSpeed = 100f;
+
             base.Initialize();
         }
 
@@ -49,10 +49,20 @@ namespace Prog2GameKühnerMehlenDavid {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Texture2D WormTexture = Content.Load<Texture2D>("Images\\door");
+            Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
+            Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
+            //PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
+            WormPlayer = new Player(WormTexture);
+            SpriteList = new List<Sprite>()
+            {
+                new Platform(PlatformTexture)
+                { Position = new Vector2(0,900),},
 
+                new Platform(PlatformTexture)
+                { Position = new Vector2(-500,600),},
+            };
             // TODO: use this.Content to load your game content here
-
-            textureBall = Content.Load<Texture2D>("Images\\ball");
         }
 
         /// <summary>
@@ -71,20 +81,9 @@ namespace Prog2GameKühnerMehlenDavid {
         protected override void Update(GameTime gameTime) {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            var kstate = Keyboard.GetState();
-           
-            //nun
 
-            if (kstate.IsKeyDown(Keys.Up))
-                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (kstate.IsKeyDown(Keys.Down))
-                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (kstate.IsKeyDown(Keys.Left))
-                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(kstate.IsKeyDown(Keys.Right))
-                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             // TODO: Add your update logic here
-
+            WormPlayer.Update(gameTime, SpriteList);
             base.Update(gameTime);
         }
 
@@ -96,11 +95,13 @@ namespace Prog2GameKühnerMehlenDavid {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
             spriteBatch.Begin();
-            spriteBatch.Draw(textureBall, ballPosition,null, Color.White,0f,new Vector2(textureBall.Width/2, textureBall.Height / 2), Vector2.One, SpriteEffects.None, 0f );
-            spriteBatch.End();
 
+            foreach (var PlatformSprite in SpriteList)
+                PlatformSprite.DrawSpriteBatch(spriteBatch);
+            WormPlayer.DrawSpriteBatch(spriteBatch);
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
