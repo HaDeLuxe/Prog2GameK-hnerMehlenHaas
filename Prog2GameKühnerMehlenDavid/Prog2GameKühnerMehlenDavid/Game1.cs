@@ -18,7 +18,8 @@ namespace Prog2GameKühnerMehlenDavid {
         SpriteBatch spriteBatch;
         private List<Sprite> SpriteList;
         public Player WormPlayer;
-        //Texture2D PlayerMoveSpriteSheet;
+        private AnimationManager animManager;
+        Vector2 playerSpriteSheetPosition;
         
 
 
@@ -28,6 +29,8 @@ namespace Prog2GameKühnerMehlenDavid {
             graphics.PreferredBackBufferHeight = 1000;
             graphics.PreferredBackBufferWidth = 1800;
             graphics.ApplyChanges();
+            playerSpriteSheetPosition = new Vector2();
+            animManager = new AnimationManager();
         }
 
         /// <summary>
@@ -52,14 +55,15 @@ namespace Prog2GameKühnerMehlenDavid {
             Texture2D WormTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
-            //PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
-            WormPlayer = new Player(WormTexture);
+            Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
+            Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Rectangle(0,0,310,186));
             SpriteList = new List<Sprite>()
             {
-                new Platform(PlatformTexture)
+                new Platform(PlatformTexture, new Rectangle(0,0,1800,1000))
                 { Position = new Vector2(0,900),},
 
-                new Platform(PlatformTexture)
+                new Platform(PlatformTexture, new Rectangle(0,0,1800,1000))
                 { Position = new Vector2(-500,600),},
             };
             // TODO: use this.Content to load your game content here
@@ -99,7 +103,14 @@ namespace Prog2GameKühnerMehlenDavid {
 
             foreach (var PlatformSprite in SpriteList)
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
-            WormPlayer.DrawSpriteBatch(spriteBatch);
+
+            animManager.animation(gameTime, ref playerSpriteSheetPosition);
+            Console.WriteLine("X: " + playerSpriteSheetPosition.X);
+            Console.WriteLine("Y: " + playerSpriteSheetPosition.Y);
+            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
+            
+            WormPlayer.DrawSpriteBatch(spriteBatch, rec);
+     
 
             spriteBatch.End();
             base.Draw(gameTime);

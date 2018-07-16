@@ -12,13 +12,16 @@ namespace Prog2GameKühnerMehlenDavid {
         public Vector2 Position;
         public Vector2 Velocity;
         public Color color = Color.Black;
+        public Rectangle SpriteSize;
 
         public Rectangle SpriteRectangle {
-            get { return new Rectangle((int)Position.X, (int)Position.Y, SpriteTexture.Width, SpriteTexture.Height); }
+            get { return new Rectangle((int)Position.X, (int)Position.Y, SpriteSize.Width, SpriteSize.Height); }
         }
 
-        public Sprite(Texture2D SpriteTexture) {
+      
+        public Sprite(Texture2D SpriteTexture, Rectangle _SpriteSize) {
             this.SpriteTexture = SpriteTexture;
+            SpriteSize = _SpriteSize;
         }
 
         public virtual void Update(GameTime gameTime, List<Sprite> spriteList) { }
@@ -27,7 +30,14 @@ namespace Prog2GameKühnerMehlenDavid {
             spriteBatch.Draw(SpriteTexture, Position, color);
         }
 
-        public virtual void DrawAnimation(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color) {
+        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
+
+            spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
+            //spriteBatch.Draw(SpriteTexture, Position, color);
+            Console.WriteLine("Player was drawn!");
+        }
+
+        public virtual void DrawAnimation(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color) {
             spriteBatch.Draw(texture, position, sourceRectangle, color);
         }
 

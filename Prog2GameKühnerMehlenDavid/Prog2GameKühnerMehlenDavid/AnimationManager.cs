@@ -54,6 +54,7 @@ namespace Prog2GameKühnerMehlenDavid {
                 playerSpritePos.Y = 4;
                 playerSpritePos.X = frameIndex - 21;
             }
+            Console.WriteLine(frameIndex);
         } //Returns x and y data, to which part of the PlayerMoveAnimSheet to show
         
     }

@@ -20,7 +20,7 @@ namespace Prog2GameKühnerMehlenDavid {
         int PreviousJumpCounter;
         float MovementSpeed;
         float JumpSpeed;
-        public Player(Texture2D texture) : base(texture) {
+        public Player(Texture2D texture,Rectangle SpriteSize) : base(texture,SpriteSize) {
             GravityActive = true;
             FirstJump = false;
             SecondJump = false;
@@ -28,7 +28,7 @@ namespace Prog2GameKühnerMehlenDavid {
             AirDirectionRight = false;
             JumpCounter = 0;
             PreviousJumpCounter = 0;
-            Position = new Vector2(100, 100);
+            Position = new Vector2(50, 100);
             MovementSpeed = 5f;
             JumpSpeed = -10f;
         }
