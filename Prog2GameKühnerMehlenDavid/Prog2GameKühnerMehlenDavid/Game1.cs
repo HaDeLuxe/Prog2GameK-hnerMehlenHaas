@@ -57,7 +57,7 @@ namespace Prog2GameKühnerMehlenDavid {
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
             Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
-            WormPlayer = new Player(PlayerMoveSpriteSheet, new Rectangle(0,0,310,186));
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Rectangle(20,0,130,112));
             SpriteList = new List<Sprite>()
             {
                 new Platform(PlatformTexture, new Rectangle(0,0,1800,1000))
@@ -107,7 +107,7 @@ namespace Prog2GameKühnerMehlenDavid {
             animManager.animation(gameTime, ref playerSpriteSheetPosition);
             Console.WriteLine("X: " + playerSpriteSheetPosition.X);
             Console.WriteLine("Y: " + playerSpriteSheetPosition.Y);
-            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
+            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 153, (int)playerSpriteSheetPosition.Y * 112, 153, 112);
             
             WormPlayer.DrawSpriteBatch(spriteBatch, rec);
      
