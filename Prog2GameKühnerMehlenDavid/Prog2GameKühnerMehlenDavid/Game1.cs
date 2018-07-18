@@ -18,6 +18,7 @@ namespace Prog2GameKühnerMehlenDavid {
         SpriteBatch spriteBatch;
         private List<Sprite> SpriteList;
         public Player WormPlayer;
+        public Enemy Ant;
         private AnimationManager animManager;
         Vector2 playerSpriteSheetPosition;
         
@@ -52,20 +53,23 @@ namespace Prog2GameKühnerMehlenDavid {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Texture2D WormTexture = Content.Load<Texture2D>("Images\\door");
+            Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
             Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
-            WormPlayer = new Player(PlayerMoveSpriteSheet, new Rectangle(0,0,310,186));
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(310,186));
+            Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
+            Ant.setPlayer(WormPlayer);
             SpriteList = new List<Sprite>()
             {
-                new Platform(PlatformTexture, new Rectangle(0,0,1800,1000))
+                new Platform(PlatformTexture, new Vector2(1800,100))
                 { Position = new Vector2(0,900),},
 
-                new Platform(PlatformTexture, new Rectangle(0,0,1800,1000))
+                new Platform(PlatformTexture, new Vector2(1800,100))
                 { Position = new Vector2(-500,600),},
             };
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -87,7 +91,9 @@ namespace Prog2GameKühnerMehlenDavid {
                 Exit();
 
             // TODO: Add your update logic here
+            Ant.Update(gameTime, SpriteList);
             WormPlayer.Update(gameTime, SpriteList);
+            
             base.Update(gameTime);
         }
 
@@ -107,7 +113,7 @@ namespace Prog2GameKühnerMehlenDavid {
             animManager.animation(gameTime, ref playerSpriteSheetPosition);
             
             Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
-            
+            Ant.DrawSpriteBatch(spriteBatch);
             WormPlayer.DrawSpriteBatch(spriteBatch, rec);
      
 

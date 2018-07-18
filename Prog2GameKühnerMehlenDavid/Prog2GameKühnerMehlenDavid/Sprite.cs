@@ -7,21 +7,35 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Prog2GameKühnerMehlenDavid {
+
     public abstract class Sprite {
+
         protected Texture2D SpriteTexture;
+        protected bool AirDirectionLeft;
+        protected bool AirDirectionRight;
+        protected bool GravityActive;
+        protected int FacingDirection;
+        public float MovementSpeed;
+        public Vector2 Gravity;
         public Vector2 Position;
+        public Vector2 CollisionBoxSize;
+        public Vector2 CollisionBoxPosition;
+        public Vector2 ChangeCollisionBox;
+        public Vector2 SpriteSize;
         public Vector2 Velocity;
         public Color color = Color.Black;
-        public Rectangle SpriteSize;
-
-        public Rectangle SpriteRectangle {
-            get { return new Rectangle((int)Position.X, (int)Position.Y, SpriteSize.Width, SpriteSize.Height); }
+        public Rectangle CollisionRectangle
+        {
+        get { return new Rectangle((int)CollisionBoxPosition.X, (int)CollisionBoxPosition.Y, (int)CollisionBoxSize.X, (int)CollisionBoxSize.Y); }
         }
 
-      
-        public Sprite(Texture2D SpriteTexture, Rectangle _SpriteSize) {
+        public Rectangle SpriteRectangle {
+            get { return new Rectangle((int)Position.X, (int)Position.Y,(int)SpriteSize.X, (int)SpriteSize.Y); }
+        }
+
+        public Sprite(Texture2D SpriteTexture, Vector2 _SpriteSize) {
             this.SpriteTexture = SpriteTexture;
-            SpriteSize = _SpriteSize;
+            SpriteSize = _SpriteSize;  
         }
 
         public virtual void Update(GameTime gameTime, List<Sprite> spriteList) { }
@@ -31,40 +45,47 @@ namespace Prog2GameKühnerMehlenDavid {
         }
 
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
-
-            spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
-            
+            if (FacingDirection == -1)
+            {
+                spriteBatch.Draw(SpriteTexture, Position, null, sourceRectangle, null, 0, null, null, SpriteEffects.FlipHorizontally, 0);
+            }
+            else if(FacingDirection == 1)
+                spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
+            //spriteBatch.Draw(SpriteTexture, Position, color);
+            Console.WriteLine("Player was drawn!");
         }
 
-        
+        public virtual void DrawAnimation(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color) {
+            spriteBatch.Draw(texture, position, sourceRectangle, color);
+        }
 
         #region SpriteCollision
         protected bool IsTouchingLeftSide(Sprite sprite) {
-            return SpriteRectangle.Right + Velocity.X > sprite.SpriteRectangle.Left
-                && SpriteRectangle.Left < sprite.SpriteRectangle.Left
-                && SpriteRectangle.Bottom > sprite.SpriteRectangle.Top
-                && SpriteRectangle.Top < sprite.SpriteRectangle.Bottom;
+            return CollisionRectangle.Right + Velocity.X > sprite.SpriteRectangle.Left
+                && CollisionRectangle.Left < sprite.SpriteRectangle.Left
+                && CollisionRectangle.Bottom > sprite.SpriteRectangle.Top
+                && CollisionRectangle.Top < sprite.SpriteRectangle.Bottom;
         }
 
         protected bool IsTouchingRightSide(Sprite sprite) {
-            return SpriteRectangle.Left + Velocity.X < sprite.SpriteRectangle.Right
-                && SpriteRectangle.Right > sprite.SpriteRectangle.Right
-                && SpriteRectangle.Bottom > sprite.SpriteRectangle.Top
-                && SpriteRectangle.Top < sprite.SpriteRectangle.Bottom;
+            return CollisionRectangle.Left + Velocity.X < sprite.SpriteRectangle.Right
+                && CollisionRectangle.Right > sprite.SpriteRectangle.Right
+                && CollisionRectangle.Bottom > sprite.SpriteRectangle.Top
+                && CollisionRectangle.Top < sprite.SpriteRectangle.Bottom;
         }
 
         protected bool IsTouchingTopSide(Sprite sprite, Vector2 Gravity) {
-            return SpriteRectangle.Bottom + Velocity.Y + Gravity.Y > sprite.SpriteRectangle.Top
-                && SpriteRectangle.Top < sprite.SpriteRectangle.Top
-                && SpriteRectangle.Right > sprite.SpriteRectangle.Left
-                && SpriteRectangle.Left < sprite.SpriteRectangle.Right;
+            return CollisionRectangle.Bottom + Velocity.Y + Gravity.Y > sprite.SpriteRectangle.Top
+                && CollisionRectangle.Top < sprite.SpriteRectangle.Top
+                && CollisionRectangle.Right > sprite.SpriteRectangle.Left
+                && CollisionRectangle.Left < sprite.SpriteRectangle.Right;
         }
 
         protected bool IsTouchingBottomSide(Sprite sprite) {
-            return SpriteRectangle.Top + Velocity.Y < sprite.SpriteRectangle.Bottom
-                && SpriteRectangle.Bottom > sprite.SpriteRectangle.Bottom
-                && SpriteRectangle.Right > sprite.SpriteRectangle.Left
-                && SpriteRectangle.Left < sprite.SpriteRectangle.Right;
+            return CollisionRectangle.Top + Velocity.Y < sprite.SpriteRectangle.Bottom
+                && CollisionRectangle.Bottom > sprite.SpriteRectangle.Bottom
+                && CollisionRectangle.Right > sprite.SpriteRectangle.Left
+                && CollisionRectangle.Left < sprite.SpriteRectangle.Right;
         }
         #endregion
     }
