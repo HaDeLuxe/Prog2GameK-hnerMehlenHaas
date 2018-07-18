@@ -10,31 +10,31 @@ using System.Threading.Tasks;
 namespace Prog2GameKühnerMehlenDavid {
     public class Player : Sprite {
         KeyboardState PreviousState;
-        Vector2 Gravity;
-        bool GravityActive;
         bool FirstJump;
         bool SecondJump;
-        bool AirDirectionLeft;
-        bool AirDirectionRight;
         int JumpCounter;
         int PreviousJumpCounter;
-        float MovementSpeed;
         float JumpSpeed;
-        public Player(Texture2D texture,Rectangle SpriteSize) : base(texture,SpriteSize) {
+        public Player(Texture2D texture,Vector2 SpriteSize) : base(texture,SpriteSize) {
             GravityActive = true;
             FirstJump = false;
             SecondJump = false;
             AirDirectionLeft = false;
             AirDirectionRight = false;
+            FacingDirection = 1;
             JumpCounter = 0;
             PreviousJumpCounter = 0;
             Position = new Vector2(50, 100);
+            ChangeCollisionBox = new Vector2(100,50);
+            CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
+            CollisionBoxSize = new Vector2(50, 136);
             MovementSpeed = 5f;
             JumpSpeed = -10f;
         }
 
         public override void Update(GameTime gameTime, List<Sprite> spriteList) {
             PlayerMovement();
+            Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
             PlayerCollision(gameTime, spriteList);
         }
 
@@ -52,7 +52,8 @@ namespace Prog2GameKühnerMehlenDavid {
                     Velocity.Y = 0;
                     JumpSpeed = 0;
                     GravityActive = true;
-                    Position.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
+                    CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
+                    Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     if (FirstJump == true && SecondJump == false)
                         FirstJump = false;
                     else if (FirstJump == true && SecondJump == true)
@@ -70,7 +71,8 @@ namespace Prog2GameKühnerMehlenDavid {
                     FirstJump = false;
                     SecondJump = false;
                     JumpCounter = 0;
-                    Position.Y = sprite.Position.Y - SpriteRectangle.Height;
+                    CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
+                    Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     AirDirectionLeft = false;
                     AirDirectionRight = false;
                 }
@@ -101,12 +103,18 @@ namespace Prog2GameKühnerMehlenDavid {
                 PlayerJump();
             if (GravityActive)
             {
-                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
-                Position += Gravity;
+                //if (!PreviousState.IsKeyDown(Keys.Space))
+                    Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
+                if (Gravity.Y > -JumpSpeed && PreviousState.IsKeyDown(Keys.Space))
+                    Gravity.Y = 12f ;
+                //else
+                //    Gravity.Y = 5;
+                CollisionBoxPosition += Gravity;
             }
             else
                 Gravity = Vector2.Zero;
-            Position += Velocity;
+            CollisionBoxPosition += Velocity;
+            Position = CollisionBoxPosition - ChangeCollisionBox;
             Velocity = Vector2.Zero;
         }
 
@@ -121,11 +129,13 @@ namespace Prog2GameKühnerMehlenDavid {
             {
                 Velocity.X = -MovementSpeed;
                 AirDirectionLeft = true;
+                FacingDirection = -1;
                 AirDirectionRight = false;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 Velocity.X = MovementSpeed;
+                FacingDirection = 1;
                 AirDirectionLeft = false;
                 AirDirectionRight = true;
             }
