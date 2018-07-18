@@ -33,13 +33,10 @@ namespace Prog2GameKühnerMehlenDavid {
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
 
             spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
-            //spriteBatch.Draw(SpriteTexture, Position, color);
-            Console.WriteLine("Player was drawn!");
+            
         }
 
-        public virtual void DrawAnimation(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color) {
-            spriteBatch.Draw(texture, position, sourceRectangle, color);
-        }
+        
 
         #region SpriteCollision
         protected bool IsTouchingLeftSide(Sprite sprite) {

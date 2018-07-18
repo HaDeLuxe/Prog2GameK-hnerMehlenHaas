@@ -105,8 +105,7 @@ namespace Prog2GameKühnerMehlenDavid {
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
 
             animManager.animation(gameTime, ref playerSpriteSheetPosition);
-            Console.WriteLine("X: " + playerSpriteSheetPosition.X);
-            Console.WriteLine("Y: " + playerSpriteSheetPosition.Y);
+            
             Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
             
             WormPlayer.DrawSpriteBatch(spriteBatch, rec);
