@@ -21,8 +21,9 @@ namespace Prog2GameKühnerMehlenDavid {
         public Enemy Ant;
         private AnimationManager animManager;
         Vector2 playerSpriteSheetPosition;
-        
 
+        Camera camera = new Camera();
+        
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -103,9 +104,11 @@ namespace Prog2GameKühnerMehlenDavid {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            Viewport viewport = GraphicsDevice.Viewport;
+            Vector2 screenCentre = new Vector2(viewport.Width / 2-155, viewport.Height / 2-93);
+            camera.setCameraWorldPosition(WormPlayer.Position);
+            spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
 
             foreach (var PlatformSprite in SpriteList)
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
