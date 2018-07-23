@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reggie {
+namespace Prog2GameKühnerMehlenDavid {
 
     public abstract class GameObject {
 
@@ -47,7 +47,7 @@ namespace Reggie {
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
             if (FacingDirection == -1)
             {
-                spriteBatch.Draw(SpriteTexture, Position, null, sourceRectangle, null, 0, null, null, SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.FlipHorizontally, 0);
             }
             else if(FacingDirection == 1)
                 spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
@@ -55,35 +55,38 @@ namespace Reggie {
             Console.WriteLine("Player was drawn!");
         }
 
-        
-        #region SpriteCollision
-        protected bool IsTouchingLeftSide(Sprite sprite) {
+        public virtual void DrawAnimation(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color) {
+            spriteBatch.Draw(texture, position, sourceRectangle, color);
+        }
+
+        // SpriteCollision
+        protected bool IsTouchingLeftSide(GameObject sprite) {
             return CollisionRectangle.Right + Velocity.X > sprite.SpriteRectangle.Left
                 && CollisionRectangle.Left < sprite.SpriteRectangle.Left
                 && CollisionRectangle.Bottom > sprite.SpriteRectangle.Top
                 && CollisionRectangle.Top < sprite.SpriteRectangle.Bottom;
         }
 
-        protected bool IsTouchingRightSide(Sprite sprite) {
+        protected bool IsTouchingRightSide(GameObject sprite) {
             return CollisionRectangle.Left + Velocity.X < sprite.SpriteRectangle.Right
                 && CollisionRectangle.Right > sprite.SpriteRectangle.Right
                 && CollisionRectangle.Bottom > sprite.SpriteRectangle.Top
                 && CollisionRectangle.Top < sprite.SpriteRectangle.Bottom;
         }
 
-        protected bool IsTouchingTopSide(Sprite sprite, Vector2 Gravity) {
+        protected bool IsTouchingTopSide(GameObject sprite, Vector2 Gravity) {
             return CollisionRectangle.Bottom + Velocity.Y + Gravity.Y > sprite.SpriteRectangle.Top
                 && CollisionRectangle.Top < sprite.SpriteRectangle.Top
                 && CollisionRectangle.Right > sprite.SpriteRectangle.Left
                 && CollisionRectangle.Left < sprite.SpriteRectangle.Right;
         }
 
-        protected bool IsTouchingBottomSide(Sprite sprite) {
+        protected bool IsTouchingBottomSide(GameObject sprite) {
             return CollisionRectangle.Top + Velocity.Y < sprite.SpriteRectangle.Bottom
                 && CollisionRectangle.Bottom > sprite.SpriteRectangle.Bottom
                 && CollisionRectangle.Right > sprite.SpriteRectangle.Left
                 && CollisionRectangle.Left < sprite.SpriteRectangle.Right;
         }
-        #endregion
+        
     }
 }

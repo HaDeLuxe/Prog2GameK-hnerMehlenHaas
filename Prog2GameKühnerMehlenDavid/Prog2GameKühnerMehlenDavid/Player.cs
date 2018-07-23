@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reggie {
+
+namespace Prog2GameKühnerMehlenDavid {
     public class Player : GameObject {
         KeyboardState PreviousState;
         bool FirstJump;

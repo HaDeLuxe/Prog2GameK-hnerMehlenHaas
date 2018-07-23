@@ -16,7 +16,7 @@ namespace Reggie {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private List<Sprite> SpriteList;
+        private List<GameObject> SpriteList;
         public Player WormPlayer;
         public Enemy Ant;
         private AnimationManager animManager;
@@ -62,7 +62,7 @@ namespace Reggie {
             WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(310,186));
             Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
             Ant.setPlayer(WormPlayer);
-            SpriteList = new List<Sprite>()
+            SpriteList = new List<GameObject>()
             {
                 new Platform(PlatformTexture, new Vector2(1800,100))
                 { Position = new Vector2(0,900),},
