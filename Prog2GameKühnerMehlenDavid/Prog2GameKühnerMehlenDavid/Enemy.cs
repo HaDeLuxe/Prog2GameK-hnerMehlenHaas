@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Prog2GameKühnerMehlenDavid
 {
-    public class Enemy : Sprite
+    public class Enemy : GameObject
     {
         public Rectangle EnemyAggroArea;
         public Vector4 EnemyAggroAreaSize;
@@ -25,14 +25,14 @@ namespace Prog2GameKühnerMehlenDavid
             EnemyAggroArea = new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y+ EnemyAggroAreaSize.W));
             CollisionBoxSize = new Vector2(50, 50);
         }
-        public override void Update(GameTime gameTime, List<Sprite> spriteList) {
+        public override void Update(GameTime gameTime, List<GameObject> spriteList) {
             ResizeEnemyAggroArea(spriteList);
             EnemyCollision(gameTime, spriteList);
             if (DetectPlayer())
                 EnemyMovement();
         }
 
-        private void ResizeEnemyAggroArea(List<Sprite> spriteList)
+        private void ResizeEnemyAggroArea(List<GameObject> spriteList)
         {
             EnemyAggroAreaSize = new Vector4(100, 100, 150, 150);
             foreach(var sprite in spriteList)
@@ -65,7 +65,7 @@ namespace Prog2GameKühnerMehlenDavid
             Worm = WormPlayer;
         }
 
-        private void EnemyCollision(GameTime gameTime, List<Sprite> spriteList)
+        private void EnemyCollision(GameTime gameTime, List<GameObject> spriteList)
         {
             foreach (var sprite in spriteList)
             {

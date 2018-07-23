@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Prog2GameKühnerMehlenDavid {
-    public class Player : Sprite {
+    public class Player : GameObject {
         KeyboardState PreviousState;
         bool FirstJump;
         bool SecondJump;
@@ -32,13 +33,13 @@ namespace Prog2GameKühnerMehlenDavid {
             JumpSpeed = -10f;
         }
 
-        public override void Update(GameTime gameTime, List<Sprite> spriteList) {
+        public override void Update(GameTime gameTime, List<GameObject> spriteList) {
             PlayerMovement();
             Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
             PlayerCollision(gameTime, spriteList);
         }
 
-        private void PlayerCollision(GameTime gameTime, List<Sprite> spriteList) {
+        private void PlayerCollision(GameTime gameTime, List<GameObject> spriteList) {
             foreach (var sprite in spriteList)
             {
                 //Checks collision on the left side and right side of each sprite when player is on the ground/air
