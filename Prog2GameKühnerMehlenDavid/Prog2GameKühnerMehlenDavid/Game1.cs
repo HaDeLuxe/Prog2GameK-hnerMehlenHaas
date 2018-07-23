@@ -22,6 +22,8 @@ namespace Reggie {
         private AnimationManager animManager;
         Vector2 playerSpriteSheetPosition;
 
+        InputData input = new InputData();
+
         Camera camera = new Camera();
         
 
@@ -71,6 +73,7 @@ namespace Reggie {
                 { Position = new Vector2(-500,600),},
             };
 
+            input.ReadImageSizeDataSheet();
             // TODO: use this.Content to load your game content here
         }
 
@@ -108,6 +111,7 @@ namespace Reggie {
             Viewport viewport = GraphicsDevice.Viewport;
             Vector2 screenCentre = new Vector2(viewport.Width / 2-155, viewport.Height / 2-93);
             camera.setCameraWorldPosition(WormPlayer.Position);
+
             spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
 
             foreach (var PlatformSprite in SpriteList)

@@ -25,13 +25,18 @@ namespace Reggie {
         }
 
         
-
-
-        public void Update(GameTime gameTime) {
+        public void Update(GameTime gameTime, ref Vector2 playerSpritePos) {
             float animationFrameTime = 1f / 25f;
 
             float gameFrameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeUntilNextFrame -= gameFrameTime;
+
+            if (timeUntilNextFrame <= 0)
+            {
+                currentFrame++;
+                if (currentFrame > 25) currentFrame = 1;
+                timeUntilNextFrame += animationFrameTime;
+            }
         }
     }
 
