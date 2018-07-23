@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 
 
-namespace Prog2GameKühnerMehlenDavid {
+namespace Reggie {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>

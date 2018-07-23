@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prog2GameKühnerMehlenDavid {
+namespace Reggie {
    public class AnimationManager {
        
 

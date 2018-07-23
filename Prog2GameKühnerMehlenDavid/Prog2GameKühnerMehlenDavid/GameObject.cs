@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prog2GameKühnerMehlenDavid {
+namespace Reggie {
 
-    public abstract class Sprite {
+    public abstract class GameObject {
 
         protected Texture2D SpriteTexture;
         protected bool AirDirectionLeft;
@@ -33,12 +33,12 @@ namespace Prog2GameKühnerMehlenDavid {
             get { return new Rectangle((int)Position.X, (int)Position.Y,(int)SpriteSize.X, (int)SpriteSize.Y); }
         }
 
-        public Sprite(Texture2D SpriteTexture, Vector2 _SpriteSize) {
+        public GameObject(Texture2D SpriteTexture, Vector2 _SpriteSize) {
             this.SpriteTexture = SpriteTexture;
             SpriteSize = _SpriteSize;  
         }
 
-        public virtual void Update(GameTime gameTime, List<Sprite> spriteList) { }
+        public virtual void Update(GameTime gameTime, List<GameObject> spriteList) { }
 
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch) {
             spriteBatch.Draw(SpriteTexture, Position, color);
@@ -55,10 +55,7 @@ namespace Prog2GameKühnerMehlenDavid {
             Console.WriteLine("Player was drawn!");
         }
 
-        public virtual void DrawAnimation(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color) {
-            spriteBatch.Draw(texture, position, sourceRectangle, color);
-        }
-
+        
         #region SpriteCollision
         protected bool IsTouchingLeftSide(Sprite sprite) {
             return CollisionRectangle.Right + Velocity.X > sprite.SpriteRectangle.Left
