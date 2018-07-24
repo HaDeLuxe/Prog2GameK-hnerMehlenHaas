@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace Reggie {
     class InputData {
 
-        private static string[] SpriteSheetsData { get; set; }
-        private string[] numbers;
+        private static List<String> SpriteSheetsData { get; set; }
+        private List<String> numbers;
 
         public InputData() {
             SpriteSheetsData = null;
@@ -19,7 +19,7 @@ namespace Reggie {
         
         public void ReadImageSizeDataSheet() {
             //Write Spritesheetsizes into an Array
-            SpriteSheetsData = System.IO.File.ReadAllLines(@"Content\SpriteSheetSizes.txt");
+            SpriteSheetsData = new List<string>(System.IO.File.ReadAllLines(@"Content\SpriteSheetSizes.txt"));
 
             //Check if Input is correct
             //System.Console.WriteLine("Spritesheet Sizes:");
@@ -29,29 +29,22 @@ namespace Reggie {
             //int firstIndex = 0;
             //int lastIndex = 0;
             Match match = null;
+            string[] result = null;
 
-            for (int i = 0; i < SpriteSheetsData.Length; i++)
+            List<int> indexToDelete = new List<int>();
+            for (int i = 0; i < SpriteSheetsData.Count; i++)
             {
-                //while (true)
-                //{
-
-
-                //    match = Regex.Match(SpriteSheetsData[i], "-?[0-9]+");
-
-                //    if (match.Success)
-                //    {
-                //        System.Console.WriteLine(int.Parse(match.Value));
-                //    }
-                //    match = Regex.Match(SpriteSheetsData[i], "@");
-                //    if (match.Equals('@')) break;
-                //}
-
-                foreach (var item in SpriteSheetsData)
-                {
-                    numbers = Regex.Split(item, "-?[0-9]+").Where(s => s != String.Empty).ToArray();
-                    for (int m = 0; m < numbers.Length; m++) Console.WriteLine(numbers[m]);
-                }
+                SpriteSheetsData[i] = Regex.Replace(SpriteSheetsData[i], "[^0-9,]", "");
+                if(SpriteSheetsData[i] == "") indexToDelete.Add(i);
             }
+
+
+            SpriteSheetsData = SpriteSheetsData.Where(s => !string.IsNullOrWhiteSpace(s)).Distinct().ToList();
+            foreach(String s in SpriteSheetsData)
+            {
+                System.Console.WriteLine(s);
+            }
+            
 
             //for (int i = 0; i < numbers.Length; i++) Console.WriteLine(numbers[i]);
 
