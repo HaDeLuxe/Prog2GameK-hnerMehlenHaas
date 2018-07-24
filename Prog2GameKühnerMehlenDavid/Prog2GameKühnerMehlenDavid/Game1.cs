@@ -8,25 +8,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace Prog2GameKühnerMehlenDavid {
+
+namespace Reggie {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private List<GameObject> SpriteList;
+        public Player WormPlayer;
+        public Enemy Ant;
+        private AnimationManager animManager;
+        Vector2 playerSpriteSheetPosition;
 
-        Texture2D textureBall;
-        Vector2 ballPosition;
-        float ballSpeed;
-
-
+        Camera camera = new Camera();
+        
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            Debug.Write("Game1 Constructor used");
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.PreferredBackBufferWidth = 1800;
+            graphics.ApplyChanges();
+            playerSpriteSheetPosition = new Vector2();
+            animManager = new AnimationManager();
         }
 
         /// <summary>
@@ -37,8 +43,7 @@ namespace Prog2GameKühnerMehlenDavid {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            ballPosition = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
-            ballSpeed = 100f;
+
             base.Initialize();
         }
 
@@ -49,10 +54,24 @@ namespace Prog2GameKühnerMehlenDavid {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
+            Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
+            Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
+            Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
+            Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(310,186));
+            Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
+            Ant.setPlayer(WormPlayer);
+            SpriteList = new List<GameObject>()
+            {
+                new Platform(PlatformTexture, new Vector2(1800,100))
+                { Position = new Vector2(0,900),},
+
+                new Platform(PlatformTexture, new Vector2(1800,100))
+                { Position = new Vector2(-500,600),},
+            };
 
             // TODO: use this.Content to load your game content here
-
-            textureBall = Content.Load<Texture2D>("Images\\ball");
         }
 
         /// <summary>
@@ -71,20 +90,11 @@ namespace Prog2GameKühnerMehlenDavid {
         protected override void Update(GameTime gameTime) {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            var kstate = Keyboard.GetState();
-           
-            //nun
 
-            if (kstate.IsKeyDown(Keys.Up))
-                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (kstate.IsKeyDown(Keys.Down))
-                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (kstate.IsKeyDown(Keys.Left))
-                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(kstate.IsKeyDown(Keys.Right))
-                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             // TODO: Add your update logic here
-
+            Ant.Update(gameTime, SpriteList);
+            WormPlayer.Update(gameTime, SpriteList);
+            
             base.Update(gameTime);
         }
 
@@ -94,13 +104,23 @@ namespace Prog2GameKühnerMehlenDavid {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
+            Viewport viewport = GraphicsDevice.Viewport;
+            Vector2 screenCentre = new Vector2(viewport.Width / 2-155, viewport.Height / 2-93);
+            camera.setCameraWorldPosition(WormPlayer.Position);
+            spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(textureBall, ballPosition,null, Color.White,0f,new Vector2(textureBall.Width/2, textureBall.Height / 2), Vector2.One, SpriteEffects.None, 0f );
+            foreach (var PlatformSprite in SpriteList)
+                PlatformSprite.DrawSpriteBatch(spriteBatch);
+
+            animManager.animation(gameTime, ref playerSpriteSheetPosition);
+            
+            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
+            Ant.DrawSpriteBatch(spriteBatch);
+            WormPlayer.DrawSpriteBatch(spriteBatch, rec);
+     
+
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

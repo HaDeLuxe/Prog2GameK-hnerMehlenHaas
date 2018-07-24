@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Prog2GameKühnerMehlenDavid {
+namespace Reggie {
 #if WINDOWS || LINUX
     /// <summary>
     /// The main class.
