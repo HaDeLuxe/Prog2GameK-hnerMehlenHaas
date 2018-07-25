@@ -24,7 +24,7 @@ namespace Reggie {
         public void ReadImageSizeDataSheet() 
         {
             //Write Spritesheetsizes into an Array
-            SpriteSheetsData = new List<string>(System.IO.File.ReadAllLines(@"Content\SpriteSheetSizes.txt"));
+            SpriteSheetsData = new List<string>(System.IO.File.ReadAllLines(@"SpriteSheetSizes.txt"));
             
             for (int i = 0; i < SpriteSheetsData.Count; i++)
             {

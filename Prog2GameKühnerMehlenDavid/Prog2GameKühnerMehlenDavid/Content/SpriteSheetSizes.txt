@@ -1,0 +1,3 @@
+(765,560) 	//Reggie_Move_Even_Smaller
+(710,1695)	//Reggie_Jump
+

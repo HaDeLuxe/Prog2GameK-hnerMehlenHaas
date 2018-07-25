@@ -61,7 +61,7 @@ namespace Reggie {
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
             Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
-            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(310,186));
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(150,186));
             Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
             Ant.setPlayer(WormPlayer);
             SpriteList = new List<GameObject>()
