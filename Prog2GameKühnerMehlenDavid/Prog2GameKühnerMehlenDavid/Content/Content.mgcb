@@ -85,3 +85,10 @@
 /processorParam:TextureFormat=Color
 /build:Images/Reggie_Move_Even_Smaller.png
 
+#begin Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial.spritefont
+

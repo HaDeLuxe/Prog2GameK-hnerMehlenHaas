@@ -23,7 +23,8 @@ namespace Reggie {
         Vector2 playerSpritePosition;
         List<GameObject> gameObjectsToRender;
         SpriteSheetSizes input = new SpriteSheetSizes();
-
+        private FrameCounter _frameCounter = new FrameCounter();
+        private SpriteFont font;
         Camera camera = new Camera();
         
 
@@ -57,6 +58,7 @@ namespace Reggie {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             input.ReadImageSizeDataSheet();
+            font = Content.Load<SpriteFont>("Arial");
             Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
@@ -117,7 +119,14 @@ namespace Reggie {
 
             spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
 
-           
+
+            //Comment: SEE Framecounter.cs for additional commentary
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _frameCounter.Update(deltaTime);
+            var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+            spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X-620, WormPlayer.Position.Y-490), Color.Black);
+            //end comment.
+
 
             foreach (var PlatformSprite in gameObjectsToRender)
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
