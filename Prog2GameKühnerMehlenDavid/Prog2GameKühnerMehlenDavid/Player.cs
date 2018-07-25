@@ -25,11 +25,9 @@ namespace Reggie {
             FacingDirection = 1;
             JumpCounter = 0;
             PreviousJumpCounter = 0;
-            Position = new Vector2(50, 100);
-            //ChangeCollisionBox = new Vector2(100,50);
+            Position = new Vector2(0, 0);
             ChangeCollisionBox = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
-            //CollisionBoxSize = new Vector2(50, 136);
             CollisionBoxSize = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_Y"]);
             MovementSpeed = 6f;
             JumpSpeed = -10f;

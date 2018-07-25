@@ -20,8 +20,8 @@ namespace Reggie {
         public Player WormPlayer;
         public Enemy Ant;
         private AnimationManager animManager;
-        Vector2 playerSpriteSheetPosition;
-
+        Vector2 playerSpritePosition;
+        List<GameObject> gameObjectsToRender;
         SpriteSheetSizes input = new SpriteSheetSizes();
 
         Camera camera = new Camera();
@@ -33,7 +33,7 @@ namespace Reggie {
             graphics.PreferredBackBufferHeight = 1000;
             graphics.PreferredBackBufferWidth = 1800;
             graphics.ApplyChanges();
-            playerSpriteSheetPosition = new Vector2();
+            playerSpritePosition = new Vector2();
             animManager = new AnimationManager();
         }
 
@@ -95,8 +95,9 @@ namespace Reggie {
                 Exit();
 
             // TODO: Add your update logic here
-            Ant.Update(gameTime, SpriteList);
-            WormPlayer.Update(gameTime, SpriteList);
+            gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
+            Ant.Update(gameTime, gameObjectsToRender);
+            WormPlayer.Update(gameTime, gameObjectsToRender);
             
             base.Update(gameTime);
         }
@@ -107,21 +108,24 @@ namespace Reggie {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            
+            
             // TODO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
-            Vector2 screenCentre = new Vector2(viewport.Width / 2-155, viewport.Height / 2-93);
+            Vector2 screenCentre = new Vector2(viewport.Width / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/10)-200, viewport.Height / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/10)+50);
             camera.setCameraWorldPosition(WormPlayer.Position);
 
             spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
 
-            foreach (var PlatformSprite in SpriteList)
+           
+
+            foreach (var PlatformSprite in gameObjectsToRender)
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
 
-            animManager.animation(gameTime, ref playerSpriteSheetPosition);
-
-            //Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
-            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X * SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, 
-                                           (int)playerSpriteSheetPosition.Y * SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5,
+            animManager.animation(gameTime, ref playerSpritePosition);
+            
+            Rectangle rec = new Rectangle((int)playerSpritePosition.X * SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, 
+                                           (int)playerSpritePosition.Y * SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5,
                                            SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5,
                                            SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5);
             Ant.DrawSpriteBatch(spriteBatch);
