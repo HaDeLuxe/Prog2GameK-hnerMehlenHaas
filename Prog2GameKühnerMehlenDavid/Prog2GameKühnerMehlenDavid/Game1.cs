@@ -56,12 +56,13 @@ namespace Reggie {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            input.ReadImageSizeDataSheet();
             Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
-            Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
-            Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
-            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(150,186));
+            Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
+            //Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5));
             Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
             Ant.setPlayer(WormPlayer);
             SpriteList = new List<GameObject>()
@@ -72,8 +73,7 @@ namespace Reggie {
                 new Platform(PlatformTexture, new Vector2(1800,100))
                 { Position = new Vector2(-500,600),},
             };
-
-            input.ReadImageSizeDataSheet();
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -118,8 +118,12 @@ namespace Reggie {
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
 
             animManager.animation(gameTime, ref playerSpriteSheetPosition);
-            
-            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
+
+            //Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
+            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X * SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, 
+                                           (int)playerSpriteSheetPosition.Y * SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5,
+                                           SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5,
+                                           SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5);
             Ant.DrawSpriteBatch(spriteBatch);
             WormPlayer.DrawSpriteBatch(spriteBatch, rec);
      
