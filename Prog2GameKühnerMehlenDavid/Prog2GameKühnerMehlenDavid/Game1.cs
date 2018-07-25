@@ -22,7 +22,7 @@ namespace Reggie {
         private AnimationManager animManager;
         Vector2 playerSpriteSheetPosition;
 
-        InputData input = new InputData();
+        SpriteSheetSizes input = new SpriteSheetSizes();
 
         Camera camera = new Camera();
         
