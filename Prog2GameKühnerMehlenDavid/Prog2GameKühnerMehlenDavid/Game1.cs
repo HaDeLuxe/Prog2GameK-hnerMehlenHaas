@@ -119,28 +119,25 @@ namespace Reggie {
             camera.setCameraWorldPosition(WormPlayer.Position);
 
             spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
+            //added block for better visibility
+            {
+                //Comment: SEE Framecounter.cs for additional commentary
+                var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                _frameCounter.Update(deltaTime);
+                var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+                spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X-620, WormPlayer.Position.Y-490), Color.Black);
+                //end comment.
 
+                //this draws the platforms
+                foreach (var PlatformSprite in gameObjectsToRender)
+                    PlatformSprite.DrawSpriteBatch(spriteBatch);
 
-            //Comment: SEE Framecounter.cs for additional commentary
-            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _frameCounter.Update(deltaTime);
-            var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
-            spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X-620, WormPlayer.Position.Y-490), Color.Black);
-            //end comment.
-
-
-            foreach (var PlatformSprite in gameObjectsToRender)
-                PlatformSprite.DrawSpriteBatch(spriteBatch);
-
-            animManager.animation(gameTime,ref WormPlayer, spriteBatch);
+                //This draws the player
+                animManager.animation(gameTime,ref WormPlayer, spriteBatch);
             
-            //Rectangle rec = new Rectangle((int)playerSpritePosition.X * SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, 
-            //                               (int)playerSpritePosition.Y * SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5,
-            //                               SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5,
-            //                               SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5);
-            Ant.DrawSpriteBatch(spriteBatch);
-            //WormPlayer.DrawSpriteBatch(spriteBatch, rec);
-     
+                //this draws the enemy
+                Ant.DrawSpriteBatch(spriteBatch);
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);
