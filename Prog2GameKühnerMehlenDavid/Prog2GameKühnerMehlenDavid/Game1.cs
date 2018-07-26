@@ -35,7 +35,8 @@ namespace Reggie {
             graphics.PreferredBackBufferWidth = 1800;
             graphics.ApplyChanges();
             playerSpritePosition = new Vector2();
-            animManager = new AnimationManager();
+            input.ReadImageSizeDataSheet();
+            animManager = new AnimationManager(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/5);
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace Reggie {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            input.ReadImageSizeDataSheet();
+            
             font = Content.Load<SpriteFont>("Arial");
             Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
@@ -131,14 +132,14 @@ namespace Reggie {
             foreach (var PlatformSprite in gameObjectsToRender)
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
 
-            animManager.animation(gameTime, ref playerSpritePosition);
+            animManager.animation(gameTime,ref WormPlayer, spriteBatch);
             
-            Rectangle rec = new Rectangle((int)playerSpritePosition.X * SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, 
-                                           (int)playerSpritePosition.Y * SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5,
-                                           SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5,
-                                           SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5);
+            //Rectangle rec = new Rectangle((int)playerSpritePosition.X * SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, 
+            //                               (int)playerSpritePosition.Y * SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5,
+            //                               SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5,
+            //                               SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5);
             Ant.DrawSpriteBatch(spriteBatch);
-            WormPlayer.DrawSpriteBatch(spriteBatch, rec);
+            //WormPlayer.DrawSpriteBatch(spriteBatch, rec);
      
 
             spriteBatch.End();
