@@ -56,9 +56,21 @@ namespace Reggie {
                         SpritesSizes.Add("Reggie_Move_Y", Int32.Parse(SpriteStringList[i]));
                         break;
                     case 2:
-                        SpritesSizes.Add("Reggie_Jump_X", Int32.Parse(SpriteStringList[i]));
+                        SpritesSizes.Add("Reggie_Move_Hitbox_Pos_X", Int32.Parse(SpriteStringList[i]));
                         break;
                     case 3:
+                        SpritesSizes.Add("Reggie_Move_Hitbox_Pos_Y", Int32.Parse(SpriteStringList[i]));
+                        break;
+                    case 4:
+                        SpritesSizes.Add("Reggie_Move_Hitbox_Size_X", Int32.Parse(SpriteStringList[i]));
+                        break;
+                    case 5:
+                        SpritesSizes.Add("Reggie_Move_Hitbox_Size_Y", Int32.Parse(SpriteStringList[i]));
+                        break;
+                    case 6:
+                        SpritesSizes.Add("Reggie_Jump_X", Int32.Parse(SpriteStringList[i]));
+                        break;
+                    case 7:
                         SpritesSizes.Add("Reggie_Jump_Y", Int32.Parse(SpriteStringList[i]));
                         break;
                 }

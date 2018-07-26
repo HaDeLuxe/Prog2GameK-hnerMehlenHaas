@@ -20,10 +20,11 @@ namespace Reggie {
         public Player WormPlayer;
         public Enemy Ant;
         private AnimationManager animManager;
-        Vector2 playerSpriteSheetPosition;
-
+        Vector2 playerSpritePosition;
+        List<GameObject> gameObjectsToRender;
         SpriteSheetSizes input = new SpriteSheetSizes();
-
+        private FrameCounter _frameCounter = new FrameCounter();
+        private SpriteFont font;
         Camera camera = new Camera();
         
 
@@ -33,8 +34,9 @@ namespace Reggie {
             graphics.PreferredBackBufferHeight = 1000;
             graphics.PreferredBackBufferWidth = 1800;
             graphics.ApplyChanges();
-            playerSpriteSheetPosition = new Vector2();
-            animManager = new AnimationManager();
+            playerSpritePosition = new Vector2();
+            input.ReadImageSizeDataSheet();
+            animManager = new AnimationManager(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/5);
         }
 
         /// <summary>
@@ -56,12 +58,14 @@ namespace Reggie {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            
+            font = Content.Load<SpriteFont>("Arial");
             Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
-            Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Smaller");
-            Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
-            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(150,186));
+            Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
+            //Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5));
             Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
             Ant.setPlayer(WormPlayer);
             SpriteList = new List<GameObject>()
@@ -72,8 +76,7 @@ namespace Reggie {
                 new Platform(PlatformTexture, new Vector2(1800,100))
                 { Position = new Vector2(-500,600),},
             };
-
-            input.ReadImageSizeDataSheet();
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -95,8 +98,9 @@ namespace Reggie {
                 Exit();
 
             // TODO: Add your update logic here
-            Ant.Update(gameTime, SpriteList);
-            WormPlayer.Update(gameTime, SpriteList);
+            gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
+            Ant.Update(gameTime, gameObjectsToRender);
+            WormPlayer.Update(gameTime, gameObjectsToRender);
             
             base.Update(gameTime);
         }
@@ -107,21 +111,35 @@ namespace Reggie {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            
+            
             // TODO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
-            Vector2 screenCentre = new Vector2(viewport.Width / 2-155, viewport.Height / 2-93);
+            Vector2 screenCentre = new Vector2(viewport.Width / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/10)-200, viewport.Height / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/10)+50);
             camera.setCameraWorldPosition(WormPlayer.Position);
 
             spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
 
-            foreach (var PlatformSprite in SpriteList)
+
+            //Comment: SEE Framecounter.cs for additional commentary
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _frameCounter.Update(deltaTime);
+            var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+            spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X-620, WormPlayer.Position.Y-490), Color.Black);
+            //end comment.
+
+
+            foreach (var PlatformSprite in gameObjectsToRender)
                 PlatformSprite.DrawSpriteBatch(spriteBatch);
 
-            animManager.animation(gameTime, ref playerSpriteSheetPosition);
+            animManager.animation(gameTime,ref WormPlayer, spriteBatch);
             
-            Rectangle rec = new Rectangle((int)playerSpriteSheetPosition.X* 310, (int)playerSpriteSheetPosition.Y * 186, 310, 186);
+            //Rectangle rec = new Rectangle((int)playerSpritePosition.X * SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, 
+            //                               (int)playerSpritePosition.Y * SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5,
+            //                               SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5,
+            //                               SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5);
             Ant.DrawSpriteBatch(spriteBatch);
-            WormPlayer.DrawSpriteBatch(spriteBatch, rec);
+            //WormPlayer.DrawSpriteBatch(spriteBatch, rec);
      
 
             spriteBatch.End();
