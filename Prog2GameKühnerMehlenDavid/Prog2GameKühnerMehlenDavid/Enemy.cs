@@ -12,18 +12,26 @@ namespace Reggie {
         public Rectangle EnemyAggroArea;
         public Vector4 EnemyAggroAreaSize;
         public Player Worm;
+        public int EnemyHP;
         
         public Enemy(Texture2D SpriteTexture, Vector2 SpriteSize) : base(SpriteTexture, SpriteSize)
         {
             GravityActive = true;
+            IsStanding = false;
+            EnemyHP = 10;
             MovementSpeed = 2f;
-            Position = new Vector2(1500, 200);
+
+            Position = new Vector2(900, 200);
             ChangeCollisionBox = new Vector2(0, 0);
-            EnemyAggroAreaSize = new Vector4(100, 100, 150, 150);
+            EnemyAggroAreaSize = new Vector4(400, 300, 650, 850);
             CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
-            EnemyAggroArea = new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y+ EnemyAggroAreaSize.W));
+            EnemyAggroArea = new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(EnemyAggroAreaSize.W), (int)(EnemyAggroAreaSize.Z));
             CollisionBoxSize = new Vector2(50, 50);
         }
+        //public Rectangle EnemyAggroArea
+        //{
+        //    get { return new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y + EnemyAggroAreaSize.W)); }
+        //}
         public override void Update(GameTime gameTime, List<GameObject> spriteList) {
             ResizeEnemyAggroArea(spriteList);
             EnemyCollision(gameTime, spriteList);
@@ -33,30 +41,33 @@ namespace Reggie {
 
         private void ResizeEnemyAggroArea(List<GameObject> spriteList)
         {
-            EnemyAggroAreaSize = new Vector4(100, 100, 150, 150);
-            foreach(var sprite in spriteList)
-            {
-                if (EnemyAggroArea.Right + Velocity.X > sprite.SpriteRectangle.Left &&
-              EnemyAggroArea.Left < sprite.SpriteRectangle.Left &&
-              EnemyAggroArea.Bottom > sprite.SpriteRectangle.Top &&
-              EnemyAggroArea.Top < sprite.SpriteRectangle.Bottom)
-                    EnemyAggroAreaSize.Z = sprite.SpriteRectangle.Left - Position.X;
-                else if (EnemyAggroArea.Left + Velocity.X < sprite.SpriteRectangle.Right &&
-                  EnemyAggroArea.Right > sprite.SpriteRectangle.Right &&
-                  EnemyAggroArea.Bottom > sprite.SpriteRectangle.Top &&
-                  EnemyAggroArea.Top < sprite.SpriteRectangle.Bottom)
-                    EnemyAggroAreaSize.X = Position.X - sprite.SpriteRectangle.Right;
-                else if (EnemyAggroArea.Bottom + Velocity.Y + Gravity.Y > sprite.SpriteRectangle.Top &&
-                EnemyAggroArea.Top < sprite.SpriteRectangle.Top &&
-                EnemyAggroArea.Right > sprite.SpriteRectangle.Left &&
-                EnemyAggroArea.Left < sprite.SpriteRectangle.Right)
-                    EnemyAggroAreaSize.W = sprite.SpriteRectangle.Top - Position.Y;
-                else if (EnemyAggroArea.Top + Velocity.Y < sprite.SpriteRectangle.Bottom &&
-               EnemyAggroArea.Bottom > sprite.SpriteRectangle.Bottom &&
-               EnemyAggroArea.Right > sprite.SpriteRectangle.Left &&
-               EnemyAggroArea.Left < sprite.SpriteRectangle.Right)
-                    EnemyAggroAreaSize.Y = Position.Y - sprite.SpriteRectangle.Bottom;
-            }
+           // EnemyAggroAreaSize = new Vector4(100, 100, 150, 150);
+            //foreach(var sprite in spriteList)
+            //{
+            //    if (EnemyAggroArea.Right + Velocity.X > sprite.SpriteRectangle.Left &&
+            //  EnemyAggroArea.Left < sprite.SpriteRectangle.Left &&
+            //  EnemyAggroArea.Bottom > sprite.SpriteRectangle.Top &&
+            //  EnemyAggroArea.Top < sprite.SpriteRectangle.Bottom)
+            //        EnemyAggroAreaSize.Z -= EnemyAggroArea.Right + Velocity.X - Math.Abs(sprite.SpriteRectangle.Left);
+            //    else if (EnemyAggroArea.Left + Velocity.X < sprite.SpriteRectangle.Right &&
+            //      EnemyAggroArea.Right > sprite.SpriteRectangle.Right &&
+            //      EnemyAggroArea.Bottom > sprite.SpriteRectangle.Top &&
+            //      EnemyAggroArea.Top < sprite.SpriteRectangle.Bottom)
+            //        EnemyAggroAreaSize.X = Position.X - sprite.SpriteRectangle.Right;
+            //    else if (EnemyAggroArea.Bottom + Velocity.Y + Gravity.Y > sprite.SpriteRectangle.Top &&
+            //    EnemyAggroArea.Top < sprite.SpriteRectangle.Top &&
+            //    EnemyAggroArea.Right > sprite.SpriteRectangle.Left &&
+            //    EnemyAggroArea.Left < sprite.SpriteRectangle.Right)
+            //        EnemyAggroAreaSize.W = sprite.SpriteRectangle.Top;
+            //    else if (EnemyAggroArea.Top + Velocity.Y < sprite.SpriteRectangle.Bottom &&
+            //   EnemyAggroArea.Bottom > sprite.SpriteRectangle.Bottom &&
+            //   EnemyAggroArea.Right > sprite.SpriteRectangle.Left &&
+            //   EnemyAggroArea.Left < sprite.SpriteRectangle.Right)
+            //        EnemyAggroAreaSize.Y = Position.Y - sprite.SpriteRectangle.Bottom;
+
+            //    //EnemyAggroArea.Width = (int)(Position.X + EnemyAggroAreaSize.Z);
+            //    //EnemyAggroArea.Height = (int)(Position.Y + EnemyAggroAreaSize.W);
+            //}
         }
 
         public void setPlayer(Player WormPlayer)
@@ -75,6 +86,7 @@ namespace Reggie {
                 {
                     Velocity.Y = 0;
                     GravityActive = true;
+                   // IsStanding = true;
                     CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
                     Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                 }
@@ -83,11 +95,13 @@ namespace Reggie {
                     Velocity.Y = 0;
                     GravityActive = false;
                     Gravity = Vector2.Zero;
+                    IsStanding = true;
                     CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
                     Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
+                    EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
                 }
 
-                if (!IsTouchingTopSide(sprite, Gravity))
+                else if (!IsTouchingTopSide(sprite, Gravity) &&  IsStanding == false)
                 {
                     GravityActive = true;
                     //if (AirDirectionRight)
@@ -108,7 +122,7 @@ namespace Reggie {
                     //}
                     //PreviousJumpCounter = JumpCounter;
                 }
-                if (GravityActive)
+                if (GravityActive && IsStanding == false)
                 {
                     //if (!PreviousState.IsKeyDown(Keys.Space))
                     Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
@@ -116,29 +130,49 @@ namespace Reggie {
                     //    Gravity.Y = 12f;
                     //else
                     //    Gravity.Y = 5;
-                    CollisionBoxPosition += Gravity;
+                    
                 }
                 else
                     Gravity = Vector2.Zero;
-                CollisionBoxPosition += Velocity;
-                Position = CollisionBoxPosition - ChangeCollisionBox;
-                Velocity = Vector2.Zero;
             }
+            if (IsStanding == false)
+                CollisionBoxPosition += Gravity;
+            CollisionBoxPosition += Velocity;
+
+            Velocity = Vector2.Zero;
+            if (Position != CollisionBoxPosition - ChangeCollisionBox)
+            {
+                Position = CollisionBoxPosition - ChangeCollisionBox;
+                EnemyAggroArea.X = (int)(Position.X - EnemyAggroAreaSize.X);
+                EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
+            }
+            IsStanding = false;
         }
 
         private void EnemyMovement()
         {
-          
+            if (EnemyAggroArea.Left + Velocity.X + EnemyAggroAreaSize.X > Worm.CollisionRectangle.Right &&
+                EnemyAggroArea.Left + Velocity.X < Worm.CollisionRectangle.Right &&
+              EnemyAggroArea.Right > Worm.CollisionRectangle.Right &&
+              EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
+              EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
+                Velocity.X = -MovementSpeed;
+            else if (EnemyAggroArea.Right + Velocity.X - EnemyAggroAreaSize.X + SpriteSize.X < Worm.CollisionRectangle.Left &&
+                EnemyAggroArea.Right + Velocity.X > Worm.CollisionRectangle.Left &&
+                EnemyAggroArea.Left < Worm.CollisionRectangle.Left &&
+                EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
+                EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
+                Velocity.X = MovementSpeed;
         }
 
         private bool DetectPlayer()
         {
-            if (EnemyAggroArea.Right + Velocity.X > Worm.CollisionRectangle.Left &&
+            if (EnemyAggroArea.Right + Velocity.X < Worm.CollisionRectangle.Left &&
                 EnemyAggroArea.Left < Worm.CollisionRectangle.Left &&
                 EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
                 EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
                 return true;
-            else if (EnemyAggroArea.Left + Velocity.X < Worm.CollisionRectangle.Right &&
+            else if (EnemyAggroArea.Left + Velocity.X > Worm.CollisionRectangle.Right &&
               EnemyAggroArea.Right > Worm.CollisionRectangle.Right &&
               EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
               EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)

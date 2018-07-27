@@ -16,12 +16,14 @@ namespace Reggie {
         int JumpCounter;
         int PreviousJumpCounter;
         float JumpSpeed;
+        int PlayerHP;
         public Player(Texture2D texture,Vector2 SpriteSize) : base(texture,SpriteSize) {
             GravityActive = true;
             FirstJump = false;
             SecondJump = false;
             AirDirectionLeft = false;
             AirDirectionRight = false;
+            PlayerHP = 50;
             FacingDirection = 1;
             JumpCounter = 0;
             PreviousJumpCounter = 0;
@@ -34,18 +36,22 @@ namespace Reggie {
         }
 
         public override void Update(GameTime gameTime, List<GameObject> spriteList) {
-            PlayerMovement();
+            PlayerControls();
             Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-            PlayerCollision(gameTime, spriteList);
+            PlayerPositionCalculation(gameTime, spriteList);
         }
 
-        private void PlayerCollision(GameTime gameTime, List<GameObject> spriteList) {
+        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> spriteList) {
             foreach (var sprite in spriteList)
             {
                 //Checks collision on the left side and right side of each sprite when player is on the ground/air
                 if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
                    (Velocity.X < 0 && IsTouchingRightSide(sprite)))
+                {
                     Velocity.X = 0;
+                    AirDirectionLeft = false;
+                    AirDirectionRight = false;
+                }
                 //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                 //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
                 else if (IsTouchingBottomSide(sprite))
@@ -110,10 +116,11 @@ namespace Reggie {
                     Gravity.Y = 12f ;
                 //else
                 //    Gravity.Y = 5;
-                CollisionBoxPosition += Gravity;
+                //CollisionBoxPosition.Y += Gravity.Y;
             }
             else
                 Gravity = Vector2.Zero;
+            CollisionBoxPosition.Y += Gravity.Y;
             CollisionBoxPosition += Velocity;
             Position = CollisionBoxPosition - ChangeCollisionBox;
             Velocity = Vector2.Zero;
@@ -125,7 +132,9 @@ namespace Reggie {
                 Velocity.Y = MovementSpeed;
         }
 
-        private void PlayerMovement() {
+        //Contains Player Movement in all 4 directions and the attack
+        private void PlayerControls() {
+           
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 Velocity.X = -MovementSpeed;
@@ -151,7 +160,10 @@ namespace Reggie {
                 PlayerJump();
                 JumpCounter++;
             }
+            if(Keyboard.GetState().IsKeyDown(Keys.A))
+            {
 
+            }
             PreviousState = Keyboard.GetState();
         }
     }

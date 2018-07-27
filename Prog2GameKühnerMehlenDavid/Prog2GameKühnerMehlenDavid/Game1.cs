@@ -26,7 +26,9 @@ namespace Reggie {
         private FrameCounter _frameCounter = new FrameCounter();
         private SpriteFont font;
         Camera camera = new Camera();
-        
+        Texture2D enemytexture;
+        Color[] colorData;
+        Vector2 enemyaggroposition;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -49,6 +51,7 @@ namespace Reggie {
             // TODO: Add your initialization logic here
 
             base.Initialize();
+           
         }
 
         /// <summary>
@@ -74,8 +77,10 @@ namespace Reggie {
                 { Position = new Vector2(0,900),},
 
                 new Platform(PlatformTexture, new Vector2(1800,100))
-                { Position = new Vector2(-500,600),},
-            };
+                { Position = new Vector2(-500,1100),},
+
+                //new Enemy(EnemyTexture, new Vector2(50, 50)),
+        };
             
             // TODO: use this.Content to load your game content here
         }
@@ -99,10 +104,17 @@ namespace Reggie {
 
             // TODO: Add your update logic here
             gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
-            Ant.Update(gameTime, gameObjectsToRender);
+            Ant.Update(gameTime, SpriteList);
             WormPlayer.Update(gameTime, gameObjectsToRender);
-            
+            enemytexture = new Texture2D(this.GraphicsDevice, (int)(Ant.EnemyAggroAreaSize.W), (int)(Ant.EnemyAggroAreaSize.Z));
+            colorData = new Color[(int)((Ant.EnemyAggroAreaSize.W ) * (Ant.EnemyAggroAreaSize.Z))];
+            for (int i = 0; i < (Ant.EnemyAggroAreaSize.W ) *(Ant.EnemyAggroAreaSize.Z ); i++)
+                colorData[i] = Color.White;
+            enemytexture.SetData<Color>(colorData);
+            enemyaggroposition = new Vector2(Ant.EnemyAggroArea.X, Ant.EnemyAggroArea.Y);
             base.Update(gameTime);
+            
+
         }
 
         /// <summary>
@@ -128,15 +140,19 @@ namespace Reggie {
                 spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X-620, WormPlayer.Position.Y-490), Color.Black);
                 //end comment.
 
+                //this draws the enemy
+                spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                Ant.DrawSpriteBatch(spriteBatch);
+
+
                 //this draws the platforms
                 foreach (var PlatformSprite in gameObjectsToRender)
                     PlatformSprite.DrawSpriteBatch(spriteBatch);
-
+                
                 //This draws the player
                 animManager.animation(gameTime,ref WormPlayer, spriteBatch);
-            
-                //this draws the enemy
-                Ant.DrawSpriteBatch(spriteBatch);
+
+               
             }
 
             spriteBatch.End();

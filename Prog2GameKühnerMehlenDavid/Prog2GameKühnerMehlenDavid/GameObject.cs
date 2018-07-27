@@ -14,6 +14,7 @@ namespace Reggie {
         protected bool AirDirectionLeft;
         protected bool AirDirectionRight;
         protected bool GravityActive;
+        protected bool IsStanding;
         protected int FacingDirection;
         public float MovementSpeed;
         public Vector2 Gravity;
@@ -73,7 +74,7 @@ namespace Reggie {
         }
 
         protected bool IsTouchingTopSide(GameObject sprite, Vector2 Gravity) {
-            return CollisionRectangle.Bottom + Velocity.Y + Gravity.Y > sprite.SpriteRectangle.Top
+            return CollisionRectangle.Bottom + Velocity.Y + Gravity.Y >= sprite.SpriteRectangle.Top
                 && CollisionRectangle.Top < sprite.SpriteRectangle.Top
                 && CollisionRectangle.Right > sprite.SpriteRectangle.Left
                 && CollisionRectangle.Left < sprite.SpriteRectangle.Right;
