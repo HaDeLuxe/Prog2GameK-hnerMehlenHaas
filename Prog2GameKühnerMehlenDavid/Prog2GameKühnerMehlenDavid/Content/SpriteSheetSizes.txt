@@ -1,5 +1,6 @@
 (765,560) 	Reggie_Move_Even_Smaller
 (50,30)		Reggie_Move_Hitbox_Position
-(25,81)		Reggie_Move_Hitbox_Size
+(50,81)		Reggie_Move_Hitbox_Size
 (370,880)	Reggie_Jump
+
 

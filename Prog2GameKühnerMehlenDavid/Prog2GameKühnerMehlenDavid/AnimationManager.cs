@@ -24,11 +24,9 @@ namespace Reggie {
         Animation Jump_Animation_Left = null;
         Animation Jump_Animation_Right = null;
 
-        public AnimationManager(int x, int y, Dictionary<string, Texture2D> PlayerSpriteSheet) 
+        public AnimationManager(Dictionary<string, Texture2D> PlayerSpriteSheet) 
         {
             divAnimationDestRectanglesDic = new Dictionary<string, Animation>();
-
-
             Walk_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/5,PlayerSpriteSheet["playerMoveSpriteSheet"]);
             divAnimationDestRectanglesDic.Add("Walk_Animation_Left",Walk_Animation_Left);
             Walk_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5, PlayerSpriteSheet["playerMoveSpriteSheet"]);
