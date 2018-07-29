@@ -24,7 +24,6 @@ namespace Reggie {
         public Enemy Ant;
         Texture2D EnemyTexture;
         private AnimationManager animManager;
-        Vector2 playerSpritePosition;
         SpriteSheetSizes input = new SpriteSheetSizes();
         private FrameCounter _frameCounter = new FrameCounter();
         private SpriteFont font;
@@ -33,15 +32,17 @@ namespace Reggie {
         Color[] colorData;
         Vector2 enemyaggroposition;
 
+
+        Dictionary<String, Texture2D> playerSpriteSheets;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 1000;
             graphics.PreferredBackBufferWidth = 1800;
             graphics.ApplyChanges();
-            playerSpritePosition = new Vector2();
             input.ReadImageSizeDataSheet();
-            animManager = new AnimationManager(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/5);
+            playerSpriteSheets = new Dictionary<string, Texture2D>();
         }
 
         /// <summary>
@@ -68,12 +69,13 @@ namespace Reggie {
             font = Content.Load<SpriteFont>("Arial");
             EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
-            Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
+            Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump_Small");
+            playerSpriteSheets.Add("playerJumpSpriteSheet", PlayerJumpSpriteSheet);
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
-            //Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
+            playerSpriteSheets.Add("playerMoveSpriteSheet", PlayerMoveSpriteSheet);
+            animManager = new AnimationManager(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5, playerSpriteSheets);
             WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5), new Vector2(0,0));
-            //Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
-            //Ant.setPlayer(WormPlayer);
+            
             EnemyList = new List<Enemy>()
             {
                 new Enemy(EnemyTexture, new Vector2(50,50),new Vector2(700,200)),

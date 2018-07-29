@@ -46,6 +46,10 @@ namespace Reggie {
             spriteBatch.Draw(SpriteTexture, Position, color);
         }
 
+        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects) {
+            spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+        }
+
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
             if (!FacingDirectionRight)
             {

@@ -56,6 +56,10 @@ namespace Reggie {
             PlayerPositionCalculation(gameTime, SpriteList);
         }
 
+
+        public void changeTexture(Texture2D texture) {
+            this.SpriteTexture = texture;
+        }
         private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> SpriteList) {
 
             foreach (var sprite in SpriteList)
@@ -159,9 +163,23 @@ namespace Reggie {
         //Contains Player Movement in all 4 directions and the attack
         private void PlayerControls(GameTime gameTime, List<Enemy> EnemyList)
         {
-           
+
+            if (!FirstJump && !SecondJump)
+            {
+                if(AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left)
+                    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
+                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right)
+                    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
+                else;
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
+                if (FirstJump == true || SecondJump == true)
+                {
+                    AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
+                }
+                else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
                 Velocity.X = -MovementSpeed;
                 AirDirectionLeft = true;
                 FacingDirectionRight = false;
@@ -169,6 +187,8 @@ namespace Reggie {
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
+                if (FirstJump || SecondJump) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
+                else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
                 Velocity.X = MovementSpeed;
                 FacingDirectionRight = true;
                 AirDirectionLeft = false;
@@ -179,6 +199,7 @@ namespace Reggie {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
             {
+                AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
                 if (FirstJump == false && SecondJump == false)
                     //JumpSpeed = -5f?
                     JumpSpeed = -10f;
