@@ -15,7 +15,7 @@ namespace Reggie {
         protected bool AirDirectionRight;
         protected bool GravityActive;
         protected bool IsStanding;
-        protected int FacingDirection;
+        protected bool FacingDirectionRight;
         public float MovementSpeed;
         public Vector2 Gravity;
         public Vector2 Position;
@@ -34,9 +34,10 @@ namespace Reggie {
             get { return new Rectangle((int)Position.X, (int)Position.Y,(int)SpriteSize.X, (int)SpriteSize.Y); }
         }
 
-        public GameObject(Texture2D SpriteTexture, Vector2 _SpriteSize) {
+        public GameObject(Texture2D SpriteTexture, Vector2 _SpriteSize, Vector2 _Position) {
             this.SpriteTexture = SpriteTexture;
-            SpriteSize = _SpriteSize;  
+            SpriteSize = _SpriteSize;
+            Position = _Position;
         }
 
         public virtual void Update(GameTime gameTime, List<GameObject> spriteList) { }
@@ -46,11 +47,11 @@ namespace Reggie {
         }
 
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
-            if (FacingDirection == -1)
+            if (!FacingDirectionRight)
             {
                 spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.FlipHorizontally, 0);
             }
-            else if(FacingDirection == 1)
+            else
                 spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
         }
 
@@ -80,8 +81,8 @@ namespace Reggie {
                 && CollisionRectangle.Left < sprite.SpriteRectangle.Right;
         }
 
-        protected bool IsTouchingBottomSide(GameObject sprite) {
-            return CollisionRectangle.Top + Velocity.Y < sprite.SpriteRectangle.Bottom
+        protected bool IsTouchingBottomSide(GameObject sprite, Vector2 Gravity) {
+            return CollisionRectangle.Top + Velocity.Y + Gravity.Y <= sprite.SpriteRectangle.Bottom
                 && CollisionRectangle.Bottom > sprite.SpriteRectangle.Bottom
                 && CollisionRectangle.Right > sprite.SpriteRectangle.Left
                 && CollisionRectangle.Left < sprite.SpriteRectangle.Right;

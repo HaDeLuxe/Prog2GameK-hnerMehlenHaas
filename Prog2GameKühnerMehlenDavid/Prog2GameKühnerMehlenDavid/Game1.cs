@@ -16,12 +16,15 @@ namespace Reggie {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private List<GameObject> SpriteList;
+        List<GameObject> SpriteList;
+        List<Enemy> EnemyList;
+        List<Enemy> HittableEnemies;
+        List<GameObject> gameObjectsToRender;
         public Player WormPlayer;
         public Enemy Ant;
+        Texture2D EnemyTexture;
         private AnimationManager animManager;
         Vector2 playerSpritePosition;
-        List<GameObject> gameObjectsToRender;
         SpriteSheetSizes input = new SpriteSheetSizes();
         private FrameCounter _frameCounter = new FrameCounter();
         private SpriteFont font;
@@ -63,24 +66,29 @@ namespace Reggie {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
             font = Content.Load<SpriteFont>("Arial");
-            Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
+            EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
             Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
             //Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
-            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5));
-            Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
-            Ant.setPlayer(WormPlayer);
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5), new Vector2(0,0));
+            //Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
+            //Ant.setPlayer(WormPlayer);
+            EnemyList = new List<Enemy>()
+            {
+                new Enemy(EnemyTexture, new Vector2(50,50),new Vector2(700,200)),
+            };
             SpriteList = new List<GameObject>()
             {
-                new Platform(PlatformTexture, new Vector2(1800,100))
-                { Position = new Vector2(0,900),},
-
-                new Platform(PlatformTexture, new Vector2(1800,100))
-                { Position = new Vector2(-500,1100),},
+                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(0,900)),
+                
+                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(-500,1100)),
+      
 
                 //new Enemy(EnemyTexture, new Vector2(50, 50)),
-        };
+            };
+            foreach (var enemy in EnemyList)
+                enemy.SetPlayer(WormPlayer);
             
             // TODO: use this.Content to load your game content here
         }
@@ -104,14 +112,52 @@ namespace Reggie {
 
             // TODO: Add your update logic here
             gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
-            Ant.Update(gameTime, SpriteList);
-            WormPlayer.Update(gameTime, gameObjectsToRender);
-            enemytexture = new Texture2D(this.GraphicsDevice, (int)(Ant.EnemyAggroAreaSize.W), (int)(Ant.EnemyAggroAreaSize.Z));
-            colorData = new Color[(int)((Ant.EnemyAggroAreaSize.W ) * (Ant.EnemyAggroAreaSize.Z))];
-            for (int i = 0; i < (Ant.EnemyAggroAreaSize.W ) *(Ant.EnemyAggroAreaSize.Z ); i++)
+            HittableEnemies = camera.RenderedEnemies(WormPlayer.Position, EnemyList);
+            //Ant.Update(gameTime, SpriteList);
+            WormPlayer.Update(gameTime, gameObjectsToRender,HittableEnemies);
+            enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
+            colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];
+            for (int i = 0; i < (WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y); i++)
                 colorData[i] = Color.White;
             enemytexture.SetData<Color>(colorData);
-            enemyaggroposition = new Vector2(Ant.EnemyAggroArea.X, Ant.EnemyAggroArea.Y);
+            enemyaggroposition = new Vector2(WormPlayer.CollisionRectangle.X, WormPlayer.CollisionRectangle.Y);
+            int enemycounter = 0;
+            //if (EnemyList.Count != 0)
+                foreach (var enemy in EnemyList.ToList())
+                {
+                    enemy.Update(gameTime, SpriteList);
+                    if (enemy.EnemyAliveState() == false || enemy.FallOutOfMap)
+                        EnemyList.RemoveAt(enemycounter);
+                    if (!EnemyList.Any())
+                    {
+                    Random rand = new Random();
+                    int randomizedNumber = rand.Next(0, 3);
+                    if (randomizedNumber == 0)
+                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(100, 200)));
+                    else
+                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(600, 200)));
+                    EnemyList.Last().SetPlayer(WormPlayer);
+                }
+                    if (EnemyList.Count < 2 )
+                    {
+                    Random rand = new Random();
+                    int randomizedNumber = rand.Next(0, 3);
+                    if (randomizedNumber == 0)
+                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(400, 200)));
+                    else if(randomizedNumber == 1)
+                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(900, 200)));
+                    else
+                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(300, 200)));
+                    EnemyList.Last().SetPlayer(WormPlayer);
+                    }
+                enemycounter++;
+                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemy.EnemyAggroAreaSize.W), (int)(enemy.EnemyAggroAreaSize.Z));
+                    //colorData = new Color[(int)((enemy.EnemyAggroAreaSize.W) * (enemy.EnemyAggroAreaSize.Z))];
+                    //for (int i = 0; i < (enemy.EnemyAggroAreaSize.W) * (enemy.EnemyAggroAreaSize.Z); i++)
+                    //    colorData[i] = Color.White;
+                    //enemytexture.SetData<Color>(colorData);
+                    //enemyaggroposition = new Vector2(enemy.EnemyAggroArea.X, enemy.EnemyAggroArea.Y);
+                }
             base.Update(gameTime);
             
 
@@ -142,7 +188,10 @@ namespace Reggie {
 
                 //this draws the enemy
                 spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
-                Ant.DrawSpriteBatch(spriteBatch);
+                foreach (var enemy in EnemyList.ToList())
+                    enemy.DrawSpriteBatch(spriteBatch);
+             
+                
 
 
                 //this draws the platforms

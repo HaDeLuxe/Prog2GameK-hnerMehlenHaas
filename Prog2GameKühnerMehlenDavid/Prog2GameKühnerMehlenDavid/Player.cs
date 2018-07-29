@@ -16,18 +16,33 @@ namespace Reggie {
         int JumpCounter;
         int PreviousJumpCounter;
         float JumpSpeed;
+        float Cooldown;
+        bool PlayerAttackPressed;
         int PlayerHP;
-        public Player(Texture2D texture,Vector2 SpriteSize) : base(texture,SpriteSize) {
+        bool StillAlive;
+        public Rectangle AttackRectangle
+        {
+            get
+            {
+                if(FacingDirectionRight)
+                    return new Rectangle((int)(CollisionBoxPosition.X+ CollisionBoxSize.X), (int)(CollisionBoxPosition.Y-100), (int)CollisionBoxSize.X+100, (int)CollisionBoxSize.Y+100);
+                else
+                    return new Rectangle((int)(CollisionBoxPosition.X - CollisionBoxSize.X-100), (int)(CollisionBoxPosition.Y - 100), (int)CollisionBoxSize.X + 100, (int)CollisionBoxSize.Y + 100);
+            }
+        }
+        public Player(Texture2D texture,Vector2 SpriteSize, Vector2 Position) : base(texture,SpriteSize, Position) {
             GravityActive = true;
             FirstJump = false;
             SecondJump = false;
             AirDirectionLeft = false;
             AirDirectionRight = false;
+            IsStanding = false;
+            StillAlive = true;
+            PlayerAttackPressed = false;
             PlayerHP = 50;
-            FacingDirection = 1;
+            FacingDirectionRight = true;
             JumpCounter = 0;
             PreviousJumpCounter = 0;
-            Position = new Vector2(0, 0);
             ChangeCollisionBox = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
             CollisionBoxSize = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_Y"]);
@@ -35,14 +50,15 @@ namespace Reggie {
             JumpSpeed = -10f;
         }
 
-        public override void Update(GameTime gameTime, List<GameObject> spriteList) {
-            PlayerControls();
+        public void Update(GameTime gameTime, List<GameObject> SpriteList, List<Enemy> EnemyList) {
+            PlayerControls(gameTime,EnemyList);
             Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-            PlayerPositionCalculation(gameTime, spriteList);
+            PlayerPositionCalculation(gameTime, SpriteList);
         }
 
-        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> spriteList) {
-            foreach (var sprite in spriteList)
+        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> SpriteList) {
+
+            foreach (var sprite in SpriteList)
             {
                 //Checks collision on the left side and right side of each sprite when player is on the ground/air
                 if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
@@ -54,7 +70,7 @@ namespace Reggie {
                 }
                 //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                 //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
-                else if (IsTouchingBottomSide(sprite))
+                else if (IsTouchingBottomSide(sprite,Gravity))
                 {
                     Velocity.Y = 0;
                     JumpSpeed = 0;
@@ -77,6 +93,7 @@ namespace Reggie {
                     Gravity = Vector2.Zero;
                     FirstJump = false;
                     SecondJump = false;
+                    IsStanding = true;
                     JumpCounter = 0;
                     CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
                     Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
@@ -84,7 +101,7 @@ namespace Reggie {
                     AirDirectionRight = false;
                 }
 
-                if (!IsTouchingTopSide(sprite, Gravity))
+                if (!IsTouchingTopSide(sprite, Gravity) && IsStanding == false)
                 {
                     GravityActive = true;
                     if (AirDirectionRight)
@@ -92,7 +109,11 @@ namespace Reggie {
                     else if (AirDirectionLeft)
                         Velocity.X = -MovementSpeed;
                     if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
+                    {
                         Velocity.X = 0;
+                        AirDirectionLeft = false;
+                        AirDirectionRight = false;
+                    }
                     if (PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
                     {
                         JumpSpeed = -10f;
@@ -108,22 +129,25 @@ namespace Reggie {
             }
             if ((FirstJump == true || SecondJump == true))
                 PlayerJump();
-            if (GravityActive)
+            if (GravityActive && IsStanding == false)
             {
                 //if (!PreviousState.IsKeyDown(Keys.Space))
-                    Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
+                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
                 if (Gravity.Y > -JumpSpeed && PreviousState.IsKeyDown(Keys.Space))
-                    Gravity.Y = 12f ;
+                    Gravity.Y = 12f;
                 //else
                 //    Gravity.Y = 5;
                 //CollisionBoxPosition.Y += Gravity.Y;
+                CollisionBoxPosition.Y += Gravity.Y;
             }
             else
                 Gravity = Vector2.Zero;
-            CollisionBoxPosition.Y += Gravity.Y;
+            //if (IsStanding == false)
+            //    CollisionBoxPosition.Y += Gravity.Y;
             CollisionBoxPosition += Velocity;
             Position = CollisionBoxPosition - ChangeCollisionBox;
             Velocity = Vector2.Zero;
+            IsStanding = false;
         }
 
         private void PlayerJump() {
@@ -133,19 +157,20 @@ namespace Reggie {
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls() {
+        private void PlayerControls(GameTime gameTime, List<Enemy> EnemyList)
+        {
            
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 Velocity.X = -MovementSpeed;
                 AirDirectionLeft = true;
-                FacingDirection = -1;
+                FacingDirectionRight = false;
                 AirDirectionRight = false;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 Velocity.X = MovementSpeed;
-                FacingDirection = 1;
+                FacingDirectionRight = true;
                 AirDirectionLeft = false;
                 AirDirectionRight = true;
             }
@@ -160,11 +185,60 @@ namespace Reggie {
                 PlayerJump();
                 JumpCounter++;
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.A))
+            if(Keyboard.GetState().IsKeyDown(Keys.A) && Cooldown ==0)
             {
-
+                foreach (var enemy in EnemyList)
+                {
+                    if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true)
+                    {
+                        enemy.KnockBackPosition(FacingDirectionRight);
+                    }
+                }
+                PlayerAttackPressed = true;
             }
+            if(PlayerAttackPressed)
+                Cooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            if(Cooldown>=1.5)
+            {
+                Cooldown = 0;
+                PlayerAttackPressed = false;
+            }
+
+
             PreviousState = Keyboard.GetState();
+        }
+
+        private bool PlayerAttackCollision(Enemy EnemyEntity)
+        {
+            if (AttackRectangle.Right + Velocity.X >= EnemyEntity.CollisionRectangle.Left &&
+                AttackRectangle.Left <= EnemyEntity.CollisionRectangle.Left &&
+                AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Top &&
+                AttackRectangle.Top < EnemyEntity.CollisionRectangle.Bottom)
+                return true;
+            else if (AttackRectangle.Left + Velocity.X <= EnemyEntity.CollisionRectangle.Right &&
+              AttackRectangle.Right >= EnemyEntity.CollisionRectangle.Right &&
+              AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Top &&
+              AttackRectangle.Top < EnemyEntity.CollisionRectangle.Bottom)
+                return true;
+            else if (AttackRectangle.Bottom /*+ Velocity.Y + Gravity.Y*/ > EnemyEntity.CollisionRectangle.Top &&
+            AttackRectangle.Top < EnemyEntity.CollisionRectangle.Top &&
+            AttackRectangle.Right > EnemyEntity.CollisionRectangle.Left &&
+            AttackRectangle.Left < EnemyEntity.CollisionRectangle.Right)
+                return true;
+            else if (AttackRectangle.Top /*+ Velocity.Y*/ < EnemyEntity.CollisionRectangle.Bottom &&
+           AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Bottom &&
+           AttackRectangle.Right > EnemyEntity.CollisionRectangle.Left &&
+           AttackRectangle.Left < EnemyEntity.CollisionRectangle.Right)
+                return true;
+            else
+                return false;
+        }
+        public void ReducePlayerHP()
+        {
+            if (PlayerHP > 0)
+                PlayerHP--;
+            else
+                StillAlive = false;
         }
     }
 }

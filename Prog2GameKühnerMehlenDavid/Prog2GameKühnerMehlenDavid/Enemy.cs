@@ -13,15 +13,23 @@ namespace Reggie {
         public Vector4 EnemyAggroAreaSize;
         public Player Worm;
         public int EnemyHP;
+        bool StillAlive;
+        bool KnockedBack;
+        float KnockBackValue;
+        float FallCooldown;
+        public bool FallOutOfMap;
         
-        public Enemy(Texture2D SpriteTexture, Vector2 SpriteSize) : base(SpriteTexture, SpriteSize)
+        public Enemy(Texture2D SpriteTexture, Vector2 SpriteSize, Vector2 Position) : base(SpriteTexture, SpriteSize, Position)
         {
             GravityActive = true;
             IsStanding = false;
-            EnemyHP = 10;
-            MovementSpeed = 2f;
-
-            Position = new Vector2(900, 200);
+            StillAlive = true;
+            KnockedBack = false;
+            FallOutOfMap = false;
+            EnemyHP = 3;
+            MovementSpeed = 5f;
+            KnockBackValue = 20f; 
+            //Position = new Vector2(900, 200);
             ChangeCollisionBox = new Vector2(0, 0);
             EnemyAggroAreaSize = new Vector4(400, 300, 650, 850);
             CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
@@ -35,7 +43,7 @@ namespace Reggie {
         public override void Update(GameTime gameTime, List<GameObject> spriteList) {
             ResizeEnemyAggroArea(spriteList);
             EnemyCollision(gameTime, spriteList);
-            if (DetectPlayer())
+            if (DetectPlayer() && !KnockedBack)
                 EnemyMovement();
         }
 
@@ -70,7 +78,7 @@ namespace Reggie {
             //}
         }
 
-        public void setPlayer(Player WormPlayer)
+        public void SetPlayer(Player WormPlayer)
         {
             Worm = WormPlayer;
         }
@@ -82,7 +90,7 @@ namespace Reggie {
                 if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
                    (Velocity.X < 0 && IsTouchingRightSide(sprite)))
                     Velocity.X = 0;
-                else if (IsTouchingBottomSide(sprite))
+                else if (IsTouchingBottomSide(sprite,Gravity))
                 {
                     Velocity.Y = 0;
                     GravityActive = true;
@@ -99,15 +107,24 @@ namespace Reggie {
                     CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
                     Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
+                    KnockedBack = false;
+                    AirDirectionLeft = false;
+                    AirDirectionRight = false;
+                    FallCooldown = 0;
                 }
 
                 else if (!IsTouchingTopSide(sprite, Gravity) &&  IsStanding == false)
                 {
+                    FallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2; 
                     GravityActive = true;
-                    //if (AirDirectionRight)
-                    //    Velocity.X = MovementSpeed;
-                    //else if (AirDirectionLeft)
-                    //    Velocity.X = -MovementSpeed;
+                    if (AirDirectionRight && KnockedBack == false)
+                        Velocity.X = MovementSpeed;
+                    else if (AirDirectionLeft && KnockedBack == false)
+                        Velocity.X = -MovementSpeed;
+                    else if (AirDirectionRight && KnockedBack)
+                        Velocity.X = KnockBackValue;
+                    else if (AirDirectionLeft && KnockedBack)
+                        Velocity.X = -KnockBackValue;
                     if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
                         Velocity.X = 0;
                     //if (PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
@@ -134,6 +151,8 @@ namespace Reggie {
                 }
                 else
                     Gravity = Vector2.Zero;
+                if (FallCooldown >= 5)
+                    FallOutOfMap = true;
             }
             if (IsStanding == false)
                 CollisionBoxPosition += Gravity;
@@ -157,7 +176,7 @@ namespace Reggie {
               EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
               EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
                 Velocity.X = -MovementSpeed;
-            else if (EnemyAggroArea.Right + Velocity.X - EnemyAggroAreaSize.X + SpriteSize.X < Worm.CollisionRectangle.Left &&
+            else if (EnemyAggroArea.Right + Velocity.X - EnemyAggroAreaSize.X /*+ SpriteSize.X*/ < Worm.CollisionRectangle.Left &&
                 EnemyAggroArea.Right + Velocity.X > Worm.CollisionRectangle.Left &&
                 EnemyAggroArea.Left < Worm.CollisionRectangle.Left &&
                 EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
@@ -167,12 +186,12 @@ namespace Reggie {
 
         private bool DetectPlayer()
         {
-            if (EnemyAggroArea.Right + Velocity.X < Worm.CollisionRectangle.Left &&
+            if (EnemyAggroArea.Right + Velocity.X > Worm.CollisionRectangle.Left &&
                 EnemyAggroArea.Left < Worm.CollisionRectangle.Left &&
                 EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
                 EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
                 return true;
-            else if (EnemyAggroArea.Left + Velocity.X > Worm.CollisionRectangle.Right &&
+            else if (EnemyAggroArea.Left + Velocity.X < Worm.CollisionRectangle.Right &&
               EnemyAggroArea.Right > Worm.CollisionRectangle.Right &&
               EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
               EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
@@ -189,6 +208,39 @@ namespace Reggie {
                 return true;
             else
                 return false;
+        }
+        public void ReduceEnemyHP()
+        {
+            if (StillAlive)
+                EnemyHP--;
+            if(EnemyHP < 1)
+                StillAlive = false;
+           
+               
+        }
+
+        public bool EnemyAliveState()
+        {
+            return StillAlive;
+        }
+        public void KnockBackPosition(bool KnockBackDirectionRight)
+        {
+            KnockedBack = true;
+            IsStanding = false;
+            Velocity.Y = -KnockBackValue;
+            if (KnockBackDirectionRight)
+            {
+                Velocity.X = KnockBackValue;
+                AirDirectionRight = true;
+                AirDirectionLeft = false;
+            }
+            else
+            {
+                Velocity.X = -KnockBackValue;
+                AirDirectionRight = false;
+                AirDirectionLeft = true;
+            }
+            ReduceEnemyHP();
         }
     }
 }
