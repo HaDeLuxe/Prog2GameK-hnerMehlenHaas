@@ -199,7 +199,8 @@ namespace Reggie {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
             {
-                AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
+                if (FacingDirectionRight) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
+                else AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
                 if (FirstJump == false && SecondJump == false)
                     //JumpSpeed = -5f?
                     JumpSpeed = -10f;

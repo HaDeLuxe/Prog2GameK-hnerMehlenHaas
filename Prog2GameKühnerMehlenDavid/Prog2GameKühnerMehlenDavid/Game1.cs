@@ -73,7 +73,7 @@ namespace Reggie {
             playerSpriteSheets.Add("playerJumpSpriteSheet", PlayerJumpSpriteSheet);
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
             playerSpriteSheets.Add("playerMoveSpriteSheet", PlayerMoveSpriteSheet);
-            animManager = new AnimationManager(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5, playerSpriteSheets);
+            animManager = new AnimationManager(playerSpriteSheets);
             WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5), new Vector2(0,0));
             
             EnemyList = new List<Enemy>()
