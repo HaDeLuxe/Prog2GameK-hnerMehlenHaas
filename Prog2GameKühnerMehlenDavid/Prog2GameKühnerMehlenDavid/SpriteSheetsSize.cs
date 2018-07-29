@@ -81,6 +81,8 @@ namespace Reggie {
                 String s = "" + SpritesSizes.ElementAt(i);
                 System.Console.WriteLine(s);
             }
+
+            
             
         }
     }

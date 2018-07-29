@@ -134,9 +134,15 @@ namespace Reggie {
 
         //Contains Player Movement in all 4 directions and the attack
         private void PlayerControls() {
-           
+
+            if(FirstJump || SecondJump){
+                AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
+            }
+            else AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
+                if (!FirstJump && !SecondJump) AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
+                else AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
                 Velocity.X = -MovementSpeed;
                 AirDirectionLeft = true;
                 FacingDirection = -1;
@@ -144,6 +150,8 @@ namespace Reggie {
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
+                if (!FirstJump && !SecondJump) AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
+                else AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
                 Velocity.X = MovementSpeed;
                 FacingDirection = 1;
                 AirDirectionLeft = false;
@@ -154,6 +162,7 @@ namespace Reggie {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
             {
+                
                 if (FirstJump == false && SecondJump == false)
                     //JumpSpeed = -5f?
                     JumpSpeed = -10f;

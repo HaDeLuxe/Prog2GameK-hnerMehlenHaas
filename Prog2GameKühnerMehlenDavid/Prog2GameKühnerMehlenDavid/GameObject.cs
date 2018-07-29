@@ -34,6 +34,10 @@ namespace Reggie {
             get { return new Rectangle((int)Position.X, (int)Position.Y,(int)SpriteSize.X, (int)SpriteSize.Y); }
         }
 
+        public void changeTexture(Texture2D spriteTexture) {
+            this.SpriteTexture = spriteTexture;
+        }
+
         public GameObject(Texture2D SpriteTexture, Vector2 _SpriteSize) {
             this.SpriteTexture = SpriteTexture;
             SpriteSize = _SpriteSize;  
@@ -45,13 +49,13 @@ namespace Reggie {
             spriteBatch.Draw(SpriteTexture, Position, color);
         }
 
-        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
-            if (FacingDirection == -1)
-            {
-                spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.FlipHorizontally, 0);
-            }
-            else if(FacingDirection == 1)
-                spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
+        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle,SpriteEffects spriteEffects) {
+            //if (FacingDirection == -1)
+            //{
+                spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+            //}
+            //else if(FacingDirection == 1)
+            //    spriteBatch.Draw(SpriteTexture, Position, sourceRectangle, Color.White);
         }
 
         public virtual void DrawAnimation(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Rectangle sourceRectangle, Color color) {

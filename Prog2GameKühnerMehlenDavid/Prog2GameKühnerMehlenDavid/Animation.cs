@@ -16,6 +16,7 @@ namespace Reggie {
         bool looping = false;
         SpriteEffects spriteEffects;
         private float timeUntilNextFrame;
+        public Texture2D texture = null;
 
 
 
@@ -31,11 +32,16 @@ namespace Reggie {
 
         public int currentFrameGetSetter{get{ return currentFrame; }}
 
-        public Animation(bool loop,SpriteEffects spriteEffects, int singleSpriteXSize, int singleSpriteYSize) {
+        public SpriteEffects getSpriteEffects() 
+        {
+            return spriteEffects;
+        }
+
+        public Animation(bool loop,SpriteEffects spriteEffects, int singleSpriteXSize, int singleSpriteYSize, Texture2D texture) {
            // this.spriteSheetDestRectangle = new List<Rectangle>(spriteSheetDestRectangle);
             this.looping = loop;
             this.spriteEffects = spriteEffects;
-
+            this.texture = texture;
             for (int i = 0; i < 5; i++)
             {
                 for (int m = 0; m < 5; m++)

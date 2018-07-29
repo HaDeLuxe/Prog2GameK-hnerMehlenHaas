@@ -20,15 +20,12 @@ namespace Reggie {
         public Player WormPlayer;
         public Enemy Ant;
         private AnimationManager animManager;
-        Vector2 playerSpritePosition;
         List<GameObject> gameObjectsToRender;
         SpriteSheetSizes input = new SpriteSheetSizes();
         private FrameCounter _frameCounter = new FrameCounter();
         private SpriteFont font;
         Camera camera = new Camera();
-        Texture2D enemytexture;
-        Color[] colorData;
-        Vector2 enemyaggroposition;
+        Dictionary<string, Texture2D> playerSpriteSheets = new Dictionary<string, Texture2D>();
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -36,9 +33,8 @@ namespace Reggie {
             graphics.PreferredBackBufferHeight = 1000;
             graphics.PreferredBackBufferWidth = 1800;
             graphics.ApplyChanges();
-            playerSpritePosition = new Vector2();
             input.ReadImageSizeDataSheet();
-            animManager = new AnimationManager(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/5);
+            
         }
 
         /// <summary>
@@ -65,8 +61,12 @@ namespace Reggie {
             font = Content.Load<SpriteFont>("Arial");
             Texture2D EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
-            Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump");
+            Texture2D PlayerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump_Small");
+            playerSpriteSheets.Add("playerJumpSpriteSheet",PlayerJumpSpriteSheet);
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
+            playerSpriteSheets.Add("playerMoveSpriteSheet",PlayerMoveSpriteSheet);
+
+            animManager = new AnimationManager(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5, playerSpriteSheets);
             //Texture2D Player = Content.Load<Texture2D>("Images\\enemyRed1");
             WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5));
             Ant = new Enemy(EnemyTexture, new Vector2(50, 50));
@@ -106,12 +106,12 @@ namespace Reggie {
             gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
             Ant.Update(gameTime, SpriteList);
             WormPlayer.Update(gameTime, gameObjectsToRender);
-            enemytexture = new Texture2D(this.GraphicsDevice, (int)(Ant.EnemyAggroAreaSize.W), (int)(Ant.EnemyAggroAreaSize.Z));
-            colorData = new Color[(int)((Ant.EnemyAggroAreaSize.W ) * (Ant.EnemyAggroAreaSize.Z))];
-            for (int i = 0; i < (Ant.EnemyAggroAreaSize.W ) *(Ant.EnemyAggroAreaSize.Z ); i++)
-                colorData[i] = Color.White;
-            enemytexture.SetData<Color>(colorData);
-            enemyaggroposition = new Vector2(Ant.EnemyAggroArea.X, Ant.EnemyAggroArea.Y);
+            //enemytexture = new Texture2D(this.GraphicsDevice, (int)(Ant.EnemyAggroAreaSize.W), (int)(Ant.EnemyAggroAreaSize.Z));
+            //colorData = new Color[(int)((Ant.EnemyAggroAreaSize.W ) * (Ant.EnemyAggroAreaSize.Z))];
+            //for (int i = 0; i < (Ant.EnemyAggroAreaSize.W ) *(Ant.EnemyAggroAreaSize.Z ); i++)
+            //    colorData[i] = Color.White;
+            //enemytexture.SetData<Color>(colorData);
+            //enemyaggroposition = new Vector2(Ant.EnemyAggroArea.X, Ant.EnemyAggroArea.Y);
             base.Update(gameTime);
             
 
@@ -141,7 +141,7 @@ namespace Reggie {
                 //end comment.
 
                 //this draws the enemy
-                spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                 Ant.DrawSpriteBatch(spriteBatch);
 
 
