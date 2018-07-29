@@ -67,9 +67,6 @@ namespace Reggie {
                     player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Animation_Left.getSpriteEffects());
                     break;
             }
-            //Rectangle tempRec = divAnimationDestRectanglesDic["Walk_Animation_Right"].Update(gameTime);
-            //player.changeTexture()
-            //player.DrawSpriteBatch(spriteBatch, tempRec);
         }
 
        
