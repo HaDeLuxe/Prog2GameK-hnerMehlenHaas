@@ -47,22 +47,22 @@ namespace Reggie {
                 case Animations.Walk_Right:
                     player.changeTexture(Walk_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Animation_Right.getSpriteEffects());
+                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Animation_Right.getSpriteEffects(),new Vector2(0,0));
                     break;
                 case Animations.Walk_Left:
                     player.changeTexture(Walk_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Animation_Left.getSpriteEffects());
+                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Animation_Left.getSpriteEffects(),new Vector2(0,0));
                     break;
                 case Animations.Jump_Right:
                     player.changeTexture(Jump_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Animation_Right.getSpriteEffects());
+                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Animation_Right.getSpriteEffects(), new Vector2(65,-20));
                     break;
                 case Animations.Jump_Left:
                     player.changeTexture(Jump_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Animation_Left.getSpriteEffects());
+                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Animation_Left.getSpriteEffects(), new Vector2(15, -20));
                     break;
             }
             //Rectangle tempRec = divAnimationDestRectanglesDic["Walk_Animation_Right"].Update(gameTime);
