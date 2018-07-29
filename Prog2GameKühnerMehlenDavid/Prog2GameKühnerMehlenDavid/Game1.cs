@@ -31,6 +31,7 @@ namespace Reggie {
         Texture2D enemytexture;
         Color[] colorData;
         Vector2 enemyaggroposition;
+        Texture2D background;
 
 
         Dictionary<String, Texture2D> playerSpriteSheets;
@@ -91,7 +92,8 @@ namespace Reggie {
             };
             foreach (var enemy in EnemyList)
                 enemy.SetPlayer(WormPlayer);
-            
+
+            background = Content.Load<Texture2D>("Images\\Lvl1_Background");
             // TODO: use this.Content to load your game content here
         }
 
@@ -181,6 +183,8 @@ namespace Reggie {
             spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
             //added block for better visibility
             {
+                //spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
+                spriteBatch.Draw(background, new Vector2(-5000, -2800), null, Color.White, 0f,Vector2.Zero, 5.0f, SpriteEffects.None, 0f);
                 //Comment: SEE Framecounter.cs for additional commentary
                 var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 _frameCounter.Update(deltaTime);
@@ -192,9 +196,9 @@ namespace Reggie {
                 spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                 foreach (var enemy in EnemyList.ToList())
                     enemy.DrawSpriteBatch(spriteBatch);
-             
-                
 
+
+               
 
                 //this draws the platforms
                 foreach (var PlatformSprite in gameObjectsToRender)
