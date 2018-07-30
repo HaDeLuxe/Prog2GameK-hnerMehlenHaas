@@ -14,24 +14,33 @@ namespace Reggie {
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game {
+
+        public Player WormPlayer;
+        public Enemy Ant;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         List<GameObject> SpriteList;
         List<Enemy> EnemyList;
-        List<Enemy> HittableEnemies;
+        List<Enemy> ViewableEnemies;
         List<GameObject> gameObjectsToRender;
-        public Player WormPlayer;
-        public Enemy Ant;
-        Texture2D EnemyTexture;
-        private AnimationManager animManager;
-        SpriteSheetSizes input = new SpriteSheetSizes();
-        private FrameCounter _frameCounter = new FrameCounter();
-        private SpriteFont font;
-        Camera camera = new Camera();
+
         Texture2D enemytexture;
+        Texture2D EnemyTexture;
+        Texture2D background;
+
+        AnimationManager animManager;
+        LevelEditor levelEditor;
+        SpriteSheetSizes input = new SpriteSheetSizes();
+        FrameCounter _frameCounter = new FrameCounter();
+        SpriteFont font;
+        Camera camera = new Camera();
         Color[] colorData;
         Vector2 enemyaggroposition;
-        Texture2D background;
+
+        bool LevelEditorActivated = false;
+
+
 
 
         Dictionary<String, Texture2D> playerSpriteSheets;
@@ -44,6 +53,8 @@ namespace Reggie {
             graphics.ApplyChanges();
             input.ReadImageSizeDataSheet();
             playerSpriteSheets = new Dictionary<string, Texture2D>();
+            levelEditor = new LevelEditor();
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -116,9 +127,9 @@ namespace Reggie {
 
             // TODO: Add your update logic here
             gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
-            HittableEnemies = camera.RenderedEnemies(WormPlayer.Position, EnemyList);
+            ViewableEnemies = camera.RenderedEnemies(WormPlayer.Position, EnemyList);
             //Ant.Update(gameTime, SpriteList);
-            WormPlayer.Update(gameTime, gameObjectsToRender,HittableEnemies);
+            WormPlayer.Update(gameTime, gameObjectsToRender,ViewableEnemies);
             enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
             colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];
             for (int i = 0; i < (WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y); i++)
@@ -162,6 +173,8 @@ namespace Reggie {
                     //enemytexture.SetData<Color>(colorData);
                     //enemyaggroposition = new Vector2(enemy.EnemyAggroArea.X, enemy.EnemyAggroArea.Y);
                 }
+
+            levelEditor.movePlatforms(ref gameObjectsToRender);
             base.Update(gameTime);
             
 

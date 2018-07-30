@@ -50,6 +50,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="LevelEditor.cs" />
     <Compile Include="SpriteSheetsSize.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
