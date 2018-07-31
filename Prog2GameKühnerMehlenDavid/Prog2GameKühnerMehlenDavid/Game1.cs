@@ -194,11 +194,13 @@ namespace Reggie {
                 }
 
 
-            if (CurrentGameState == GameState.LEVELEDITOR){
+            if (CurrentGameState == GameState.LEVELEDITOR)
+            {
                 levelEditor.movePlatforms(ref SpriteList, TransformationMatrix);
                 this.IsMouseVisible = true;
                 levelEditor.moveCamera(ref cameraOffset);
             }
+            else cameraOffset = new Vector2(0, 0);
             
             
 
@@ -263,7 +265,7 @@ namespace Reggie {
                         //this draws the platforms
                         foreach (var PlatformSprite in SpriteList)
                             PlatformSprite.DrawSpriteBatch(spriteBatch);
-                        levelEditor.DrawLvlEditorUI(platformTextures, spriteBatch,TransformationMatrix);
+                        levelEditor.DrawLvlEditorUI(platformTextures, spriteBatch,TransformationMatrix, ref SpriteList);
                         break;
                 }
 

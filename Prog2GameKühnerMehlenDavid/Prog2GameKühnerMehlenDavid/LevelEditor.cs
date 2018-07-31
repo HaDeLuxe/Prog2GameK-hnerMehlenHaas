@@ -16,6 +16,7 @@ namespace Reggie {
         int step = 175;         
         //Vector2 deltaMouseGameObjectPos = new Vector2(0, 0);
         bool alreadyDragged = false;
+        bool ButtonPushed = false;
 
         public LevelEditor() {
             mousePosition = new Vector2(0, 0);
@@ -83,7 +84,8 @@ namespace Reggie {
             if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 10 ;
         }
 
-        public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix TransformationMatrix) {
+        public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix TransformationMatrix, ref List<GameObject> GameObjectList) {
+
             MouseState mouseState = Mouse.GetState();
             mousePosition.X = mouseState.X;
             mousePosition.Y = mouseState.Y;
@@ -93,15 +95,29 @@ namespace Reggie {
             Vector2 MouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(TransformationMatrix));
             Rectangle PlatformRectangle = new Rectangle((int)position.X, (int)position.Y, 320, 64);
             //if (PlatformRectangle.Contains(new Rectangle((int)MouseWorldPosition.X, (int)MouseWorldPosition.Y, 0, 0)))
-            if (PlatformRectangle.Contains(new Point((int)MouseWorldPosition.X,(int)MouseWorldPosition.Y)))
+            if (PlatformRectangle.Contains(new Point((int)mousePosition.X,(int)mousePosition.Y)))
             {
-                position = new Vector2(1350, 100);
+                position = new Vector2(1450, 100);
+                transformedPos = Vector2.Transform(position, Matrix.Invert(TransformationMatrix));
                 Console.WriteLine("Mouse Hover Detected");
+                if(ButtonState.Pressed == mouseState.LeftButton && !ButtonPushed)
+                {
+                    ButtonPushed = true;
+                    createNewPlatform(ref GameObjectList, platformTextures);
+                }
             }
-            else position = new Vector2(1650, 100);
+            else{
+                ButtonPushed = false;
+                position = new Vector2(1650, 100);
+            }
+            spriteBatch.Draw(platformTextures["Green_320_64"], transformedPos, Color.White);
 
+        }
 
-            spriteBatch.Draw(platformTextures["Green_320_64"], transformedPos,Color.White);
+        private void createNewPlatform(ref List<GameObject> GameObjectList, Dictionary<string, Texture2D> platformTextures)
+        {
+            GameObjectList.Add(new Platform(platformTextures["Green_320_64"], new Vector2(320, 64), new Vector2(0, 200)));
+            Console.WriteLine("GameObject was probably added");
         }
     }
 }
