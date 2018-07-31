@@ -27,7 +27,7 @@ namespace Reggie {
             KnockedBack = false;
             FallOutOfMap = false;
             EnemyHP = 3;
-            MovementSpeed = 5f;
+            MovementSpeed = 1f;
             KnockBackValue = 20f; 
             //Position = new Vector2(900, 200);
             ChangeCollisionBox = new Vector2(0, 0);

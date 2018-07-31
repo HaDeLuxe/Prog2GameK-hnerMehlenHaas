@@ -36,6 +36,9 @@ namespace Reggie {
 
             return objectsToRender;
         }
+
+
+
         public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> EnemyList)
         {
             List<Enemy> EnemyToRender = new List<Enemy>();

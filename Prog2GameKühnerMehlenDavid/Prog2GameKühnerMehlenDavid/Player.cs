@@ -46,89 +46,93 @@ namespace Reggie {
             ChangeCollisionBox = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
             CollisionBoxSize = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_Y"]);
-            MovementSpeed = 6f;
+            MovementSpeed = 10f;
             JumpSpeed = -10f;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> SpriteList, List<Enemy> EnemyList) {
+        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> EnemyList) {
             PlayerControls(gameTime,EnemyList);
             Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-            PlayerPositionCalculation(gameTime, SpriteList);
+            PlayerPositionCalculation(gameTime, gameObjectsToRender);
         }
 
 
         public void changeTexture(Texture2D texture) {
             this.SpriteTexture = texture;
         }
-        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> SpriteList) {
+        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender) {
 
-            foreach (var sprite in SpriteList)
+            foreach (var sprite in gameObjectsToRender)
             {
-                //Checks collision on the left side and right side of each sprite when player is on the ground/air
-                if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
-                   (Velocity.X < 0 && IsTouchingRightSide(sprite)))
+                if ((PreviousState.IsKeyDown(Keys.Left) || PreviousState.IsKeyDown(Keys.Right) || PreviousState.IsKeyDown(Keys.Down) || PreviousState.IsKeyDown(Keys.Up) || PreviousState.IsKeyDown(Keys.Space)) || GravityActive)
                 {
-                    Velocity.X = 0;
-                    AirDirectionLeft = false;
-                    AirDirectionRight = false;
-                }
-                //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
-                //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
-                else if (IsTouchingBottomSide(sprite,Gravity))
-                {
-                    Velocity.Y = 0;
-                    JumpSpeed = 0;
-                    GravityActive = true;
-                    CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
-                    Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-                    if (FirstJump == true && SecondJump == false)
-                        FirstJump = false;
-                    else if (FirstJump == true && SecondJump == true)
-                    {
-                        FirstJump = false;
-                        SecondJump = false;
-                    }
-                }
-                // Resets AirDirection booleans, jump booleans, the number of times the worm has jumped and stops translations in DOWN direction 
-                else if (IsTouchingTopSide(sprite, Gravity))
-                {
-                    Velocity.Y = 0;
-                    GravityActive = false;
-                    Gravity = Vector2.Zero;
-                    FirstJump = false;
-                    SecondJump = false;
-                    IsStanding = true;
-                    JumpCounter = 0;
-                    CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
-                    Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-                    AirDirectionLeft = false;
-                    AirDirectionRight = false;
-                }
-
-                if (!IsTouchingTopSide(sprite, Gravity) && IsStanding == false)
-                {
-                    GravityActive = true;
-                    if (AirDirectionRight)
-                        Velocity.X = MovementSpeed;
-                    else if (AirDirectionLeft)
-                        Velocity.X = -MovementSpeed;
-                    if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
+                    //Checks collision on the left side and right side of each sprite when player is on the ground/air
+                    if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
+                       (Velocity.X < 0 && IsTouchingRightSide(sprite)))
                     {
                         Velocity.X = 0;
                         AirDirectionLeft = false;
                         AirDirectionRight = false;
                     }
-                    if (PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
+                    //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
+                    //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
+                    else if (IsTouchingBottomSide(sprite, Gravity))
                     {
-                        JumpSpeed = -10f;
-                        if (JumpCounter != PreviousJumpCounter)
-                            Gravity = Vector2.Zero;
-                        if (JumpCounter == 1)
-                            FirstJump = true;
-                        else if (JumpCounter == 2)
-                            SecondJump = true;
+                        Velocity.Y = 0;
+                        JumpSpeed = 0;
+                        GravityActive = true;
+                        CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
+                        Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
+                        if (FirstJump == true && SecondJump == false)
+                            FirstJump = false;
+                        else if (FirstJump == true && SecondJump == true)
+                        {
+                            FirstJump = false;
+                            SecondJump = false;
+                        }
                     }
-                    PreviousJumpCounter = JumpCounter;
+                    // Resets AirDirection booleans, jump booleans, the number of times the worm has jumped and stops translations in DOWN direction 
+                    else if (IsTouchingTopSide(sprite, Gravity))
+                    {
+                        Velocity.Y = 0;
+                        GravityActive = false;
+                        Gravity = Vector2.Zero;
+                        FirstJump = false;
+                        SecondJump = false;
+                        //IsStanding durch Midair
+                        IsStanding = true;
+                        JumpCounter = 0;
+                        CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
+                        Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
+                        AirDirectionLeft = false;
+                        AirDirectionRight = false;
+                    }
+
+                    if (!IsTouchingTopSide(sprite, Gravity) && IsStanding == false)
+                    {
+                        GravityActive = true;
+                        if (AirDirectionRight)
+                            Velocity.X = MovementSpeed;
+                        else if (AirDirectionLeft)
+                            Velocity.X = -MovementSpeed;
+                        if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
+                        {
+                            Velocity.X = 0;
+                            AirDirectionLeft = false;
+                            AirDirectionRight = false;
+                        }
+                        if (PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
+                        {
+                            JumpSpeed = -10f;
+                            if (JumpCounter != PreviousJumpCounter)
+                                Gravity = Vector2.Zero;
+                            if (JumpCounter == 1)
+                                FirstJump = true;
+                            else if (JumpCounter == 2)
+                                SecondJump = true;
+                        }
+                        PreviousJumpCounter = JumpCounter;
+                    }
                 }
             }
             if ((FirstJump == true || SecondJump == true))
@@ -193,6 +197,8 @@ namespace Reggie {
                 FacingDirectionRight = true;
                 AirDirectionLeft = false;
                 AirDirectionRight = true;
+                //MidAir
+                //FacingDirection;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 Velocity.Y = MovementSpeed;
