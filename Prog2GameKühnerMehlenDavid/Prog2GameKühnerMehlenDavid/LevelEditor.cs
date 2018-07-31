@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -10,22 +11,97 @@ namespace Reggie {
     class LevelEditor {
 
         Vector2 mousePosition;
-       
+
+        //Doublejump is 2x175 high
+        int step = 175;         
+        //Vector2 deltaMouseGameObjectPos = new Vector2(0, 0);
+        bool alreadyDragged = false;
 
         public LevelEditor() {
             mousePosition = new Vector2(0, 0);
         }
 
-        public void movePlatforms(ref List<GameObject> gameObjects) {
-            var mouseState = Mouse.GetState();
+        public void movePlatforms(ref List<GameObject> gameObjects, Matrix TransformatinMatrix) 
+        {
+            MouseState mouseState = Mouse.GetState();
+            mousePosition.X = mouseState.X;
+            mousePosition.Y = mouseState.Y;
             
-            foreach(GameObject gO in gameObjects)
+            if (ButtonState.Pressed == mouseState.LeftButton)
             {
-                if (gO.SpriteRectangle.Contains(mousePosition))
+                foreach(GameObject gameObject in gameObjects)
                 {
-                    System.Console.WriteLine("Worked");
+                    Vector2 MouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(TransformatinMatrix));
+                    if (gameObject.SpriteRectangle.Intersects(new Rectangle((int)MouseWorldPosition.X, (int)MouseWorldPosition.Y, 0, 0)))
+                    {
+                        if (!alreadyDragged)
+                        {
+                            gameObject.IsDragged = true;
+                            alreadyDragged = true;
+                        }
+                    }
+                    if (gameObject.IsDragged)
+                    {
+                        
+                        if(MouseWorldPosition.X % step < step/2 && MouseWorldPosition.Y % step < step/2)
+                        {
+                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 - (MouseWorldPosition.X % step),
+                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 - (MouseWorldPosition.Y % step));
+                        }
+                        else if(MouseWorldPosition.X % step < step/2 && MouseWorldPosition.Y % step > step/2)
+                        {
+                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 - (MouseWorldPosition.X % step),
+                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 + (step - (MouseWorldPosition.Y % step)));
+                        }
+                        else if (MouseWorldPosition.X % step > step/2 && MouseWorldPosition.Y % step < step/2)
+                        {
+                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 + (step - (MouseWorldPosition.X % step)),
+                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 - (MouseWorldPosition.Y % step));
+                        }
+                        else if (MouseWorldPosition.X % step > step/2 && MouseWorldPosition.Y % step > step/2)
+                        {
+                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 + (step - (MouseWorldPosition.X % step)),
+                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 + (step - (MouseWorldPosition.Y % step)));
+                        }
+                    }
                 }
             }
+            else
+            {
+                alreadyDragged = false;
+                foreach(GameObject gameObject in gameObjects)
+                {
+                    gameObject.IsDragged = false;
+                }
+            }
+        }
+
+        public void moveCamera(ref Vector2 cameraOffset) {
+            if (Keyboard.GetState().IsKeyDown(Keys.U)) cameraOffset.Y += 10;
+            if (Keyboard.GetState().IsKeyDown(Keys.J)) cameraOffset.Y -= 10;
+            if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 10;
+            if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 10 ;
+        }
+
+        public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix TransformationMatrix) {
+            MouseState mouseState = Mouse.GetState();
+            mousePosition.X = mouseState.X;
+            mousePosition.Y = mouseState.Y;
+
+            Vector2 position = new Vector2(1650, 100);
+            Vector2 transformedPos = Vector2.Transform(position, Matrix.Invert(TransformationMatrix));
+            Vector2 MouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(TransformationMatrix));
+            Rectangle PlatformRectangle = new Rectangle((int)position.X, (int)position.Y, 320, 64);
+            //if (PlatformRectangle.Contains(new Rectangle((int)MouseWorldPosition.X, (int)MouseWorldPosition.Y, 0, 0)))
+            if (PlatformRectangle.Contains(new Point((int)MouseWorldPosition.X,(int)MouseWorldPosition.Y)))
+            {
+                position = new Vector2(1350, 100);
+                Console.WriteLine("Mouse Hover Detected");
+            }
+            else position = new Vector2(1650, 100);
+
+
+            spriteBatch.Draw(platformTextures["Green_320_64"], transformedPos,Color.White);
         }
     }
 }

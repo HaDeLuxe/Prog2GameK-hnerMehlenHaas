@@ -15,6 +15,9 @@ namespace Reggie {
     /// </summary>
     public class Game1 : Game {
 
+        public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN }
+        public static GameState CurrentGameState {get;set; }
+
         public Player WormPlayer;
         public Enemy Ant;
 
@@ -24,11 +27,14 @@ namespace Reggie {
         List<Enemy> EnemyList;
         List<Enemy> ViewableEnemies;
         List<GameObject> gameObjectsToRender;
+        Dictionary<string, Texture2D> platformTextures;
 
         Texture2D enemytexture;
         Texture2D EnemyTexture;
         Texture2D background;
+        Texture2D Platform_320_64;
 
+        StateMachine StateMachine;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -39,6 +45,9 @@ namespace Reggie {
         Vector2 enemyaggroposition;
 
         bool LevelEditorActivated = false;
+        Matrix TransformationMatrix;
+
+        private Vector2 cameraOffset;
 
 
 
@@ -46,6 +55,8 @@ namespace Reggie {
         Dictionary<String, Texture2D> playerSpriteSheets;
 
         public Game1() {
+            StateMachine = new StateMachine();
+            CurrentGameState = GameState.GAMELOOP;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 1000;
@@ -54,7 +65,8 @@ namespace Reggie {
             input.ReadImageSizeDataSheet();
             playerSpriteSheets = new Dictionary<string, Texture2D>();
             levelEditor = new LevelEditor();
-            this.IsMouseVisible = true;
+            cameraOffset = new Vector2(0, 0);
+            platformTextures = new Dictionary<string, Texture2D>();
         }
 
         /// <summary>
@@ -85,6 +97,7 @@ namespace Reggie {
             playerSpriteSheets.Add("playerJumpSpriteSheet", PlayerJumpSpriteSheet);
             Texture2D PlayerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
             playerSpriteSheets.Add("playerMoveSpriteSheet", PlayerMoveSpriteSheet);
+
             animManager = new AnimationManager(playerSpriteSheets);
             WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5), new Vector2(0,0));
             
@@ -105,6 +118,8 @@ namespace Reggie {
                 enemy.SetPlayer(WormPlayer);
 
             background = Content.Load<Texture2D>("Images\\Lvl1_Background");
+            Platform_320_64 = Content.Load<Texture2D>("Images\\Platform_320_64");
+            platformTextures.Add("Green_320_64", Platform_320_64);
             // TODO: use this.Content to load your game content here
         }
 
@@ -126,6 +141,10 @@ namespace Reggie {
                 Exit();
 
             // TODO: Add your update logic here
+
+            //Manage Game States:
+            StateMachine.ManageGamestates();
+
             gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
             ViewableEnemies = camera.RenderedEnemies(WormPlayer.Position, EnemyList);
             //Ant.Update(gameTime, SpriteList);
@@ -174,8 +193,13 @@ namespace Reggie {
                     //enemyaggroposition = new Vector2(enemy.EnemyAggroArea.X, enemy.EnemyAggroArea.Y);
                 }
 
-            levelEditor.movePlatforms(ref gameObjectsToRender);
-            base.Update(gameTime);
+
+            if (CurrentGameState == GameState.LEVELEDITOR){
+                levelEditor.movePlatforms(ref SpriteList, TransformationMatrix);
+                this.IsMouseVisible = true;
+                levelEditor.moveCamera(ref cameraOffset);
+            }
+            
             
 
         }
@@ -190,20 +214,31 @@ namespace Reggie {
             
             // TODO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
-            Vector2 screenCentre = new Vector2(viewport.Width / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/10)-200, viewport.Height / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/10)+50);
+            Vector2 screenCentre = new Vector2(viewport.Width / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/10)-200 + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/10)+50 + cameraOffset.Y);
             camera.setCameraWorldPosition(WormPlayer.Position);
-
-            spriteBatch.Begin(0, null, null, null,null,null,camera.cameraTransformationMatrix(viewport, screenCentre) );
-            //added block for better visibility
+            TransformationMatrix = camera.cameraTransformationMatrix(viewport, screenCentre);
+            spriteBatch.Begin(0, null, null, null,null,null,TransformationMatrix);
+            //added block for better readability
             {
                 //spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
                 spriteBatch.Draw(background, new Vector2(-5000, -2800), null, Color.White, 0f,Vector2.Zero, 5.0f, SpriteEffects.None, 0f);
+
+                
                 //Comment: SEE Framecounter.cs for additional commentary
                 var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 _frameCounter.Update(deltaTime);
                 var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
                 spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X-620, WormPlayer.Position.Y-490), Color.Black);
                 //end comment.
+                
+
+                //Writes Leveleditor Text when Level Editor is enabled
+                if(CurrentGameState == GameState.LEVELEDITOR)
+                {
+                    string lvlEditorString = "Level Editor Enabled!";
+                    spriteBatch.DrawString(font, lvlEditorString, new Vector2(WormPlayer.Position.X - 620, WormPlayer.Position.Y - 470), Color.DarkRed);
+
+                }
 
                 //this draws the enemy
                 spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
@@ -213,12 +248,24 @@ namespace Reggie {
 
                
 
-                //this draws the platforms
-                foreach (var PlatformSprite in gameObjectsToRender)
-                    PlatformSprite.DrawSpriteBatch(spriteBatch);
                 
                 //This draws the player
                 animManager.animation(gameTime,ref WormPlayer, spriteBatch);
+
+                switch (CurrentGameState)
+                {
+                    case GameState.GAMELOOP:
+                        //this draws the platforms
+                        foreach (var PlatformSprite in gameObjectsToRender)
+                            PlatformSprite.DrawSpriteBatch(spriteBatch);
+                        break;
+                    case GameState.LEVELEDITOR:
+                        //this draws the platforms
+                        foreach (var PlatformSprite in SpriteList)
+                            PlatformSprite.DrawSpriteBatch(spriteBatch);
+                        levelEditor.DrawLvlEditorUI(platformTextures, spriteBatch,TransformationMatrix);
+                        break;
+                }
 
                
             }
