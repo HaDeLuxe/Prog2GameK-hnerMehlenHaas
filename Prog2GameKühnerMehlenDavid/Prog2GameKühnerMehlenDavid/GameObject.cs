@@ -24,14 +24,18 @@ namespace Reggie {
         public Vector2 ChangeCollisionBox;
         public Vector2 SpriteSize;
         public Vector2 Velocity;
-        public Color color = Color.Black;
+        public Color color = Color.White;
+        public bool IsDragged = false;
+
+
+
         public Rectangle CollisionRectangle
         {
         get { return new Rectangle((int)CollisionBoxPosition.X, (int)CollisionBoxPosition.Y, (int)CollisionBoxSize.X, (int)CollisionBoxSize.Y); }
         }
 
         public Rectangle SpriteRectangle {
-            get { return new Rectangle((int)Position.X, (int)Position.Y,(int)SpriteSize.X, (int)SpriteSize.Y); }
+            get { return new Rectangle((int)Position.X, (int)Position.Y, (int)SpriteSize.X, (int)SpriteSize.Y); } set{; }
         }
 
         public GameObject(Texture2D SpriteTexture, Vector2 _SpriteSize, Vector2 _Position) {
