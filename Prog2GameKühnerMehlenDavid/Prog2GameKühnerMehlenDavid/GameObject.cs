@@ -11,8 +11,8 @@ namespace Reggie {
     public abstract class GameObject {
 
         protected Texture2D SpriteTexture;
-        protected bool AirDirectionLeft;
-        protected bool AirDirectionRight;
+        protected bool PressedLeftKey;
+        protected bool PressedRightKey;
         protected bool GravityActive;
         protected bool IsStanding;
         protected bool FacingDirectionRight;
