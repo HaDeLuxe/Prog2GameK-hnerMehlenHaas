@@ -148,11 +148,11 @@ namespace Reggie {
                 EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
                 IsStanding = false;
             }
-            else
-            {
-                IsStanding = true;
-                GravityActive = false;
-            }
+            //else
+            //{
+            //    IsStanding = true;
+            //    GravityActive = false;
+            //}
             
         }
 
