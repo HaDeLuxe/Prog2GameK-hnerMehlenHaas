@@ -163,7 +163,6 @@ namespace Reggie {
                     AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
                 if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right)
                     AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
-                else;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
