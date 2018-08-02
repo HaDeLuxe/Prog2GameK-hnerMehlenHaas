@@ -118,8 +118,9 @@ namespace Reggie {
                                 FirstJump = true;
                             else
                                 SecondJump = true;
+                            JumpButtonPressed = false;
                         }
-                        JumpButtonPressed = false;
+                        
                     }
                 }
             }
@@ -195,7 +196,7 @@ namespace Reggie {
                 if (FacingDirectionRight) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
                 else AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
                 JumpButtonPressed = true;
-                if (FirstJump == false && SecondJump == false)
+                if (FirstJump == false || SecondJump == false)
                     JumpSpeed = -10f;
                 PlayerJump();
             }
