@@ -13,13 +13,13 @@ namespace Reggie {
         KeyboardState PreviousState;
         bool FirstJump;
         bool SecondJump;
-        int JumpCounter;
-        int PreviousJumpCounter;
+        bool JumpButtonPressed;
+        bool PlayerAttackPressed;
+        bool StillAlive;
         float JumpSpeed;
         float Cooldown;
-        bool PlayerAttackPressed;
         int PlayerHP;
-        bool StillAlive;
+       
         public Rectangle AttackRectangle
         {
             get
@@ -30,29 +30,29 @@ namespace Reggie {
                     return new Rectangle((int)(CollisionBoxPosition.X - CollisionBoxSize.X-100), (int)(CollisionBoxPosition.Y - 100), (int)CollisionBoxSize.X + 100, (int)CollisionBoxSize.Y + 100);
             }
         }
+
         public Player(Texture2D texture,Vector2 SpriteSize, Vector2 Position) : base(texture,SpriteSize, Position) {
             GravityActive = true;
             FirstJump = false;
             SecondJump = false;
-            AirDirectionLeft = false;
-            AirDirectionRight = false;
+            PressedLeftKey = false;
+            PressedRightKey = false;
             IsStanding = false;
             StillAlive = true;
             PlayerAttackPressed = false;
-            PlayerHP = 50;
             FacingDirectionRight = true;
-            JumpCounter = 0;
-            PreviousJumpCounter = 0;
+            JumpButtonPressed = false;
             ChangeCollisionBox = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
             CollisionBoxSize = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_Y"]);
+            PlayerHP = 50;
             MovementSpeed = 10f;
             JumpSpeed = -10f;
         }
 
         public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> EnemyList) {
             PlayerControls(gameTime,EnemyList);
-            Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
+            //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
             PlayerPositionCalculation(gameTime, gameObjectsToRender);
         }
 
@@ -71,8 +71,8 @@ namespace Reggie {
                        (Velocity.X < 0 && IsTouchingRightSide(sprite)))
                     {
                         Velocity.X = 0;
-                        AirDirectionLeft = false;
-                        AirDirectionRight = false;
+                        PressedLeftKey = false;
+                        PressedRightKey = false;
                     }
                     //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                     //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
@@ -80,58 +80,46 @@ namespace Reggie {
                     {
                         Velocity.Y = 0;
                         JumpSpeed = 0;
-                        GravityActive = true;
                         CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
-                        Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-                        if (FirstJump == true && SecondJump == false)
-                            FirstJump = false;
-                        else if (FirstJump == true && SecondJump == true)
-                        {
-                            FirstJump = false;
-                            SecondJump = false;
-                        }
+                        GravityActive = true;
                     }
                     // Resets AirDirection booleans, jump booleans, the number of times the worm has jumped and stops translations in DOWN direction 
                     else if (IsTouchingTopSide(sprite, Gravity))
                     {
                         Velocity.Y = 0;
-                        GravityActive = false;
                         Gravity = Vector2.Zero;
+                        GravityActive = false;
                         FirstJump = false;
                         SecondJump = false;
-                        //IsStanding durch Midair
                         IsStanding = true;
-                        JumpCounter = 0;
+                        PressedLeftKey = false;
+                        PressedRightKey = false;
                         CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
-                        Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-                        AirDirectionLeft = false;
-                        AirDirectionRight = false;
                     }
 
                     if (!IsTouchingTopSide(sprite, Gravity) && IsStanding == false)
                     {
                         GravityActive = true;
-                        if (AirDirectionRight)
+                        if (PressedRightKey)
                             Velocity.X = MovementSpeed;
-                        else if (AirDirectionLeft)
+                        else if (PressedLeftKey)
                             Velocity.X = -MovementSpeed;
                         if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
                         {
                             Velocity.X = 0;
-                            AirDirectionLeft = false;
-                            AirDirectionRight = false;
+                            PressedLeftKey = false;
+                            PressedRightKey = false;
                         }
-                        if (PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
+                        if (PreviousState.IsKeyDown(Keys.Space) && JumpButtonPressed)
                         {
-                            JumpSpeed = -10f;
-                            if (JumpCounter != PreviousJumpCounter)
+                            if (!FirstJump || !SecondJump)
                                 Gravity = Vector2.Zero;
-                            if (JumpCounter == 1)
+                            if (!FirstJump)
                                 FirstJump = true;
-                            else if (JumpCounter == 2)
+                            else
                                 SecondJump = true;
                         }
-                        PreviousJumpCounter = JumpCounter;
+                        JumpButtonPressed = false;
                     }
                 }
             }
@@ -139,23 +127,25 @@ namespace Reggie {
                 PlayerJump();
             if (GravityActive && IsStanding == false)
             {
-                //if (!PreviousState.IsKeyDown(Keys.Space))
                 Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
                 if (Gravity.Y > -JumpSpeed && PreviousState.IsKeyDown(Keys.Space))
                     Gravity.Y = 12f;
-                //else
-                //    Gravity.Y = 5;
-                //CollisionBoxPosition.Y += Gravity.Y;
                 CollisionBoxPosition.Y += Gravity.Y;
             }
             else
                 Gravity = Vector2.Zero;
-            //if (IsStanding == false)
-            //    CollisionBoxPosition.Y += Gravity.Y;
             CollisionBoxPosition += Velocity;
-            Position = CollisionBoxPosition - ChangeCollisionBox;
+            if(Position != CollisionBoxPosition -ChangeCollisionBox)
+            {
+                Position = CollisionBoxPosition - ChangeCollisionBox;
+                IsStanding = false;
+            }
+            else
+            {
+                IsStanding = true;
+                GravityActive = false;
+            }
             Velocity = Vector2.Zero;
-            IsStanding = false;
         }
 
         private void PlayerJump() {
@@ -167,7 +157,6 @@ namespace Reggie {
         //Contains Player Movement in all 4 directions and the attack
         private void PlayerControls(GameTime gameTime, List<Enemy> EnemyList)
         {
-
             if (!FirstJump && !SecondJump)
             {
                 if(AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left)
@@ -185,9 +174,9 @@ namespace Reggie {
                 }
                 else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
                 Velocity.X = -MovementSpeed;
-                AirDirectionLeft = true;
+                PressedLeftKey = true;
                 FacingDirectionRight = false;
-                AirDirectionRight = false;
+                PressedRightKey = false;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
@@ -195,23 +184,21 @@ namespace Reggie {
                 else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
                 Velocity.X = MovementSpeed;
                 FacingDirectionRight = true;
-                AirDirectionLeft = false;
-                AirDirectionRight = true;
-                //MidAir
-                //FacingDirection;
+                PressedLeftKey = false;
+                PressedRightKey = true;
+
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 Velocity.Y = MovementSpeed;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && JumpCounter < 3)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && !JumpButtonPressed)
             {
                 if (FacingDirectionRight) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
                 else AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
+                JumpButtonPressed = true;
                 if (FirstJump == false && SecondJump == false)
-                    //JumpSpeed = -5f?
                     JumpSpeed = -10f;
                 PlayerJump();
-                JumpCounter++;
             }
             if(Keyboard.GetState().IsKeyDown(Keys.A) && Cooldown ==0)
             {
@@ -231,11 +218,11 @@ namespace Reggie {
                 Cooldown = 0;
                 PlayerAttackPressed = false;
             }
-
-
             PreviousState = Keyboard.GetState();
         }
 
+
+        //Checks if Players standard attack is hitting the enemy
         private bool PlayerAttackCollision(Enemy EnemyEntity)
         {
             if (AttackRectangle.Right + Velocity.X >= EnemyEntity.CollisionRectangle.Left &&
@@ -248,12 +235,12 @@ namespace Reggie {
               AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Top &&
               AttackRectangle.Top < EnemyEntity.CollisionRectangle.Bottom)
                 return true;
-            else if (AttackRectangle.Bottom /*+ Velocity.Y + Gravity.Y*/ > EnemyEntity.CollisionRectangle.Top &&
+            else if (AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Top &&
             AttackRectangle.Top < EnemyEntity.CollisionRectangle.Top &&
             AttackRectangle.Right > EnemyEntity.CollisionRectangle.Left &&
             AttackRectangle.Left < EnemyEntity.CollisionRectangle.Right)
                 return true;
-            else if (AttackRectangle.Top /*+ Velocity.Y*/ < EnemyEntity.CollisionRectangle.Bottom &&
+            else if (AttackRectangle.Top < EnemyEntity.CollisionRectangle.Bottom &&
            AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Bottom &&
            AttackRectangle.Right > EnemyEntity.CollisionRectangle.Left &&
            AttackRectangle.Left < EnemyEntity.CollisionRectangle.Right)
@@ -261,6 +248,8 @@ namespace Reggie {
             else
                 return false;
         }
+
+        //Reduces player's hp if he is hit by the enemy
         public void ReducePlayerHP()
         {
             if (PlayerHP > 0)
