@@ -107,9 +107,9 @@ namespace Reggie {
             };
             SpriteList = new List<GameObject>()
             {
-                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(0,500)),
+                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(0,400)),
                 
-                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(-500,700)),
+                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(-500,600)),
       
 
                 //new Enemy(EnemyTexture, new Vector2(50, 50)),

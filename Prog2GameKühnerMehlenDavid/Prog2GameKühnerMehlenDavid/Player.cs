@@ -140,11 +140,11 @@ namespace Reggie {
                 Position = CollisionBoxPosition - ChangeCollisionBox;
                 IsStanding = false;
             }
-            else
-            {
-                IsStanding = true;
-                GravityActive = false;
-            }
+            //else
+            //{
+            //    IsStanding = true;
+            //    //GravityActive = false;
+            //}
             Velocity = Vector2.Zero;
         }
 
