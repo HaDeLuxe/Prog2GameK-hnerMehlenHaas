@@ -13,7 +13,7 @@ namespace Reggie {
         Vector2 mousePosition;
 
         //Doublejump is 2x175 high
-        int step = 175;         
+        int step = 88;         
         //Vector2 deltaMouseGameObjectPos = new Vector2(0, 0);
         bool alreadyDragged = false;
         bool ButtonPushed = false;
