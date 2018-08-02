@@ -52,7 +52,7 @@ namespace Reggie {
 
         public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> EnemyList) {
             PlayerControls(gameTime,EnemyList);
-            //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
+            Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
             PlayerPositionCalculation(gameTime, gameObjectsToRender);
         }
 
@@ -140,11 +140,11 @@ namespace Reggie {
                 Position = CollisionBoxPosition - ChangeCollisionBox;
                 IsStanding = false;
             }
-            else
-            {
-                IsStanding = true;
-                GravityActive = false;
-            }
+            //else
+            //{
+            //    IsStanding = true;
+            //    //GravityActive = false;
+            //}
             Velocity = Vector2.Zero;
         }
 
