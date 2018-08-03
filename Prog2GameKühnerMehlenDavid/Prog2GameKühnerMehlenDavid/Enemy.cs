@@ -116,7 +116,7 @@ namespace Reggie {
 
                 else if (!IsTouchingTopSide(sprite, Gravity) &&  IsStanding == false)
                 {
-                    FallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2; 
+                    
                     GravityActive = true;
                     if (PressedRightKey && KnockedBack == false)
                         Velocity.X = MovementSpeed;
@@ -129,18 +129,19 @@ namespace Reggie {
                     if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
                         Velocity.X = 0;
                 }
-                if (GravityActive && IsStanding == false)
-                {
-                    Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
-                    CollisionBoxPosition += Gravity;
-                }
-                else
-                    Gravity = Vector2.Zero;
-                if (FallCooldown >= 5)
-                    FallOutOfMap = true;
             }
+            if (GravityActive && IsStanding == false)
+            {
+                FallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
+                CollisionBoxPosition += Gravity;
+            }
+            else
+                Gravity = Vector2.Zero;
             CollisionBoxPosition += Velocity;
             Velocity = Vector2.Zero;
+            if (FallCooldown >= 5)
+                    FallOutOfMap = true;
             if (Position != CollisionBoxPosition - ChangeCollisionBox)
             {
                 Position = CollisionBoxPosition - ChangeCollisionBox;
