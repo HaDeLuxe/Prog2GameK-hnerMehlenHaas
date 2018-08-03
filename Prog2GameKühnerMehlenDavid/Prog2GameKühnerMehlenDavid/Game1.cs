@@ -33,6 +33,8 @@ namespace Reggie {
         Texture2D EnemyTexture;
         Texture2D background;
         Texture2D Platform_320_64;
+        Texture2D Transparent_Wall_500x50;
+        Texture2D Transparent_Wall_1000x50;
 
         StateMachine StateMachine;
         AnimationManager animManager;
@@ -44,7 +46,6 @@ namespace Reggie {
         Color[] colorData;
         Vector2 enemyaggroposition;
 
-        bool LevelEditorActivated = false;
         Matrix TransformationMatrix;
 
         private Vector2 cameraOffset;
@@ -120,6 +121,10 @@ namespace Reggie {
             background = Content.Load<Texture2D>("Images\\Lvl1_Background");
             Platform_320_64 = Content.Load<Texture2D>("Images\\Platform_320_64");
             platformTextures.Add("Green_320_64", Platform_320_64);
+            Transparent_Wall_500x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_500x50");
+            platformTextures.Add("Transparent_500x50", Transparent_Wall_500x50);
+            Transparent_Wall_1000x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_1000x50");
+            platformTextures.Add("Transparent_1000x50", Transparent_Wall_1000x50);
             // TODO: use this.Content to load your game content here
         }
 
@@ -196,7 +201,7 @@ namespace Reggie {
 
             if (CurrentGameState == GameState.LEVELEDITOR)
             {
-                levelEditor.movePlatforms(ref SpriteList, TransformationMatrix);
+                levelEditor.moveOrDeletePlatforms(ref SpriteList, TransformationMatrix);
                 this.IsMouseVisible = true;
                 levelEditor.moveCamera(ref cameraOffset);
             }
@@ -223,9 +228,12 @@ namespace Reggie {
             //added block for better readability
             {
                 //spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
-                spriteBatch.Draw(background, new Vector2(-5000, -2800), null, Color.White, 0f,Vector2.Zero, 5.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(background, new Vector2(0, -1000), null, Color.White, 0f,Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(background, new Vector2(-4000, -1000), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(background, new Vector2(-8000, -1000), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
 
-                
+
+
                 //Comment: SEE Framecounter.cs for additional commentary
                 var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 _frameCounter.Update(deltaTime);
