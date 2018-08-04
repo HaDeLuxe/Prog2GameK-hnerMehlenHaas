@@ -26,6 +26,7 @@ namespace Reggie {
         public Vector2 Velocity;
         public Color color = Color.White;
         public bool IsDragged = false;
+        public bool GetsDrawn = true;
 
 
 
@@ -44,7 +45,23 @@ namespace Reggie {
             Position = _Position;
         }
 
+        public Texture2D getTexture() {
+            return SpriteTexture;
+        }
+
         public virtual void Update(GameTime gameTime, List<GameObject> spriteList) { }
+
+        public void DontDrawThisObject() {
+            GetsDrawn = false;
+        }
+
+        public void DrawThisObject() {
+            GetsDrawn = true;
+        }
+
+        public bool IsThisAVisibleObject() {
+            return GetsDrawn;
+        }
 
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch) {
             spriteBatch.Draw(SpriteTexture, Position, color);

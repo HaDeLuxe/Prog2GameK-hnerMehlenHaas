@@ -27,7 +27,7 @@ namespace Reggie {
         List<Enemy> EnemyList;
         List<Enemy> ViewableEnemies;
         List<GameObject> gameObjectsToRender;
-        Dictionary<string, Texture2D> platformTextures;
+        Dictionary<string, Texture2D> TexturesDictionnary;
 
         Texture2D enemytexture;
         Texture2D EnemyTexture;
@@ -35,6 +35,7 @@ namespace Reggie {
         Texture2D Platform_320_64;
         Texture2D Transparent_Wall_500x50;
         Texture2D Transparent_Wall_1000x50;
+        Texture2D LevelEditorUIBackButton;
 
         StateMachine StateMachine;
         AnimationManager animManager;
@@ -45,6 +46,7 @@ namespace Reggie {
         Camera camera = new Camera();
         Color[] colorData;
         Vector2 enemyaggroposition;
+        Enums Enums;
 
         Matrix TransformationMatrix;
 
@@ -67,7 +69,8 @@ namespace Reggie {
             playerSpriteSheets = new Dictionary<string, Texture2D>();
             levelEditor = new LevelEditor();
             cameraOffset = new Vector2(0, 0);
-            platformTextures = new Dictionary<string, Texture2D>();
+            TexturesDictionnary = new Dictionary<string, Texture2D>();
+            Enums = new Enums();
         }
 
         /// <summary>
@@ -90,7 +93,6 @@ namespace Reggie {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
             font = Content.Load<SpriteFont>("Arial");
             EnemyTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D PlatformTexture = Content.Load<Texture2D>("Images\\floor");
@@ -108,9 +110,9 @@ namespace Reggie {
             };
             SpriteList = new List<GameObject>()
             {
-                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(0,400)),
+                //new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(0,400)),
                 
-                new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(-500,600)),
+                //new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(-500,600)),
       
 
                 //new Enemy(EnemyTexture, new Vector2(50, 50)),
@@ -120,11 +122,16 @@ namespace Reggie {
 
             background = Content.Load<Texture2D>("Images\\Lvl1_Background");
             Platform_320_64 = Content.Load<Texture2D>("Images\\Platform_320_64");
-            platformTextures.Add("Green_320_64", Platform_320_64);
+            TexturesDictionnary.Add("Green_320_64", Platform_320_64);
             Transparent_Wall_500x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_500x50");
-            platformTextures.Add("Transparent_500x50", Transparent_Wall_500x50);
+            TexturesDictionnary.Add("Transparent_500x50", Transparent_Wall_500x50);
             Transparent_Wall_1000x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_1000x50");
-            platformTextures.Add("Transparent_1000x50", Transparent_Wall_1000x50);
+            TexturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1000x50);
+            LevelEditorUIBackButton = Content.Load<Texture2D>("Images\\UI\\LvlEdtorSaveButton");
+            TexturesDictionnary.Add("LevelEditorUIBackButton", LevelEditorUIBackButton);
+
+
+            loadGameObjects();
             // TODO: use this.Content to load your game content here
         }
 
@@ -228,9 +235,9 @@ namespace Reggie {
             //added block for better readability
             {
                 //spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
-                spriteBatch.Draw(background, new Vector2(0, -1000), null, Color.White, 0f,Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(background, new Vector2(-4000, -1000), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(background, new Vector2(-8000, -1000), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f,Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
 
 
 
@@ -265,15 +272,16 @@ namespace Reggie {
                 switch (CurrentGameState)
                 {
                     case GameState.GAMELOOP:
-                        //this draws the platforms
+                        //this draws the platforms visible in the viewport
                         foreach (var PlatformSprite in gameObjectsToRender)
+                            if(PlatformSprite.IsThisAVisibleObject())
                             PlatformSprite.DrawSpriteBatch(spriteBatch);
                         break;
                     case GameState.LEVELEDITOR:
-                        //this draws the platforms
+                        //this draws all the platforms in the game
                         foreach (var PlatformSprite in SpriteList)
                             PlatformSprite.DrawSpriteBatch(spriteBatch);
-                        levelEditor.DrawLvlEditorUI(platformTextures, spriteBatch,TransformationMatrix, ref SpriteList);
+                        levelEditor.DrawLvlEditorUI(TexturesDictionnary, spriteBatch,TransformationMatrix, ref SpriteList);
                         break;
                 }
 
@@ -282,6 +290,36 @@ namespace Reggie {
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+
+        private void loadGameObjects() {
+            List<string> data = new List<string>(System.IO.File.ReadAllLines(@"SaveFile.txt"));
+
+            List<String> DataSeperated = new List<String>();
+            foreach (String s in data)
+            {
+                List<String> tempStringList = s.Split(',').ToList();
+                foreach (String st in tempStringList) DataSeperated.Add(st);
+            }
+
+            for (int i = 0; i < DataSeperated.Count(); i++)
+            {
+                if (DataSeperated[i] == Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString())
+                {
+                    SpriteList.Add(new Platform(TexturesDictionnary["Green_320_64"], new Vector2(320, 64), new Vector2(Int32.Parse(DataSeperated[i+1]), Int32.Parse(DataSeperated[i+2]))));
+                }
+                if (DataSeperated[i] == Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString())
+                {
+                    SpriteList.Add(new Platform(TexturesDictionnary["Transparent_500x50"], new Vector2(500, 50), new Vector2(Int32.Parse(DataSeperated[i + 1]), Int32.Parse(DataSeperated[i + 2]))));
+                    SpriteList.Last().DontDrawThisObject();
+                }
+                if (DataSeperated[i] == Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString())
+                {
+                    SpriteList.Add(new Platform(TexturesDictionnary["Transparent_1000x50"], new Vector2(1000, 50),  new Vector2(Int32.Parse(DataSeperated[i + 1]), Int32.Parse(DataSeperated[i + 2]))));
+                    SpriteList.Last().DontDrawThisObject();
+                }
+            }
         }
     }
 }

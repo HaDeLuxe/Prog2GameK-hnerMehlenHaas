@@ -25,7 +25,7 @@ namespace Reggie {
             List<GameObject> objectsToRender = new List<GameObject>();
             for(int i = 0; i < gameObjectsList.Count; i++)
             {
-                if (gameObjectsList[i].Position.X < playerPosition.X + 950 && gameObjectsList[i].SpriteRectangle.Right > playerPosition.X - 950)
+                if (gameObjectsList[i].Position.X < playerPosition.X + 1250 && gameObjectsList[i].SpriteRectangle.Right > playerPosition.X - 950)
                 {
                     if (gameObjectsList[i].Position.Y < playerPosition.Y + 550 && gameObjectsList[i].SpriteRectangle.Bottom > playerPosition.Y - 550)
                     {
