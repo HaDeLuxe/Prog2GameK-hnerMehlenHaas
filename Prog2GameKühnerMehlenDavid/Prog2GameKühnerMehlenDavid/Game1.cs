@@ -50,7 +50,7 @@ namespace Reggie {
 
         Matrix TransformationMatrix;
 
-        private Vector2 cameraOffset;
+        public static Vector2 cameraOffset;
 
 
 
@@ -102,21 +102,13 @@ namespace Reggie {
             playerSpriteSheets.Add("playerMoveSpriteSheet", PlayerMoveSpriteSheet);
 
             animManager = new AnimationManager(playerSpriteSheets);
-            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5), new Vector2(0,0));
+            WormPlayer = new Player(PlayerMoveSpriteSheet, new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"] / 5), new Vector2(400,500));
             
             EnemyList = new List<Enemy>()
             {
                 new Enemy(EnemyTexture, new Vector2(50,50),new Vector2(700,200)),
             };
-            SpriteList = new List<GameObject>()
-            {
-                //new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(0,400)),
-                
-                //new Platform(PlatformTexture, new Vector2(1800,100), new Vector2(-500,600)),
-      
-
-                //new Enemy(EnemyTexture, new Vector2(50, 50)),
-            };
+            SpriteList = new List<GameObject>();
             foreach (var enemy in EnemyList)
                 enemy.SetPlayer(WormPlayer);
 
@@ -162,11 +154,11 @@ namespace Reggie {
             //Ant.Update(gameTime, SpriteList);
             WormPlayer.Update(gameTime, gameObjectsToRender,ViewableEnemies);
             enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
-            colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];
-            for (int i = 0; i < (WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y); i++)
-                colorData[i] = Color.White;
-            enemytexture.SetData<Color>(colorData);
-            enemyaggroposition = new Vector2(WormPlayer.CollisionRectangle.X, WormPlayer.CollisionRectangle.Y);
+            //colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];
+            //for (int i = 0; i < (WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y); i++)
+            //    colorData[i] = Color.White;
+            //enemytexture.SetData<Color>(colorData);
+            //enemyaggroposition = new Vector2(WormPlayer.CollisionRectangle.X, WormPlayer.CollisionRectangle.Y);
             int enemycounter = 0;
             //if (EnemyList.Count != 0)
                 foreach (var enemy in EnemyList.ToList())
@@ -212,7 +204,7 @@ namespace Reggie {
                 this.IsMouseVisible = true;
                 levelEditor.moveCamera(ref cameraOffset);
             }
-            else cameraOffset = new Vector2(0, 0);
+            //else cameraOffset = new Vector2(0, 0);
             
             
 
@@ -228,7 +220,7 @@ namespace Reggie {
             
             // TODO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
-            Vector2 screenCentre = new Vector2(viewport.Width / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/10)-200 + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/10)+50 + cameraOffset.Y);
+            Vector2 screenCentre = new Vector2(viewport.Width / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_X"]/10) + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.SpritesSizes["Reggie_Move_Y"]/10)+50 + cameraOffset.Y);
             camera.setCameraWorldPosition(WormPlayer.Position);
             TransformationMatrix = camera.cameraTransformationMatrix(viewport, screenCentre);
             spriteBatch.Begin(0, null, null, null,null,null,TransformationMatrix);

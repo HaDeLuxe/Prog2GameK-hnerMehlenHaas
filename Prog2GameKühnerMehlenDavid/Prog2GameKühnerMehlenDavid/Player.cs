@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace Reggie {
     public class Player : GameObject {
         KeyboardState PreviousState;
+        
         bool FirstJump;
         bool SecondJump;
         bool JumpButtonPressed;
@@ -19,6 +20,8 @@ namespace Reggie {
         float JumpSpeed;
         float Cooldown;
         int PlayerHP;
+
+        Camera Camera = new Camera();
        
         public Rectangle AttackRectangle
         {
@@ -158,6 +161,8 @@ namespace Reggie {
         //Contains Player Movement in all 4 directions and the attack
         private void PlayerControls(GameTime gameTime, List<Enemy> EnemyList)
         {
+          
+
             if (!FirstJump && !SecondJump)
             {
                 if(AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left)
@@ -168,6 +173,7 @@ namespace Reggie {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
+                Camera.cameraOffset(gameTime, false, true);
                 if (FirstJump == true || SecondJump == true)
                 {
                     AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
@@ -180,6 +186,9 @@ namespace Reggie {
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
+                //while(Camera.returnCameraEnd() == false)
+                Camera.cameraOffset(gameTime, true, true);
+
                 if (FirstJump || SecondJump) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
                 else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
                 Velocity.X = MovementSpeed;
@@ -219,6 +228,19 @@ namespace Reggie {
                 PlayerAttackPressed = false;
             }
             PreviousState = Keyboard.GetState();
+
+
+            if (Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.Left) && !FirstJump && !SecondJump)
+            {
+                if (FacingDirectionRight)
+                {
+                    Camera.cameraOffset(gameTime, false, false);
+                }
+                if (!FacingDirectionRight)
+                {
+                    Camera.cameraOffset(gameTime, true, false);
+                }
+            }
         }
 
 

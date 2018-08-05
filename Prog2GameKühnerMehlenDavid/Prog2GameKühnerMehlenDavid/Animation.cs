@@ -18,18 +18,7 @@ namespace Reggie {
         private float timeUntilNextFrame;
         public Texture2D texture = null;
 
-
-
-        //public void AddRectanglesToList(int singleSpriteXSize, int singleSpriteYSize) {
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        for (int m = 0; m < 5; m++)
-        //        {
-        //            Rectangle tempRec = new Rectangle(singleSpriteXSize * m, singleSpriteYSize * i, singleSpriteXSize, singleSpriteYSize);
-        //        }
-        //    }
-        //}
-
+        
         public int currentFrameGetSetter{get{ return currentFrame; }}
 
         public SpriteEffects getSpriteEffects() 
