@@ -151,7 +151,6 @@ namespace Reggie {
 
             gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
             ViewableEnemies = camera.RenderedEnemies(WormPlayer.Position, EnemyList);
-            //Ant.Update(gameTime, SpriteList);
             WormPlayer.Update(gameTime, gameObjectsToRender,ViewableEnemies);
             enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
             //colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];

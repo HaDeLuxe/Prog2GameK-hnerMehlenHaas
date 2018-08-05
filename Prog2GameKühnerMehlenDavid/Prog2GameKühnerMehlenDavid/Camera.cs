@@ -60,35 +60,58 @@ namespace Reggie {
 
         float timeUntilNextFrame = 0;
         int cap = 200;
+        public int counterLeft = 0;
+        public int counterRight = 0;
+
+        public void IncreaseLeftCounter() { counterLeft++; }
+        public void IncreaseRightCounter(){ counterRight++; }
+        public void ResetLeftCounter(){ counterLeft = 0; }
+        public void ResetRightCounter(){ counterRight = 0; }
 
         public void cameraOffset(GameTime GameTime, bool Left, bool isMoving) 
         {
-            if(isMoving) cap = 0;
-            else cap = 200;
-            float animationFrameTime = 1f/1000f;
-            
-            float gameFrameTime = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            timeUntilNextFrame -= gameFrameTime;
-
-            if (timeUntilNextFrame <= 0)
+            if(Game1.CurrentGameState == Game1.GameState.GAMELOOP)
             {
-                if (Left && Game1.cameraOffset.X <= cap)
+                if(isMoving) cap = 0;
+                else cap = 200;
+                float animationFrameTime = 1f/1000f;
+            
+                float gameFrameTime = (float)GameTime.ElapsedGameTime.TotalSeconds;
+                timeUntilNextFrame -= gameFrameTime;
+
+                if (timeUntilNextFrame <= 0)
                 {
-                    Game1.cameraOffset.X += 10;
+                    if (Left && Game1.cameraOffset.X <= cap)
+                    {
+                        if(counterLeft >= 25)
+                        Game1.cameraOffset.X += 10;
+                        else if (Game1.cameraOffset.X <= 0) Game1.cameraOffset.X += 10;
+                    }
+                    if (!Left && Game1.cameraOffset.X >= -cap)
+                    {
+                        if (counterRight >= 25)
+                            Game1.cameraOffset.X -= 10;
+                        else if (Game1.cameraOffset.X >= 0) Game1.cameraOffset.X -= 10;
+                    }
+                    if (Game1.cameraOffset.X > 200)
+                    {
+                        Game1.cameraOffset.X = cap;
+                    }
+                    if (Game1.cameraOffset.X < -200)
+                    {
+                        Game1.cameraOffset.X = -cap;
+                    }
+                    if (isMoving && Left && Game1.cameraOffset.X > 0 && Game1.cameraOffset.X > cap)
+                    {
+                        Game1.cameraOffset.X -= 10;
+                    }
+                    if (isMoving && !Left && Game1.cameraOffset.X < 0 && Game1.cameraOffset.X < cap)
+                    {
+                        Game1.cameraOffset.X += 10;
+                    }
+                    timeUntilNextFrame += animationFrameTime;
+
                 }
-                if (!Left && Game1.cameraOffset.X >= -cap)
-                {
-                    Game1.cameraOffset.X -= 10;
-                }
-                if (Game1.cameraOffset.X > 200)
-                {
-                    Game1.cameraOffset.X = cap;
-                }
-                if (Game1.cameraOffset.X < -200)
-                {
-                    Game1.cameraOffset.X = -cap;
-                }
-                timeUntilNextFrame += animationFrameTime;
             }
         }
        

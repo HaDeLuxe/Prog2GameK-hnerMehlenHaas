@@ -171,8 +171,18 @@ namespace Reggie {
                     AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
             }
 
+
+            
+
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
+                //-----------------------
+               
+                Camera.IncreaseLeftCounter();
+                Camera.ResetRightCounter();
+
+                //-----------------------
+
                 Camera.cameraOffset(gameTime, false, true);
                 if (FirstJump == true || SecondJump == true)
                 {
@@ -186,9 +196,13 @@ namespace Reggie {
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                //while(Camera.returnCameraEnd() == false)
-                Camera.cameraOffset(gameTime, true, true);
+                //-----------------------
+                
+                Camera.IncreaseRightCounter();
+                Camera.ResetLeftCounter();
 
+                //-----------------------
+                Camera.cameraOffset(gameTime, true, true);
                 if (FirstJump || SecondJump) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
                 else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
                 Velocity.X = MovementSpeed;
