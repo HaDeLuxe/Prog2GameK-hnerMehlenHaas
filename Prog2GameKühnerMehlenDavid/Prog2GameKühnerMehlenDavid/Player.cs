@@ -144,11 +144,6 @@ namespace Reggie {
                 Position = CollisionBoxPosition - ChangeCollisionBox;
                 IsStanding = false;
             }
-            //else
-            //{
-            //    IsStanding = true;
-            //    //GravityActive = false;
-            //}
             Velocity = Vector2.Zero;
         }
 
@@ -176,14 +171,14 @@ namespace Reggie {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                //-----------------------
                
+               //Camera won't move after simple turning
                 Camera.IncreaseLeftCounter();
                 Camera.ResetRightCounter();
-
-                //-----------------------
-
+                
+                //Camera moves to a direction so that you see better what is coming to you
                 Camera.cameraOffset(gameTime, false, true);
+
                 if (FirstJump == true || SecondJump == true)
                 {
                     AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;

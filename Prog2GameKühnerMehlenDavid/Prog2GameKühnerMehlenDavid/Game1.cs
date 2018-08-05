@@ -32,6 +32,7 @@ namespace Reggie {
         Texture2D enemytexture;
         Texture2D EnemyTexture;
         Texture2D background;
+        Texture2D Sky_2000_500;
         Texture2D Platform_320_64;
         Texture2D Transparent_Wall_500x50;
         Texture2D Transparent_Wall_1000x50;
@@ -113,6 +114,7 @@ namespace Reggie {
                 enemy.SetPlayer(WormPlayer);
 
             background = Content.Load<Texture2D>("Images\\Lvl1_Background");
+            Sky_2000_500 = Content.Load<Texture2D>("Images\\Sky_2000x1000");
             Platform_320_64 = Content.Load<Texture2D>("Images\\Platform_320_64");
             TexturesDictionnary.Add("Green_320_64", Platform_320_64);
             Transparent_Wall_500x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_500x50");
@@ -229,6 +231,10 @@ namespace Reggie {
                 spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f,Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
                 spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+
 
 
 

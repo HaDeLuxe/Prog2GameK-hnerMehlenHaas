@@ -61,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/floor.png
 
-#begin Images/enemyRed1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/enemyRed1.png
-
 #begin Images/Reggie_Move_Even_Smaller.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -175,4 +163,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/UI/LvlEdtorSaveButton.png
+
+#begin Images/Sky_2000x1000.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Sky_2000x1000.png
 
