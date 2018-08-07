@@ -44,7 +44,7 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Jump_Animation_Right", Jump_Animation_Right);
             Attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 40f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Left", Attack_Animation_Left);
-            Attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 40f);
+            Attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Right", Attack_Animation_Right);
 
             AnimationQueue = new Queue<Animations>();
@@ -62,32 +62,43 @@ namespace Reggie {
         {
             currentAnimation = AnimationQueue.Peek();
 
-            if (AnimationQueue.Count() > 1 && (AnimationQueue.Peek() == Animations.Jump_Left 
+            if (AnimationQueue.Count() > 1 && (AnimationQueue.Peek() == Animations.Jump_Left
                                            || AnimationQueue.Peek() == Animations.Jump_Right
                                            || AnimationQueue.Peek() == Animations.Walk_Left
-                                           || AnimationQueue.Peek() == Animations.Walk_Right)) AnimationQueue.Dequeue();
-            if(AnimationQueue.Count() > 1 && (AnimationQueue.Peek() == Animations.Attack_Left
+                                           || AnimationQueue.Peek() == Animations.Walk_Right))
+                AnimationQueue.Dequeue();
+            if (AnimationQueue.Count() > 1 && (AnimationQueue.Peek() == Animations.Attack_Left
                                            || AnimationQueue.Peek() == Animations.Attack_Right))
             {
-                if(Attack_Animation_Left.getPlayedOnce() == true || Attack_Animation_Right.getPlayedOnce() == true)
+                if (Attack_Animation_Left.getPlayedOnce() == true)
                 {
                     AnimationQueue.Dequeue();
-                    Attack_Animation_Right.resetPlayedOnce();
                     Attack_Animation_Left.resetPlayedOnce();
                 }
             }
-            if (AnimationQueue.Count() == 1 && (AnimationQueue.Peek() == Animations.Attack_Left
-                                          || AnimationQueue.Peek() == Animations.Attack_Right))
-            {
-                if (Attack_Animation_Left.getPlayedOnce() == true || Attack_Animation_Right.getPlayedOnce() == true)
-                {
-                    AnimationQueue.Enqueue(PreviousAnimation);
-                    AnimationQueue.Dequeue();
-                    Attack_Animation_Right.resetPlayedOnce();
-                    Attack_Animation_Left.resetPlayedOnce();
-                }
-            }
+            //if (AnimationQueue.Count() == 1 && (AnimationQueue.Peek() == Animations.Attack_Left
+            //                                || AnimationQueue.Peek() == Animations.Attack_Right))
+            //{
+            //    if (Attack_Animation_Left.getPlayedOnce() == true || Attack_Animation_Right.getPlayedOnce() == true)
+            //    {
+            //        AnimationQueue.Enqueue(PreviousAnimation);
+            //        AnimationQueue.Dequeue();
+            //        Attack_Animation_Right.resetPlayedOnce();
+            //        Attack_Animation_Left.resetPlayedOnce();
+            //    }
+            //}
 
+            if (currentAnimation == Animations.Attack_Left || currentAnimation == Animations.Attack_Right)
+            {
+                if(!Attack_Animation_Left.getPlayedOnce())
+                {
+                    currentAnimation = Animations.Attack_Left;
+                }
+                if (!Attack_Animation_Right.getPlayedOnce())
+                {
+                    currentAnimation = Animations.Attack_Right;
+                }
+            }
 
 
                 Rectangle tempRec;

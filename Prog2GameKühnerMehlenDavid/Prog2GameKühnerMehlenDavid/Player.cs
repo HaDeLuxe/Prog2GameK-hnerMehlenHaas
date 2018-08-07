@@ -245,8 +245,8 @@ namespace Reggie {
             {
                 if (FacingDirectionRight)
                 {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Attack_Right;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Attack_Right);
+                    AnimationManager.currentAnimation = AnimationManager.Animations.Attack_Right;
+                    //AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Attack_Right);
                     
                 }
                 else
