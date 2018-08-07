@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reggie {
-    class StateMachine {
+namespace Reggie
+{
+    class EventHandler
+    {
 
         KeyboardState PreviousState;
 

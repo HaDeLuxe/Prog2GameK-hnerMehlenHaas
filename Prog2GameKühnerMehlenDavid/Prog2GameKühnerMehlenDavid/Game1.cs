@@ -39,7 +39,7 @@ namespace Reggie {
         Texture2D Transparent_Wall_1000x50;
         Texture2D LevelEditorUIBackButton;
 
-        StateMachine StateMachine;
+        EventHandler eventHandler;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -60,7 +60,7 @@ namespace Reggie {
         Dictionary<String, Texture2D> playerSpriteSheets;
 
         public Game1() {
-            StateMachine = new StateMachine();
+            eventHandler = new EventHandler();
             CurrentGameState = GameState.GAMELOOP;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -154,7 +154,7 @@ namespace Reggie {
                 Exit();
 
             //Manage Game States:
-            StateMachine.ManageGameStates();
+            eventHandler.ManageGameStates();
           
             switch (CurrentGameState)
             {
