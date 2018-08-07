@@ -83,6 +83,7 @@ namespace Reggie {
                     {
                         Velocity.Y = 0;
                         JumpSpeed = 0;
+                        Gravity.Y = 0;
                         CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
                         GravityActive = true;
                     }
@@ -131,8 +132,8 @@ namespace Reggie {
                 PlayerJump();
             if (GravityActive && IsStanding == false)
             {
-                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 60;
-                if (Gravity.Y > -JumpSpeed && PreviousState.IsKeyDown(Keys.Space))
+                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
+                if (Gravity.Y > 20 && PreviousState.IsKeyDown(Keys.Space))
                     Gravity.Y = 23f;
                 CollisionBoxPosition.Y += Gravity.Y;
             }

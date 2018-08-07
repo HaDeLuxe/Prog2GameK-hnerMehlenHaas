@@ -173,6 +173,8 @@ namespace Reggie {
                 Velocity.X = MovementSpeed;
         }
 
+        public virtual void EnemyAttack() { }
+
         private bool DetectPlayer()
         {
             if (EnemyAggroArea.Right + Velocity.X > Worm.CollisionRectangle.Left &&
@@ -210,6 +212,7 @@ namespace Reggie {
         {
             return StillAlive;
         }
+
         public void KnockBackPosition(bool KnockBackDirectionRight)
         {
             KnockedBack = true;
