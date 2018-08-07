@@ -48,7 +48,7 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Attack_Animation_Right", Attack_Animation_Right);
 
             AnimationQueue = new Queue<Animations>();
-            AnimationQueue.Enqueue(Animations.Walk_Left);
+            AnimationQueue.Enqueue(Animations.Walk_Right);
 
         }
 
@@ -69,17 +69,28 @@ namespace Reggie {
             if(AnimationQueue.Count() > 1 && (AnimationQueue.Peek() == Animations.Attack_Left
                                            || AnimationQueue.Peek() == Animations.Attack_Right))
             {
-                if(Attack_Animation_Left.getPlayedOnce() || Attack_Animation_Right.getPlayedOnce())
+                if(Attack_Animation_Left.getPlayedOnce() == true || Attack_Animation_Right.getPlayedOnce() == true)
                 {
                     AnimationQueue.Dequeue();
-                    //Attack_Animation_Right.resetPlayedOnce();
-                    //Attack_Animation_Left.resetPlayedOnce();
+                    Attack_Animation_Right.resetPlayedOnce();
+                    Attack_Animation_Left.resetPlayedOnce();
+                }
+            }
+            if (AnimationQueue.Count() == 1 && (AnimationQueue.Peek() == Animations.Attack_Left
+                                          || AnimationQueue.Peek() == Animations.Attack_Right))
+            {
+                if (Attack_Animation_Left.getPlayedOnce() == true || Attack_Animation_Right.getPlayedOnce() == true)
+                {
+                    AnimationQueue.Enqueue(PreviousAnimation);
+                    AnimationQueue.Dequeue();
+                    Attack_Animation_Right.resetPlayedOnce();
+                    Attack_Animation_Left.resetPlayedOnce();
                 }
             }
 
 
 
-            Rectangle tempRec;
+                Rectangle tempRec;
             switch (currentAnimation)
             {
                 case Animations.Walk_Right:
