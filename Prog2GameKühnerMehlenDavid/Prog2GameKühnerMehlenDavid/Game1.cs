@@ -158,12 +158,16 @@ namespace Reggie {
           
             switch (CurrentGameState)
             {
+                case GameState.SPLASHSCREEN:
+                    break;
+                case GameState.MAINMENU:
+                    break;
                 case GameState.LEVELEDITOR:
               
                         levelEditor.moveOrDeletePlatforms(ref SpriteList, TransformationMatrix);
                         this.IsMouseVisible = true;
                         levelEditor.moveCamera(ref cameraOffset);
-                    // Makes player movable in the leveleditor
+                    // Makes player movable in the leveleditor //Enemies are alive but not visible
                     WormPlayer.Update(gameTime, gameObjectsToRender, ViewableEnemies);
                     break;
 
@@ -244,45 +248,51 @@ namespace Reggie {
             spriteBatch.Begin(0, null, null, null,null,null,TransformationMatrix);
             //added block for better readability
             {
-                //spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
-                spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f,Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-
-
-
-
-                //Comment: SEE Framecounter.cs for additional commentary
-                var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                _frameCounter.Update(deltaTime);
-                var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
-                spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X-620, WormPlayer.Position.Y-490), Color.Black);
-                //end comment.
                 
-                //this draws the enemy
-                //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
-                foreach (var enemy in EnemyList.ToList())
-                    enemy.DrawSpriteBatch(spriteBatch);
-                
-                //This draws the player
-                animManager.animation(gameTime,ref WormPlayer, spriteBatch);
-
                 switch (CurrentGameState)
                 {
                     case GameState.GAMELOOP:
+
+                        //TODO: LEVEL CLASS --> Draw Function
+                        //BACKGROUND
+                        spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+
+                        //this draws the enemy
+                        //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                        foreach (var enemy in EnemyList.ToList())
+                            enemy.DrawSpriteBatch(spriteBatch);
+
+                        //This draws the player
+                        animManager.animation(gameTime, ref WormPlayer, spriteBatch);
                         //this draws the platforms visible in the viewport
                         foreach (var PlatformSprite in gameObjectsToRender)
                             if(PlatformSprite.IsThisAVisibleObject())
                             PlatformSprite.DrawSpriteBatch(spriteBatch);
                         break;
+
                     case GameState.LEVELEDITOR:
+
+                        //TODO: LEVEL CLASS --> Draw Function
+                        //BACKGROUND
+                        spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+
                         //this draws all the platforms in the game
                         foreach (var PlatformSprite in SpriteList)
                             PlatformSprite.DrawSpriteBatch(spriteBatch);
                         levelEditor.DrawLvlEditorUI(TexturesDictionnary, spriteBatch, TransformationMatrix, ref SpriteList);
+
+                        //This draws the player
+                        animManager.animation(gameTime, ref WormPlayer, spriteBatch);
 
                         //Writes Leveleditor Text when Level Editor is enabled
                         string lvlEditorString = "Level Editor Enabled!";
@@ -290,7 +300,13 @@ namespace Reggie {
                         break;
                 }
 
-               
+                //Comment: SEE Framecounter.cs for additional commentary
+                var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                _frameCounter.Update(deltaTime);
+                var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+                spriteBatch.DrawString(font, fps, new Vector2(WormPlayer.Position.X - 620, WormPlayer.Position.Y - 490), Color.Black);
+                //end comment.
+
             }
 
             spriteBatch.End();
