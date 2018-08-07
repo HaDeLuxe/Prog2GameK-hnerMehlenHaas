@@ -29,7 +29,8 @@ namespace Reggie {
         List<GameObject> gameObjectsToRender;
         Dictionary<string, Texture2D> TexturesDictionnary;
 
-        Texture2D enemytexture;
+        int enemycounter;
+        //Texture2D enemytexture;
         Texture2D EnemyTexture;
         Texture2D background;
         Texture2D Sky_2000_500;
@@ -45,8 +46,8 @@ namespace Reggie {
         FrameCounter _frameCounter = new FrameCounter();
         SpriteFont font;
         Camera camera = new Camera();
-        Color[] colorData;
-        Vector2 enemyaggroposition;
+       // Color[] colorData;
+       // Vector2 enemyaggroposition;
         Enums Enums;
 
         Matrix TransformationMatrix;
@@ -156,14 +157,16 @@ namespace Reggie {
             gameObjectsToRender = camera.objectsToRender(WormPlayer.Position, SpriteList);
             ViewableEnemies = camera.RenderedEnemies(WormPlayer.Position, EnemyList);
             WormPlayer.Update(gameTime, gameObjectsToRender,ViewableEnemies);
-            enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
+            //enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
             //colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];
             //for (int i = 0; i < (WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y); i++)
             //    colorData[i] = Color.White;
             //enemytexture.SetData<Color>(colorData);
             //enemyaggroposition = new Vector2(WormPlayer.CollisionRectangle.X, WormPlayer.CollisionRectangle.Y);
-            int enemycounter = 0;
+            enemycounter = 0;
             //if (EnemyList.Count != 0)
+            if (EnemyList.Count < 2)
+            {
                 foreach (var enemy in EnemyList.ToList())
                 {
                     enemy.Update(gameTime, SpriteList);
@@ -171,27 +174,27 @@ namespace Reggie {
                         EnemyList.RemoveAt(enemycounter);
                     if (!EnemyList.Any())
                     {
-                    Random rand = new Random();
-                    int randomizedNumber = rand.Next(0, 3);
-                    if (randomizedNumber == 0)
-                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(100, 200)));
-                    else
-                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(600, 200)));
-                    EnemyList.Last().SetPlayer(WormPlayer);
-                }
-                    if (EnemyList.Count < 2 )
-                    {
-                    Random rand = new Random();
-                    int randomizedNumber = rand.Next(0, 3);
-                    if (randomizedNumber == 0)
-                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(400, 200)));
-                    else if(randomizedNumber == 1)
-                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(900, 200)));
-                    else
-                        EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(300, 200)));
-                    EnemyList.Last().SetPlayer(WormPlayer);
+                        Random rand = new Random();
+                        int randomizedNumber = rand.Next(0, 3);
+                        if (randomizedNumber == 0)
+                            EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(100, 200)));
+                        else
+                            EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(600, 200)));
+                        EnemyList.Last().SetPlayer(WormPlayer);
                     }
-                enemycounter++;
+                    if (EnemyList.Count < 2)
+                    {
+                        Random rand = new Random();
+                        int randomizedNumber = rand.Next(0, 3);
+                        if (randomizedNumber == 0)
+                            EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(400, 200)));
+                        else if (randomizedNumber == 1)
+                            EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(900, 200)));
+                        else
+                            EnemyList.Add(new Enemy(EnemyTexture, new Vector2(50, 50), new Vector2(300, 200)));
+                        EnemyList.Last().SetPlayer(WormPlayer);
+                    }
+                    enemycounter++;
                     //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemy.EnemyAggroAreaSize.W), (int)(enemy.EnemyAggroAreaSize.Z));
                     //colorData = new Color[(int)((enemy.EnemyAggroAreaSize.W) * (enemy.EnemyAggroAreaSize.Z))];
                     //for (int i = 0; i < (enemy.EnemyAggroAreaSize.W) * (enemy.EnemyAggroAreaSize.Z); i++)
@@ -199,7 +202,7 @@ namespace Reggie {
                     //enemytexture.SetData<Color>(colorData);
                     //enemyaggroposition = new Vector2(enemy.EnemyAggroArea.X, enemy.EnemyAggroArea.Y);
                 }
-
+            }
 
             if (CurrentGameState == GameState.LEVELEDITOR)
             {
@@ -257,7 +260,7 @@ namespace Reggie {
                 }
 
                 //this draws the enemy
-                spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                 foreach (var enemy in EnemyList.ToList())
                     enemy.DrawSpriteBatch(spriteBatch);
 

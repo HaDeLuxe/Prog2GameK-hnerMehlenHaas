@@ -50,7 +50,7 @@ namespace Reggie {
             CollisionBoxSize = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_Y"]);
             PlayerHP = 50;
             MovementSpeed = 10f;
-            JumpSpeed = -10f;
+            JumpSpeed = -20f;
         }
 
         public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> EnemyList) {
@@ -131,9 +131,9 @@ namespace Reggie {
                 PlayerJump();
             if (GravityActive && IsStanding == false)
             {
-                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
+                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 60;
                 if (Gravity.Y > -JumpSpeed && PreviousState.IsKeyDown(Keys.Space))
-                    Gravity.Y = 12f;
+                    Gravity.Y = 23f;
                 CollisionBoxPosition.Y += Gravity.Y;
             }
             else
@@ -236,7 +236,7 @@ namespace Reggie {
                 }
                 JumpButtonPressed = true;
                 if (FirstJump == false || SecondJump == false)
-                    JumpSpeed = -10f;
+                    JumpSpeed = -20f;
                 PlayerJump();
             }
             if(Keyboard.GetState().IsKeyDown(Keys.A) && Cooldown ==0)
