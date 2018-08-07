@@ -10,7 +10,7 @@ namespace Reggie {
 
         KeyboardState PreviousState;
 
-        public void ManageGamestates() {
+        public void ManageGameStates() {
             
             if (Keyboard.GetState().IsKeyDown(Keys.L) && !PreviousState.IsKeyDown(Keys.L))
             {

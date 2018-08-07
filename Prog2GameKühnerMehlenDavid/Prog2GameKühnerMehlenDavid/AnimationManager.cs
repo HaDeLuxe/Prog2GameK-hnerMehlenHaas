@@ -42,13 +42,13 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Jump_Animation_Left", Jump_Animation_Left);
             Jump_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Animation_Right", Jump_Animation_Right);
-            Attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 30f);
+            Attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 40f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Left", Attack_Animation_Left);
-            Attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 30f);
+            Attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 40f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Right", Attack_Animation_Right);
 
             AnimationQueue = new Queue<Animations>();
-            AnimationQueue.Enqueue(Animations.Walk_Left);
+            AnimationQueue.Enqueue(Animations.Walk_Right);
 
         }
 
