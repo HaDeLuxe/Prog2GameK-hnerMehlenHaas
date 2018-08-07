@@ -12,7 +12,7 @@ namespace Reggie {
     class Camera {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        float Zoom = .2f;
+        float Zoom = 1f;
 
         public void setCameraWorldPosition(Vector2 cameraWorldPosition) {
             this.cameraWorldPosition = cameraWorldPosition;
