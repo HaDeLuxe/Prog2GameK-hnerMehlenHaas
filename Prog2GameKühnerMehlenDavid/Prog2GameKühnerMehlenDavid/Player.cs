@@ -254,10 +254,10 @@ namespace Reggie {
                     //AnimationManager.currentAnimation = AnimationManager.Animations.Attack_Left;
                     AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Attack_Left);
                 }
-
+                // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
                 foreach (var enemy in EnemyList)
                 {
-                    if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true)
+                    if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true )
                     {
                         enemy.KnockBackPosition(FacingDirectionRight);
                     }

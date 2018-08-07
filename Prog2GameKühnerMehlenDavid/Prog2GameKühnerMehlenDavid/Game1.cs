@@ -163,6 +163,8 @@ namespace Reggie {
                         levelEditor.moveOrDeletePlatforms(ref SpriteList, TransformationMatrix);
                         this.IsMouseVisible = true;
                         levelEditor.moveCamera(ref cameraOffset);
+                    // Makes player movable in the leveleditor
+                    WormPlayer.Update(gameTime, gameObjectsToRender, ViewableEnemies);
                     break;
 
                 case GameState.GAMELOOP:
