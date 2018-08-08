@@ -18,7 +18,7 @@ namespace Reggie
             if (Game1.currentGameState == Game1.GameState.SPLASHSCREEN)
             {
                 //gibt enums zurück welche states
-               Game1.currentGameState = splashScreen.clickedButton();
+             //  Game1.currentGameState = splashScreen.clickedButton();
 
             }
             //MAINMENU
