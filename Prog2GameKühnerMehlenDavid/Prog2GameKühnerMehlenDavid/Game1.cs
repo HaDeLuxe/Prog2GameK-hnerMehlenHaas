@@ -46,6 +46,9 @@ namespace Reggie {
         FrameCounter _frameCounter = new FrameCounter();
         SpriteFont font;
         Camera camera = new Camera();
+
+       public static SplashScreen splashScreen = new SplashScreen();
+
        // Color[] colorData;
        // Vector2 enemyaggroposition;
         Enums Enums;

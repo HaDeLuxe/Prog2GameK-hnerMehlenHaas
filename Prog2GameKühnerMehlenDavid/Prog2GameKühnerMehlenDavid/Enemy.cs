@@ -6,7 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reggie {
+namespace Reggie
+{
     public class Enemy : GameObject
     {
         public Rectangle EnemyAggroArea;
