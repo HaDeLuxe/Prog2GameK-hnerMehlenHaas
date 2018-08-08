@@ -17,6 +17,8 @@ namespace Reggie {
 
         public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN }
         public static GameState currentGameState {get;set; }
+        //forces an update before draw action
+        public GameState lastGameState;
 
         public Player wormPlayer;
         public Enemy ant;
@@ -39,15 +41,16 @@ namespace Reggie {
         Texture2D Transparent_Wall_1000x50;
         Texture2D levelEditorUIBackButton;
 
-        EventHandler eventHandler;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
         FrameCounter frameCounter = new FrameCounter();
         SpriteFont font;
         Camera camera = new Camera();
+        //for switching LevelEditor
+        public static KeyboardState previousState;
 
-       public static SplashScreen splashScreen = new SplashScreen();
+        SplashScreen splashScreen = new SplashScreen();
 
        // Color[] colorData;
        // Vector2 enemyaggroposition;
@@ -62,9 +65,9 @@ namespace Reggie {
 
         Dictionary<String, Texture2D> playerSpriteSheets;
 
-        public Game1() {
-            eventHandler = new EventHandler();
-            currentGameState = GameState.GAMELOOP;
+        public Game1()
+        {
+            currentGameState = GameState.SPLASHSCREEN;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 1000;
@@ -84,7 +87,8 @@ namespace Reggie {
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize() {
+        protected override void Initialize()
+        {
             // MONO: Add your initialization logic here
 
             base.Initialize();
@@ -156,18 +160,20 @@ namespace Reggie {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //Manage Game States:
-            eventHandler.ManageGameStates();
+            lastGameState = currentGameState;
           
             switch (currentGameState)
             {
                 case GameState.SPLASHSCREEN:
-                    break;
+                    splashScreen.ClickedButton();
+                   break;
                 case GameState.MAINMENU:
                     break;
                 case GameState.LEVELEDITOR:
-              
-                        levelEditor.moveOrDeletePlatforms(ref platformList, transformationMatrix);
+
+                    levelEditor.HandleLevelEditorEvents();
+                  
+                    levelEditor.moveOrDeletePlatforms(ref platformList, transformationMatrix);
                         this.IsMouseVisible = true;
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
@@ -175,6 +181,14 @@ namespace Reggie {
                     break;
 
                 case GameState.GAMELOOP:
+
+                    //switch to LevelEditor
+                    if (currentGameState == GameState.GAMELOOP)
+                    {
+                        if (Keyboard.GetState().IsKeyDown(Keys.L) && !previousState.IsKeyDown(Keys.L))
+                            currentGameState = GameState.LEVELEDITOR;
+                        previousState = Keyboard.GetState();
+                    }
 
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, platformList);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
@@ -240,7 +254,10 @@ namespace Reggie {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            if (lastGameState != GameState.GAMELOOP)
+            {
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+            }
             
             
             // MONO: Add your drawing code here
@@ -248,47 +265,64 @@ namespace Reggie {
             Vector2 screenCenter = new Vector2(viewport.Width / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/10) + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/10)+50 + cameraOffset.Y);
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
-            spriteBatch.Begin(0, null, null, null,null,null,transformationMatrix);
+
+            if(currentGameState == GameState.SPLASHSCREEN)
+            spriteBatch.Begin(0, null, null, null, null, null, null);
+            else
+            spriteBatch.Begin(0, null, null, null, null, null, transformationMatrix);
+
             //added block for better readability
             {
                 
                 switch (currentGameState)
                 {
+                    case GameState.SPLASHSCREEN:
+                       
+                        splashScreen.RenderSplashScreen(Content, spriteBatch);
+
+                        break;
+                    case GameState.MAINMENU:
+
+                        break;
                     case GameState.GAMELOOP:
 
-                        //TODO: LEVEL CLASS --> Draw Function
-                        //BACKGROUND
-                        spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        if(lastGameState == currentGameState)
+                        {
+                                //TODO: LEVEL CLASS --> Draw Function
+                                //BACKGROUND
+                                spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                                spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                                spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                                spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                                spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                                spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
 
-                        //this draws the enemy
-                        //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
-                        foreach (var enemy in enemyList.ToList())
-                            enemy.DrawSpriteBatch(spriteBatch);
+                            //this draws the enemy
+                            //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                            foreach (var enemy in enemyList.ToList())
+                                enemy.DrawSpriteBatch(spriteBatch);
 
-                        //This draws the player
-                        animManager.animation(gameTime, ref wormPlayer, spriteBatch);
-                        //this draws the platforms visible in the viewport
-                        foreach (var platformSprite in gameObjectsToRender)
-                            if(platformSprite.IsThisAVisibleObject())
-                            platformSprite.DrawSpriteBatch(spriteBatch);
+                            //This draws the player
+                            animManager.animation(gameTime, ref wormPlayer, spriteBatch);
+                            //this draws the platforms visible in the viewport
+                            foreach (var platformSprite in gameObjectsToRender)
+                                if (platformSprite.IsThisAVisibleObject())
+                                    platformSprite.DrawSpriteBatch(spriteBatch);
+                        }
                         break;
 
                     case GameState.LEVELEDITOR:
 
-                        //TODO: LEVEL CLASS --> Draw Function
-                        //BACKGROUND
-                        spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-
+                       
+                         //TODO: LEVEL CLASS --> Draw Function
+                         //BACKGROUND
+                            spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                       
                         //this draws all the platforms in the game
                         foreach (var platformSprite in platformList)
                             platformSprite.DrawSpriteBatch(spriteBatch);
