@@ -9,41 +9,41 @@ using System.Threading.Tasks;
 namespace Reggie {
     public class Enemy : GameObject
     {
-        public Rectangle EnemyAggroArea;
-        public Vector4 EnemyAggroAreaSize;
-        public Player Worm;
-        public int EnemyHP;
-        bool StillAlive;
-        bool KnockedBack;
-        float KnockBackValue;
-        float FallCooldown;
-        public bool FallOutOfMap;
+        public Rectangle enemyAggroArea;
+        public Vector4 enemyAggroAreaSize;
+        public Player worm;
+        public int enemyHP;
+        bool stillAlive;
+        bool knockedBack;
+        float knockBackValue;
+        float fallCooldown;
+        public bool fallOutOfMap;
         
-        public Enemy(Texture2D SpriteTexture, Vector2 SpriteSize, Vector2 Position) : base(SpriteTexture, SpriteSize, Position)
+        public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition) : base(enemyTexture, enemySize, enemyPosition)
         {
-            GravityActive = true;
-            IsStanding = false;
-            StillAlive = true;
-            KnockedBack = false;
-            FallOutOfMap = false;
-            EnemyHP = 3;
-            MovementSpeed = 1f;
-            KnockBackValue = 20f; 
+            gravityActive = true;
+            isStanding = false;
+            stillAlive = true;
+            knockedBack = false;
+            fallOutOfMap = false;
+            enemyHP = 3;
+            movementSpeed = 1f;
+            knockBackValue = 20f; 
             //Position = new Vector2(900, 200);
-            ChangeCollisionBox = new Vector2(0, 0);
-            EnemyAggroAreaSize = new Vector4(400, 300, 650, 850);
-            CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
-            EnemyAggroArea = new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(EnemyAggroAreaSize.W), (int)(EnemyAggroAreaSize.Z));
-            CollisionBoxSize = new Vector2(50, 50);
+            changeCollisionBox = new Vector2(0, 0);
+            enemyAggroAreaSize = new Vector4(400, 300, 650, 850);
+            collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
+            enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.W), (int)(enemyAggroAreaSize.Z));
+            collisionBoxSize = new Vector2(50, 50);
         }
         //public Rectangle EnemyAggroArea
         //{
         //    get { return new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y + EnemyAggroAreaSize.W)); }
         //}
-        public override void Update(GameTime gameTime, List<GameObject> spriteList) {
-            ResizeEnemyAggroArea(spriteList);
-            EnemyPositionCalculation(gameTime, spriteList);
-            if (DetectPlayer() && !KnockedBack)
+        public override void Update(GameTime gameTime, List<GameObject> gameObjectList) {
+            ResizeEnemyAggroArea(gameObjectList);
+            EnemyPositionCalculation(gameTime, gameObjectList);
+            if (DetectPlayer() && !knockedBack)
                 EnemyMovement();
         }
 
@@ -78,76 +78,76 @@ namespace Reggie {
             //}
         }
 
-        public void SetPlayer(Player WormPlayer)
+        public void SetPlayer(Player wormPlayer)
         {
-            Worm = WormPlayer;
+            worm = wormPlayer;
         }
 
-        private void EnemyPositionCalculation(GameTime gameTime, List<GameObject> spriteList)
+        private void EnemyPositionCalculation(GameTime gameTime, List<GameObject> platformList)
         {
-            foreach (var sprite in spriteList)
+            foreach (var platform in platformList)
             {
-                if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
-                   (Velocity.X < 0 && IsTouchingRightSide(sprite)))
-                    Velocity.X = 0;
-                else if (IsTouchingBottomSide(sprite,Gravity))
+                if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
+                   (velocity.X < 0 && IsTouchingRightSide(platform)))
+                    velocity.X = 0;
+                else if (IsTouchingBottomSide(platform,gravity))
                 {
-                    Velocity.Y = 0;
-                    CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
+                    velocity.Y = 0;
+                    collisionBoxPosition.Y = platform.gameObjectPosition.Y + platform.gameObjectRectangle.Height;
                     //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
-                    GravityActive = true;
+                    gravityActive = true;
                 }
-                else if (IsTouchingTopSide(sprite, Gravity))
+                else if (IsTouchingTopSide(platform, gravity))
                 {
-                    Velocity.Y = 0;
-                    Gravity = Vector2.Zero;
-                    FallCooldown = 0;
-                    CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
+                    velocity.Y = 0;
+                    gravity = Vector2.Zero;
+                    fallCooldown = 0;
+                    collisionBoxPosition.Y = platform.gameObjectPosition.Y - collisionBoxSize.Y;
                     //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     //EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
 
-                    GravityActive = false;
-                    IsStanding = true;
-                    KnockedBack = false;
-                    PressedLeftKey= false;
-                    PressedRightKey = false;
+                    gravityActive = false;
+                    isStanding = true;
+                    knockedBack = false;
+                    pressedLeftKey= false;
+                    pressedRightKey = false;
                     
                 }
 
-                else if (!IsTouchingTopSide(sprite, Gravity) &&  IsStanding == false)
+                else if (!IsTouchingTopSide(platform, gravity) &&  isStanding == false)
                 {
                     
-                    GravityActive = true;
-                    if (PressedRightKey && KnockedBack == false)
-                        Velocity.X = MovementSpeed;
-                    else if (PressedLeftKey && KnockedBack == false)
-                        Velocity.X = -MovementSpeed;
-                    else if (PressedRightKey && KnockedBack)
-                        Velocity.X = KnockBackValue;
-                    else if (PressedLeftKey && KnockedBack)
-                        Velocity.X = -KnockBackValue;
-                    if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
-                        Velocity.X = 0;
+                    gravityActive = true;
+                    if (pressedRightKey && knockedBack == false)
+                        velocity.X = movementSpeed;
+                    else if (pressedLeftKey && knockedBack == false)
+                        velocity.X = -movementSpeed;
+                    else if (pressedRightKey && knockedBack)
+                        velocity.X = knockBackValue;
+                    else if (pressedLeftKey && knockedBack)
+                        velocity.X = -knockBackValue;
+                    if (IsTouchingLeftSide(platform) || IsTouchingRightSide(platform))
+                        velocity.X = 0;
                 }
             }
-            if (GravityActive && IsStanding == false)
+            if (gravityActive && isStanding == false)
             {
-                FallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
-                CollisionBoxPosition += Gravity;
+                fallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+                gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
+                collisionBoxPosition += gravity;
             }
             else
-                Gravity = Vector2.Zero;
-            CollisionBoxPosition += Velocity;
-            Velocity = Vector2.Zero;
-            if (FallCooldown >= 5)
-                    FallOutOfMap = true;
-            if (Position != CollisionBoxPosition - ChangeCollisionBox)
+                gravity = Vector2.Zero;
+            collisionBoxPosition += velocity;
+            velocity = Vector2.Zero;
+            if (fallCooldown >= 5)
+                    fallOutOfMap = true;
+            if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
             {
-                Position = CollisionBoxPosition - ChangeCollisionBox;
-                EnemyAggroArea.X = (int)(Position.X - EnemyAggroAreaSize.X);
-                EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
-                IsStanding = false;
+                gameObjectPosition = collisionBoxPosition - changeCollisionBox;
+                enemyAggroArea.X = (int)(gameObjectPosition.X - enemyAggroAreaSize.X);
+                enemyAggroArea.Y = (int)(gameObjectPosition.Y - enemyAggroAreaSize.Y);
+                isStanding = false;
             }
             //else
             //{
@@ -159,76 +159,76 @@ namespace Reggie {
 
         private void EnemyMovement()
         {
-            if (EnemyAggroArea.Left + Velocity.X + EnemyAggroAreaSize.X > Worm.CollisionRectangle.Right &&
-                EnemyAggroArea.Left + Velocity.X < Worm.CollisionRectangle.Right &&
-              EnemyAggroArea.Right > Worm.CollisionRectangle.Right &&
-              EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
-              EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
-                Velocity.X = -MovementSpeed;
-            else if (EnemyAggroArea.Right + Velocity.X - EnemyAggroAreaSize.X /*+ SpriteSize.X*/ < Worm.CollisionRectangle.Left &&
-                EnemyAggroArea.Right + Velocity.X > Worm.CollisionRectangle.Left &&
-                EnemyAggroArea.Left < Worm.CollisionRectangle.Left &&
-                EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
-                EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
-                Velocity.X = MovementSpeed;
+            if (enemyAggroArea.Left + velocity.X + enemyAggroAreaSize.X > worm.collisionRectangle.Right &&
+                enemyAggroArea.Left + velocity.X < worm.collisionRectangle.Right &&
+              enemyAggroArea.Right > worm.collisionRectangle.Right &&
+              enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
+              enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+                velocity.X = -movementSpeed;
+            else if (enemyAggroArea.Right + velocity.X - enemyAggroAreaSize.X /*+ SpriteSize.X*/ < worm.collisionRectangle.Left &&
+                enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
+                enemyAggroArea.Left < worm.collisionRectangle.Left &&
+                enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
+                enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+                velocity.X = movementSpeed;
         }
 
         public virtual void EnemyAttack() { }
 
         private bool DetectPlayer()
         {
-            if (EnemyAggroArea.Right + Velocity.X > Worm.CollisionRectangle.Left &&
-                EnemyAggroArea.Left < Worm.CollisionRectangle.Left &&
-                EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
-                EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
+            if (enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
+                enemyAggroArea.Left < worm.collisionRectangle.Left &&
+                enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
+                enemyAggroArea.Top < worm.collisionRectangle.Bottom)
                 return true;
-            else if (EnemyAggroArea.Left + Velocity.X < Worm.CollisionRectangle.Right &&
-              EnemyAggroArea.Right > Worm.CollisionRectangle.Right &&
-              EnemyAggroArea.Bottom > Worm.CollisionRectangle.Top &&
-              EnemyAggroArea.Top < Worm.CollisionRectangle.Bottom)
+            else if (enemyAggroArea.Left + velocity.X < worm.collisionRectangle.Right &&
+              enemyAggroArea.Right > worm.collisionRectangle.Right &&
+              enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
+              enemyAggroArea.Top < worm.collisionRectangle.Bottom)
                 return true;
-            else if (EnemyAggroArea.Bottom + Velocity.Y + Gravity.Y > Worm.CollisionRectangle.Top &&
-            EnemyAggroArea.Top < Worm.CollisionRectangle.Top &&
-            EnemyAggroArea.Right > Worm.CollisionRectangle.Left &&
-            EnemyAggroArea.Left < Worm.CollisionRectangle.Right)
+            else if (enemyAggroArea.Bottom + velocity.Y + gravity.Y > worm.collisionRectangle.Top &&
+            enemyAggroArea.Top < worm.collisionRectangle.Top &&
+            enemyAggroArea.Right > worm.collisionRectangle.Left &&
+            enemyAggroArea.Left < worm.collisionRectangle.Right)
                 return true;
-            else if (EnemyAggroArea.Top + Velocity.Y < Worm.CollisionRectangle.Bottom &&
-           EnemyAggroArea.Bottom > Worm.CollisionRectangle.Bottom &&
-           EnemyAggroArea.Right > Worm.CollisionRectangle.Left &&
-           EnemyAggroArea.Left < Worm.CollisionRectangle.Right)
+            else if (enemyAggroArea.Top + velocity.Y < worm.collisionRectangle.Bottom &&
+           enemyAggroArea.Bottom > worm.collisionRectangle.Bottom &&
+           enemyAggroArea.Right > worm.collisionRectangle.Left &&
+           enemyAggroArea.Left < worm.collisionRectangle.Right)
                 return true;
             else
                 return false;
         }
         public void ReduceEnemyHP()
         {
-            if (StillAlive)
-                EnemyHP--;
-            if(EnemyHP < 1)
-                StillAlive = false;  
+            if (stillAlive)
+                enemyHP--;
+            if(enemyHP < 1)
+                stillAlive = false;  
         }
 
         public bool EnemyAliveState()
         {
-            return StillAlive;
+            return stillAlive;
         }
 
-        public void KnockBackPosition(bool KnockBackDirectionRight)
+        public void KnockBackPosition(bool knockBackDirectionRight)
         {
-            KnockedBack = true;
-            IsStanding = false;
-            Velocity.Y = -KnockBackValue;
-            if (KnockBackDirectionRight)
+            knockedBack = true;
+            isStanding = false;
+            velocity.Y = -knockBackValue;
+            if (knockBackDirectionRight)
             {
-                Velocity.X = KnockBackValue;
-                PressedRightKey = true;
-                PressedLeftKey = false;
+                velocity.X = knockBackValue;
+                pressedRightKey = true;
+                pressedLeftKey = false;
             }
             else
             {
-                Velocity.X = -KnockBackValue;
-                PressedRightKey = false;
-                PressedLeftKey = true;
+                velocity.X = -knockBackValue;
+                pressedRightKey = false;
+                pressedLeftKey = true;
             }
             ReduceEnemyHP();
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Reggie {
     public class Platform : GameObject {
-        public Platform(Texture2D SpriteTexture, Vector2 SpriteSize, Vector2 Position) : base(SpriteTexture,SpriteSize, Position) { }
-        public override void Update(GameTime gameTime, List<GameObject> spriteList) { }
+        public Platform(Texture2D gameObjectTexture, Vector2 gameObjectSize, Vector2 gameObjectPosition) : base(gameObjectTexture,gameObjectSize, gameObjectPosition) { }
+        public override void Update(GameTime gameTime, List<GameObject> gameObjectList) { }
     }
 }

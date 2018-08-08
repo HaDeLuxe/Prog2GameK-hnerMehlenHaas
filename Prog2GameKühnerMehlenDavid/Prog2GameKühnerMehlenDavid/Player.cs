@@ -10,158 +10,158 @@ using System.Threading.Tasks;
 
 namespace Reggie {
     public class Player : GameObject {
-        KeyboardState PreviousState;
+        KeyboardState previousState;
         
-        bool FirstJump;
-        bool SecondJump;
-        bool JumpButtonPressed;
-        bool PlayerAttackPressed;
-        bool StillAlive;
-        float JumpSpeed;
-        float Cooldown;
-        int PlayerHP;
+        bool firstJump;
+        bool secondJump;
+        bool jumpButtonPressed;
+        bool playerAttackPressed;
+        bool stillAlive;
+        float jumpSpeed;
+        float cooldown;
+        int playerHP;
 
         MouseState mouseState;
 
-        Camera Camera = new Camera();
+        Camera camera = new Camera();
        
-        public Rectangle AttackRectangle
+        public Rectangle attackRectangle
         {
             get
             {
-                if(FacingDirectionRight)
-                    return new Rectangle((int)(CollisionBoxPosition.X+ CollisionBoxSize.X), (int)(CollisionBoxPosition.Y-100), (int)CollisionBoxSize.X+100, (int)CollisionBoxSize.Y+100);
+                if(facingDirectionRight)
+                    return new Rectangle((int)(collisionBoxPosition.X+ collisionBoxSize.X), (int)(collisionBoxPosition.Y-100), (int)collisionBoxSize.X+100, (int)collisionBoxSize.Y+100);
                 else
-                    return new Rectangle((int)(CollisionBoxPosition.X - CollisionBoxSize.X-100), (int)(CollisionBoxPosition.Y - 100), (int)CollisionBoxSize.X + 100, (int)CollisionBoxSize.Y + 100);
+                    return new Rectangle((int)(collisionBoxPosition.X - collisionBoxSize.X-100), (int)(collisionBoxPosition.Y - 100), (int)collisionBoxSize.X + 100, (int)collisionBoxSize.Y + 100);
             }
         }
 
-        public Player(Texture2D texture,Vector2 SpriteSize, Vector2 Position) : base(texture,SpriteSize, Position) {
-            GravityActive = true;
-            FirstJump = false;
-            SecondJump = false;
-            PressedLeftKey = false;
-            PressedRightKey = false;
-            IsStanding = false;
-            StillAlive = true;
-            PlayerAttackPressed = false;
-            FacingDirectionRight = true;
-            JumpButtonPressed = false;
-            ChangeCollisionBox = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
-            CollisionBoxPosition = new Vector2(Position.X + ChangeCollisionBox.X, Position.Y + ChangeCollisionBox.Y);
-            CollisionBoxSize = new Vector2(SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.SpritesSizes["Reggie_Move_Hitbox_Size_Y"]);
-            PlayerHP = 50;
-            MovementSpeed = 10f;
-            JumpSpeed = -20f;
+        public Player(Texture2D playerTexture,Vector2 playerSize, Vector2 playerPosition) : base(playerTexture,playerSize, playerPosition) {
+            gravityActive = true;
+            firstJump = false;
+            secondJump = false;
+            pressedLeftKey = false;
+            pressedRightKey = false;
+            isStanding = false;
+            stillAlive = true;
+            playerAttackPressed = false;
+            facingDirectionRight = true;
+            jumpButtonPressed = false;
+            changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
+            collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
+            collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
+            playerHP = 50;
+            movementSpeed = 10f;
+            jumpSpeed = -20f;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> EnemyList) {
-            PlayerControls(gameTime,EnemyList);
-            Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
+        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList) {
+            PlayerControls(gameTime,enemyList);
+            gameObjectPosition.Y = collisionBoxPosition.Y - changeCollisionBox.Y;
             PlayerPositionCalculation(gameTime, gameObjectsToRender);
         }
 
 
         public void changeTexture(Texture2D texture) {
-            this.SpriteTexture = texture;
+            this.gameObjectTexture = texture;
         }
         private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender) {
 
-            foreach (var sprite in gameObjectsToRender)
+            foreach (var platform in gameObjectsToRender)
             {
-                if ((PreviousState.IsKeyDown(Keys.A) || PreviousState.IsKeyDown(Keys.D) || PreviousState.IsKeyDown(Keys.S) || PreviousState.IsKeyDown(Keys.W) || PreviousState.IsKeyDown(Keys.Space)) || GravityActive)
+                if ((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.W) || previousState.IsKeyDown(Keys.Space)) || gravityActive)
                 {
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
-                    if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
-                       (Velocity.X < 0 && IsTouchingRightSide(sprite)))
+                    if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
+                       (velocity.X < 0 && IsTouchingRightSide(platform)))
                     {
-                        Velocity.X = 0;
-                        PressedLeftKey = false;
-                        PressedRightKey = false;
+                        velocity.X = 0;
+                        pressedLeftKey = false;
+                        pressedRightKey = false;
                     }
                     //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                     //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
-                    else if (IsTouchingBottomSide(sprite, Gravity))
+                    else if (IsTouchingBottomSide(platform, gravity))
                     {
-                        Velocity.Y = 0;
-                        JumpSpeed = 0;
-                        Gravity.Y = 0;
-                        CollisionBoxPosition.Y = sprite.Position.Y + sprite.SpriteRectangle.Height;
-                        GravityActive = true;
+                        velocity.Y = 0;
+                        jumpSpeed = 0;
+                        gravity.Y = 0;
+                        collisionBoxPosition.Y = platform.gameObjectPosition.Y + platform.gameObjectRectangle.Height;
+                        gravityActive = true;
                     }
                     // Resets AirDirection booleans, jump booleans, the number of times the worm has jumped and stops translations in DOWN direction 
-                    else if (IsTouchingTopSide(sprite, Gravity))
+                    else if (IsTouchingTopSide(platform, gravity))
                     {
-                        Velocity.Y = 0;
-                        Gravity = Vector2.Zero;
-                        GravityActive = false;
-                        FirstJump = false;
-                        SecondJump = false;
-                        IsStanding = true;
-                        PressedLeftKey = false;
-                        PressedRightKey = false;
-                        CollisionBoxPosition.Y = sprite.Position.Y - CollisionBoxSize.Y;
+                        velocity.Y = 0;
+                        gravity = Vector2.Zero;
+                        gravityActive = false;
+                        firstJump = false;
+                        secondJump = false;
+                        isStanding = true;
+                        pressedLeftKey = false;
+                        pressedRightKey = false;
+                        collisionBoxPosition.Y = platform.gameObjectPosition.Y - collisionBoxSize.Y;
                     }
 
-                    if (!IsTouchingTopSide(sprite, Gravity) && IsStanding == false)
+                    if (!IsTouchingTopSide(platform, gravity) && isStanding == false)
                     {
-                        GravityActive = true;
-                        if (PressedRightKey)
-                            Velocity.X = MovementSpeed;
-                        else if (PressedLeftKey)
-                            Velocity.X = -MovementSpeed;
-                        if (IsTouchingLeftSide(sprite) || IsTouchingRightSide(sprite))
+                        gravityActive = true;
+                        if (pressedRightKey)
+                            velocity.X = movementSpeed;
+                        else if (pressedLeftKey)
+                            velocity.X = -movementSpeed;
+                        if (IsTouchingLeftSide(platform) || IsTouchingRightSide(platform))
                         {
-                            Velocity.X = 0;
-                            PressedLeftKey = false;
-                            PressedRightKey = false;
+                            velocity.X = 0;
+                            pressedLeftKey = false;
+                            pressedRightKey = false;
                         }
-                        if (PreviousState.IsKeyDown(Keys.Space) && JumpButtonPressed)
+                        if (previousState.IsKeyDown(Keys.Space) && jumpButtonPressed)
                         {
-                            if (!FirstJump || !SecondJump)
-                                Gravity = Vector2.Zero;
-                            if (!FirstJump)
-                                FirstJump = true;
+                            if (!firstJump || !secondJump)
+                                gravity = Vector2.Zero;
+                            if (!firstJump)
+                                firstJump = true;
                             else
-                                SecondJump = true;
-                            JumpButtonPressed = false;
+                                secondJump = true;
+                            jumpButtonPressed = false;
                         }
                         
                     }
                 }
             }
-            if ((FirstJump == true || SecondJump == true))
+            if ((firstJump == true || secondJump == true))
                 PlayerJump();
-            if (GravityActive && IsStanding == false)
+            if (gravityActive && isStanding == false)
             {
-                Gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
-                if (Gravity.Y > 20 && PreviousState.IsKeyDown(Keys.Space))
-                    Gravity.Y = 23f;
-                CollisionBoxPosition.Y += Gravity.Y;
+                gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
+                if (gravity.Y > 20 && previousState.IsKeyDown(Keys.Space))
+                    gravity.Y = 23f;
+                collisionBoxPosition.Y += gravity.Y;
             }
             else
-                Gravity = Vector2.Zero;
-            CollisionBoxPosition += Velocity;
-            if(Position != CollisionBoxPosition -ChangeCollisionBox)
+                gravity = Vector2.Zero;
+            collisionBoxPosition += velocity;
+            if(gameObjectPosition != collisionBoxPosition -changeCollisionBox)
             {
-                Position = CollisionBoxPosition - ChangeCollisionBox;
-                IsStanding = false;
+                gameObjectPosition = collisionBoxPosition - changeCollisionBox;
+                isStanding = false;
             }
-            Velocity = Vector2.Zero;
+            velocity = Vector2.Zero;
         }
 
         private void PlayerJump() {
-            Velocity.Y = JumpSpeed;
-            if (PreviousState.IsKeyDown(Keys.S))
-                Velocity.Y = MovementSpeed;
+            velocity.Y = jumpSpeed;
+            if (previousState.IsKeyDown(Keys.S))
+                velocity.Y = movementSpeed;
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> EnemyList)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList)
         {
 
             mouseState = Mouse.GetState();
-            if (!FirstJump && !SecondJump)
+            if (!firstJump && !secondJump)
             {
                 if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left /*|| (AnimationManager.currentAnimation == AnimationManager.Animations.Attack_Left)*/)
                     //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
@@ -180,112 +180,112 @@ namespace Reggie {
             {
                
                //Camera won't move after simple turning
-                Camera.IncreaseLeftCounter();
-                Camera.ResetRightCounter();
+                camera.IncreaseLeftCounter();
+                camera.ResetRightCounter();
                 
                 //Camera moves to a direction so that you see better what is coming to you
-                Camera.cameraOffset(gameTime, false, true);
+                camera.cameraOffset(gameTime, false, true);
 
-                if (FirstJump == true || SecondJump == true)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                if (firstJump == true || secondJump == true)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
                 else    AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
                 
 
-                Velocity.X = -MovementSpeed;
-                PressedLeftKey = true;
-                FacingDirectionRight = false;
-                PressedRightKey = false;
+                velocity.X = -movementSpeed;
+                pressedLeftKey = true;
+                facingDirectionRight = false;
+                pressedRightKey = false;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 //Camera won't move after simple turning
-                Camera.IncreaseRightCounter();
-                Camera.ResetLeftCounter();
+                camera.IncreaseRightCounter();
+                camera.ResetLeftCounter();
 
                 //Camera moves to a direction so that you see better what is coming to you
-                Camera.cameraOffset(gameTime, true, true);
+                camera.cameraOffset(gameTime, true, true);
 
-                if (FirstJump || SecondJump)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                if (firstJump || secondJump)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
                 else   AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
                 
-                Velocity.X = MovementSpeed;
-                FacingDirectionRight = true;
-                PressedLeftKey = false;
-                PressedRightKey = true;
+                velocity.X = movementSpeed;
+                facingDirectionRight = true;
+                pressedLeftKey = false;
+                pressedRightKey = true;
 
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.S))
-                Velocity.Y = MovementSpeed;
+                velocity.Y = movementSpeed;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && !JumpButtonPressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)
             {
-                if (FacingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                if (facingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
                 else    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
-                JumpButtonPressed = true;
-                if (FirstJump == false || SecondJump == false)
-                    JumpSpeed = -20f;
+                jumpButtonPressed = true;
+                if (firstJump == false || secondJump == false)
+                    jumpSpeed = -20f;
                 PlayerJump();
             }
-            if(ButtonState.Pressed == mouseState.LeftButton && Cooldown ==0)
+            if(ButtonState.Pressed == mouseState.LeftButton && cooldown ==0)
             {
-                if (FacingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
+                if (facingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
                 else   AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Left;
                 // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
-                foreach (var enemy in EnemyList)
+                foreach (var enemy in enemyList)
                 {
                     if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true )
                     {
-                        enemy.KnockBackPosition(FacingDirectionRight);
+                        enemy.KnockBackPosition(facingDirectionRight);
                     }
                 }
-                PlayerAttackPressed = true;
+                playerAttackPressed = true;
             }
-            if(PlayerAttackPressed)
-                Cooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(Cooldown>=1.5)
+            if(playerAttackPressed)
+                cooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            if(cooldown>=1.5)
             {
-                Cooldown = 0;
-                PlayerAttackPressed = false;
+                cooldown = 0;
+                playerAttackPressed = false;
             }
            
 
 
-            if (Keyboard.GetState().IsKeyUp(Keys.D) && Keyboard.GetState().IsKeyUp(Keys.A) && !FirstJump && !SecondJump)
+            if (Keyboard.GetState().IsKeyUp(Keys.D) && Keyboard.GetState().IsKeyUp(Keys.A) && !firstJump && !secondJump)
             {
-                if (FacingDirectionRight)
+                if (facingDirectionRight)
                 {
-                    Camera.cameraOffset(gameTime, false, false);
+                    camera.cameraOffset(gameTime, false, false);
                 }
-                if (!FacingDirectionRight)
+                if (!facingDirectionRight)
                 {
-                    Camera.cameraOffset(gameTime, true, false);
+                    camera.cameraOffset(gameTime, true, false);
                 }
             }
-            PreviousState = Keyboard.GetState();
+            previousState = Keyboard.GetState();
         }
 
 
         //Checks if Players standard attack is hitting the enemy
-        private bool PlayerAttackCollision(Enemy EnemyEntity)
+        private bool PlayerAttackCollision(Enemy enemyEntity)
         {
-            if (AttackRectangle.Right + Velocity.X >= EnemyEntity.CollisionRectangle.Left &&
-                AttackRectangle.Left <= EnemyEntity.CollisionRectangle.Left &&
-                AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Top &&
-                AttackRectangle.Top < EnemyEntity.CollisionRectangle.Bottom)
+            if (attackRectangle.Right + velocity.X >= enemyEntity.collisionRectangle.Left &&
+                attackRectangle.Left <= enemyEntity.collisionRectangle.Left &&
+                attackRectangle.Bottom > enemyEntity.collisionRectangle.Top &&
+                attackRectangle.Top < enemyEntity.collisionRectangle.Bottom)
                 return true;
-            else if (AttackRectangle.Left + Velocity.X <= EnemyEntity.CollisionRectangle.Right &&
-              AttackRectangle.Right >= EnemyEntity.CollisionRectangle.Right &&
-              AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Top &&
-              AttackRectangle.Top < EnemyEntity.CollisionRectangle.Bottom)
+            else if (attackRectangle.Left + velocity.X <= enemyEntity.collisionRectangle.Right &&
+              attackRectangle.Right >= enemyEntity.collisionRectangle.Right &&
+              attackRectangle.Bottom > enemyEntity.collisionRectangle.Top &&
+              attackRectangle.Top < enemyEntity.collisionRectangle.Bottom)
                 return true;
-            else if (AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Top &&
-            AttackRectangle.Top < EnemyEntity.CollisionRectangle.Top &&
-            AttackRectangle.Right > EnemyEntity.CollisionRectangle.Left &&
-            AttackRectangle.Left < EnemyEntity.CollisionRectangle.Right)
+            else if (attackRectangle.Bottom > enemyEntity.collisionRectangle.Top &&
+            attackRectangle.Top < enemyEntity.collisionRectangle.Top &&
+            attackRectangle.Right > enemyEntity.collisionRectangle.Left &&
+            attackRectangle.Left < enemyEntity.collisionRectangle.Right)
                 return true;
-            else if (AttackRectangle.Top < EnemyEntity.CollisionRectangle.Bottom &&
-           AttackRectangle.Bottom > EnemyEntity.CollisionRectangle.Bottom &&
-           AttackRectangle.Right > EnemyEntity.CollisionRectangle.Left &&
-           AttackRectangle.Left < EnemyEntity.CollisionRectangle.Right)
+            else if (attackRectangle.Top < enemyEntity.collisionRectangle.Bottom &&
+           attackRectangle.Bottom > enemyEntity.collisionRectangle.Bottom &&
+           attackRectangle.Right > enemyEntity.collisionRectangle.Left &&
+           attackRectangle.Left < enemyEntity.collisionRectangle.Right)
                 return true;
             else
                 return false;
@@ -294,10 +294,10 @@ namespace Reggie {
         //Reduces player's hp if he is hit by the enemy
         public void ReducePlayerHP()
         {
-            if (PlayerHP > 0)
-                PlayerHP--;
+            if (playerHP > 0)
+                playerHP--;
             else
-                StillAlive = false;
+                stillAlive = false;
         }
     }
 }
