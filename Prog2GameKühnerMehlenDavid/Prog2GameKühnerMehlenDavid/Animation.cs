@@ -14,6 +14,8 @@ namespace Reggie {
         
         int currentFrame = 0;
         bool looping = false;
+        bool PlayedOnce = false;
+        float Speed = 25;
         SpriteEffects spriteEffects;
         private float timeUntilNextFrame;
         public Texture2D texture = null;
@@ -26,11 +28,12 @@ namespace Reggie {
             return spriteEffects;
         }
 
-        public Animation(bool loop,SpriteEffects spriteEffects, int singleSpriteXSize, int singleSpriteYSize, Texture2D texture) {
+        public Animation(bool loop,SpriteEffects spriteEffects, int singleSpriteXSize, int singleSpriteYSize, Texture2D texture, float Speed) {
            // this.spriteSheetDestRectangle = new List<Rectangle>(spriteSheetDestRectangle);
             this.looping = loop;
             this.spriteEffects = spriteEffects;
             this.texture = texture;
+            this.Speed = Speed;
             for (int i = 0; i < 5; i++)
             {
                 for (int m = 0; m < 5; m++)
@@ -41,9 +44,11 @@ namespace Reggie {
             }
         }
 
+        public bool getPlayedOnce() { return PlayedOnce; }
+        public void resetPlayedOnce(){ PlayedOnce = false; }
         
         public Rectangle Update(GameTime gameTime) {
-            float animationFrameTime = 1f / 25f;
+            float animationFrameTime = 1f / Speed;
 
             float gameFrameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeUntilNextFrame -= gameFrameTime;
@@ -51,7 +56,10 @@ namespace Reggie {
             if (timeUntilNextFrame <= 0)
             {
                 currentFrame++;
-                if (currentFrame >= 25) currentFrame = 0;
+                if (currentFrame >= 25){
+                    currentFrame = 0;
+                    PlayedOnce = true;
+                }
                 timeUntilNextFrame += animationFrameTime;
             }
             return spriteSheetDestRectangle[currentFrame];

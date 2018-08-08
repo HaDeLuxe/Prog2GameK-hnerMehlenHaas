@@ -162,9 +162,11 @@ namespace Reggie {
             if (!FirstJump && !SecondJump)
             {
                 if(AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left)
-                    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Left);
                 if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right)
-                    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Right);
             }
 
 
@@ -182,9 +184,12 @@ namespace Reggie {
 
                 if (FirstJump == true || SecondJump == true)
                 {
-                    AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Left);
                 }
-                else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
+                else    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left; 
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Left);
+
                 Velocity.X = -MovementSpeed;
                 PressedLeftKey = true;
                 FacingDirectionRight = false;
@@ -192,15 +197,23 @@ namespace Reggie {
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                //-----------------------
-                
+                //Camera won't move after simple turning
                 Camera.IncreaseRightCounter();
                 Camera.ResetLeftCounter();
 
-                //-----------------------
+                //Camera moves to a direction so that you see better what is coming to you
                 Camera.cameraOffset(gameTime, true, true);
-                if (FirstJump || SecondJump) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
-                else    AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
+
+                if (FirstJump || SecondJump)
+                {
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Right);
+                }
+                else
+                {
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Right);
+                }
                 Velocity.X = MovementSpeed;
                 FacingDirectionRight = true;
                 PressedLeftKey = false;
@@ -212,8 +225,16 @@ namespace Reggie {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && !JumpButtonPressed)
             {
-                if (FacingDirectionRight) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
-                else AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
+                if (FacingDirectionRight)
+                {
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Right);
+                }
+                else
+                {
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Left);
+                }
                 JumpButtonPressed = true;
                 if (FirstJump == false || SecondJump == false)
                     JumpSpeed = -20f;
@@ -221,6 +242,17 @@ namespace Reggie {
             }
             if(Keyboard.GetState().IsKeyDown(Keys.A) && Cooldown ==0)
             {
+                if (FacingDirectionRight)
+                {
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Attack_Right;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Attack_Right);
+                }
+                else
+                {
+                    //AnimationManager.currentAnimation = AnimationManager.Animations.Attack_Left;
+                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Attack_Left);
+                }
+
                 foreach (var enemy in EnemyList)
                 {
                     if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true)

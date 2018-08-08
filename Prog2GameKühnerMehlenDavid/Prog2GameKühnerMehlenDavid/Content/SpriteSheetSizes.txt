@@ -2,5 +2,6 @@
 (50,30)		Reggie_Move_Hitbox_Position
 (50,81)		Reggie_Move_Hitbox_Size
 (370,880)	Reggie_Jump
+(735,815)	Reggie_Attack
 
 

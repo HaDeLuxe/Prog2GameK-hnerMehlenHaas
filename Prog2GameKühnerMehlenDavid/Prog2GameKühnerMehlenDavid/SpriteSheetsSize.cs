@@ -73,6 +73,12 @@ namespace Reggie {
                     case 7:
                         SpritesSizes.Add("Reggie_Jump_Y", Int32.Parse(SpriteStringList[i]));
                         break;
+                    case 8:
+                        SpritesSizes.Add("Reggie_Attack_X", Int32.Parse(SpriteStringList[i]));
+                        break;
+                    case 9:
+                        SpritesSizes.Add("Reggie_Attack_Y", Int32.Parse(SpriteStringList[i]));
+                        break;
                 }
             }
 
