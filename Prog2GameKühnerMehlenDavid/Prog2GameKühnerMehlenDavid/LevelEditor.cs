@@ -14,22 +14,22 @@ namespace Reggie {
         Vector2 mousePosition;
 
         //Doublejump is 2x175 high
-        int Step = 88;         
-        bool AlreadyDragged = false;
-        bool Button1Pushed = false;
-        bool Button2Pushed = false;
-        bool Button3Pushed = false;
-        bool Button4Pushed = false;
-        //FLASCHE SCHLEIBWEISE
-        bool AlreadDeleted = false;
-        GameObject ObjectToDelete = null;
-        List<string> OutputList;
+        int step = 88;         
+        bool alreadyDragged = false;
+        bool button1Pushed = false;
+        bool button2Pushed = false;
+        bool button3Pushed = false;
+        bool button4Pushed = false;
+     
+        bool alreadyDeleted = false;
+        GameObject objectToDelete = null;
+        List<string> outputList;
         Enums Enums;
 
 
         public LevelEditor() {
             mousePosition = new Vector2(0, 0);
-            OutputList = new List<string>();
+            outputList = new List<string>();
             Enums = new Enums();
         }
         
@@ -37,8 +37,8 @@ namespace Reggie {
         /// Moving GameObjects with the mouse while holding left mouse button and deleting GameObjects with right mouse button click
         /// </summary>
         /// <param name="gameObjects"></param>
-        /// <param name="TransformatinMatrix"></param>
-        public void moveOrDeletePlatforms(ref List<GameObject> gameObjects, Matrix TransformatinMatrix) 
+        /// <param name="transformatinMatrix"></param>
+        public void moveOrDeletePlatforms(ref List<GameObject> gameObjects, Matrix transformatinMatrix) 
         {
             MouseState mouseState = Mouse.GetState();
             mousePosition.X = mouseState.X;
@@ -48,47 +48,47 @@ namespace Reggie {
             {
                 foreach(GameObject gameObject in gameObjects)
                 {
-                    Vector2 MouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(TransformatinMatrix));
-                    if (gameObject.SpriteRectangle.Intersects(new Rectangle((int)MouseWorldPosition.X, (int)MouseWorldPosition.Y, 0, 0)))
+                    Vector2 mouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(transformatinMatrix));
+                    if (gameObject.gameObjectRectangle.Intersects(new Rectangle((int)mouseWorldPosition.X, (int)mouseWorldPosition.Y, 0, 0)))
                     {
-                        if (!AlreadyDragged)
+                        if (!alreadyDragged)
                         {
-                            gameObject.IsDragged = true;
-                            AlreadyDragged = true;
+                            gameObject.isDragged = true;
+                            alreadyDragged = true;
                         }
                     }
-                    if (gameObject.IsDragged)
+                    if (gameObject.isDragged)
                     {
                         
-                        if(MouseWorldPosition.X % Step < Step/2 && MouseWorldPosition.Y % Step < Step/2)
+                        if(mouseWorldPosition.X % step < step/2 && mouseWorldPosition.Y % step < step/2)
                         {
-                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 - (MouseWorldPosition.X % Step),
-                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 - (MouseWorldPosition.Y % Step));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 - (mouseWorldPosition.X % step),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 - (mouseWorldPosition.Y % step));
                         }
-                        else if(MouseWorldPosition.X % Step < Step/2 && MouseWorldPosition.Y % Step > Step/2)
+                        else if(mouseWorldPosition.X % step < step/2 && mouseWorldPosition.Y % step > step/2)
                         {
-                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 - (MouseWorldPosition.X % Step),
-                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 + (Step - (MouseWorldPosition.Y % Step)));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 - (mouseWorldPosition.X % step),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 + (step - (mouseWorldPosition.Y % step)));
                         }
-                        else if (MouseWorldPosition.X % Step > Step/2 && MouseWorldPosition.Y % Step < Step/2)
+                        else if (mouseWorldPosition.X % step > step/2 && mouseWorldPosition.Y % step < step/2)
                         {
-                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 + (Step - (MouseWorldPosition.X % Step)),
-                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 - (MouseWorldPosition.Y % Step));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 + (step - (mouseWorldPosition.X % step)),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 - (mouseWorldPosition.Y % step));
                         }
-                        else if (MouseWorldPosition.X % Step > Step/2 && MouseWorldPosition.Y % Step > Step/2)
+                        else if (mouseWorldPosition.X % step > step/2 && mouseWorldPosition.Y % step > step/2)
                         {
-                            gameObject.Position = new Vector2((int)MouseWorldPosition.X - gameObject.SpriteRectangle.Width / 2 + (Step - (MouseWorldPosition.X % Step)),
-                                                             (int)MouseWorldPosition.Y - gameObject.SpriteRectangle.Height / 2 + (Step - (MouseWorldPosition.Y % Step)));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 + (step - (mouseWorldPosition.X % step)),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 + (step - (mouseWorldPosition.Y % step)));
                         }
                     }
                 }
             }
             else
             {
-                AlreadyDragged = false;
+                alreadyDragged = false;
                 foreach(GameObject gameObject in gameObjects)
                 {
-                    gameObject.IsDragged = false;
+                    gameObject.isDragged = false;
                 }
             }
 
@@ -97,26 +97,26 @@ namespace Reggie {
             {
                 foreach (GameObject gameObject in gameObjects)
                 {
-                    Vector2 MouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(TransformatinMatrix));
-                    if (gameObject.SpriteRectangle.Intersects(new Rectangle((int)MouseWorldPosition.X, (int)MouseWorldPosition.Y, 0, 0)))
+                    Vector2 mouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(transformatinMatrix));
+                    if (gameObject.gameObjectRectangle.Intersects(new Rectangle((int)mouseWorldPosition.X, (int)mouseWorldPosition.Y, 0, 0)))
                     {
-                        if(!AlreadDeleted)
+                        if(!alreadyDeleted)
                         {
-                            ObjectToDelete = gameObject;
+                            objectToDelete = gameObject;
                             //gameObjects.Remove(gameObject);
-                            AlreadDeleted = true;
+                            alreadyDeleted = true;
                         }
                     }
                 }
             }
             else
             {
-                AlreadDeleted = false;
+                alreadyDeleted = false;
             }
-            if(ObjectToDelete != null)
+            if(objectToDelete != null)
             {
-                gameObjects.Remove(ObjectToDelete);
-                ObjectToDelete = null;
+                gameObjects.Remove(objectToDelete);
+                objectToDelete = null;
             }
         }
 
@@ -136,82 +136,82 @@ namespace Reggie {
         /// </summary>
         /// <param name="platformTextures"></param>
         /// <param name="spriteBatch"></param>
-        /// <param name="TransformationMatrix"></param>
-        /// <param name="GameObjectList"></param>
-        public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix TransformationMatrix, ref List<GameObject> GameObjectList) {
+        /// <param name="transformationMatrix"></param>
+        /// <param name="gameObjectList"></param>
+        public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix transformationMatrix, ref List<GameObject> gameObjectList) {
             MouseState mouseState = Mouse.GetState();
             mousePosition.X = mouseState.X;
             mousePosition.Y = mouseState.Y;
 
             //TODO: Look if RAM gets bullshittet
-            Vector2 MouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(TransformationMatrix));
-            Vector2 PositionGreenPlatform_320x64 = new Vector2(1650, 100);
-            Vector2 transformedPosGreenPlatform_320x64 = Vector2.Transform(PositionGreenPlatform_320x64, Matrix.Invert(TransformationMatrix));
-            Rectangle PlatformRectangleGreenPlatform_320x64 = new Rectangle((int)PositionGreenPlatform_320x64.X, (int)PositionGreenPlatform_320x64.Y, 320, 64);
-            if (PlatformRectangleGreenPlatform_320x64.Contains(new Point((int)mousePosition.X,(int)mousePosition.Y)))
+            Vector2 mouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(transformationMatrix));
+            Vector2 positionGreenPlatform_320x64 = new Vector2(1650, 100);
+            Vector2 transformedPosGreenPlatform_320x64 = Vector2.Transform(positionGreenPlatform_320x64, Matrix.Invert(transformationMatrix));
+            Rectangle platformRectangleGreenPlatform_320x64 = new Rectangle((int)positionGreenPlatform_320x64.X, (int)positionGreenPlatform_320x64.Y, 320, 64);
+            if (platformRectangleGreenPlatform_320x64.Contains(new Point((int)mousePosition.X,(int)mousePosition.Y)))
             {
-                PositionGreenPlatform_320x64 = new Vector2(1450, 100);
-                transformedPosGreenPlatform_320x64 = Vector2.Transform(PositionGreenPlatform_320x64, Matrix.Invert(TransformationMatrix));
-                if(ButtonState.Pressed == mouseState.LeftButton && !Button1Pushed)
+                positionGreenPlatform_320x64 = new Vector2(1450, 100);
+                transformedPosGreenPlatform_320x64 = Vector2.Transform(positionGreenPlatform_320x64, Matrix.Invert(transformationMatrix));
+                if(ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
                 {
-                    Button1Pushed = true;
-                    createNewPlatform(ref GameObjectList, platformTextures["Green_320_64"], TransformationMatrix, platformTextures);
+                    button1Pushed = true;
+                    createNewPlatform(ref gameObjectList, platformTextures["Green_320_64"], transformationMatrix, platformTextures);
                 }
             }
             else{
-                Button1Pushed = false;
-                PositionGreenPlatform_320x64 = new Vector2(1650, 100);
+                button1Pushed = false;
+                positionGreenPlatform_320x64 = new Vector2(1650, 100);
             }
 
-            Vector2 PositionTransparentWall_500x50 = new Vector2(1650, 200);
-            Vector2 transformedPosTransparentWall_500x50 = Vector2.Transform(PositionTransparentWall_500x50, Matrix.Invert(TransformationMatrix));
-            Rectangle PlatformRectangleTransparentWall_500x50 = new Rectangle((int)PositionTransparentWall_500x50.X, (int)PositionTransparentWall_500x50.Y, 320, 64);
-            if (PlatformRectangleTransparentWall_500x50.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+            Vector2 positionTransparentWall_500x50 = new Vector2(1650, 200);
+            Vector2 transformedPosTransparentWall_500x50 = Vector2.Transform(positionTransparentWall_500x50, Matrix.Invert(transformationMatrix));
+            Rectangle platformRectangleTransparentWall_500x50 = new Rectangle((int)positionTransparentWall_500x50.X, (int)positionTransparentWall_500x50.Y, 320, 64);
+            if (platformRectangleTransparentWall_500x50.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
             {
-                PositionTransparentWall_500x50 = new Vector2(1250, 200);
-                transformedPosTransparentWall_500x50 = Vector2.Transform(PositionTransparentWall_500x50, Matrix.Invert(TransformationMatrix));
-                if (ButtonState.Pressed == mouseState.LeftButton && !Button2Pushed)
+                positionTransparentWall_500x50 = new Vector2(1250, 200);
+                transformedPosTransparentWall_500x50 = Vector2.Transform(positionTransparentWall_500x50, Matrix.Invert(transformationMatrix));
+                if (ButtonState.Pressed == mouseState.LeftButton && !button2Pushed)
                 {
-                    Button2Pushed = true;
-                    createNewPlatform(ref GameObjectList, platformTextures["Transparent_500x50"], TransformationMatrix, platformTextures);
+                    button2Pushed = true;
+                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_500x50"], transformationMatrix, platformTextures);
                 }
             }
             else
             {
-                Button2Pushed = false;
-                PositionGreenPlatform_320x64 = new Vector2(1650, 200);
+                button2Pushed = false;
+                positionGreenPlatform_320x64 = new Vector2(1650, 200);
             }
 
-            Vector2 PositionTransparentWall_1000x50 = new Vector2(1650, 300);
-            Vector2 transformedPosTransparentWall_1000x50 = Vector2.Transform(PositionTransparentWall_1000x50, Matrix.Invert(TransformationMatrix));
-            Rectangle PlatformRectangleTransparentWall_1000x50 = new Rectangle((int)PositionTransparentWall_1000x50.X, (int)PositionTransparentWall_1000x50.Y, 320, 64);
-            if (PlatformRectangleTransparentWall_1000x50.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+            Vector2 positionTransparentWall_1000x50 = new Vector2(1650, 300);
+            Vector2 transformedPosTransparentWall_1000x50 = Vector2.Transform(positionTransparentWall_1000x50, Matrix.Invert(transformationMatrix));
+            Rectangle platformRectangleTransparentWall_1000x50 = new Rectangle((int)positionTransparentWall_1000x50.X, (int)positionTransparentWall_1000x50.Y, 320, 64);
+            if (platformRectangleTransparentWall_1000x50.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
             {
-                PositionTransparentWall_1000x50 = new Vector2(750, 300);
-                transformedPosTransparentWall_1000x50 = Vector2.Transform(PositionTransparentWall_1000x50, Matrix.Invert(TransformationMatrix));
-                if (ButtonState.Pressed == mouseState.LeftButton && !Button3Pushed)
+                positionTransparentWall_1000x50 = new Vector2(750, 300);
+                transformedPosTransparentWall_1000x50 = Vector2.Transform(positionTransparentWall_1000x50, Matrix.Invert(transformationMatrix));
+                if (ButtonState.Pressed == mouseState.LeftButton && !button3Pushed)
                 {
-                    Button3Pushed = true;
-                    createNewPlatform(ref GameObjectList, platformTextures["Transparent_1000x50"], TransformationMatrix, platformTextures);
+                    button3Pushed = true;
+                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_1000x50"], transformationMatrix, platformTextures);
                 }
             }
             else
             {
-                Button3Pushed = false;
-                PositionGreenPlatform_320x64 = new Vector2(1650, 300);
+                button3Pushed = false;
+                positionGreenPlatform_320x64 = new Vector2(1650, 300);
             }
 
             Color color = new Color();
-            Vector2 PositionBackButton = new Vector2(1550, 900);
-            Vector2 transformedBackButton = Vector2.Transform(PositionBackButton, Matrix.Invert(TransformationMatrix));
-            Rectangle RectangleBackButton = new Rectangle((int)PositionBackButton.X, (int)PositionBackButton.Y, 200, 50);
-            if (RectangleBackButton.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+            Vector2 positionBackButton = new Vector2(1550, 900);
+            Vector2 transformedBackButton = Vector2.Transform(positionBackButton, Matrix.Invert(transformationMatrix));
+            Rectangle rectangleBackButton = new Rectangle((int)positionBackButton.X, (int)positionBackButton.Y, 200, 50);
+            if (rectangleBackButton.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
             {
-                if (ButtonState.Pressed == mouseState.LeftButton && !Button4Pushed)
+                if (ButtonState.Pressed == mouseState.LeftButton && !button4Pushed)
                 {
-                    Button4Pushed = true;
+                    button4Pushed = true;
                     color = Color.LightGray;
-                    Save(GameObjectList, platformTextures);
+                    Save(gameObjectList, platformTextures);
 
                 }
                 else
@@ -221,7 +221,7 @@ namespace Reggie {
             }
             else
             {
-                Button4Pushed = false;
+                button4Pushed = false;
                 color = Color.White;
             }
 
@@ -236,23 +236,23 @@ namespace Reggie {
         /// <summary>
         /// Add a new Platform to the GameObjectList and gives it the standard viewport coordinates (1000,200)
         /// </summary>
-        /// <param name="GameObjectList"></param>
+        /// <param name="gameObjectList"></param>
         /// <param name="platformTextures"></param>
-        /// <param name="TransformationMatrix"></param>
-        private void createNewPlatform(ref List<GameObject> GameObjectList, Texture2D platformTexture, Matrix TransformationMatrix, Dictionary<string, Texture2D> platformTextures)
+        /// <param name="transformationMatrix"></param>
+        private void createNewPlatform(ref List<GameObject> gameObjectList, Texture2D platformTexture, Matrix transformationMatrix, Dictionary<string, Texture2D> platformTextures)
         {
-            Vector2 transformedPos = Vector2.Transform(new Vector2(1000,200), Matrix.Invert(TransformationMatrix));
+            Vector2 transformedPos = Vector2.Transform(new Vector2(1000,200), Matrix.Invert(transformationMatrix));
             if(platformTexture == platformTextures["Green_320_64"])
-                GameObjectList.Add(new Platform(platformTextures["Green_320_64"], new Vector2(320, 64), transformedPos));
+                gameObjectList.Add(new Platform(platformTextures["Green_320_64"], new Vector2(320, 64), transformedPos));
             if (platformTexture == platformTextures["Transparent_500x50"])
             {
-                GameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(500, 50), transformedPos));
-                GameObjectList.Last().DontDrawThisObject();
+                gameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(500, 50), transformedPos));
+                gameObjectList.Last().DontDrawThisObject();
             }
             if(platformTexture == platformTextures["Transparent_1000x50"])
             {
-                GameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1000, 50), transformedPos));
-                GameObjectList.Last().DontDrawThisObject();
+                gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1000, 50), transformedPos));
+                gameObjectList.Last().DontDrawThisObject();
 
             }
         }
@@ -260,7 +260,7 @@ namespace Reggie {
 
         private void Save(List<GameObject> GameObjectList, Dictionary<string, Texture2D> platformTextures) {
 
-            OutputList.RemoveRange(0, OutputList.Count());
+            outputList.RemoveRange(0, outputList.Count());
 
             foreach (GameObject gameObject in GameObjectList)
             {
@@ -268,9 +268,9 @@ namespace Reggie {
                 if (gameObject.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
                 if (gameObject.getTexture() == platformTextures["Transparent_500x50"]) Output =  Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
                 if (gameObject.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
-                Output +=","+ gameObject.Position.X + "," + gameObject.Position.Y;
+                Output +=","+ gameObject.gameObjectPosition.X + "," + gameObject.gameObjectPosition.Y;
 
-                OutputList.Add(Output);
+                outputList.Add(Output);
             }
 
 
@@ -279,7 +279,7 @@ namespace Reggie {
                 using (var writer = new StreamWriter(stream))
                 {
                     writer.Write("");
-                    foreach (string line in OutputList)
+                    foreach (string line in outputList)
                     {
                         
                         writer.WriteLine(line);

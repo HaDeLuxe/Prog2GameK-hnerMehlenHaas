@@ -10,38 +10,37 @@ namespace Reggie
     class EventHandler
     {
 
-        KeyboardState PreviousState;
+        KeyboardState previousState;
 
         public void ManageGameStates()
         {
             //SPLASHSCREEN
-            if (Game1.CurrentGameState == Game1.GameState.SPLASHSCREEN)
+            if (Game1.currentGameState == Game1.GameState.SPLASHSCREEN)
             {
                 //gibt enums zurück welche states
-                Game1.splashScreen.clickedButton();
-                
+               Game1.currentGameState = splashScreen.clickedButton();
 
             }
             //MAINMENU
-            if (Game1.CurrentGameState == Game1.GameState.MAINMENU)
+            if (Game1.currentGameState == Game1.GameState.MAINMENU)
             {
 
             }
 
             //INGAME
-            if (Game1.CurrentGameState == Game1.GameState.GAMELOOP)
+            if (Game1.currentGameState == Game1.GameState.GAMELOOP)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.L) && !PreviousState.IsKeyDown(Keys.L))
-                    Game1.CurrentGameState = Game1.GameState.LEVELEDITOR;
-                PreviousState = Keyboard.GetState();
+                if (Keyboard.GetState().IsKeyDown(Keys.L) && !previousState.IsKeyDown(Keys.L))
+                    Game1.currentGameState = Game1.GameState.LEVELEDITOR;
+                previousState = Keyboard.GetState();
             }
 
             //LEVELEDITORSTATE
-            if (Game1.CurrentGameState == Game1.GameState.LEVELEDITOR)
+            if (Game1.currentGameState == Game1.GameState.LEVELEDITOR)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.L) && !PreviousState.IsKeyDown(Keys.L))
-                    Game1.CurrentGameState = Game1.GameState.GAMELOOP;
-                PreviousState = Keyboard.GetState();
+                if (Keyboard.GetState().IsKeyDown(Keys.L) && !previousState.IsKeyDown(Keys.L))
+                    Game1.currentGameState = Game1.GameState.GAMELOOP;
+                previousState = Keyboard.GetState();
             }
         }
     }
