@@ -288,5 +288,16 @@ namespace Reggie {
             }
 
         }
+
+        public void HandleLevelEditorEvents()
+        {
+            if (Game1.currentGameState == Game1.GameState.LEVELEDITOR)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.L) && !Game1.previousState.IsKeyDown(Keys.L))
+                    Game1.currentGameState = Game1.GameState.GAMELOOP;
+                Game1.previousState = Keyboard.GetState();
+            }
+        }
+
     }
 }
