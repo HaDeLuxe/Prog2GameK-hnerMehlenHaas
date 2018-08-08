@@ -13,10 +13,10 @@ namespace Reggie {
 
 
         public static Animations currentAnimation = Animations.Walk_Right;
+        public static Animations nextAnimation = Animations.Walk_Left;
 
         private Animations PreviousAnimation = Animations.Walk_Left;
-
-        public static Queue<Animations> AnimationQueue = null;
+        
 
         List<Texture2D> playerSpriteSheet = new List<Texture2D>();
 
@@ -42,44 +42,41 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Jump_Animation_Left", Jump_Animation_Left);
             Jump_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Animation_Right", Jump_Animation_Right);
-            Attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 30f);
+            Attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Left", Attack_Animation_Left);
-            Attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 30f);
+            Attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.SpritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.SpritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Right", Attack_Animation_Right);
-
-            AnimationQueue = new Queue<Animations>();
-            AnimationQueue.Enqueue(Animations.Walk_Left);
+            
 
         }
 
         
-        //public static void addAnimation(Animations anim) 
-        //{
-        //    AnimationQueue.Enqueue(anim); 
-        //}
 
         public void animation(GameTime gameTime, ref Player player, SpriteBatch spriteBatch) 
         {
-            currentAnimation = AnimationQueue.Peek();
+            
 
-            if (AnimationQueue.Count() > 1 && (AnimationQueue.Peek() == Animations.Jump_Left 
-                                           || AnimationQueue.Peek() == Animations.Jump_Right
-                                           || AnimationQueue.Peek() == Animations.Walk_Left
-                                           || AnimationQueue.Peek() == Animations.Walk_Right)) AnimationQueue.Dequeue();
-            if(AnimationQueue.Count() > 1 && (AnimationQueue.Peek() == Animations.Attack_Left
-                                           || AnimationQueue.Peek() == Animations.Attack_Right))
+            if (currentAnimation == Animations.Jump_Left
+                                           || currentAnimation == Animations.Jump_Right
+                                           || currentAnimation == Animations.Walk_Left
+                                           || currentAnimation == Animations.Walk_Right)
             {
-                if(Attack_Animation_Left.getPlayedOnce() || Attack_Animation_Right.getPlayedOnce())
+                currentAnimation = nextAnimation;
+            }
+            if(currentAnimation == Animations.Attack_Left || currentAnimation == Animations.Attack_Right)
+            {
+                if(Attack_Animation_Right.getPlayedOnce() || Attack_Animation_Left.getPlayedOnce())
                 {
-                    AnimationQueue.Dequeue();
-                    //Attack_Animation_Right.resetPlayedOnce();
-                    //Attack_Animation_Left.resetPlayedOnce();
+
+                    nextAnimation = PreviousAnimation;
+                    currentAnimation = nextAnimation;
+                    Attack_Animation_Left.resetPlayedOnce();
+                    Attack_Animation_Right.resetPlayedOnce();
                 }
             }
 
 
-
-            Rectangle tempRec;
+                Rectangle tempRec;
             switch (currentAnimation)
             {
                 case Animations.Walk_Right:
@@ -107,7 +104,6 @@ namespace Reggie {
                     PreviousAnimation = Animations.Jump_Left;
                     break;
                 case Animations.Attack_Left:
-                    //if (Attack_Animation_Left.getPlayedOnce())
                     player.changeTexture(Attack_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Animation_Left"].Update(gameTime);
                     player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Animation_Left.getSpriteEffects(), new Vector2(-25, -25));

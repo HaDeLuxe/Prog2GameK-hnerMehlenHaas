@@ -21,6 +21,8 @@ namespace Reggie {
         float Cooldown;
         int PlayerHP;
 
+        MouseState mouseState;
+
         Camera Camera = new Camera();
        
         public Rectangle AttackRectangle
@@ -67,7 +69,7 @@ namespace Reggie {
 
             foreach (var sprite in gameObjectsToRender)
             {
-                if ((PreviousState.IsKeyDown(Keys.Left) || PreviousState.IsKeyDown(Keys.Right) || PreviousState.IsKeyDown(Keys.Down) || PreviousState.IsKeyDown(Keys.Up) || PreviousState.IsKeyDown(Keys.Space)) || GravityActive)
+                if ((PreviousState.IsKeyDown(Keys.A) || PreviousState.IsKeyDown(Keys.D) || PreviousState.IsKeyDown(Keys.S) || PreviousState.IsKeyDown(Keys.W) || PreviousState.IsKeyDown(Keys.Space)) || GravityActive)
                 {
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
                     if (Velocity.X > 0 && IsTouchingLeftSide(sprite) ||
@@ -150,29 +152,31 @@ namespace Reggie {
 
         private void PlayerJump() {
             Velocity.Y = JumpSpeed;
-            if (PreviousState.IsKeyDown(Keys.Down))
+            if (PreviousState.IsKeyDown(Keys.S))
                 Velocity.Y = MovementSpeed;
         }
 
         //Contains Player Movement in all 4 directions and the attack
         private void PlayerControls(GameTime gameTime, List<Enemy> EnemyList)
         {
-          
 
+            mouseState = Mouse.GetState();
             if (!FirstJump && !SecondJump)
             {
-                if(AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left)
+                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left /*|| (AnimationManager.currentAnimation == AnimationManager.Animations.Attack_Left)*/)
                     //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Left);
-                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right)
+                    //AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Left);
+                    AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
+                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right /*|| (AnimationManager.currentAnimation == AnimationManager.Animations.Attack_Right)*/)
                     //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Right);
+                    //AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Right);
+                    AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
             }
 
 
             
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                
                //Camera won't move after simple turning
@@ -182,20 +186,16 @@ namespace Reggie {
                 //Camera moves to a direction so that you see better what is coming to you
                 Camera.cameraOffset(gameTime, false, true);
 
-                if (FirstJump == true || SecondJump == true)
-                {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Left);
-                }
-                else    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left; 
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Left);
+                if (FirstJump == true || SecondJump == true)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                else    AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
+                
 
                 Velocity.X = -MovementSpeed;
                 PressedLeftKey = true;
                 FacingDirectionRight = false;
                 PressedRightKey = false;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 //Camera won't move after simple turning
                 Camera.IncreaseRightCounter();
@@ -204,58 +204,35 @@ namespace Reggie {
                 //Camera moves to a direction so that you see better what is coming to you
                 Camera.cameraOffset(gameTime, true, true);
 
-                if (FirstJump || SecondJump)
-                {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Right);
-                }
-                else
-                {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Right);
-                }
+                if (FirstJump || SecondJump)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                else   AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
+                
                 Velocity.X = MovementSpeed;
                 FacingDirectionRight = true;
                 PressedLeftKey = false;
                 PressedRightKey = true;
 
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            else if (Keyboard.GetState().IsKeyDown(Keys.S))
                 Velocity.Y = MovementSpeed;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !PreviousState.IsKeyDown(Keys.Space) && !JumpButtonPressed)
             {
-                if (FacingDirectionRight)
-                {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Right;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Right);
-                }
-                else
-                {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Left;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Jump_Left);
-                }
+                if (FacingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                else    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
                 JumpButtonPressed = true;
                 if (FirstJump == false || SecondJump == false)
                     JumpSpeed = -20f;
                 PlayerJump();
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.A) && Cooldown ==0)
+            if(ButtonState.Pressed == mouseState.LeftButton && Cooldown ==0)
             {
-                if (FacingDirectionRight)
-                {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Attack_Right;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Attack_Right);
-                }
-                else
-                {
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Attack_Left;
-                    AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Attack_Left);
-                }
-
+                if (FacingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
+                else   AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Left;
+                // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
                 foreach (var enemy in EnemyList)
                 {
-                    if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true)
+                    if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true )
                     {
                         enemy.KnockBackPosition(FacingDirectionRight);
                     }
@@ -269,10 +246,10 @@ namespace Reggie {
                 Cooldown = 0;
                 PlayerAttackPressed = false;
             }
-            PreviousState = Keyboard.GetState();
+           
 
 
-            if (Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.Left) && !FirstJump && !SecondJump)
+            if (Keyboard.GetState().IsKeyUp(Keys.D) && Keyboard.GetState().IsKeyUp(Keys.A) && !FirstJump && !SecondJump)
             {
                 if (FacingDirectionRight)
                 {
@@ -283,6 +260,7 @@ namespace Reggie {
                     Camera.cameraOffset(gameTime, true, false);
                 }
             }
+            PreviousState = Keyboard.GetState();
         }
 
 

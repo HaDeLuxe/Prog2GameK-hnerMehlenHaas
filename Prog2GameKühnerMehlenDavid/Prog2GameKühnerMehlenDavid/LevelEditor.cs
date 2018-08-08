@@ -20,6 +20,7 @@ namespace Reggie {
         bool Button2Pushed = false;
         bool Button3Pushed = false;
         bool Button4Pushed = false;
+        //FLASCHE SCHLEIBWEISE
         bool AlreadDeleted = false;
         GameObject ObjectToDelete = null;
         List<string> OutputList;
@@ -142,6 +143,7 @@ namespace Reggie {
             mousePosition.X = mouseState.X;
             mousePosition.Y = mouseState.Y;
 
+            //TODO: Look if RAM gets bullshittet
             Vector2 MouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(TransformationMatrix));
             Vector2 PositionGreenPlatform_320x64 = new Vector2(1650, 100);
             Vector2 transformedPosGreenPlatform_320x64 = Vector2.Transform(PositionGreenPlatform_320x64, Matrix.Invert(TransformationMatrix));
