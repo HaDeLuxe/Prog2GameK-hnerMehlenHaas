@@ -14,8 +14,8 @@ namespace Reggie {
         
         int currentFrame = 0;
         bool looping = false;
-        bool PlayedOnce = false;
-        float Speed = 25;
+        bool playedOnce = false;
+        float speed = 25;
         SpriteEffects spriteEffects;
         private float timeUntilNextFrame;
         public Texture2D texture = null;
@@ -33,7 +33,7 @@ namespace Reggie {
             this.looping = loop;
             this.spriteEffects = spriteEffects;
             this.texture = texture;
-            this.Speed = Speed;
+            this.speed = Speed;
             for (int i = 0; i < 5; i++)
             {
                 for (int m = 0; m < 5; m++)
@@ -44,11 +44,11 @@ namespace Reggie {
             }
         }
 
-        public bool getPlayedOnce() { return PlayedOnce; }
-        public void resetPlayedOnce(){ PlayedOnce = false; }
+        public bool getPlayedOnce() { return playedOnce; }
+        public void resetPlayedOnce(){ playedOnce = false; }
         
         public Rectangle Update(GameTime gameTime) {
-            float animationFrameTime = 1f / Speed;
+            float animationFrameTime = 1f / speed;
 
             float gameFrameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timeUntilNextFrame -= gameFrameTime;
@@ -58,7 +58,7 @@ namespace Reggie {
                 currentFrame++;
                 if (currentFrame >= 25){
                     currentFrame = 0;
-                    PlayedOnce = true;
+                    playedOnce = true;
                 }
                 timeUntilNextFrame += animationFrameTime;
             }

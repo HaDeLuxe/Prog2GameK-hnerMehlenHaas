@@ -14,32 +14,32 @@ namespace Reggie {
         public FrameCounter() {
         }
 
-        public long TotalFrames { get; private set; }
-        public float TotalSeconds { get; private set; }
-        public float AverageFramesPerSecond { get; private set; }
-        public float CurrentFramesPerSecond { get; private set; }
+        public long totalFrames { get; private set; }
+        public float totalSeconds { get; private set; }
+        public float averageFramesPerSecond { get; private set; }
+        public float currentFramesPerSecond { get; private set; }
 
         public const int MAXIMUM_SAMPLES = 100;
 
-        private Queue<float> _sampleBuffer = new Queue<float>();
+        private Queue<float> sampleBuffer = new Queue<float>();
 
         public  bool Update(float deltaTime) {
-            CurrentFramesPerSecond = 1.0f / deltaTime;
+            currentFramesPerSecond = 1.0f / deltaTime;
 
-            _sampleBuffer.Enqueue(CurrentFramesPerSecond);
+            sampleBuffer.Enqueue(currentFramesPerSecond);
 
-            if (_sampleBuffer.Count > MAXIMUM_SAMPLES)
+            if (sampleBuffer.Count > MAXIMUM_SAMPLES)
             {
-                _sampleBuffer.Dequeue();
-                AverageFramesPerSecond = _sampleBuffer.Average(i => i);
+                sampleBuffer.Dequeue();
+                averageFramesPerSecond = sampleBuffer.Average(i => i);
             }
             else
             {
-                AverageFramesPerSecond = CurrentFramesPerSecond;
+                averageFramesPerSecond = currentFramesPerSecond;
             }
 
-            TotalFrames++;
-            TotalSeconds += deltaTime;
+            totalFrames++;
+            totalSeconds += deltaTime;
             return true;
         }
     }

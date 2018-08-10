@@ -12,26 +12,26 @@ namespace Reggie {
     class Camera {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        float Zoom = 1f;
+        float zoom = 1f;
 
         public void setCameraWorldPosition(Vector2 cameraWorldPosition) {
             this.cameraWorldPosition = cameraWorldPosition;
         }
 
-        public Matrix cameraTransformationMatrix(Viewport viewport, Vector2 screenCentre) {
-             Vector2 translation = -cameraWorldPosition + screenCentre;
-             Matrix cameraMatrix = Matrix.CreateTranslation(translation.X, translation.Y, 0) * Matrix.CreateScale(Zoom,Zoom, 1);
+        public Matrix cameraTransformationMatrix(Viewport viewport, Vector2 screenCenter) {
+             Vector2 translation = -cameraWorldPosition + screenCenter;
+             Matrix cameraMatrix = Matrix.CreateTranslation(translation.X, translation.Y, 0) * Matrix.CreateScale(zoom,zoom, 1);
              
              return cameraMatrix;
         }
 
-        public List<GameObject> objectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList) {
+        public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList) {
             List<GameObject> objectsToRender = new List<GameObject>();
             for(int i = 0; i < gameObjectsList.Count; i++)
             {
-                if (gameObjectsList[i].Position.X < playerPosition.X + 1250 && gameObjectsList[i].SpriteRectangle.Right > playerPosition.X - 950)
+                if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1250 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 950)
                 {
-                    if (gameObjectsList[i].Position.Y < playerPosition.Y + 550 && gameObjectsList[i].SpriteRectangle.Bottom > playerPosition.Y - 550)
+                    if (gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 550 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 550)
                     {
                         objectsToRender.Add(gameObjectsList[i]);
                     }
@@ -43,21 +43,21 @@ namespace Reggie {
 
 
 
-        public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> EnemyList)
+        public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> enemyList)
         {
-            List<Enemy> EnemyToRender = new List<Enemy>();
-            for (int i = 0; i < EnemyList.Count; i++)
+            List<Enemy> enemyToRender = new List<Enemy>();
+            for (int i = 0; i < enemyList.Count; i++)
             {
-                if (EnemyList[i].Position.X < playerPosition.X + 950 && EnemyList[i].SpriteRectangle.Right > playerPosition.X - 950)
+                if (enemyList[i].gameObjectPosition.X < playerPosition.X + 950 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 950)
                 {
-                    if (EnemyList[i].Position.Y < playerPosition.Y + 550 && EnemyList[i].SpriteRectangle.Bottom > playerPosition.Y - 550)
+                    if (enemyList[i].gameObjectPosition.Y < playerPosition.Y + 550 && enemyList[i].gameObjectRectangle.Bottom > playerPosition.Y - 550)
                     {
-                        EnemyToRender.Add(EnemyList[i]);
+                        enemyToRender.Add(enemyList[i]);
                     }
                 }
             }
 
-            return EnemyToRender;
+            return enemyToRender;
         }
 
         float timeUntilNextFrame = 0;
@@ -72,7 +72,7 @@ namespace Reggie {
 
         public void cameraOffset(GameTime GameTime, bool Left, bool isMoving) 
         {
-            if(Game1.CurrentGameState == Game1.GameState.GAMELOOP)
+            if(Game1.currentGameState == Game1.GameState.GAMELOOP)
             {
                 if(isMoving) cap = 0;
                 else cap = 200;
