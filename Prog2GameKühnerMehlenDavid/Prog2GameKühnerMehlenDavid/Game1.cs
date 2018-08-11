@@ -195,7 +195,7 @@ namespace Reggie {
 
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, gameObjectList);
 
-                    /*enemyList = */camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture);
+                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies);
 
@@ -203,7 +203,7 @@ namespace Reggie {
                     {
                         enemy.Update(gameTime, gameObjectList);
                         if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
-                            enemyList.RemoveAt(enemycounter);
+                            enemyList.RemoveAt(enemyList.IndexOf(enemy));
                     }
 
                     // calculates players collision rect(visual)

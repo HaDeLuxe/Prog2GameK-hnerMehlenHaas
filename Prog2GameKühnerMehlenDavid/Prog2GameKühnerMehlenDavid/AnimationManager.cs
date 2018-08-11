@@ -67,7 +67,7 @@ namespace Reggie {
             {
                 if(Attack_Animation_Right.getPlayedOnce() || Attack_Animation_Left.getPlayedOnce())
                 {
-
+                    if(nextAnimation == Animations.Attack_Left || nextAnimation == Animations.Attack_Right )
                     nextAnimation = previousAnimation;
                     currentAnimation = nextAnimation;
                     Attack_Animation_Left.resetPlayedOnce();

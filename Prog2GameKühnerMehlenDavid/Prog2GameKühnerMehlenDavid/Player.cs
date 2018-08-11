@@ -228,8 +228,10 @@ namespace Reggie {
             }
             if(ButtonState.Pressed == mouseState.LeftButton && cooldown ==0)
             {
-                if (facingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
-                else   AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Left;
+                if (facingDirectionRight)
+                    AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
+                else
+                    AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Left;
                 // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
                 foreach (var enemy in enemyList)
                 {
@@ -242,7 +244,7 @@ namespace Reggie {
             }
             if(playerAttackPressed)
                 cooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(cooldown>=1.5)
+            if(cooldown>=.75)
             {
                 cooldown = 0;
                 playerAttackPressed = false;
