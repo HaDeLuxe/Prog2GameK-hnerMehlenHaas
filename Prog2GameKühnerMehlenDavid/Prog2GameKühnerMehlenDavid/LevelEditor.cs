@@ -20,6 +20,7 @@ namespace Reggie {
         bool button2Pushed = false;
         bool button3Pushed = false;
         bool button4Pushed = false;
+        bool button5Pushed = false;
      
         bool alreadyDeleted = false;
         GameObject objectToDelete = null;
@@ -198,7 +199,26 @@ namespace Reggie {
             else
             {
                 button3Pushed = false;
-                positionGreenPlatform_320x64 = new Vector2(1650, 300);
+                positionGreenPlatform_320x64 = new Vector2(1750, 400);
+            }
+
+            Vector2 position_Climbing_Plant_38x68 = new Vector2(1750, 400);
+            Vector2 transformedPos_Climbing_Plant_38x68 = Vector2.Transform(position_Climbing_Plant_38x68, Matrix.Invert(transformationMatrix));
+            Rectangle platformRectangle_Climbing_Plant_38x68 = new Rectangle((int)position_Climbing_Plant_38x68.X, (int)position_Climbing_Plant_38x68.Y, 320, 64);
+            if (platformRectangle_Climbing_Plant_38x68.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+            {
+                position_Climbing_Plant_38x68 = new Vector2(1550, 400);
+                transformedPos_Climbing_Plant_38x68 = Vector2.Transform(position_Climbing_Plant_38x68, Matrix.Invert(transformationMatrix));
+                if (ButtonState.Pressed == mouseState.LeftButton && !button5Pushed)
+                {
+                    button5Pushed = true;
+                    createNewPlatform(ref gameObjectList, platformTextures["Climbingplant_38x64"], transformationMatrix, platformTextures);
+                }
+            }
+            else
+            {
+                button5Pushed = false;
+                positionGreenPlatform_320x64 = new Vector2(1750, 400);
             }
 
             Color color = new Color();
@@ -230,6 +250,7 @@ namespace Reggie {
             spriteBatch.Draw(platformTextures["Green_320_64"], transformedPosGreenPlatform_320x64, Color.White);
             spriteBatch.Draw(platformTextures["Transparent_500x50"], transformedPosTransparentWall_500x50, Color.White);
             spriteBatch.Draw(platformTextures["Transparent_1000x50"], transformedPosTransparentWall_1000x50, Color.White);
+            spriteBatch.Draw(platformTextures["Climbingplant_38x64"], transformedPos_Climbing_Plant_38x68, Color.White);
             spriteBatch.Draw(platformTextures["LevelEditorUIBackButton"], transformedBackButton, color);
         }
 
@@ -253,7 +274,10 @@ namespace Reggie {
             {
                 gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1000, 50), transformedPos));
                 gameObjectList.Last().DontDrawThisObject();
-
+            }
+            if(platformTexture == platformTextures["Climbingplant_38x64"])
+            {
+                gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(38, 64), transformedPos));
             }
         }
 

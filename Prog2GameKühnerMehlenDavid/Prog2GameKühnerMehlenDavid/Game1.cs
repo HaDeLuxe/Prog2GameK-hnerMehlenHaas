@@ -40,6 +40,7 @@ namespace Reggie {
         Texture2D Platform_320_64;
         Texture2D Transparent_Wall_500x50;
         Texture2D Transparent_Wall_1000x50;
+        Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
 
         AnimationManager animManager;
@@ -135,6 +136,8 @@ namespace Reggie {
             texturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1000x50);
             levelEditorUIBackButton = Content.Load<Texture2D>("Images\\UI\\LvlEdtorSaveButton");
             texturesDictionnary.Add("LevelEditorUIBackButton", levelEditorUIBackButton);
+            ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
+            texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
 
 
             LoadGameObjects();
