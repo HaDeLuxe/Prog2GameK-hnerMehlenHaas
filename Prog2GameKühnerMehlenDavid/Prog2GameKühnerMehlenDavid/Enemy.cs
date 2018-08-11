@@ -28,8 +28,9 @@ namespace Reggie
             knockedBack = false;
             fallOutOfMap = false;
             enemyHP = 3;
-            movementSpeed = 1f;
-            knockBackValue = 20f; 
+            movementSpeed = 7f;
+            knockBackValue = 20f;
+            objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
             enemyAggroAreaSize = new Vector4(400, 300, 650, 850);
@@ -165,13 +166,21 @@ namespace Reggie
               enemyAggroArea.Right > worm.collisionRectangle.Right &&
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                pressedRightKey = false;
+                pressedLeftKey = true;
                 velocity.X = -movementSpeed;
+            }
             else if (enemyAggroArea.Right + velocity.X - enemyAggroAreaSize.X /*+ SpriteSize.X*/ < worm.collisionRectangle.Left &&
                 enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
                 enemyAggroArea.Left < worm.collisionRectangle.Left &&
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                pressedLeftKey = false;
+                pressedRightKey = true;
                 velocity.X = movementSpeed;
+            }
         }
 
         public virtual void EnemyAttack() { }
@@ -182,12 +191,20 @@ namespace Reggie
                 enemyAggroArea.Left < worm.collisionRectangle.Left &&
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                //pressedLeftKey = false;
+                //pressedRightKey = true;
                 return true;
+            }
             else if (enemyAggroArea.Left + velocity.X < worm.collisionRectangle.Right &&
               enemyAggroArea.Right > worm.collisionRectangle.Right &&
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                //pressedLeftKey = true;
+                //pressedRightKey = false;
                 return true;
+            }
             else if (enemyAggroArea.Bottom + velocity.Y + gravity.Y > worm.collisionRectangle.Top &&
             enemyAggroArea.Top < worm.collisionRectangle.Top &&
             enemyAggroArea.Right > worm.collisionRectangle.Left &&

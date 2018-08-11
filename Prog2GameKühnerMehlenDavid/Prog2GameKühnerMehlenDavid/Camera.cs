@@ -29,9 +29,9 @@ namespace Reggie {
             List<GameObject> objectsToRender = new List<GameObject>();
             for(int i = 0; i < gameObjectsList.Count; i++)
             {
-                if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1250 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 950)
+                if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1250 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 1250)
                 {
-                    if (gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 550 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 550)
+                    if (gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                     {
                         objectsToRender.Add(gameObjectsList[i]);
                     }
@@ -41,14 +41,42 @@ namespace Reggie {
             return objectsToRender;
         }
 
-
+        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList, Texture2D enemySkinTexture)
+        {
+           
+            for (int i = 0; i < platformList.Count; i++)
+            {
+                if (!platformList[i].enemySpawnCheck)
+                {
+                    if (platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750)
+                        platformList[i].enemySpawnCheck = true;
+                    if ((platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectPosition.X > wormPlayer.gameObjectPosition.X + 950) || (platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectRectangle.Right < wormPlayer.gameObjectPosition.X - 950)
+                        || (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
+                    {
+                        //if ((platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
+                        {
+                            platformList[i].enemySpawnCheck = true;
+                            Random rand = new Random();
+                            int randomizedNumber = rand.Next(0, 100);
+                            if (randomizedNumber % 2 == 0)
+                            {
+                                enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50)));
+                                enemyList.Last().SetPlayer(wormPlayer);
+                            }
+                           
+                        }
+                    }
+                }
+            }
+        
+        }
 
         public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> enemyList)
         {
             List<Enemy> enemyToRender = new List<Enemy>();
             for (int i = 0; i < enemyList.Count; i++)
             {
-                if (enemyList[i].gameObjectPosition.X < playerPosition.X + 950 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 950)
+                if (enemyList[i].gameObjectPosition.X < playerPosition.X + 1050 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 1050)
                 {
                     if (enemyList[i].gameObjectPosition.Y < playerPosition.Y + 550 && enemyList[i].gameObjectRectangle.Bottom > playerPosition.Y - 550)
                     {
@@ -116,6 +144,5 @@ namespace Reggie {
                 }
             }
         }
-       
     }
 }
