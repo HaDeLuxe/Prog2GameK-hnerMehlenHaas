@@ -53,7 +53,8 @@ namespace Reggie {
         //for switching LevelEditor
         public static KeyboardState previousState;
 
-        SplashScreen splashScreen = new SplashScreen();
+        SplashScreen splashScreen;
+        MainMenu MainMenu;
 
        // Color[] colorData;
        // Vector2 enemyaggroposition;
@@ -72,16 +73,22 @@ namespace Reggie {
         {
             currentGameState = GameState.SPLASHSCREEN;
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 1000;
-            graphics.PreferredBackBufferWidth = 1800;
+            //graphics.PreferredBackBufferHeight = 1000;
+            //graphics.PreferredBackBufferWidth = 1800;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
             graphics.ApplyChanges();
+            Window.AllowUserResizing = true;
             input.ReadImageSizeDataSheet();
             playerSpriteSheets = new Dictionary<string, Texture2D>();
             levelEditor = new LevelEditor();
             cameraOffset = new Vector2(0, 0);
             texturesDictionnary = new Dictionary<string, Texture2D>();
             Enums = new Enums();
+            splashScreen = new SplashScreen();
+            MainMenu = new MainMenu();
         }
 
         /// <summary>
@@ -176,6 +183,8 @@ namespace Reggie {
                     splashScreen.ClickedButton();
                    break;
                 case GameState.MAINMENU:
+                    MainMenu.Update(this);
+                    this.IsMouseVisible = true;
                     break;
                 case GameState.LEVELEDITOR:
 
@@ -189,7 +198,7 @@ namespace Reggie {
                     break;
 
                 case GameState.GAMELOOP:
-
+                    this.IsMouseVisible = false;
                     //switch to LevelEditor
                     if (currentGameState == GameState.GAMELOOP)
                     {
@@ -282,11 +291,10 @@ namespace Reggie {
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
 
-            if(currentGameState == GameState.SPLASHSCREEN)
+            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU)
             spriteBatch.Begin(0, null, null, null, null, null, null);
             else
             spriteBatch.Begin(0, null, null, null, null, null, transformationMatrix);
-
             //added block for better readability
             {
                 
@@ -298,7 +306,7 @@ namespace Reggie {
 
                         break;
                     case GameState.MAINMENU:
-
+                        MainMenu.RenderMainMenu(Content, spriteBatch, font);
                         break;
                     case GameState.GAMELOOP:
 
@@ -395,6 +403,10 @@ namespace Reggie {
                 {
                     gameObjectList.Add(new Platform(texturesDictionnary["Transparent_1000x50"], new Vector2(1000, 50),  new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM));
                     gameObjectList.Last().DontDrawThisObject();
+                }
+                if(dataSeperated[i] == Enums.ObjectsID.VINE.ToString())
+                {
+                    gameObjectList.Add(new Platform(texturesDictionnary["Climbingplant_38x64"], new Vector2(38, 88), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE));
                 }
             }
         }

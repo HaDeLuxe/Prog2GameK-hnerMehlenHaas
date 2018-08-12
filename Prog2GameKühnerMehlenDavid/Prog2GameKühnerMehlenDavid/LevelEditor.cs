@@ -14,7 +14,8 @@ namespace Reggie {
         Vector2 mousePosition;
 
         //Doublejump is 2x175 high
-        int step = 88;         
+        int step = 64;
+        //int step = 88;
         bool alreadyDragged = false;
         bool button1Pushed = false;
         bool button2Pushed = false;
@@ -292,7 +293,9 @@ namespace Reggie {
                 if (gameObject.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
                 if (gameObject.getTexture() == platformTextures["Transparent_500x50"]) Output =  Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
                 if (gameObject.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
-                Output +=","+ gameObject.gameObjectPosition.X + "," + gameObject.gameObjectPosition.Y;
+                if (gameObject.getTexture() == platformTextures["Climbingplant_38x64"]) Output = Enums.ObjectsID.VINE.ToString();
+
+                Output += ","+ gameObject.gameObjectPosition.X + "," + gameObject.gameObjectPosition.Y;
 
                 outputList.Add(Output);
             }
