@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -26,6 +27,7 @@ namespace Reggie {
         bool alreadyDeleted = false;
         GameObject objectToDelete = null;
         List<string> outputList;
+        Dictionary<string, Rectangle> PlatformsDic;
         Enums Enums;
 
 
@@ -33,6 +35,7 @@ namespace Reggie {
             mousePosition = new Vector2(0, 0);
             outputList = new List<string>();
             Enums = new Enums();
+            PlatformsDic = new Dictionary<string, Rectangle>();
         }
         
         /// <summary>
@@ -132,7 +135,7 @@ namespace Reggie {
             if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 10;
             if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 10 ;
         }
-        
+
         /// <summary>
         /// Draws the Level Editor User Interface
         /// </summary>
@@ -150,17 +153,18 @@ namespace Reggie {
             Vector2 positionGreenPlatform_320x64 = new Vector2(1650, 100);
             Vector2 transformedPosGreenPlatform_320x64 = Vector2.Transform(positionGreenPlatform_320x64, Matrix.Invert(transformationMatrix));
             Rectangle platformRectangleGreenPlatform_320x64 = new Rectangle((int)positionGreenPlatform_320x64.X, (int)positionGreenPlatform_320x64.Y, 320, 64);
-            if (platformRectangleGreenPlatform_320x64.Contains(new Point((int)mousePosition.X,(int)mousePosition.Y)))
+            if (platformRectangleGreenPlatform_320x64.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
             {
                 positionGreenPlatform_320x64 = new Vector2(1450, 100);
                 transformedPosGreenPlatform_320x64 = Vector2.Transform(positionGreenPlatform_320x64, Matrix.Invert(transformationMatrix));
-                if(ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
+                if (ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
                 {
                     button1Pushed = true;
                     createNewPlatform(ref gameObjectList, platformTextures["Green_320_64"], transformationMatrix, platformTextures);
                 }
             }
-            else{
+            else
+            {
                 button1Pushed = false;
                 positionGreenPlatform_320x64 = new Vector2(1650, 100);
             }
@@ -255,6 +259,14 @@ namespace Reggie {
             spriteBatch.Draw(platformTextures["LevelEditorUIBackButton"], transformedBackButton, color);
         }
 
+        private int xoffset = 0;
+
+        //public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix transformationMatrix, ref List<GameObject> gameObjectList)
+        //{
+
+        //}
+
+
         /// <summary>
         /// Add a new Platform to the GameObjectList and gives it the standard viewport coordinates (1000,200)
         /// </summary>
@@ -324,6 +336,27 @@ namespace Reggie {
                     Game1.currentGameState = Game1.GameState.GAMELOOP;
                 Game1.previousState = Keyboard.GetState();
             }
+        }
+
+        public void loadTextures(ContentManager ContentManager)
+        {
+            Texture2D Platform_TileSheet = ContentManager.Load<Texture2D>("Images\\WorldObjects\\tileSheet_complete_2X");
+            List<string> NamesList = new List<string>();
+            NamesList = new List<string>(System.IO.File.ReadAllLines(@"PlatformTileSheetNames.txt"));
+            NamesList = NamesList.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+
+            int i = 0;
+            for (int m = 0; m < 9; m++)
+            {
+                  for(int n = 0; n < 12; n++)
+                  {
+                        PlatformsDic.Add(NamesList[i].ToString(), new Rectangle(m * 128, n * 128, 128, 128));
+                        //Console.WriteLine(PlatformsDic.ElementAt(i));
+                        i++;
+                  }
+            }
+
+
         }
 
     }

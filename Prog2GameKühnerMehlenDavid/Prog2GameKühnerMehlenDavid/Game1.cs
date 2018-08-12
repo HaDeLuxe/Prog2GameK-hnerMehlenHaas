@@ -43,7 +43,6 @@ namespace Reggie {
         Texture2D Transparent_Wall_1000x50;
         Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
-
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -148,7 +147,7 @@ namespace Reggie {
             ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
 
-
+            levelEditor.loadTextures(Content);
             LoadGameObjects();
             FillLists();
             // MONO: use this.Content to load your game content here
