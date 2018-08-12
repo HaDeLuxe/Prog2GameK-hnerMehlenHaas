@@ -40,7 +40,7 @@ namespace Reggie {
             switch(CurrentButton)
             {
                 case Enums.MainMenuButtons.START:
-                    SpriteBatch.Draw(MainMenu1, new Rectangle(0, 0, 1920, 1080), Color.White);
+                    SpriteBatch.Draw(MainMenu1, new Rectangle(0, 0, 2560, 1440), Color.White);
                     break;
                 case Enums.MainMenuButtons.RESUME:
                     SpriteBatch.Draw(MainMenu2, new Rectangle(0, 0, 1920, 1080), Color.White);

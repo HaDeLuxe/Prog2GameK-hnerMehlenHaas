@@ -185,7 +185,7 @@ namespace Reggie
             }
             if (!playerGameElementInteraction)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
                 {
 
                     //Camera won't move after simple turning
@@ -206,7 +206,7 @@ namespace Reggie
                     facingDirectionRight = false;
                     pressedRightKey = false;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                else if (Keyboard.GetState().IsKeyDown(Keys.D) || GamePad.GetState(0).ThumbSticks.Left.X > 0.5f)
                 {
                     //Camera won't move after simple turning
                     camera.IncreaseRightCounter();
@@ -228,7 +228,8 @@ namespace Reggie
                     velocity.Y = movementSpeed;
             }
             //Player Jump Input
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)
+                /*|| (GamePad.GetState(0).IsButtonDown(Buttons.A) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)*/)
             {
                 if (facingDirectionRight)
                     AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
@@ -242,7 +243,8 @@ namespace Reggie
             }
 
             //Player Attack Input
-            if(ButtonState.Pressed == mouseState.LeftButton && cooldown ==0 && !playerGameElementInteraction)
+            if((ButtonState.Pressed == mouseState.LeftButton && cooldown ==0 && !playerGameElementInteraction)
+                || GamePad.GetState(0).IsButtonDown(Buttons.X) && cooldown == 0 && !playerGameElementInteraction)
             {
                 if (facingDirectionRight)
                     AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
