@@ -8,14 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Reggie {
-    public class Player : GameObject {
+namespace Reggie
+{
+    public class Player : GameObject
+    {
         KeyboardState previousState;
         
         bool firstJump;
         bool secondJump;
         bool jumpButtonPressed;
         bool playerAttackPressed;
+        bool playerGameElementInteraction;
         bool stillAlive;
         float jumpSpeed;
         float cooldown;
@@ -36,7 +39,8 @@ namespace Reggie {
             }
         }
 
-        public Player(Texture2D playerTexture,Vector2 playerSize, Vector2 playerPosition) : base(playerTexture,playerSize, playerPosition) {
+        public Player(Texture2D playerTexture,Vector2 playerSize, Vector2 playerPosition, int gameObjectID) : base(playerTexture,playerSize, playerPosition, gameObjectID)
+        {
             gravityActive = true;
             firstJump = false;
             secondJump = false;
@@ -47,7 +51,8 @@ namespace Reggie {
             playerAttackPressed = false;
             facingDirectionRight = true;
             jumpButtonPressed = false;
-            objectID = (int)Enums.ObjectsID.PLAYER;
+            playerGameElementInteraction = false;
+            // objectID = (int)Enums.ObjectsID.PLAYER;
             changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
             collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
@@ -56,21 +61,25 @@ namespace Reggie {
             jumpSpeed = -20f;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList) {
-            PlayerControls(gameTime,enemyList);
+        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject)
+        {
+
+            PlayerControls(gameTime,enemyList, interactiveObject);
             gameObjectPosition.Y = collisionBoxPosition.Y - changeCollisionBox.Y;
             PlayerPositionCalculation(gameTime, gameObjectsToRender);
         }
 
 
-        public void changeTexture(Texture2D texture) {
+        public void changeTexture(Texture2D texture)
+        {
             this.gameObjectTexture = texture;
         }
-        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender) {
+        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender)
+        {
 
             foreach (var platform in gameObjectsToRender)
             {
-                if ((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.W) || previousState.IsKeyDown(Keys.Space)) || gravityActive)
+                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
                 {
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
                     if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
@@ -151,14 +160,15 @@ namespace Reggie {
             velocity = Vector2.Zero;
         }
 
-        private void PlayerJump() {
+        private void PlayerJump()
+        {
             velocity.Y = jumpSpeed;
             if (previousState.IsKeyDown(Keys.S))
                 velocity.Y = movementSpeed;
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject)
         {
 
             mouseState = Mouse.GetState();
@@ -173,60 +183,66 @@ namespace Reggie {
                     //AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Right);
                     AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
             }
-
-
-            
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (!playerGameElementInteraction)
             {
-               
-               //Camera won't move after simple turning
-                camera.IncreaseLeftCounter();
-                camera.ResetRightCounter();
-                
-                //Camera moves to a direction so that you see better what is coming to you
-                camera.cameraOffset(gameTime, false, true);
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
 
-                if (firstJump == true || secondJump == true)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
-                else    AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
-                
+                    //Camera won't move after simple turning
+                    camera.IncreaseLeftCounter();
+                    camera.ResetRightCounter();
 
-                velocity.X = -movementSpeed;
-                pressedLeftKey = true;
-                facingDirectionRight = false;
-                pressedRightKey = false;
+                    //Camera moves to a direction so that you see better what is coming to you
+                    camera.cameraOffset(gameTime, false, true);
+
+                    if (firstJump == true || secondJump == true)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                    else
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
+
+
+                    velocity.X = -movementSpeed;
+                    pressedLeftKey = true;
+                    facingDirectionRight = false;
+                    pressedRightKey = false;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    //Camera won't move after simple turning
+                    camera.IncreaseRightCounter();
+                    camera.ResetLeftCounter();
+
+                    //Camera moves to a direction so that you see better what is coming to you
+                    camera.cameraOffset(gameTime, true, true);
+
+                    if (firstJump || secondJump) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                    else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
+
+                    velocity.X = movementSpeed;
+                    facingDirectionRight = true;
+                    pressedLeftKey = false;
+                    pressedRightKey = true;
+
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    velocity.Y = movementSpeed;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                //Camera won't move after simple turning
-                camera.IncreaseRightCounter();
-                camera.ResetLeftCounter();
-
-                //Camera moves to a direction so that you see better what is coming to you
-                camera.cameraOffset(gameTime, true, true);
-
-                if (firstJump || secondJump)    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
-                else   AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
-                
-                velocity.X = movementSpeed;
-                facingDirectionRight = true;
-                pressedLeftKey = false;
-                pressedRightKey = true;
-
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S))
-                velocity.Y = movementSpeed;
-
+            //Player Jump Input
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)
             {
-                if (facingDirectionRight)   AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
-                else    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                if (facingDirectionRight)
+                    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                else
+                    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
                 jumpButtonPressed = true;
+                playerGameElementInteraction = false;
                 if (firstJump == false || secondJump == false)
                     jumpSpeed = -20f;
                 PlayerJump();
             }
-            if(ButtonState.Pressed == mouseState.LeftButton && cooldown ==0)
+
+            //Player Attack Input
+            if(ButtonState.Pressed == mouseState.LeftButton && cooldown ==0 && !playerGameElementInteraction)
             {
                 if (facingDirectionRight)
                     AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
@@ -251,6 +267,40 @@ namespace Reggie {
             }
            
 
+            //Player Gameelement Interactive Input
+            if((ButtonState.Pressed == mouseState.RightButton || Keyboard.GetState().IsKeyDown(Keys.W)) && !playerGameElementInteraction)
+            {
+                foreach(var vine in interactiveObject)
+                {
+                    if(InteractiveVineCollision(vine))
+                    {
+                        jumpSpeed = 0;
+                        gravityActive = false;
+                        isStanding = true;
+                        firstJump = false;
+                        secondJump = false;
+                        jumpButtonPressed = false;
+                        playerGameElementInteraction = true;
+                        collisionBoxPosition.X = vine.gameObjectRectangle.X;
+                        if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
+                        {
+                            gameObjectPosition = collisionBoxPosition - changeCollisionBox;
+                            
+                        }
+                    }
+                }
+            }
+            if(Keyboard.GetState().IsKeyDown(Keys.W) && playerGameElementInteraction)
+            {
+                collisionBoxPosition.Y -= movementSpeed-2;
+            }
+            else if(Keyboard.GetState().IsKeyDown(Keys.S) && playerGameElementInteraction)
+            {
+                collisionBoxPosition.Y += movementSpeed - 2;
+            }
+
+
+
 
             if (Keyboard.GetState().IsKeyUp(Keys.D) && Keyboard.GetState().IsKeyUp(Keys.A) && !firstJump && !secondJump)
             {
@@ -266,6 +316,32 @@ namespace Reggie {
             previousState = Keyboard.GetState();
         }
 
+        private bool InteractiveVineCollision(GameObject vine)
+        {
+            if (collisionRectangle.Right + velocity.X >= vine.gameObjectRectangle.Left &&
+               collisionRectangle.Left <= vine.gameObjectRectangle.Left &&
+               collisionRectangle.Bottom > vine.gameObjectRectangle.Top &&
+               collisionRectangle.Top < vine.gameObjectRectangle.Bottom)
+                return true;
+            else if (collisionRectangle.Left + velocity.X <= vine.gameObjectRectangle.Right &&
+                collisionRectangle.Right >= vine.gameObjectRectangle.Right &&
+                collisionRectangle.Bottom > vine.gameObjectRectangle.Top &&
+                collisionRectangle.Top < vine.gameObjectRectangle.Bottom)
+                return true;
+            else if (collisionRectangle.Bottom > vine.gameObjectRectangle.Top &&
+                collisionRectangle.Top < vine.gameObjectRectangle.Top &&
+                collisionRectangle.Right > vine.gameObjectRectangle.Left &&
+                collisionRectangle.Left < vine.gameObjectRectangle.Right)
+                return true;
+            else if (collisionRectangle.Top < vine.gameObjectRectangle.Bottom &&
+                collisionRectangle.Bottom > vine.gameObjectRectangle.Bottom &&
+                collisionRectangle.Right > vine.gameObjectRectangle.Left &&
+                collisionRectangle.Left < vine.gameObjectRectangle.Right)
+                return true;
+            else
+                return false;
+        }
+
 
         //Checks if Players standard attack is hitting the enemy
         private bool PlayerAttackCollision(Enemy enemyEntity)
@@ -274,24 +350,24 @@ namespace Reggie {
                 attackRectangle.Left <= enemyEntity.collisionRectangle.Left &&
                 attackRectangle.Bottom > enemyEntity.collisionRectangle.Top &&
                 attackRectangle.Top < enemyEntity.collisionRectangle.Bottom)
-                return true;
+                    return true;
             else if (attackRectangle.Left + velocity.X <= enemyEntity.collisionRectangle.Right &&
-              attackRectangle.Right >= enemyEntity.collisionRectangle.Right &&
-              attackRectangle.Bottom > enemyEntity.collisionRectangle.Top &&
-              attackRectangle.Top < enemyEntity.collisionRectangle.Bottom)
-                return true;
+                attackRectangle.Right >= enemyEntity.collisionRectangle.Right &&
+                attackRectangle.Bottom > enemyEntity.collisionRectangle.Top &&
+                attackRectangle.Top < enemyEntity.collisionRectangle.Bottom)
+                    return true;
             else if (attackRectangle.Bottom > enemyEntity.collisionRectangle.Top &&
-            attackRectangle.Top < enemyEntity.collisionRectangle.Top &&
-            attackRectangle.Right > enemyEntity.collisionRectangle.Left &&
-            attackRectangle.Left < enemyEntity.collisionRectangle.Right)
-                return true;
+                attackRectangle.Top < enemyEntity.collisionRectangle.Top &&
+                attackRectangle.Right > enemyEntity.collisionRectangle.Left &&
+                attackRectangle.Left < enemyEntity.collisionRectangle.Right)
+                    return true;
             else if (attackRectangle.Top < enemyEntity.collisionRectangle.Bottom &&
-           attackRectangle.Bottom > enemyEntity.collisionRectangle.Bottom &&
-           attackRectangle.Right > enemyEntity.collisionRectangle.Left &&
-           attackRectangle.Left < enemyEntity.collisionRectangle.Right)
-                return true;
+                attackRectangle.Bottom > enemyEntity.collisionRectangle.Bottom &&
+                attackRectangle.Right > enemyEntity.collisionRectangle.Left &&
+                attackRectangle.Left < enemyEntity.collisionRectangle.Right)
+                    return true;
             else
-                return false;
+                    return false;
         }
 
         //Reduces player's hp if he is hit by the enemy

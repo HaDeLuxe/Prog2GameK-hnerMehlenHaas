@@ -264,20 +264,20 @@ namespace Reggie {
         {
             Vector2 transformedPos = Vector2.Transform(new Vector2(1000,200), Matrix.Invert(transformationMatrix));
             if(platformTexture == platformTextures["Green_320_64"])
-                gameObjectList.Add(new Platform(platformTextures["Green_320_64"], new Vector2(320, 64), transformedPos));
+                gameObjectList.Add(new Platform(platformTextures["Green_320_64"], new Vector2(320, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM));
             if (platformTexture == platformTextures["Transparent_500x50"])
             {
-                gameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(500, 50), transformedPos));
+                gameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(500, 50), transformedPos, (int)Enums.ObjectsID.PLATFORM));
                 gameObjectList.Last().DontDrawThisObject();
             }
             if(platformTexture == platformTextures["Transparent_1000x50"])
             {
-                gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1000, 50), transformedPos));
+                gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1000, 50), transformedPos, (int)Enums.ObjectsID.PLATFORM));
                 gameObjectList.Last().DontDrawThisObject();
             }
             if(platformTexture == platformTextures["Climbingplant_38x64"])
             {
-                gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(38, 64), transformedPos));
+                gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(38, 88), transformedPos, (int)Enums.ObjectsID.VINE));
             }
         }
 

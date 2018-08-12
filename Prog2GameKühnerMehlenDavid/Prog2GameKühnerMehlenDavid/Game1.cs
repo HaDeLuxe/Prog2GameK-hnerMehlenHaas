@@ -30,6 +30,7 @@ namespace Reggie {
         List<Enemy> enemyList;
         List<Enemy> viewableEnemies;
         List<GameObject> gameObjectsToRender;
+        List<GameObject> interactiveObject;
         Dictionary<string, Texture2D> texturesDictionnary;
 
         int enemycounter;
@@ -115,7 +116,7 @@ namespace Reggie {
             playerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
 
             animManager = new AnimationManager(playerSpriteSheets);
-            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(-2000,500));
+            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(-2000,500), (int) Enums.ObjectsID.PLAYER);
 
             enemyList = new List<Enemy>();
             //{
@@ -123,6 +124,7 @@ namespace Reggie {
             //};
             platformList = new List<Platform>();
             gameObjectList = new List<GameObject>();
+            interactiveObject = new List<GameObject>();
             //foreach (var enemy in enemyList)
             //    enemy.SetPlayer(wormPlayer);
 
@@ -141,7 +143,7 @@ namespace Reggie {
 
 
             LoadGameObjects();
-            FillPlatformList();
+            FillLists();
             // MONO: use this.Content to load your game content here
         }
 
@@ -183,7 +185,7 @@ namespace Reggie {
                         this.IsMouseVisible = true;
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject);
                     break;
 
                 case GameState.GAMELOOP:
@@ -196,11 +198,11 @@ namespace Reggie {
                         previousState = Keyboard.GetState();
                     }
 
-                    gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, gameObjectList);
+                    gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, gameObjectList, ref interactiveObject);
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject);
 
                     foreach (var enemy in enemyList.ToList())
                     {
@@ -382,27 +384,29 @@ namespace Reggie {
             {
                 if (dataSeperated[i] == Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString())
                 {
-                    gameObjectList.Add(new Platform(texturesDictionnary["Green_320_64"], new Vector2(320, 64), new Vector2(Int32.Parse(dataSeperated[i+1]), Int32.Parse(dataSeperated[i+2]))));
+                    gameObjectList.Add(new Platform(texturesDictionnary["Green_320_64"], new Vector2(320, 64), new Vector2(Int32.Parse(dataSeperated[i+1]), Int32.Parse(dataSeperated[i+2])), (int)Enums.ObjectsID.PLATFORM));
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString())
                 {
-                    gameObjectList.Add(new Platform(texturesDictionnary["Transparent_500x50"], new Vector2(500, 50), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2]))));
+                    gameObjectList.Add(new Platform(texturesDictionnary["Transparent_500x50"], new Vector2(500, 50), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM));
                     gameObjectList.Last().DontDrawThisObject();
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString())
                 {
-                    gameObjectList.Add(new Platform(texturesDictionnary["Transparent_1000x50"], new Vector2(1000, 50),  new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2]))));
+                    gameObjectList.Add(new Platform(texturesDictionnary["Transparent_1000x50"], new Vector2(1000, 50),  new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM));
                     gameObjectList.Last().DontDrawThisObject();
                 }
             }
         }
 
-        private void FillPlatformList()
+        private void FillLists()
         {
             for(int i = 0; i <gameObjectList.Count; i++)
             {
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.PLATFORM)
                     platformList.Add((Platform)gameObjectList[i]);
+                else if (gameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
+                    interactiveObject.Add((Platform)gameObjectList[i]);
             }
         }
         

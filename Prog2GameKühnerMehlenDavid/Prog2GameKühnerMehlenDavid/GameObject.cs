@@ -40,10 +40,11 @@ namespace Reggie {
             get { return new Rectangle((int)gameObjectPosition.X, (int)gameObjectPosition.Y, (int)gameObjectSize.X, (int)gameObjectSize.Y); } set{; }
         }
 
-        public GameObject(Texture2D gameObjectTexture, Vector2 gameObejctSize, Vector2 position ) {
+        public GameObject(Texture2D gameObjectTexture, Vector2 gameObejctSize, Vector2 position, int gameObjectID ) {
             this.gameObjectTexture = gameObjectTexture;
             this.gameObjectSize = gameObejctSize;
             this.gameObjectPosition = position;
+            this.objectID = gameObjectID;
             
         }
 

@@ -8,33 +8,38 @@ using System.Threading;
 
 using System.Threading.Tasks;
 
-namespace Reggie {
-    class Camera {
+namespace Reggie
+{
+    class Camera
+    {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
         float zoom = 1f;
 
-        public void setCameraWorldPosition(Vector2 cameraWorldPosition) {
+        public void setCameraWorldPosition(Vector2 cameraWorldPosition)
+        {
             this.cameraWorldPosition = cameraWorldPosition;
         }
 
-        public Matrix cameraTransformationMatrix(Viewport viewport, Vector2 screenCenter) {
+        public Matrix cameraTransformationMatrix(Viewport viewport, Vector2 screenCenter)
+        {
              Vector2 translation = -cameraWorldPosition + screenCenter;
              Matrix cameraMatrix = Matrix.CreateTranslation(translation.X, translation.Y, 0) * Matrix.CreateScale(zoom,zoom, 1);
              
              return cameraMatrix;
         }
 
-        public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList) {
+        public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList, ref List<GameObject> interactiveObject)
+        {
             List<GameObject> objectsToRender = new List<GameObject>();
             for(int i = 0; i < gameObjectsList.Count; i++)
             {
-                if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1250 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 1250)
+                if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1250 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 1250
+                    && gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                 {
-                    if (gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
-                    {
                         objectsToRender.Add(gameObjectsList[i]);
-                    }
+                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE)
+                        interactiveObject.Add(gameObjectsList[i]);
                 }
             }
 
@@ -53,23 +58,22 @@ namespace Reggie {
                     if ((platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectPosition.X > wormPlayer.gameObjectPosition.X + 950) || (platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectRectangle.Right < wormPlayer.gameObjectPosition.X - 950)
                         || (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
                     {
-                        //if ((platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
+                        platformList[i].enemySpawnCheck = true;
+                        Random rand = new Random();
+                        int randomizedNumber = rand.Next(0, 100);
+                        if (randomizedNumber % 2 == 0)
                         {
-                            platformList[i].enemySpawnCheck = true;
-                            Random rand = new Random();
-                            int randomizedNumber = rand.Next(0, 100);
-                            if (randomizedNumber % 2 == 0)
-                            {
-                                enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50)));
-                                enemyList.Last().SetPlayer(wormPlayer);
-                            }
-                           
+                            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY));
+                            enemyList.Last().SetPlayer(wormPlayer);
                         }
+
                     }
                 }
             }
         
         }
+
+       
 
         public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> enemyList)
         {

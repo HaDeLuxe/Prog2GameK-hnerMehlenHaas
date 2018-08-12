@@ -20,7 +20,7 @@ namespace Reggie
         float fallCooldown;
         public bool fallOutOfMap;
         
-        public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition) : base(enemyTexture, enemySize, enemyPosition)
+        public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
             gravityActive = true;
             isStanding = false;
@@ -30,7 +30,7 @@ namespace Reggie
             enemyHP = 3;
             movementSpeed = 7f;
             knockBackValue = 20f;
-            objectID = (int)Enums.ObjectsID.ENEMY;
+           // objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
             enemyAggroAreaSize = new Vector4(400, 300, 650, 850);
