@@ -236,29 +236,29 @@ namespace Reggie {
         //        positionGreenPlatform_320x64 = new Vector2(1750, 400);
         //    }
 
-        //    Color color = new Color();
-        //    Vector2 positionBackButton = new Vector2(1550, 900);
-        //    Vector2 transformedBackButton = Vector2.Transform(positionBackButton, Matrix.Invert(transformationMatrix));
-        //    Rectangle rectangleBackButton = new Rectangle((int)positionBackButton.X, (int)positionBackButton.Y, 200, 50);
-        //    if (rectangleBackButton.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-        //    {
-        //        if (ButtonState.Pressed == mouseState.LeftButton && !button4Pushed)
-        //        {
-        //            button4Pushed = true;
-        //            color = Color.LightGray;
-        //            Save(gameObjectList, platformTextures);
+    //    Color color = new Color();
+    //    Vector2 positionBackButton = new Vector2(1550, 900);
+    //    Vector2 transformedBackButton = Vector2.Transform(positionBackButton, Matrix.Invert(transformationMatrix));
+    //    Rectangle rectangleBackButton = new Rectangle((int)positionBackButton.X, (int)positionBackButton.Y, 200, 50);
+    //        if (rectangleBackButton.Contains(new Point((int) mousePosition.X, (int) mousePosition.Y)))
+    //        {
+    //            if (ButtonState.Pressed == mouseState.LeftButton && !button4Pushed)
+    //            {
+    //                button4Pushed = true;
+    //                color = Color.LightGray;
+    //                SavePlatforms(gameObjectList, platformTextures);
 
-        //        }
-        //        else
-        //        {
-        //            color = Color.White;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        button4Pushed = false;
-        //        color = Color.White;
-        //    }
+    //}
+    //            else
+    //            {
+    //                color = Color.White;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            button4Pushed = false;
+    //            color = Color.White;
+    //        }
 
 
 
@@ -295,6 +295,34 @@ namespace Reggie {
             }
             if(ButtonState.Released == mouseState.LeftButton)
             button1Pushed = false;
+
+
+            Color color = new Color();
+            Vector2 positionBackButton = new Vector2(1550, 900);
+            Vector2 transformedBackButton = Vector2.Transform(positionBackButton, Matrix.Invert(transformationMatrix));
+            Rectangle rectangleBackButton = new Rectangle((int)positionBackButton.X, (int)positionBackButton.Y, 200, 50);
+            if (rectangleBackButton.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+            {
+                if (ButtonState.Pressed == mouseState.LeftButton && !button4Pushed)
+                {
+                    button4Pushed = true;
+                    color = Color.LightGray;
+                    SavePlatforms(gameObjectList, platformTextures);
+
+                }
+                else
+                {
+                    color = Color.White;
+                }
+            }
+            else
+            {
+                button4Pushed = false;
+                color = Color.White;
+            }
+
+
+            spriteBatch.Draw(platformTextures["LevelEditorUIBackButton"], transformedBackButton, color);
         }
 
 
@@ -328,134 +356,63 @@ namespace Reggie {
         private void createNewPlatform(ref List<GameObject> gameObjectList, string textureName, Matrix transformationMatrix, GraphicsDevice graphics) {
             Vector2 transformedPos = Vector2.Transform(new Vector2(1000, 200), Matrix.Invert(transformationMatrix));
 
-            if (textureName == "tileBrown_27") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_27"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_27, false));
-            if (textureName == "tileBrown_01") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_01"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, true));
-            if (textureName == "tileBrown_02") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_02"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_02, true));
-            if (textureName == "tileBrown_03") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_03"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_03, true));
-            if (textureName == "tileBrown_04") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_04"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_04, true));
-            if (textureName == "tileBrown_05") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_05"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_05, true));
-            if (textureName == "tileBrown_06") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_06"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_06, true));
-            if (textureName == "tileBrown_07") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_07"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_07, true));
-            if (textureName == "tileBrown_08") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_08"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_08, true));
-            if (textureName == "tileBrown_09") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_09"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_09, false));
-            if (textureName == "tileBrown_10") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_10"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_10, false));
-            if (textureName == "tileBrown_11") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_11"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_11, false));
-            if (textureName == "tileBrown_12") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_12"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_12, false));
-            if (textureName == "tileBrown_13") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_13"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_13, false));
-            if (textureName == "tileBrown_14") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_14"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_14, false));
-            if (textureName == "tileBrown_15") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_15"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_15, true));
-            if (textureName == "tileBrown_16") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_16"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_16, true));
-            if (textureName == "tileBrown_17") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_17"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_17, true));
-            if (textureName == "tileBrown_18") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_18"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_18, false));
-            if (textureName == "tileBrown_19") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_19"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_19, false));
-            if (textureName == "tileBrown_20") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_20"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_20, false));
-            if (textureName == "tileBrown_21") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_21"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_21, false));
-            if (textureName == "tileBrown_22") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_22"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_22, false));
-            if (textureName == "tileBrown_23") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_23"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_23, true));
-            if (textureName == "tileBrown_24") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_24"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_24, true));
-            if (textureName == "tileBrown_25") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_25"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_25, true));
-            if (textureName == "tileBrown_26") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBrown_26"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_26, true));
-            if (textureName == "tileYellow_27") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_27"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_27, false));
-            if (textureName == "tileYellow_01") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_01"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_01, true));
-            if (textureName == "tileYellow_02") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_02"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_02, true));
-            if (textureName == "tileYellow_03") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_03"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_03, true));
-            if (textureName == "tileYellow_04") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_04"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_04, true));
-            if (textureName == "tileYellow_05") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_05"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_05, true));
-            if (textureName == "tileYellow_06") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_06"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_06, true));
-            if (textureName == "tileYellow_07") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_07"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_07, true));
-            if (textureName == "tileYellow_08") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_08"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_08, true));
-            if (textureName == "tileYellow_09") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_09"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_09, false));
-            if (textureName == "tileYellow_10") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_10"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_10, false));
-            if (textureName == "tileYellow_11") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_11"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_11, false));
-            if (textureName == "tileYellow_12") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_12"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_12, false));
-            if (textureName == "tileYellow_13") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_13"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_13, false));
-            if (textureName == "tileYellow_14") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_14"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_14, false));
-            if (textureName == "tileYellow_15") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_15"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_15, true));
-            if (textureName == "tileYellow_16") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_16"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_16, true));
-            if (textureName == "tileYellow_17") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_17"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_17, true));
-            if (textureName == "tileYellow_18") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_18"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_18, false));
-            if (textureName == "tileYellow_19") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_19"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_19, false));
-            if (textureName == "tileYellow_20") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_20"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_20, false));
-            if (textureName == "tileYellow_21") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_21"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_21, false));
-            if (textureName == "tileYellow_22") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_22"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_22, false));
-            if (textureName == "tileYellow_23") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_23"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_23, true));
-            if (textureName == "tileYellow_24") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_24"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_24, true));
-            if (textureName == "tileYellow_25") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_25"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_25, true));
-            if (textureName == "tileYellow_26") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileYellow_26"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_26, true));
-            if (textureName == "tileBlue_27") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_27"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_27, false));
-            if (textureName == "tileBlue_01") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_01"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_01, true));
-            if (textureName == "tileBlue_02") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_02"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_02, true));
-            if (textureName == "tileBlue_03") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_03"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_03, true));
-            if (textureName == "tileBlue_04") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_04"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_04, true));
-            if (textureName == "tileBlue_05") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_05"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_05, true));
-            if (textureName == "tileBlue_06") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_06"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_06, true));
-            if (textureName == "tileBlue_07") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_07"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_07, true));
-            if (textureName == "tileBlue_08") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_08"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_08, true));
-            if (textureName == "tileBlue_09") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_09"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_09, false));
-            if (textureName == "tileBlue_10") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_10"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_10, false));
-            if (textureName == "tileBlue_11") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_11"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_11, false));
-            if (textureName == "tileBlue_12") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_12"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_12, false));
-            if (textureName == "tileBlue_13") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_13"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_13, false));
-            if (textureName == "tileBlue_14") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_14"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_14, false));
-            if (textureName == "tileBlue_15") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_15"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_15, true));
-            if (textureName == "tileBlue_16") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_16"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_16, true));
-            if (textureName == "tileBlue_17") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_17"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_17, true));
-            if (textureName == "tileBlue_18") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_18"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_18, false));
-            if (textureName == "tileBlue_19") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_19"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_19, false));
-            if (textureName == "tileBlue_20") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_20"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_20, false));
-            if (textureName == "tileBlue_21") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_21"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_21, false));
-            if (textureName == "tileBlue_22") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_22"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_22, false));
-            if (textureName == "tileBlue_23") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_23"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_23, true));
-            if (textureName == "tileBlue_24") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_24"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_24, true));
-            if (textureName == "tileBlue_25") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_25"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_25, true));
-            if (textureName == "tileBlue_26") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileBlue_26"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_26, true));
-            if (textureName == "tileGreen_27") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_27"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_27, false));
-            if (textureName == "tileGreen_01") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_01"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_01, true));
-            if (textureName == "tileGreen_02") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_02"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_02, true));
-            if (textureName == "tileGreen_03") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_03"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_03, true));
-            if (textureName == "tileGreen_04") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_04"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_04, true));
-            if (textureName == "tileGreen_05") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_05"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_05, true));
-            if (textureName == "tileGreen_06") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_06"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_06, true));
-            if (textureName == "tileGreen_07") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_07"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_07, true));
-            if (textureName == "tileGreen_08") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_08"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_08, true));
-            if (textureName == "tileGreen_09") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_09"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_09, false));
-            if (textureName == "tileGreen_10") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_10"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_10, false));
-            if (textureName == "tileGreen_11") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_11"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_11, false));
-            if (textureName == "tileGreen_12") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_12"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_12, false));
-            if (textureName == "tileGreen_13") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_13"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_13, false));
-            if (textureName == "tileGreen_14") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_14"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_14, false));
-            if (textureName == "tileGreen_15") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_15"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_15, true));
-            if (textureName == "tileGreen_16") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_16"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_16, true));
-            if (textureName == "tileGreen_17") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_17"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_17, true));
-            if (textureName == "tileGreen_18") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_18"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_18, false));
-            if (textureName == "tileGreen_19") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_19"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_19, false));
-            if (textureName == "tileGreen_20") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_20"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_20, false));
-            if (textureName == "tileGreen_21") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_21"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_21, false));
-            if (textureName == "tileGreen_22") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_22"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_22, false));
-            if (textureName == "tileGreen_23") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_23"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_23, true));
-            if (textureName == "tileGreen_24") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_24"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_24, true));
-            if (textureName == "tileGreen_25") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_25"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_25, true));
-            if (textureName == "tileGreen_26") gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic["tileGreen_26"], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_26, true));
+            string temp;
 
+            for (int i = 1; i <= 108; i++)
+            {
+                temp = "tileBrown_01";
+                if(i >= 1 && i <= 27)
+                {
+                    if (i < 10) temp = "tileBrown_0" + i;
+                    else temp = "tileBrown_" + i;
+                }
+                if (i > 27 && i <= 54)
+                {
+                    if (i < 37) temp = "tileYellow_0" + i;
+                    else temp = "tileYellow_" + (i-27);
+                }
+                if (i > 54 && i <= 81)
+                {
+                    if (i < 64) temp = "tileBlue_0" + i;
+                    else temp = "tileBlue_" + (i-54);
+                }
+                if (i > 81 && i <= 108)
+                {
+                    if (i < 91) temp = "tileYellow_0" + i;
+                    temp = "tileGreen_" + (i - 81);
+                }
+                if(textureName == temp)
+                {
+                    gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic[textureName], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, 8 + i, false));
+                }
+            }
 
+            
 
-
+           
         }
 
 
-        private void Save(List<GameObject> GameObjectList, Dictionary<string, Texture2D> platformTextures) {
+        private void SavePlatforms(List<GameObject> GameObjectList, Dictionary<string, Texture2D> platformTextures) {
 
             outputList.RemoveRange(0, outputList.Count());
 
-            foreach (GameObject gameObject in GameObjectList)
+           
+            foreach (Platform platform in GameObjectList)
             {
                 string Output = "";
-                if (gameObject.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
-                if (gameObject.getTexture() == platformTextures["Transparent_500x50"]) Output =  Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
-                if (gameObject.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
-                if (gameObject.getTexture() == platformTextures["Climbingplant_38x64"]) Output = Enums.ObjectsID.VINE.ToString();
 
-                Output += ","+ gameObject.gameObjectPosition.X + "," + gameObject.gameObjectPosition.Y;
+                if (platform.PlatformType >= 8 && platform.PlatformType <= 115)
+                {
+                    Output = "" + platform.PlatformType;
+                }
+
+                if (platform.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
+                if (platform.getTexture() == platformTextures["Transparent_500x50"]) Output = Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
+                if (platform.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
+                if (platform.getTexture() == platformTextures["Climbingplant_38x64"]) Output = Enums.ObjectsID.VINE.ToString();
+
+                Output += "," + platform.gameObjectPosition.X + "," + platform.gameObjectPosition.Y;
 
                 outputList.Add(Output);
             }
@@ -466,11 +423,7 @@ namespace Reggie {
                 using (var writer = new StreamWriter(stream))
                 {
                     writer.Write("");
-                    foreach (string line in outputList)
-                    {
-                        
-                        writer.WriteLine(line);
-                    }
+                    foreach (string line in outputList) writer.WriteLine(line);
                 }
             }
 

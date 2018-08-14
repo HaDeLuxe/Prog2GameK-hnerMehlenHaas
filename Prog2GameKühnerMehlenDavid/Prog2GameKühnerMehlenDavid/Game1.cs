@@ -407,6 +407,7 @@ namespace Reggie {
                 {
                     gameObjectList.Add(new Platform(texturesDictionnary["Climbingplant_38x64"], new Vector2(38, 88), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
                 }
+                //if(dataSeperated[i]. >= Enums.ObjectsID.tileBlue_01.ToString() || ])
             }
         }
 

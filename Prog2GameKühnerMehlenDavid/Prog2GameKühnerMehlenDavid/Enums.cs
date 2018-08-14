@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Reggie {
     class Enums {
+
+        /// <summary>
+        /// !!!!!!!!THE ObjectsID
+        /// ENUM IS RANK SENSITIVE!!!!!! DO NOT CHANGE ORDER OF OBJECTS!!!!!! ONLY ADD NEW ITEMS AT THE END!!!!!!!
+        /// </summary>
         public enum ObjectsID {
             GREEN_PLATFORM_320_64,
             INVISIBLE_WALL_500x50,
@@ -15,7 +20,6 @@ namespace Reggie {
             PLAYER,
             ENEMY,
             VINE,
-            tileBrown_27,
             tileBrown_01,
             tileBrown_02,
             tileBrown_03,
@@ -42,7 +46,7 @@ namespace Reggie {
             tileBrown_24,
             tileBrown_25,
             tileBrown_26,
-            tileYellow_27,
+            tileBrown_27,
             tileYellow_01,
             tileYellow_02,
             tileYellow_03,
@@ -69,7 +73,7 @@ namespace Reggie {
             tileYellow_24,
             tileYellow_25,
             tileYellow_26,
-            tileBlue_27,
+            tileYellow_27,
             tileBlue_01,
             tileBlue_02,
             tileBlue_03,
@@ -96,7 +100,7 @@ namespace Reggie {
             tileBlue_24,
             tileBlue_25,
             tileBlue_26,
-            tileGreen_27,
+            tileBlue_27,
             tileGreen_01,
             tileGreen_02,
             tileGreen_03,
@@ -123,7 +127,12 @@ namespace Reggie {
             tileGreen_24,
             tileGreen_25,
             tileGreen_26,
+            tileGreen_27,
+            ///ADD NEW ITEM HERE
+
         }
+
+
         public enum MainMenuButtons { START, RESUME, OPTIONS, CREDITS, EXIT}
         public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN }
     }
