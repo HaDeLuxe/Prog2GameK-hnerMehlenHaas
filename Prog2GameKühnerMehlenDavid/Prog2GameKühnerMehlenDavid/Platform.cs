@@ -11,9 +11,12 @@ namespace Reggie
     public class Platform : GameObject
     {
         public bool enemySpawnCheck;
-        public Platform(Texture2D gameObjectTexture, Vector2 gameObjectSize, Vector2 gameObjectPosition, int gameObjectID) : base(gameObjectTexture,gameObjectSize, gameObjectPosition, gameObjectID)
+        public bool canSpawnEnemy;
+
+        public Platform(Texture2D gameObjectTexture, Vector2 gameObjectSize, Vector2 gameObjectPosition, int gameObjectID, bool canSpawnEnemy) : base(gameObjectTexture,gameObjectSize, gameObjectPosition, gameObjectID)
         {
             enemySpawnCheck = false;
+            this.canSpawnEnemy = canSpawnEnemy;
             //objectID = (int)Enums.ObjectsID.PLATFORM;
         }
 
