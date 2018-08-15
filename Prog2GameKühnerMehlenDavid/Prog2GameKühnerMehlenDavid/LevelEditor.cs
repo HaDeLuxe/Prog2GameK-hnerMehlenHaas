@@ -146,154 +146,65 @@ namespace Reggie {
             if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 10 ;
         }
 
+        
+
+        private int yoffset = 0;
+        private Vector2 firstPosition = new Vector2(0, 0);
+
         /// <summary>
-        /// Draws the Level Editor User Interface
+        /// Draws the Level Editor UI and finds out if element was clicked
         /// </summary>
         /// <param name="platformTextures"></param>
         /// <param name="spriteBatch"></param>
         /// <param name="transformationMatrix"></param>
         /// <param name="gameObjectList"></param>
-        //public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix transformationMatrix, ref List<GameObject> gameObjectList) {
-        //    MouseState mouseState = Mouse.GetState();
-        //    mousePosition.X = mouseState.X;
-        //    mousePosition.Y = mouseState.Y;
-
-        //    //TODO: Look if RAM gets bullshittet
-        //    Vector2 mouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(transformationMatrix));
-        //    Vector2 positionGreenPlatform_320x64 = new Vector2(1650, 100);
-        //    Vector2 transformedPosGreenPlatform_320x64 = Vector2.Transform(positionGreenPlatform_320x64, Matrix.Invert(transformationMatrix));
-        //    Rectangle platformRectangleGreenPlatform_320x64 = new Rectangle((int)positionGreenPlatform_320x64.X, (int)positionGreenPlatform_320x64.Y, 320, 64);
-        //    if (platformRectangleGreenPlatform_320x64.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-        //    {
-        //        positionGreenPlatform_320x64 = new Vector2(1450, 100);
-        //        transformedPosGreenPlatform_320x64 = Vector2.Transform(positionGreenPlatform_320x64, Matrix.Invert(transformationMatrix));
-        //        if (ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
-        //        {
-        //            button1Pushed = true;
-        //            createNewPlatform(ref gameObjectList, platformTextures["Green_320_64"], transformationMatrix, platformTextures);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        button1Pushed = false;
-        //        positionGreenPlatform_320x64 = new Vector2(1650, 100);
-        //    }
-
-        //    Vector2 positionTransparentWall_500x50 = new Vector2(1650, 200);
-        //    Vector2 transformedPosTransparentWall_500x50 = Vector2.Transform(positionTransparentWall_500x50, Matrix.Invert(transformationMatrix));
-        //    Rectangle platformRectangleTransparentWall_500x50 = new Rectangle((int)positionTransparentWall_500x50.X, (int)positionTransparentWall_500x50.Y, 320, 64);
-        //    if (platformRectangleTransparentWall_500x50.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-        //    {
-        //        positionTransparentWall_500x50 = new Vector2(1250, 200);
-        //        transformedPosTransparentWall_500x50 = Vector2.Transform(positionTransparentWall_500x50, Matrix.Invert(transformationMatrix));
-        //        if (ButtonState.Pressed == mouseState.LeftButton && !button2Pushed)
-        //        {
-        //            button2Pushed = true;
-        //            createNewPlatform(ref gameObjectList, platformTextures["Transparent_500x50"], transformationMatrix, platformTextures);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        button2Pushed = false;
-        //        positionGreenPlatform_320x64 = new Vector2(1650, 200);
-        //    }
-
-        //    Vector2 positionTransparentWall_1000x50 = new Vector2(1650, 300);
-        //    Vector2 transformedPosTransparentWall_1000x50 = Vector2.Transform(positionTransparentWall_1000x50, Matrix.Invert(transformationMatrix));
-        //    Rectangle platformRectangleTransparentWall_1000x50 = new Rectangle((int)positionTransparentWall_1000x50.X, (int)positionTransparentWall_1000x50.Y, 320, 64);
-        //    if (platformRectangleTransparentWall_1000x50.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-        //    {
-        //        positionTransparentWall_1000x50 = new Vector2(750, 300);
-        //        transformedPosTransparentWall_1000x50 = Vector2.Transform(positionTransparentWall_1000x50, Matrix.Invert(transformationMatrix));
-        //        if (ButtonState.Pressed == mouseState.LeftButton && !button3Pushed)
-        //        {
-        //            button3Pushed = true;
-        //            createNewPlatform(ref gameObjectList, platformTextures["Transparent_1000x50"], transformationMatrix, platformTextures);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        button3Pushed = false;
-        //        positionGreenPlatform_320x64 = new Vector2(1750, 400);
-        //    }
-
-        //    Vector2 position_Climbing_Plant_38x68 = new Vector2(1750, 400);
-        //    Vector2 transformedPos_Climbing_Plant_38x68 = Vector2.Transform(position_Climbing_Plant_38x68, Matrix.Invert(transformationMatrix));
-        //    Rectangle platformRectangle_Climbing_Plant_38x68 = new Rectangle((int)position_Climbing_Plant_38x68.X, (int)position_Climbing_Plant_38x68.Y, 320, 64);
-        //    if (platformRectangle_Climbing_Plant_38x68.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-        //    {
-        //        position_Climbing_Plant_38x68 = new Vector2(1550, 400);
-        //        transformedPos_Climbing_Plant_38x68 = Vector2.Transform(position_Climbing_Plant_38x68, Matrix.Invert(transformationMatrix));
-        //        if (ButtonState.Pressed == mouseState.LeftButton && !button5Pushed)
-        //        {
-        //            button5Pushed = true;
-        //            createNewPlatform(ref gameObjectList, platformTextures["Climbingplant_38x64"], transformationMatrix, platformTextures);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        button5Pushed = false;
-        //        positionGreenPlatform_320x64 = new Vector2(1750, 400);
-        //    }
-
-    //    Color color = new Color();
-    //    Vector2 positionBackButton = new Vector2(1550, 900);
-    //    Vector2 transformedBackButton = Vector2.Transform(positionBackButton, Matrix.Invert(transformationMatrix));
-    //    Rectangle rectangleBackButton = new Rectangle((int)positionBackButton.X, (int)positionBackButton.Y, 200, 50);
-    //        if (rectangleBackButton.Contains(new Point((int) mousePosition.X, (int) mousePosition.Y)))
-    //        {
-    //            if (ButtonState.Pressed == mouseState.LeftButton && !button4Pushed)
-    //            {
-    //                button4Pushed = true;
-    //                color = Color.LightGray;
-    //                SavePlatforms(gameObjectList, platformTextures);
-
-    //}
-    //            else
-    //            {
-    //                color = Color.White;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            button4Pushed = false;
-    //            color = Color.White;
-    //        }
-
-
-
-        //    spriteBatch.Draw(platformTextures["Green_320_64"], transformedPosGreenPlatform_320x64, Color.White);
-        //    spriteBatch.Draw(platformTextures["Transparent_500x50"], transformedPosTransparentWall_500x50, Color.White);
-        //    spriteBatch.Draw(platformTextures["Transparent_1000x50"], transformedPosTransparentWall_1000x50, Color.White);
-        //    spriteBatch.Draw(platformTextures["Climbingplant_38x64"], transformedPos_Climbing_Plant_38x68, Color.White);
-        //    spriteBatch.Draw(platformTextures["LevelEditorUIBackButton"], transformedBackButton, color);
-        //}
-
-        private int yoffset = 0;
-        private Vector2 firstPosition = new Vector2(0, 0);
-
+        /// <param name="graphics"></param>
         public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix transformationMatrix, ref List<GameObject> gameObjectList, GraphicsDevice graphics) 
         {
+            int m = 0;
             MouseState mouseState = Mouse.GetState();
             Vector2 firstPosition = new Vector2(1750, 200);
             Vector2 transformedPos_firstPosition = Vector2.Transform(firstPosition, Matrix.Invert(transformationMatrix));
+            
+            spriteBatch.Draw(platformTextures["Transparent_500x50"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            m++;
+            spriteBatch.Draw(platformTextures["Transparent_1000x50"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            m++;
+            spriteBatch.Draw(platformTextures["Climbingplant_38x64"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            m++;
+
             for (int i = 0; i < PlatformsDic.Count(); i++)
             {
-                spriteBatch.Draw(Platform_TileSheet, transformedPos_firstPosition + i * new Vector2(0, 100) - new Vector2(0,yoffset), PlatformsDic.ElementAt(i).Value , Color.White,0,Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
+                spriteBatch.Draw(Platform_TileSheet, transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), PlatformsDic.ElementAt(i).Value, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
+                m++;
             }
+           
+
+
             if(ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
             {
+                Rectangle checkRectangle;
                 button1Pushed = true;
-                for (int i = 0; i < PlatformsDic.Count(); i++)
+                for (int i = 3; i < PlatformsDic.Count()+3; i++)
                 {
-                    Rectangle checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + i * 100 - yoffset, 64,64);
+                    checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + i * 100 - yoffset, 64,64);
                     if(checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     {
-                        createNewPlatform(ref gameObjectList, PlatformsDic.ElementAt(i).Key, transformationMatrix, graphics);
+                        createNewPlatform(ref gameObjectList, PlatformsDic.ElementAt(i-3).Key, transformationMatrix, graphics);
                     }
                 }
+               
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 0 * 100 - yoffset, 500, 50);
+                if(checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_500x50"], transformationMatrix, platformTextures);
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 1 * 100 - yoffset, 1000, 50);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_1000x50"], transformationMatrix, platformTextures);
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 2 * 100 - yoffset, 38, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    createNewPlatform(ref gameObjectList, platformTextures["Climbingplant_38x64"], transformationMatrix, platformTextures);
             }
-            if(ButtonState.Released == mouseState.LeftButton)
+            if (ButtonState.Released == mouseState.LeftButton)
             button1Pushed = false;
 
 
@@ -368,22 +279,23 @@ namespace Reggie {
                 }
                 if (i > 27 && i <= 54)
                 {
-                    if (i < 37) temp = "tileYellow_0" + i;
+                    if (i < 37)
+                        temp = "tileYellow_0" + (i-27);
                     else temp = "tileYellow_" + (i-27);
                 }
                 if (i > 54 && i <= 81)
                 {
-                    if (i < 64) temp = "tileBlue_0" + i;
+                    if (i < 65) temp = "tileBlue_0" + (i-54);
                     else temp = "tileBlue_" + (i-54);
                 }
                 if (i > 81 && i <= 108)
                 {
-                    if (i < 91) temp = "tileYellow_0" + i;
+                    if (i < 91) temp = "tileYellow_0" + (i-81);
                     temp = "tileGreen_" + (i - 81);
                 }
                 if(textureName == temp)
                 {
-                    gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic[textureName], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, 8 + i, false));
+                    gameObjectList.Add(new Platform(CreatePartImage(PlatformsDic[textureName], Platform_TileSheet, graphics), new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, 7+i, false));
                 }
             }
 
@@ -402,15 +314,17 @@ namespace Reggie {
             {
                 string Output = "";
 
-                if (platform.PlatformType >= 8 && platform.PlatformType <= 115)
-                {
-                    Output = "" + platform.PlatformType;
-                }
+                //if (platform.PlatformType >= 8 && platform.PlatformType <= 115)
+                //{
+                //    Output = "" + platform.PlatformType;
+                //}
+                //if (platform.PlatformType >= (int)Enums.ObjectsID.tileBrown_01 && platform.PlatformType <= (int)Enums.ObjectsID.tileGreen_27) Output = "" + (int)platform.PlatformType;
 
                 if (platform.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
                 if (platform.getTexture() == platformTextures["Transparent_500x50"]) Output = Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
                 if (platform.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
                 if (platform.getTexture() == platformTextures["Climbingplant_38x64"]) Output = Enums.ObjectsID.VINE.ToString();
+                if (platform.getTexture() == platformTextures["tileBrown_01"]) Output = Enums.ObjectsID.tileBrown_01.ToString();
 
                 Output += "," + platform.gameObjectPosition.X + "," + platform.gameObjectPosition.Y;
 
@@ -451,7 +365,7 @@ namespace Reggie {
             }
         }
 
-        public void loadTextures(ContentManager ContentManager)
+        public void loadTextures(ContentManager ContentManager, ref Dictionary<string, Texture2D> platformTextures, GraphicsDevice graphics)
         {
             Platform_TileSheet = ContentManager.Load<Texture2D>("Images\\WorldObjects\\tileSheet_complete_2X");
             List<string> NamesList = new List<string>();
@@ -464,7 +378,8 @@ namespace Reggie {
                   for(int n = 0; n < 9; n++)
                   {
                         PlatformsDic.Add(NamesList[i].ToString(), new Rectangle(n * 64, m * 64, 64, 64));
-                        //Console.WriteLine(PlatformsDic.ElementAt(i));
+                        platformTextures.Add(NamesList[i].ToString(), CreatePartImage(PlatformsDic[NamesList[i].ToString()], Platform_TileSheet, graphics));
+                        //Console.WriteLine(NamesList[i]);
                         i++;
                   }
             }

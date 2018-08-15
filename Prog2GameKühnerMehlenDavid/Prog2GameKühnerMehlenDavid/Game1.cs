@@ -147,7 +147,9 @@ namespace Reggie {
             ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
 
-            levelEditor.loadTextures(Content);
+            levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
+            for(int i = 0; i < texturesDictionnary.Count(); i++)
+            Console.WriteLine(texturesDictionnary.ElementAt(i));
             LoadGameObjects();
             FillLists();
             // MONO: use this.Content to load your game content here
@@ -201,6 +203,7 @@ namespace Reggie {
                     //switch to LevelEditor
                     if (currentGameState == GameState.GAMELOOP)
                     {
+                        cameraOffset = new Vector2(0, 0);
                         if (Keyboard.GetState().IsKeyDown(Keys.L) && !previousState.IsKeyDown(Keys.L))
                             currentGameState = GameState.LEVELEDITOR;
                         previousState = Keyboard.GetState();
@@ -269,8 +272,6 @@ namespace Reggie {
 
                     break;
             }
-            //TODO: why? this line here?
-            //else cameraOffset = new Vector2(0, 0);
         }
 
         /// <summary>
@@ -407,7 +408,14 @@ namespace Reggie {
                 {
                     gameObjectList.Add(new Platform(texturesDictionnary["Climbingplant_38x64"], new Vector2(38, 88), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
                 }
-                //if(dataSeperated[i]. >= Enums.ObjectsID.tileBlue_01.ToString() || ])
+                if (dataSeperated[i].All(char.IsDigit) && i % 3 == 0)
+                {
+                    if (Int32.Parse(dataSeperated[i]) == (int)Enums.ObjectsID.tileBrown_01)
+                    {
+                        Console.WriteLine("brown tile added");
+                        gameObjectList.Add(new Platform(texturesDictionnary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.tileBrown_01, (int)Enums.ObjectsID.VINE, false));
+                    }
+                }
             }
         }
 
