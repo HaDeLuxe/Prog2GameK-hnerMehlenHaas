@@ -290,16 +290,17 @@ namespace Reggie {
                 }
                 if (i > 81 && i <= 108)
                 {
-                    if (i < 91) temp = "tileYellow_0" + (i-81);
-                    temp = "tileGreen_" + (i - 81);
+                    if (i < 91)
+                        temp = "tileGreen_0" + (i - 81);
+                    else temp = "tileGreen_" + (i - 81);
                 }
-                Enums.ObjectsID tempObjectID = Enums.ObjectsID.tileBlue_27;
-                switch (temp)
-                {
-                    case "tileBrown_01":
-                        tempObjectID = Enums.ObjectsID.tileBrown_01;
-                        break;
-                }
+                Enums.ObjectsID tempObjectID = Enums.ObjectsID.tileBrown_01;
+                //switch (temp)
+                //{
+                //    case "tileBrown_01":
+                //        tempObjectID = Enums.ObjectsID.tileBrown_01;
+                //        break;
+                //}
                 if(textureName == temp)
                 {
                     gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, false));
@@ -486,7 +487,7 @@ namespace Reggie {
             List<string> NamesList = new List<string>();
             NamesList = new List<string>(System.IO.File.ReadAllLines(@"PlatformTileSheetNames.txt"));
             NamesList = NamesList.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
-
+            Console.WriteLine(NamesList);
             int i = 0;
             for (int m = 0; m < 12; m++)
             {
@@ -495,8 +496,9 @@ namespace Reggie {
                         PlatformsDic.Add(NamesList[i].ToString(), new Rectangle(n * 64, m * 64, 64, 64));
                         platformTextures.Add(NamesList[i].ToString(), CreatePartImage(PlatformsDic[NamesList[i].ToString()], Platform_TileSheet, graphics));
                     //Console.WriteLine(NamesList[i]);
-                    Console.WriteLine(platformTextures.ElementAt(i));
-                        i++;
+                    //Console.WriteLine(platformTextures.ElementAt(i));
+                    Console.WriteLine(NamesList[i]);
+                    i++;
                   }
             }
 
