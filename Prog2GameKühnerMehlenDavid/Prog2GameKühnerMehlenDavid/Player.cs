@@ -66,7 +66,7 @@ namespace Reggie
 
             PlayerControls(gameTime,enemyList, interactiveObject);
             gameObjectPosition.Y = collisionBoxPosition.Y - changeCollisionBox.Y;
-            PlayerPositionCalculation(gameTime, gameObjectsToRender);
+            PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
         }
 
 
@@ -74,7 +74,7 @@ namespace Reggie
         {
             this.gameObjectTexture = texture;
         }
-        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender)
+        private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender,List <GameObject> interactiveObject)
         {
 
             foreach (var platform in gameObjectsToRender)
@@ -140,6 +140,13 @@ namespace Reggie
                     }
                 }
             }
+            //foreach(var vine in interactiveObject)
+            //{
+            //    if (!ClimbingPositionCheckTopSide(vine))
+            //        velocity.Y = 0;
+            //    else
+            //        velocity.Y = -movementSpeed - 2;
+            //}
             if ((firstJump == true || secondJump == true))
                 PlayerJump();
             if (gravityActive && isStanding == false)
@@ -270,7 +277,7 @@ namespace Reggie
            
 
             //Player Gameelement Interactive Input
-            if((ButtonState.Pressed == mouseState.RightButton || Keyboard.GetState().IsKeyDown(Keys.W)) && !playerGameElementInteraction)
+            if((ButtonState.Pressed == mouseState.RightButton || Keyboard.GetState().IsKeyDown(Keys.W)) && !playerGameElementInteraction && !previousState.IsKeyDown(Keys.W))
             {
                 foreach(var vine in interactiveObject)
                 {
@@ -283,6 +290,8 @@ namespace Reggie
                         secondJump = false;
                         jumpButtonPressed = false;
                         playerGameElementInteraction = true;
+                        pressedLeftKey = false;
+                        pressedRightKey = false;
                         collisionBoxPosition.X = vine.gameObjectRectangle.X;
                         if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
                         {
@@ -294,17 +303,37 @@ namespace Reggie
             }
             if(Keyboard.GetState().IsKeyDown(Keys.W) && playerGameElementInteraction)
             {
-                collisionBoxPosition.Y -= movementSpeed-2;
+                bool climbAllowed = false;
+                velocity.Y = -movementSpeed - 2;
+                foreach (var vine in interactiveObject)
+                {
+                    if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top+30)
+                        climbAllowed = true;
+                }
+                if (climbAllowed)
+                    velocity.Y = -movementSpeed - 2;
+                else
+                    velocity.Y = 0;
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.S) && playerGameElementInteraction)
             {
-                collisionBoxPosition.Y += movementSpeed - 2;
+                bool climbAllowed = false;
+                velocity.Y = movementSpeed + 2;
+                foreach (var vine in interactiveObject)
+                {
+                    if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom-80)
+                        climbAllowed = true;
+                }
+                if (climbAllowed)
+                    velocity.Y = movementSpeed + 2;
+                else
+                    velocity.Y = 0;
             }
 
 
 
 
-            if (Keyboard.GetState().IsKeyUp(Keys.D) && Keyboard.GetState().IsKeyUp(Keys.A) && !firstJump && !secondJump)
+            if (Keyboard.GetState().IsKeyUp(Keys.D) && Keyboard.GetState().IsKeyUp(Keys.A) && !firstJump && !secondJump && !playerGameElementInteraction)
             {
                 if (facingDirectionRight)
                 {

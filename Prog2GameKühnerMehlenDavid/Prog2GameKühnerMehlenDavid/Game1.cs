@@ -195,6 +195,7 @@ namespace Reggie {
                         this.IsMouseVisible = true;
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
+                    gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, gameObjectList, ref interactiveObject);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject);
                     break;
 
