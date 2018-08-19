@@ -178,6 +178,9 @@ namespace Reggie {
                 spriteBatch.Draw(Platform_TileSheet, transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), PlatformsDic.ElementAt(i).Value, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
                 m++;
             }
+
+            spriteBatch.Draw(platformTextures["SnailShell"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            m++;
            
 
 
@@ -203,6 +206,13 @@ namespace Reggie {
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 2 * 100 - yoffset, 38, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     createNewPlatform(ref gameObjectList, platformTextures["Climbingplant_38x64"], transformationMatrix, platformTextures);
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count()+3) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                {
+                    
+                    createNewPlatform(ref gameObjectList, platformTextures["SnailShell"], transformationMatrix, platformTextures);
+                    Console.WriteLine("SnailShell creating Button Pushed");
+                }
             }
             if (ButtonState.Released == mouseState.LeftButton)
             button1Pushed = false;
@@ -261,6 +271,10 @@ namespace Reggie {
             if(platformTexture == platformTextures["Climbingplant_38x64"])
             {
                 gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(38, 88), transformedPos, (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
+            }
+            if(platformTexture == platformTextures["SnailShell"])
+            {
+                gameObjectList.Add(new Item(platformTextures["SnailShell"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.SNAILSHELL));
             }
         }
 

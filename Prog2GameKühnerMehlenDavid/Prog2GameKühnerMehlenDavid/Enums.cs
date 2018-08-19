@@ -128,6 +128,8 @@ namespace Reggie {
             tileGreen_25,
             tileGreen_26,
             tileGreen_27,
+            SNAILSHELL,
+            SCISSORS,
             ///ADD NEW ITEM HERE
 
         }

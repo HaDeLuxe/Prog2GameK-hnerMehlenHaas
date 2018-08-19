@@ -43,12 +43,14 @@ namespace Reggie {
         Texture2D Transparent_Wall_1000x50;
         Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
+        Texture2D SnailShell;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
         FrameCounter frameCounter = new FrameCounter();
         SpriteFont font;
         Camera camera = new Camera();
+        GameManager GameManager;
         //for switching LevelEditor
         public static KeyboardState previousState;
 
@@ -88,6 +90,7 @@ namespace Reggie {
             Enums = new Enums();
             splashScreen = new SplashScreen();
             MainMenu = new MainMenu();
+            GameManager = new GameManager();
         }
 
         /// <summary>
@@ -120,6 +123,7 @@ namespace Reggie {
             playerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
             Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\Reggie_Attack");
             playerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
+           
 
             animManager = new AnimationManager(playerSpriteSheets);
             wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(-2000,500), (int) Enums.ObjectsID.PLAYER);
@@ -146,12 +150,20 @@ namespace Reggie {
             texturesDictionnary.Add("LevelEditorUIBackButton", levelEditorUIBackButton);
             ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
+            SnailShell = Content.Load<Texture2D>("Images\\Schneckenhaus");
+            texturesDictionnary.Add("SnailShell", SnailShell);
+
+            
 
             levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
             for(int i = 0; i < texturesDictionnary.Count(); i++)
             Console.WriteLine(texturesDictionnary.ElementAt(i));
             LoadGameObjects();
+            gameObjectList.Add(new Item(SnailShell, new Vector2(64, 64), new Vector2(-2300, 532), (int)Enums.ObjectsID.SNAILSHELL));
+            
+
             FillLists();
+            
             // MONO: use this.Content to load your game content here
         }
 
@@ -202,6 +214,8 @@ namespace Reggie {
                 case GameState.GAMELOOP:
                     this.IsMouseVisible = false;
                     //switch to LevelEditor
+                    GameManager.ManageItems(ref wormPlayer, ref gameObjectList);
+
                     if (currentGameState == GameState.GAMELOOP)
                     {
                         cameraOffset = new Vector2(0, 0);
@@ -631,12 +645,20 @@ namespace Reggie {
 
         private void FillLists()
         {
-            for(int i = 0; i <gameObjectList.Count; i++)
+            for(int i = 0; i <gameObjectList.Count(); i++)
             {
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.PLATFORM)
                     platformList.Add((Platform)gameObjectList[i]);
-                else if (gameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
-                    interactiveObject.Add((Platform)gameObjectList[i]);
+                if (gameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
+                    interactiveObject.Add(gameObjectList[i]);
+                if(gameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(gameObjectList[i]);
+
+
+            }
+
+            for (int i = 0; i < interactiveObject.Count(); i++)
+            {
+                Console.WriteLine(interactiveObject[i]);
             }
         }
 

@@ -39,11 +39,11 @@ namespace Reggie
                     && gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                 {
                         objectsToRender.Add(gameObjectsList[i]);
-                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE)
-                        vineList.Add(gameObjectsList[i]);
+                    //if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
+                    //    vineList.Add(gameObjectsList[i]);
                 }
             }
-            interactiveObject = vineList;
+            //interactiveObject = vineList;
             return objectsToRender;
         }
 

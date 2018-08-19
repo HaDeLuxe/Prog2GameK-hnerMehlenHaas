@@ -67,6 +67,15 @@ namespace Reggie
             PlayerControls(gameTime,enemyList, interactiveObject);
             gameObjectPosition.Y = collisionBoxPosition.Y - changeCollisionBox.Y;
             PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
+
+            for (int i = 0; i < interactiveObject.Count(); i++)
+            {
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        GameManager.SnailShellPickedUp = true;
+                }
+            }
         }
 
 
@@ -74,6 +83,8 @@ namespace Reggie
         {
             this.gameObjectTexture = texture;
         }
+
+
         private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender,List <GameObject> interactiveObject)
         {
 
@@ -140,9 +151,9 @@ namespace Reggie
                     }
                 }
             }
-            //foreach(var vine in interactiveObject)
+            //foreach(var gameObject in interactiveObject)
             //{
-            //    if (!ClimbingPositionCheckTopSide(vine))
+            //    if (!ClimbingPositionCheckTopSide(gameObject))
             //        velocity.Y = 0;
             //    else
             //        velocity.Y = -movementSpeed - 2;
@@ -281,7 +292,7 @@ namespace Reggie
             {
                 foreach(var vine in interactiveObject)
                 {
-                    if(InteractiveVineCollision(vine))
+                    if(DetectCollision(vine))
                     {
                         jumpSpeed = 0;
                         gravityActive = false;
@@ -347,27 +358,27 @@ namespace Reggie
             previousState = Keyboard.GetState();
         }
 
-        private bool InteractiveVineCollision(GameObject vine)
+        private bool DetectCollision(GameObject gameObject)
         {
-            if (collisionRectangle.Right + velocity.X >= vine.gameObjectRectangle.Left &&
-               collisionRectangle.Left <= vine.gameObjectRectangle.Left &&
-               collisionRectangle.Bottom > vine.gameObjectRectangle.Top &&
-               collisionRectangle.Top < vine.gameObjectRectangle.Bottom)
+            if (collisionRectangle.Right + velocity.X >= gameObject.gameObjectRectangle.Left &&
+               collisionRectangle.Left <= gameObject.gameObjectRectangle.Left &&
+               collisionRectangle.Bottom > gameObject.gameObjectRectangle.Top &&
+               collisionRectangle.Top < gameObject.gameObjectRectangle.Bottom)
                 return true;
-            else if (collisionRectangle.Left + velocity.X <= vine.gameObjectRectangle.Right &&
-                collisionRectangle.Right >= vine.gameObjectRectangle.Right &&
-                collisionRectangle.Bottom > vine.gameObjectRectangle.Top &&
-                collisionRectangle.Top < vine.gameObjectRectangle.Bottom)
+            else if (collisionRectangle.Left + velocity.X <= gameObject.gameObjectRectangle.Right &&
+                collisionRectangle.Right >= gameObject.gameObjectRectangle.Right &&
+                collisionRectangle.Bottom > gameObject.gameObjectRectangle.Top &&
+                collisionRectangle.Top < gameObject.gameObjectRectangle.Bottom)
                 return true;
-            else if (collisionRectangle.Bottom > vine.gameObjectRectangle.Top &&
-                collisionRectangle.Top < vine.gameObjectRectangle.Top &&
-                collisionRectangle.Right > vine.gameObjectRectangle.Left &&
-                collisionRectangle.Left < vine.gameObjectRectangle.Right)
+            else if (collisionRectangle.Bottom > gameObject.gameObjectRectangle.Top &&
+                collisionRectangle.Top < gameObject.gameObjectRectangle.Top &&
+                collisionRectangle.Right > gameObject.gameObjectRectangle.Left &&
+                collisionRectangle.Left < gameObject.gameObjectRectangle.Right)
                 return true;
-            else if (collisionRectangle.Top < vine.gameObjectRectangle.Bottom &&
-                collisionRectangle.Bottom > vine.gameObjectRectangle.Bottom &&
-                collisionRectangle.Right > vine.gameObjectRectangle.Left &&
-                collisionRectangle.Left < vine.gameObjectRectangle.Right)
+            else if (collisionRectangle.Top < gameObject.gameObjectRectangle.Bottom &&
+                collisionRectangle.Bottom > gameObject.gameObjectRectangle.Bottom &&
+                collisionRectangle.Right > gameObject.gameObjectRectangle.Left &&
+                collisionRectangle.Left < gameObject.gameObjectRectangle.Right)
                 return true;
             else
                 return false;
