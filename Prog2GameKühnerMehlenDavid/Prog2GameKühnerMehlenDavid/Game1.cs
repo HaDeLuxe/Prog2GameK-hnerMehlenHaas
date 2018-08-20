@@ -46,6 +46,7 @@ namespace Reggie {
         Texture2D SnailShell;
         Texture2D SpiderWeb;
         Texture2D Scissors;
+        Texture2D Armor;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -119,19 +120,39 @@ namespace Reggie {
             font = Content.Load<SpriteFont>("Arial");
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D platformTexture = Content.Load<Texture2D>("Images\\floor");
+
+
             Texture2D playerJumpSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Small");
             playerSpriteSheets.Add("playerJumpSpriteSheet", playerJumpSpriteSheet);
-            Texture2D playerMoveSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Even_Smaller");
-            playerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
-            Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack");
-            playerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
-            Texture2D playerMoveHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Hat");
-            playerSpriteSheets.Add("playerMoveHatSpriteSheet", playerMoveHatSpriteSheet);
             Texture2D playerJumpHatSpritesSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Hat");
             playerSpriteSheets.Add("playerJumpHatSpriteSheet", playerJumpHatSpritesSheet);
+            Texture2D playerJumpArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Armor");
+            playerSpriteSheets.Add("playerJumpArmorSpriteSheet", playerJumpArmorSpriteSheet);
+            Texture2D playerJumpArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Armor_Hat");
+            playerSpriteSheets.Add("playerJumpArmorHatSpriteSheet", playerJumpArmorHatSpriteSheet);
+
+            Texture2D playerMoveSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Even_Smaller");
+            playerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
+            Texture2D playerMoveHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Hat");
+            playerSpriteSheets.Add("playerMoveHatSpriteSheet", playerMoveHatSpriteSheet);
+            Texture2D playerMoveArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Armor");
+            playerSpriteSheets.Add("playerMoveArmorSpriteSheet", playerMoveArmorSpriteSheet);
+            Texture2D playerMoveArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Armor_Hat");
+            playerSpriteSheets.Add("playerMoveArmorHatSpriteSheet", playerMoveArmorHatSpriteSheet);
+
+            Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack");
+            playerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
             Texture2D playerAttackHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Hat");
             playerSpriteSheets.Add("playerAttackHatSpriteSheet", playerAttackHatSpriteSheet);
-           
+            Texture2D playerAttackArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Armor");
+            playerSpriteSheets.Add("playerAttackArmorSpriteSheet", playerAttackArmorSpriteSheet);
+            Texture2D playerAttackArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Armor_Hat");
+            playerSpriteSheets.Add("playerAttackArmorHatSpritesheet", playerAttackArmorHatSpriteSheet);
+
+
+
+
+
 
             animManager = new AnimationManager(playerSpriteSheets);
             wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(-2000,500), (int) Enums.ObjectsID.PLAYER);
@@ -164,6 +185,8 @@ namespace Reggie {
             texturesDictionnary.Add("Spiderweb_64x64", SpiderWeb);
             Scissors = Content.Load<Texture2D>("Images\\Schere");
             texturesDictionnary.Add("Scissors_64x64", Scissors);
+            Armor = Content.Load<Texture2D>("Images\\Rüstung");
+            texturesDictionnary.Add("Armor_64x64", Armor);
 
 
             
@@ -176,7 +199,8 @@ namespace Reggie {
             gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3000, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3400, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            gameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(-3500, 530), (int)Enums.ObjectsID.ARMOR));
 
             gameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
             
@@ -670,10 +694,11 @@ namespace Reggie {
                     platformList.Add((Platform)gameObjectList[i]);
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
                     interactiveObject.Add(gameObjectList[i]);
-                //if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(gameObjectList[i]);
-                //if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(gameObjectList[i]);
+                if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(gameObjectList[i]);
+                if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(gameObjectList[i]);
+                if (gameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) interactiveObject.Add(gameObjectList[i]);
 
-                foreach(Platform platform in gameObjectList.Cast<GameObject>().OfType<Platform>())
+                foreach (Platform platform in gameObjectList.Cast<GameObject>().OfType<Platform>())
                 {
                     if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
                         interactiveObject.Add(platform);

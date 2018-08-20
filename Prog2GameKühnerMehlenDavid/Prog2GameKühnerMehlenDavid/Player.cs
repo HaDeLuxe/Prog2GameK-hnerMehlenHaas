@@ -79,6 +79,11 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         GameManager.ScissorsPickedUp = true;
                 }
+                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        GameManager.ArmorPickedUp = true;
+                }
             }
         }
 
@@ -198,13 +203,20 @@ namespace Reggie
             {
                 if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Left)
                 {
-                    if (GameManager.SnailShellPickedUp)
+                    if (GameManager.SnailShellPickedUp && GameManager.ArmorPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Hat_Left;
+                    else if (GameManager.SnailShellPickedUp)
                         AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Left;
+                    else if (GameManager.ArmorPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Left;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
                 }
                 if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Right)
                 {
-                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
+                    if (GameManager.SnailShellPickedUp && GameManager.ArmorPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Hat_Right;
+                    else if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
+                    else if (GameManager.ArmorPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Right;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
 
                 }
@@ -224,13 +236,23 @@ namespace Reggie
 
                     if (firstJump == true || secondJump == true)
                     {
-                        if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Left;
+                        if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Hat_Left;
+                        else if (GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Left;
+                        else if (GameManager.ArmorPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Left;
                         else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
                     }
                         
                     else
                     {
-                        if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Left;
+                        if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Hat_Left;
+                        else if (GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Left;
+                        else if (GameManager.ArmorPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Left;
                         else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
                     }
                         
@@ -252,13 +274,23 @@ namespace Reggie
 
                     if (firstJump || secondJump)
                     {
-                        if (GameManager.SnailShellPickedUp) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Hat_Right;
+                        if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Hat_Right;
+                        else if (GameManager.ArmorPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Right;
+                        else if (GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Right;
                         else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
 
                     }
                     else
                     {
-                        if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
+                        if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Hat_Right;
+                        else if (GameManager.ArmorPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Right;
+                        else if (GameManager.SnailShellPickedUp)
+                            AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
                         else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
                     }
 
@@ -277,12 +309,22 @@ namespace Reggie
             {
                 if (facingDirectionRight)
                 {
-                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Right;
+                    if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Hat_Right;
+                    else if (GameManager.ArmorPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Right;
+                    else if (GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Right;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
                 }
                 else
                 {
-                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Left;
+                    if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Hat_Left;
+                    else if (GameManager.ArmorPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Armor_Left;
+                    else if (GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Left;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
                 }
                 jumpButtonPressed = true;
@@ -298,12 +340,22 @@ namespace Reggie
             {
                 if (facingDirectionRight)
                 {
-                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Right;
+                    if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Hat_Right;
+                    else if (GameManager.ArmorPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Right;
+                    else if 
+                        (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Right;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
                 }
                 else
                 {
-                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Left;
+                    if (GameManager.ArmorPickedUp && GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Hat_Left;
+                    else if (GameManager.ArmorPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Left;
+                    else if (GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Left;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Left;
 
                 }

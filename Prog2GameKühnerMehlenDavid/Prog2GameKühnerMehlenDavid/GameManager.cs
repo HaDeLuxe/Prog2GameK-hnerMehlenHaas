@@ -9,8 +9,10 @@ namespace Reggie {
 
         public static bool SnailShellPickedUp { get; set; }
         public static bool ScissorsPickedUp { get; set; }
+        public static bool ArmorPickedUp { get; set; }
         GameObject SnailShell;
         GameObject Scissors;
+        GameObject Armor;
 
         public GameManager() 
         {
@@ -63,6 +65,23 @@ namespace Reggie {
                 if (ScissorsPickedUp)
                 {
                     DestroyGameItem(Enums.ObjectsID.SCISSORS, ref GameObjectList);
+                }
+            }
+
+            if (Armor == null)
+            {
+                for (int i = 0; i < GameObjectList.Count(); i++)
+                {
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR)
+                        Armor = GameObjectList[i];
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) Armor = GameObjectList[i];
+                }
+            }
+            if (Armor != null)
+            {
+                if (ArmorPickedUp)
+                {
+                    DestroyGameItem(Enums.ObjectsID.ARMOR, ref GameObjectList);
                 }
             }
 

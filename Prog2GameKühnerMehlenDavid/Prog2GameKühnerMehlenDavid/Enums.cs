@@ -131,6 +131,7 @@ namespace Reggie {
             SNAILSHELL,
             SCISSORS,
             SPIDERWEB,
+            ARMOR,
             ///ADD NEW ITEM HERE
 
         }

@@ -41,7 +41,8 @@ namespace Reggie
                         objectsToRender.Add(gameObjectsList[i]);
                     if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE 
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS)
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR)
                         interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }
