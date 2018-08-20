@@ -390,14 +390,16 @@ namespace Reggie {
 
                         if(lastGameState == currentGameState)
                         {
-                                //TODO: LEVEL CLASS --> Draw Function
-                                //BACKGROUND
-                                spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            //TODO: LEVEL CLASS --> Draw Function
+                            //BACKGROUND
+                            spriteBatch.Draw(background, new Vector2(-2000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(-4000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(-6000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_500, new Vector2(-2000, -3050), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3050), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_500, new Vector2(-6000, -3050), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+
+
 
                             //this draws the platforms visible in the viewport
                             foreach (var platformSprite in gameObjectsToRender)
@@ -419,16 +421,16 @@ namespace Reggie {
 
                     case GameState.LEVELEDITOR:
 
-                       
-                         //TODO: LEVEL CLASS --> Draw Function
-                         //BACKGROUND
-                            spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                       
+
+                        //TODO: LEVEL CLASS --> Draw Function
+                        //BACKGROUND
+                        spriteBatch.Draw(background, new Vector2(-2000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(-4000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(-6000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(-2000, -3050), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3050), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_500, new Vector2(-6000, -3050), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+
                         //this draws all the platforms in the game
                         foreach (var platformSprite in gameObjectList)
                             platformSprite.DrawSpriteBatch(spriteBatch);
