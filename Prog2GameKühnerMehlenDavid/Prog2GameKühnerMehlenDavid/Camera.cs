@@ -129,7 +129,7 @@ namespace Reggie
                     if (!Left && Game1.cameraOffset.X >= -cap)
                     {
                         if (counterRight >= 25)
-                            Game1.cameraOffset.X -= 100;
+                            Game1.cameraOffset.X -= 10;
                         else if (Game1.cameraOffset.X >= 0) Game1.cameraOffset.X -= 10;
                     }
                     if (Game1.cameraOffset.X > 200)

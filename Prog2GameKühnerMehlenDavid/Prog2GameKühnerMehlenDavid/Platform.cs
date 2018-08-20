@@ -19,7 +19,6 @@ namespace Reggie
         {
             enemySpawnCheck = false;
             this.canSpawnEnemy = canSpawnEnemy;
-            //objectID = (int)Enums.ObjectsID.PLATFORM;
             this.PlatformType = PlatformType;
         }
 

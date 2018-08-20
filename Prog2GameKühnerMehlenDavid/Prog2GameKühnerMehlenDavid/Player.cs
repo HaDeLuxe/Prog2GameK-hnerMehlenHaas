@@ -13,7 +13,7 @@ namespace Reggie
     public class Player : GameObject
     {
         KeyboardState previousState;
-        
+        GamePadState previousGamepadState;
         bool firstJump;
         bool secondJump;
         bool jumpButtonPressed;
@@ -104,7 +104,7 @@ namespace Reggie
 
             foreach (var platform in gameObjectsToRender)
             {
-                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
+                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B) || previousGamepadState.IsButtonDown(Buttons.Y) || previousGamepadState.IsButtonDown(Buttons.X)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
                 {
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
                     if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
@@ -151,7 +151,7 @@ namespace Reggie
                             pressedLeftKey = false;
                             pressedRightKey = false;
                         }
-                        if (previousState.IsKeyDown(Keys.Space) && jumpButtonPressed)
+                        if ((previousState.IsKeyDown(Keys.Space)||previousGamepadState.IsButtonDown(Buttons.A)) && jumpButtonPressed)
                         {
                             if (!firstJump || !secondJump)
                                 gravity = Vector2.Zero;
@@ -177,7 +177,7 @@ namespace Reggie
             if (gravityActive && isStanding == false)
             {
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
-                if (gravity.Y > 20 && previousState.IsKeyDown(Keys.Space))
+                if (gravity.Y > 20 && (previousState.IsKeyDown(Keys.Space) || previousGamepadState.IsButtonDown(Buttons.A)))
                     gravity.Y = 23f;
                 collisionBoxPosition.Y += gravity.Y;
             }
@@ -195,7 +195,7 @@ namespace Reggie
         private void PlayerJump()
         {
             velocity.Y = jumpSpeed;
-            if (previousState.IsKeyDown(Keys.S))
+            if (previousState.IsKeyDown(Keys.S) || previousGamepadState.ThumbSticks.Left.Y < -0.5f)
                 velocity.Y = movementSpeed;
         }
 
@@ -311,12 +311,12 @@ namespace Reggie
                     pressedRightKey = true;
 
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                else if (Keyboard.GetState().IsKeyDown(Keys.S) /*|| GamePad.GetState(0).IsButtonDown()*/)
                     velocity.Y = movementSpeed;
             }
             //Player Jump Input
             if ((Keyboard.GetState().IsKeyDown(Keys.Space) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)
-                /*|| (GamePad.GetState(0).IsButtonDown(Buttons.A) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)*/)
+                || (GamePad.GetState(0).IsButtonDown(Buttons.A) && !previousGamepadState.IsButtonDown(Buttons.A) && !jumpButtonPressed))
             {
                 if (facingDirectionRight)
                 {
@@ -479,6 +479,7 @@ namespace Reggie
                 }
             }
             previousState = Keyboard.GetState();
+            previousGamepadState = GamePad.GetState(0);
         }
 
         private bool DetectCollision(GameObject gameObject)
