@@ -97,6 +97,12 @@ namespace Reggie {
                     case 15:
                         spritesSizes.Add("Reggie_Attack_Hat_Y", Int32.Parse(spriteStringList[i]));
                         break;
+                    case 16:
+                        spritesSizes.Add("Reggie_Jump_Armor_X", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 17:
+                        spritesSizes.Add("Reggie_Jump_Armor_Y", Int32.Parse(spriteStringList[i]));
+                        break;
 
 
                 }

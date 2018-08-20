@@ -44,10 +44,15 @@ namespace Reggie {
         Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
         Texture2D UserInterface;
+        Texture2D L1ButtonIcon;
+        Texture2D L2ButtonIcon;
+        Texture2D R1ButtonIcon;
+        Texture2D R2ButtonIcon;
         Texture2D SnailShell;
         Texture2D SpiderWeb;
         Texture2D Scissors;
         Texture2D Armor;
+        Texture2D Shovel;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -189,11 +194,21 @@ namespace Reggie {
             texturesDictionnary.Add("Scissors_64x64", Scissors);
             Armor = Content.Load<Texture2D>("Images\\Rüstung");
             texturesDictionnary.Add("Armor_64x64", Armor);
+            Shovel = Content.Load<Texture2D>("Images\\Schaufel");
+            texturesDictionnary.Add("Shovel_64x64", Shovel);
             UserInterface = Content.Load<Texture2D>("Images\\UI\\UI");
             texturesDictionnary.Add("UI", UserInterface);
+            L1ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonL1");
+            texturesDictionnary.Add("buttonL1", L1ButtonIcon);
+            L2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonL2");
+            texturesDictionnary.Add("buttonL2", L2ButtonIcon);
+            R1ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR1");
+            texturesDictionnary.Add("buttonR1", R1ButtonIcon);
+            R2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR2");
+            texturesDictionnary.Add("buttonR2", R2ButtonIcon);
 
 
-            
+
 
             levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
             for(int i = 0; i < texturesDictionnary.Count(); i++)
@@ -205,6 +220,7 @@ namespace Reggie {
             gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3400, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             gameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(-3500, 530), (int)Enums.ObjectsID.ARMOR));
+            gameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(-1500, 530), (int)Enums.ObjectsID.SHOVEL));
 
             gameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
             
@@ -703,6 +719,8 @@ namespace Reggie {
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(gameObjectList[i]);
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(gameObjectList[i]);
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) interactiveObject.Add(gameObjectList[i]);
+                if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL) interactiveObject.Add(gameObjectList[i]);
+
 
                 foreach (Platform platform in gameObjectList.Cast<GameObject>().OfType<Platform>())
                 {
