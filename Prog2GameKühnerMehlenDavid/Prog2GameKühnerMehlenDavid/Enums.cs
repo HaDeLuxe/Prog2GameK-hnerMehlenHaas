@@ -130,6 +130,7 @@ namespace Reggie {
             tileGreen_27,
             SNAILSHELL,
             SCISSORS,
+            SPIDERWEB,
             ///ADD NEW ITEM HERE
 
         }

@@ -32,18 +32,20 @@ namespace Reggie
         public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList, ref List<GameObject> interactiveObject)
         {
             List<GameObject> objectsToRender = new List<GameObject>();
-            List<GameObject> vineList = new List<GameObject>();
+            List<GameObject> interactiveObjectsList = new List<GameObject>();
             for(int i = 0; i < gameObjectsList.Count; i++)
             {
                 if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1350 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 1350
                     && gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                 {
                         objectsToRender.Add(gameObjectsList[i]);
-                    //if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
-                    //    vineList.Add(gameObjectsList[i]);
+                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE 
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS)
+                        interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }
-            //interactiveObject = vineList;
+            interactiveObject = interactiveObjectsList;
             return objectsToRender;
         }
 

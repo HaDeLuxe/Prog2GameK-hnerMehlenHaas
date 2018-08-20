@@ -49,6 +49,23 @@ namespace Reggie {
                 }
             }
 
+            if (Scissors == null)
+            {
+                for (int i = 0; i < GameObjectList.Count(); i++)
+                {
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS)
+                        Scissors = GameObjectList[i];
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) Scissors = GameObjectList[i];
+                }
+            }
+            if (Scissors != null)
+            {
+                if (ScissorsPickedUp)
+                {
+                    DestroyGameItem(Enums.ObjectsID.SCISSORS, ref GameObjectList);
+                }
+            }
+
 
         }
 

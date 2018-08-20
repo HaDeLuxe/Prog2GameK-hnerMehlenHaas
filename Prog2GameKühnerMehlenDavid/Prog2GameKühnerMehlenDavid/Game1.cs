@@ -44,6 +44,8 @@ namespace Reggie {
         Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
         Texture2D SnailShell;
+        Texture2D SpiderWeb;
+        Texture2D Scissors;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -117,12 +119,18 @@ namespace Reggie {
             font = Content.Load<SpriteFont>("Arial");
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
             Texture2D platformTexture = Content.Load<Texture2D>("Images\\floor");
-            Texture2D playerJumpSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Jump_Small");
+            Texture2D playerJumpSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Small");
             playerSpriteSheets.Add("playerJumpSpriteSheet", playerJumpSpriteSheet);
-            Texture2D playerMoveSpriteSheet = Content.Load<Texture2D>("Images\\Reggie_Move_Even_Smaller");
+            Texture2D playerMoveSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Even_Smaller");
             playerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
-            Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\Reggie_Attack");
+            Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack");
             playerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
+            Texture2D playerMoveHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Hat");
+            playerSpriteSheets.Add("playerMoveHatSpriteSheet", playerMoveHatSpriteSheet);
+            Texture2D playerJumpHatSpritesSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Hat");
+            playerSpriteSheets.Add("playerJumpHatSpriteSheet", playerJumpHatSpritesSheet);
+            Texture2D playerAttackHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Hat");
+            playerSpriteSheets.Add("playerAttackHatSpriteSheet", playerAttackHatSpriteSheet);
            
 
             animManager = new AnimationManager(playerSpriteSheets);
@@ -152,6 +160,11 @@ namespace Reggie {
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
             SnailShell = Content.Load<Texture2D>("Images\\Schneckenhaus");
             texturesDictionnary.Add("SnailShell", SnailShell);
+            SpiderWeb = Content.Load<Texture2D>("Images\\WorldObjects\\SpiderWeb");
+            texturesDictionnary.Add("Spiderweb_64x64", SpiderWeb);
+            Scissors = Content.Load<Texture2D>("Images\\Schere");
+            texturesDictionnary.Add("Scissors_64x64", Scissors);
+
 
             
 
@@ -160,6 +173,12 @@ namespace Reggie {
             Console.WriteLine(texturesDictionnary.ElementAt(i));
             LoadGameObjects();
             gameObjectList.Add(new Item(SnailShell, new Vector2(64, 64), new Vector2(-2300, 532), (int)Enums.ObjectsID.SNAILSHELL));
+            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3000, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+
+            gameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
             
 
             FillLists();
@@ -208,7 +227,7 @@ namespace Reggie {
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, gameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref gameObjectList);
                     break;
 
                 case GameState.GAMELOOP:
@@ -228,7 +247,7 @@ namespace Reggie {
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref gameObjectList);
 
                     foreach (var enemy in enemyList.ToList())
                     {
@@ -645,13 +664,22 @@ namespace Reggie {
 
         private void FillLists()
         {
-            for(int i = 0; i <gameObjectList.Count(); i++)
+            for(int i = 0; i < gameObjectList.Count(); i++)
             {
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.PLATFORM)
                     platformList.Add((Platform)gameObjectList[i]);
                 if (gameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
                     interactiveObject.Add(gameObjectList[i]);
-                if(gameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(gameObjectList[i]);
+                //if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(gameObjectList[i]);
+                //if (gameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(gameObjectList[i]);
+
+                foreach(Platform platform in gameObjectList.Cast<GameObject>().OfType<Platform>())
+                {
+                    if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
+                        interactiveObject.Add(platform);
+                }
+               
+                
 
 
             }

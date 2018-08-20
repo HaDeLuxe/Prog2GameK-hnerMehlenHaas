@@ -52,7 +52,6 @@ namespace Reggie
             facingDirectionRight = true;
             jumpButtonPressed = false;
             playerGameElementInteraction = false;
-            // objectID = (int)Enums.ObjectsID.PLAYER;
             changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
             collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
@@ -61,10 +60,10 @@ namespace Reggie
             jumpSpeed = -20f;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject)
+        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects)
         {
 
-            PlayerControls(gameTime,enemyList, interactiveObject);
+            PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects);
             gameObjectPosition.Y = collisionBoxPosition.Y - changeCollisionBox.Y;
             PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
 
@@ -74,6 +73,11 @@ namespace Reggie
                 {
                     if (DetectCollision(interactiveObject[i]))
                         GameManager.SnailShellPickedUp = true;
+                }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SCISSORS)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        GameManager.ScissorsPickedUp = true;
                 }
             }
         }
@@ -186,20 +190,25 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList)
         {
 
             mouseState = Mouse.GetState();
             if (!firstJump && !secondJump)
             {
-                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left /*|| (AnimationManager.currentAnimation == AnimationManager.Animations.Attack_Left)*/)
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Left;
-                    //AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Left);
-                    AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
-                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right /*|| (AnimationManager.currentAnimation == AnimationManager.Animations.Attack_Right)*/)
-                    //AnimationManager.currentAnimation = AnimationManager.Animations.Walk_Right;
-                    //AnimationManager.AnimationQueue.Enqueue(AnimationManager.Animations.Walk_Right);
-                    AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
+                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Left)
+                {
+                    if (GameManager.SnailShellPickedUp)
+                        AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Left;
+                    else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
+                }
+                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Right)
+                {
+                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
+                    else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
+
+                }
+
             }
             if (!playerGameElementInteraction)
             {
@@ -214,9 +223,17 @@ namespace Reggie
                     camera.cameraOffset(gameTime, false, true);
 
                     if (firstJump == true || secondJump == true)
-                        AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                    {
+                        if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Left;
+                        else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                    }
+                        
                     else
-                        AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
+                    {
+                        if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Left;
+                        else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
+                    }
+                        
 
 
                     velocity.X = -movementSpeed;
@@ -233,8 +250,17 @@ namespace Reggie
                     //Camera moves to a direction so that you see better what is coming to you
                     camera.cameraOffset(gameTime, true, true);
 
-                    if (firstJump || secondJump) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
-                    else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
+                    if (firstJump || secondJump)
+                    {
+                        if (GameManager.SnailShellPickedUp) AnimationManager.currentAnimation = AnimationManager.Animations.Jump_Hat_Right;
+                        else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+
+                    }
+                    else
+                    {
+                        if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
+                        else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
+                    }
 
                     velocity.X = movementSpeed;
                     facingDirectionRight = true;
@@ -250,9 +276,15 @@ namespace Reggie
                 /*|| (GamePad.GetState(0).IsButtonDown(Buttons.A) && !previousState.IsKeyDown(Keys.Space) && !jumpButtonPressed)*/)
             {
                 if (facingDirectionRight)
-                    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                {
+                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Right;
+                    else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Right;
+                }
                 else
-                    AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                {
+                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Hat_Left;
+                    else AnimationManager.nextAnimation = AnimationManager.Animations.Jump_Left;
+                }
                 jumpButtonPressed = true;
                 playerGameElementInteraction = false;
                 if (firstJump == false || secondJump == false)
@@ -265,9 +297,16 @@ namespace Reggie
                 || GamePad.GetState(0).IsButtonDown(Buttons.X) && cooldown == 0 && !playerGameElementInteraction)
             {
                 if (facingDirectionRight)
-                    AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
+                {
+                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Right;
+                    else AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
+                }
                 else
-                    AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Left;
+                {
+                    if (GameManager.SnailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Left;
+                    else AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Left;
+
+                }
                 // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
                 foreach (var enemy in enemyList)
                 {
@@ -275,6 +314,27 @@ namespace Reggie
                     {
                         enemy.KnockBackPosition(facingDirectionRight);
                     }
+                }
+
+                if (GameManager.ScissorsPickedUp)
+                {
+                    Platform temp = null;
+                    foreach(Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>())
+                    {
+                        if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
+                        {
+                            temp = platform;
+                            break;
+                        }
+                    }
+                    GameObjectsList.Remove(temp);
+                }
+
+
+                //Remove Spiderweb when Scissors equipped
+                if (GameManager.ScissorsPickedUp)
+                {
+                    //if(DetectCollision() && )
                 }
                 playerAttackPressed = true;
             }
