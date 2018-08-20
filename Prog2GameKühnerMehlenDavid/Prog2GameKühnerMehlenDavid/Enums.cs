@@ -132,6 +132,7 @@ namespace Reggie {
             SCISSORS,
             SPIDERWEB,
             ARMOR,
+            SHOVEL,
             ///ADD NEW ITEM HERE
 
         }

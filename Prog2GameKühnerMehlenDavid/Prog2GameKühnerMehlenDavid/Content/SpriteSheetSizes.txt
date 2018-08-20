@@ -6,6 +6,7 @@
 (765, 560)	Reggie_Move_Hat
 (425, 880)	Reggie_Jump_Hat
 (735, 735)	Reggie_Attack_Hat
+(370,880)	Reggie_Jump_Armor
 
 
 

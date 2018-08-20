@@ -84,6 +84,11 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         GameManager.ArmorPickedUp = true;
                 }
+                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        GameManager.ShovelPickedUp = true;
+                }
             }
         }
 
