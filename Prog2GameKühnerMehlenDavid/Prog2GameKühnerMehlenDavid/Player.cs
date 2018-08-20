@@ -201,7 +201,10 @@ namespace Reggie
             mouseState = Mouse.GetState();
             if (!firstJump && !secondJump)
             {
-                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Left)
+                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Left 
+                    || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Left
+                    || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Armor_Left
+                    || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Armor_Hat_Left)
                 {
                     if (GameManager.SnailShellPickedUp && GameManager.ArmorPickedUp)
                         AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Hat_Left;
@@ -211,7 +214,10 @@ namespace Reggie
                         AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Left;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Left;
                 }
-                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Right)
+                if (AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Right 
+                    || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Hat_Right
+                    || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Armor_Right
+                    || AnimationManager.currentAnimation == AnimationManager.Animations.Jump_Armor_Hat_Right)
                 {
                     if (GameManager.SnailShellPickedUp && GameManager.ArmorPickedUp)
                         AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Armor_Hat_Right;

@@ -43,6 +43,7 @@ namespace Reggie {
         Texture2D Transparent_Wall_1000x50;
         Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
+        Texture2D UserInterface;
         Texture2D SnailShell;
         Texture2D SpiderWeb;
         Texture2D Scissors;
@@ -54,6 +55,7 @@ namespace Reggie {
         SpriteFont font;
         Camera camera = new Camera();
         GameManager GameManager;
+
         //for switching LevelEditor
         public static KeyboardState previousState;
 
@@ -187,6 +189,8 @@ namespace Reggie {
             texturesDictionnary.Add("Scissors_64x64", Scissors);
             Armor = Content.Load<Texture2D>("Images\\Rüstung");
             texturesDictionnary.Add("Armor_64x64", Armor);
+            UserInterface = Content.Load<Texture2D>("Images\\UI\\UI");
+            texturesDictionnary.Add("UI", UserInterface);
 
 
             
@@ -391,7 +395,9 @@ namespace Reggie {
 
                             //This draws the player
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
-                            
+
+                            //This draws the UI
+                            GameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice);
                         }
                         break;
 
