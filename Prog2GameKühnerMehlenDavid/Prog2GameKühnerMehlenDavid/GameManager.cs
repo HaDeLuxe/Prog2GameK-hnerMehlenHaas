@@ -95,19 +95,19 @@ namespace Reggie {
 
         public void drawUI(Dictionary<string, Texture2D> TexturesDictionnary, SpriteBatch spriteBatch, Matrix transformationMatrix, GraphicsDevice graphics) 
         {
-            spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-790, 150), Matrix.Invert(transformationMatrix)), Color.White);
+            spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-790, 90), Matrix.Invert(transformationMatrix)), Color.White);
             if (SnailShellPickedUp)
-                spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 745), Matrix.Invert(transformationMatrix)), Color.White);
-            else spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 745), Matrix.Invert(transformationMatrix)), Color.Black);
+                spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 695), Matrix.Invert(transformationMatrix)), Color.White);
+            else spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 695), Matrix.Invert(transformationMatrix)), Color.Black);
             if(ArmorPickedUp)
-                spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 555), Matrix.Invert(transformationMatrix)),null, Color.White,0,Vector2.One,new Vector2(1.4f,1.4f),SpriteEffects.None,0);
-            else spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 555), Matrix.Invert(transformationMatrix)), null, Color.Black, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 505), Matrix.Invert(transformationMatrix)),null, Color.White,0,Vector2.One,new Vector2(1.4f,1.4f),SpriteEffects.None,0);
+            else spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 505), Matrix.Invert(transformationMatrix)), null, Color.Black, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
             GameObject currentlyEquipped;
 
             if (ItemsFound.Count() > 0)
             {
                 currentlyEquipped = ItemsFound[0];
-                spriteBatch.Draw(currentlyEquipped.getTexture(), Vector2.Transform(new Vector2(145, 920), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                spriteBatch.Draw(currentlyEquipped.getTexture(), Vector2.Transform(new Vector2(145, 870), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
             }
             
             

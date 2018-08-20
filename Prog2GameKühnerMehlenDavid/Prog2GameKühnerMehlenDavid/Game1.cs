@@ -83,7 +83,7 @@ namespace Reggie {
             Content.RootDirectory = "Content";
             //graphics.PreferredBackBufferHeight = 1000;
             //graphics.PreferredBackBufferWidth = 1800;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferHeight = 1080-40-20;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.ApplyChanges();
             Window.AllowUserResizing = true;
