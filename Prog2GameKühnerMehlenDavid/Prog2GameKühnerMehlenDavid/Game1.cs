@@ -281,7 +281,7 @@ namespace Reggie {
 
                     if (currentGameState == GameState.GAMELOOP)
                     {
-                        cameraOffset = new Vector2(0, 0);
+                        //cameraOffset = new Vector2(0, 0);
                         if (Keyboard.GetState().IsKeyDown(Keys.L) && !previousState.IsKeyDown(Keys.L))
                             currentGameState = GameState.LEVELEDITOR;
                         previousState = Keyboard.GetState();

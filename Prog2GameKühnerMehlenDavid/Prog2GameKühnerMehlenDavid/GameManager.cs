@@ -31,6 +31,10 @@ namespace Reggie {
             ItemsFound = new List<GameObject>();
         }
 
+        public int getCurrentEquipped() {
+            return currentlyEquipped.objectID;
+        }
+
 
         private void DestroyGameItem(Enums.ObjectsID ObjectID, ref List<GameObject> GameObjectList) {
             for(int i = 0; i < GameObjectList.Count(); i++)
@@ -124,7 +128,7 @@ namespace Reggie {
                         if (ItemsFound[i] == currentlyEquipped) currentIndex = i;
                     }
                     currentIndex--;
-                    if (currentIndex >= ItemsFound.Count()) currentIndex = 0;
+                    if (currentIndex < 0) currentIndex = ItemsFound.Count()-1;
                     currentlyEquipped = ItemsFound[currentIndex];
                 }
                 TriggerPushed = true;
