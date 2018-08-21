@@ -140,10 +140,10 @@ namespace Reggie {
         /// </summary>
         /// <param name="cameraOffset"></param>
         public void moveCamera(ref Vector2 cameraOffset) {
-            if (Keyboard.GetState().IsKeyDown(Keys.U)) cameraOffset.Y += 10;
-            if (Keyboard.GetState().IsKeyDown(Keys.J)) cameraOffset.Y -= 10;
-            if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 10;
-            if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 10 ;
+            if (Keyboard.GetState().IsKeyDown(Keys.U)) cameraOffset.Y += 100;
+            if (Keyboard.GetState().IsKeyDown(Keys.J)) cameraOffset.Y -= 100;
+            if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 100;
+            if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 100;
         }
 
         
