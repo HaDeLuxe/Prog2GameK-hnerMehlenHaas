@@ -37,7 +37,8 @@ namespace Reggie {
         //Texture2D enemytexture;
         Texture2D enemySkinTexture;
         Texture2D background;
-        Texture2D Sky_2000_500;
+        Texture2D Sky_2000_1000;
+        Texture2D Ground_Tutorial_2000_1000;
         Texture2D Platform_320_64;
         Texture2D Transparent_Wall_500x50;
         Texture2D Transparent_Wall_1000x50;
@@ -162,7 +163,7 @@ namespace Reggie {
 
 
             animManager = new AnimationManager(playerSpriteSheets);
-            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(-2000,500), (int) Enums.ObjectsID.PLAYER);
+            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(8000,500), (int) Enums.ObjectsID.PLAYER);
 
             enemyList = new List<Enemy>();
             //{
@@ -175,7 +176,8 @@ namespace Reggie {
             //    enemy.SetPlayer(wormPlayer);
 
             background = Content.Load<Texture2D>("Images\\Lvl1_Background");
-            Sky_2000_500 = Content.Load<Texture2D>("Images\\Sky_2000x1000");
+            Sky_2000_1000 = Content.Load<Texture2D>("Images\\Himmel_Level_Tutorial");
+            Ground_Tutorial_2000_1000 = Content.Load<Texture2D>("Images\\Erde_Level_Tutorial");
             Platform_320_64 = Content.Load<Texture2D>("Images\\Platform_320_64");
             texturesDictionnary.Add("Green_320_64", Platform_320_64);
             Transparent_Wall_500x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_500x50");
@@ -214,15 +216,14 @@ namespace Reggie {
             for(int i = 0; i < texturesDictionnary.Count(); i++)
             Console.WriteLine(texturesDictionnary.ElementAt(i));
             LoadGameObjects();
-            gameObjectList.Add(new Item(SnailShell, new Vector2(64, 64), new Vector2(-2300, 532), (int)Enums.ObjectsID.SNAILSHELL));
-            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3000, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3400, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            gameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(-3500, 530), (int)Enums.ObjectsID.ARMOR));
-            gameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(-1500, 530), (int)Enums.ObjectsID.SHOVEL));
-
-            gameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
+            //gameObjectList.Add(new Item(SnailShell, new Vector2(64, 64), new Vector2(-2300, 532), (int)Enums.ObjectsID.SNAILSHELL));
+            //gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            //gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3000, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            //gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            //gameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3400, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            //gameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(-3500, 530), (int)Enums.ObjectsID.ARMOR));
+            //gameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(-1500, 530), (int)Enums.ObjectsID.SHOVEL));
+            //gameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
             
 
             FillLists();
@@ -390,14 +391,27 @@ namespace Reggie {
 
                         if(lastGameState == currentGameState)
                         {
-                                //TODO: LEVEL CLASS --> Draw Function
-                                //BACKGROUND
-                                spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                                spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
+                            //TODO: LEVEL CLASS --> Draw Function
+                            //BACKGROUND
+                            spriteBatch.Draw(background, new Vector2(0, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(2000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(4000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(6000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(background, new Vector2(8000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+                            spriteBatch.Draw(Sky_2000_1000, new Vector2(0, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_1000, new Vector2(2000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_1000, new Vector2(4000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_1000, new Vector2(6000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Sky_2000_1000, new Vector2(8000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(0, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(2000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(4000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(6000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(8000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+
 
                             //this draws the platforms visible in the viewport
                             foreach (var platformSprite in gameObjectsToRender)
@@ -419,16 +433,28 @@ namespace Reggie {
 
                     case GameState.LEVELEDITOR:
 
-                       
-                         //TODO: LEVEL CLASS --> Draw Function
-                         //BACKGROUND
-                            spriteBatch.Draw(background, new Vector2(0, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(-4000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(-8000, -1025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_500, new Vector2(0, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_500, new Vector2(-4000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_500, new Vector2(-8000, -3025), null, Color.White, 0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0f);
-                       
+
+                        //TODO: LEVEL CLASS --> Draw Function
+                        //BACKGROUND
+                        spriteBatch.Draw(background, new Vector2(0, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(2000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(4000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(6000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(background, new Vector2(8000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+                        spriteBatch.Draw(Sky_2000_1000, new Vector2(0, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_1000, new Vector2(2000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_1000, new Vector2(4000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_1000, new Vector2(6000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Sky_2000_1000, new Vector2(8000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(0, 1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(2000, 1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(4000, 1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(6000, 1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(8000, 1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+
+
                         //this draws all the platforms in the game
                         foreach (var platformSprite in gameObjectList)
                             platformSprite.DrawSpriteBatch(spriteBatch);
