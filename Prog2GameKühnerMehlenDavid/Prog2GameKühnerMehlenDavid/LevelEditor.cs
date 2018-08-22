@@ -140,10 +140,10 @@ namespace Reggie {
         /// </summary>
         /// <param name="cameraOffset"></param>
         public void moveCamera(ref Vector2 cameraOffset) {
-            if (Keyboard.GetState().IsKeyDown(Keys.U)) cameraOffset.Y += 10;
-            if (Keyboard.GetState().IsKeyDown(Keys.J)) cameraOffset.Y -= 10;
-            if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 10;
-            if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 10 ;
+            if (Keyboard.GetState().IsKeyDown(Keys.U)) cameraOffset.Y += 100;
+            if (Keyboard.GetState().IsKeyDown(Keys.J)) cameraOffset.Y -= 100;
+            if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 100;
+            if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 100;
         }
 
         
@@ -178,6 +178,9 @@ namespace Reggie {
                 spriteBatch.Draw(Platform_TileSheet, transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), PlatformsDic.ElementAt(i).Value, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
                 m++;
             }
+
+            spriteBatch.Draw(platformTextures["SnailShell"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            m++;
            
 
 
@@ -203,6 +206,13 @@ namespace Reggie {
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 2 * 100 - yoffset, 38, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     createNewPlatform(ref gameObjectList, platformTextures["Climbingplant_38x64"], transformationMatrix, platformTextures);
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count()+3) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                {
+                    
+                    createNewPlatform(ref gameObjectList, platformTextures["SnailShell"], transformationMatrix, platformTextures);
+                    Console.WriteLine("SnailShell creating Button Pushed");
+                }
             }
             if (ButtonState.Released == mouseState.LeftButton)
             button1Pushed = false;
@@ -262,6 +272,10 @@ namespace Reggie {
             {
                 gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(38, 88), transformedPos, (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
             }
+            if(platformTexture == platformTextures["SnailShell"])
+            {
+                gameObjectList.Add(new Item(platformTextures["SnailShell"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.SNAILSHELL));
+            }
         }
 
         private void createNewPlatform(ref List<GameObject> gameObjectList, string textureName, Matrix transformationMatrix, GraphicsDevice graphics, Dictionary<string, Texture2D> platformTextures) {
@@ -290,16 +304,17 @@ namespace Reggie {
                 }
                 if (i > 81 && i <= 108)
                 {
-                    if (i < 91) temp = "tileYellow_0" + (i-81);
-                    temp = "tileGreen_" + (i - 81);
+                    if (i < 91)
+                        temp = "tileGreen_0" + (i - 81);
+                    else temp = "tileGreen_" + (i - 81);
                 }
-                Enums.ObjectsID tempObjectID = Enums.ObjectsID.tileBlue_27;
-                switch (temp)
-                {
-                    case "tileBrown_01":
-                        tempObjectID = Enums.ObjectsID.tileBrown_01;
-                        break;
-                }
+                Enums.ObjectsID tempObjectID = Enums.ObjectsID.tileBrown_01;
+                //switch (temp)
+                //{
+                //    case "tileBrown_01":
+                //        tempObjectID = Enums.ObjectsID.tileBrown_01;
+                //        break;
+                //}
                 if(textureName == temp)
                 {
                     gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, false));
@@ -317,7 +332,7 @@ namespace Reggie {
             outputList.RemoveRange(0, outputList.Count());
 
            
-            foreach (Platform platform in GameObjectList)
+            foreach (GameObject GameObject in GameObjectList)
             {
                 string Output = "";
 
@@ -327,121 +342,121 @@ namespace Reggie {
                 //}
                 //if (platform.PlatformType >= (int)Enums.ObjectsID.tileBrown_01 && platform.PlatformType <= (int)Enums.ObjectsID.tileGreen_27) Output = "" + platform.PlatformType;
 
-                if (platform.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
-                if (platform.getTexture() == platformTextures["Transparent_500x50"]) Output = Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
-                if (platform.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
-                if (platform.getTexture() == platformTextures["Climbingplant_38x64"]) Output = Enums.ObjectsID.VINE.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_01"]) Output = Enums.ObjectsID.tileBrown_01.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_02"]) Output = Enums.ObjectsID.tileBrown_02.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_03"]) Output = Enums.ObjectsID.tileBrown_03.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_04"]) Output = Enums.ObjectsID.tileBrown_04.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_05"]) Output = Enums.ObjectsID.tileBrown_05.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_06"]) Output = Enums.ObjectsID.tileBrown_06.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_07"]) Output = Enums.ObjectsID.tileBrown_07.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_08"]) Output = Enums.ObjectsID.tileBrown_08.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_09"]) Output = Enums.ObjectsID.tileBrown_09.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_10"]) Output = Enums.ObjectsID.tileBrown_10.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_11"]) Output = Enums.ObjectsID.tileBrown_11.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_12"]) Output = Enums.ObjectsID.tileBrown_12.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_13"]) Output = Enums.ObjectsID.tileBrown_13.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_14"]) Output = Enums.ObjectsID.tileBrown_14.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_15"]) Output = Enums.ObjectsID.tileBrown_15.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_16"]) Output = Enums.ObjectsID.tileBrown_16.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_17"]) Output = Enums.ObjectsID.tileBrown_17.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_18"]) Output = Enums.ObjectsID.tileBrown_18.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_19"]) Output = Enums.ObjectsID.tileBrown_19.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_20"]) Output = Enums.ObjectsID.tileBrown_20.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_21"]) Output = Enums.ObjectsID.tileBrown_21.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_22"]) Output = Enums.ObjectsID.tileBrown_22.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_23"]) Output = Enums.ObjectsID.tileBrown_23.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_24"]) Output = Enums.ObjectsID.tileBrown_24.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_25"]) Output = Enums.ObjectsID.tileBrown_25.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_26"]) Output = Enums.ObjectsID.tileBrown_26.ToString();
-                if (platform.getTexture() == platformTextures["tileBrown_27"]) Output = Enums.ObjectsID.tileBrown_27.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_01"]) Output = Enums.ObjectsID.tileYellow_01.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_02"]) Output = Enums.ObjectsID.tileYellow_02.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_03"]) Output = Enums.ObjectsID.tileYellow_03.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_04"]) Output = Enums.ObjectsID.tileYellow_04.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_05"]) Output = Enums.ObjectsID.tileYellow_05.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_06"]) Output = Enums.ObjectsID.tileYellow_06.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_07"]) Output = Enums.ObjectsID.tileYellow_07.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_08"]) Output = Enums.ObjectsID.tileYellow_08.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_09"]) Output = Enums.ObjectsID.tileYellow_09.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_10"]) Output = Enums.ObjectsID.tileYellow_10.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_11"]) Output = Enums.ObjectsID.tileYellow_11.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_12"]) Output = Enums.ObjectsID.tileYellow_12.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_13"]) Output = Enums.ObjectsID.tileYellow_13.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_14"]) Output = Enums.ObjectsID.tileYellow_14.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_15"]) Output = Enums.ObjectsID.tileYellow_15.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_16"]) Output = Enums.ObjectsID.tileYellow_16.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_17"]) Output = Enums.ObjectsID.tileYellow_17.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_18"]) Output = Enums.ObjectsID.tileYellow_18.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_19"]) Output = Enums.ObjectsID.tileYellow_19.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_20"]) Output = Enums.ObjectsID.tileYellow_20.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_21"]) Output = Enums.ObjectsID.tileYellow_21.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_22"]) Output = Enums.ObjectsID.tileYellow_22.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_23"]) Output = Enums.ObjectsID.tileYellow_23.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_24"]) Output = Enums.ObjectsID.tileYellow_24.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_25"]) Output = Enums.ObjectsID.tileYellow_25.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_26"]) Output = Enums.ObjectsID.tileYellow_26.ToString();
-                if (platform.getTexture() == platformTextures["tileYellow_27"]) Output = Enums.ObjectsID.tileYellow_27.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_01"]) Output = Enums.ObjectsID.tileBlue_01.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_02"]) Output = Enums.ObjectsID.tileBlue_02.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_03"]) Output = Enums.ObjectsID.tileBlue_03.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_04"]) Output = Enums.ObjectsID.tileBlue_04.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_05"]) Output = Enums.ObjectsID.tileBlue_05.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_06"]) Output = Enums.ObjectsID.tileBlue_06.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_07"]) Output = Enums.ObjectsID.tileBlue_07.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_08"]) Output = Enums.ObjectsID.tileBlue_08.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_09"]) Output = Enums.ObjectsID.tileBlue_09.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_10"]) Output = Enums.ObjectsID.tileBlue_10.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_11"]) Output = Enums.ObjectsID.tileBlue_11.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_12"]) Output = Enums.ObjectsID.tileBlue_12.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_13"]) Output = Enums.ObjectsID.tileBlue_13.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_14"]) Output = Enums.ObjectsID.tileBlue_14.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_15"]) Output = Enums.ObjectsID.tileBlue_15.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_16"]) Output = Enums.ObjectsID.tileBlue_16.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_17"]) Output = Enums.ObjectsID.tileBlue_17.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_18"]) Output = Enums.ObjectsID.tileBlue_18.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_19"]) Output = Enums.ObjectsID.tileBlue_19.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_20"]) Output = Enums.ObjectsID.tileBlue_20.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_21"]) Output = Enums.ObjectsID.tileBlue_21.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_22"]) Output = Enums.ObjectsID.tileBlue_22.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_23"]) Output = Enums.ObjectsID.tileBlue_23.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_24"]) Output = Enums.ObjectsID.tileBlue_24.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_25"]) Output = Enums.ObjectsID.tileBlue_25.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_26"]) Output = Enums.ObjectsID.tileBlue_26.ToString();
-                if (platform.getTexture() == platformTextures["tileBlue_27"]) Output = Enums.ObjectsID.tileBlue_27.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_01"]) Output = Enums.ObjectsID.tileGreen_01.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_02"]) Output = Enums.ObjectsID.tileGreen_02.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_03"]) Output = Enums.ObjectsID.tileGreen_03.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_04"]) Output = Enums.ObjectsID.tileGreen_04.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_05"]) Output = Enums.ObjectsID.tileGreen_05.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_06"]) Output = Enums.ObjectsID.tileGreen_06.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_07"]) Output = Enums.ObjectsID.tileGreen_07.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_08"]) Output = Enums.ObjectsID.tileGreen_08.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_09"]) Output = Enums.ObjectsID.tileGreen_09.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_10"]) Output = Enums.ObjectsID.tileGreen_10.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_11"]) Output = Enums.ObjectsID.tileGreen_11.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_12"]) Output = Enums.ObjectsID.tileGreen_12.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_13"]) Output = Enums.ObjectsID.tileGreen_13.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_14"]) Output = Enums.ObjectsID.tileGreen_14.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_15"]) Output = Enums.ObjectsID.tileGreen_15.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_16"]) Output = Enums.ObjectsID.tileGreen_16.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_17"]) Output = Enums.ObjectsID.tileGreen_17.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_18"]) Output = Enums.ObjectsID.tileGreen_18.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_19"]) Output = Enums.ObjectsID.tileGreen_19.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_20"]) Output = Enums.ObjectsID.tileGreen_20.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_21"]) Output = Enums.ObjectsID.tileGreen_21.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_22"]) Output = Enums.ObjectsID.tileGreen_22.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_23"]) Output = Enums.ObjectsID.tileGreen_23.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_24"]) Output = Enums.ObjectsID.tileGreen_24.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_25"]) Output = Enums.ObjectsID.tileGreen_25.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_26"]) Output = Enums.ObjectsID.tileGreen_26.ToString();
-                if (platform.getTexture() == platformTextures["tileGreen_27"]) Output = Enums.ObjectsID.tileGreen_27.ToString();
+                if (GameObject.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
+                if (GameObject.getTexture() == platformTextures["Transparent_500x50"]) Output = Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
+                if (GameObject.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
+                if (GameObject.getTexture() == platformTextures["Climbingplant_38x64"]) Output = Enums.ObjectsID.VINE.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_01"]) Output = Enums.ObjectsID.tileBrown_01.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_02"]) Output = Enums.ObjectsID.tileBrown_02.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_03"]) Output = Enums.ObjectsID.tileBrown_03.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_04"]) Output = Enums.ObjectsID.tileBrown_04.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_05"]) Output = Enums.ObjectsID.tileBrown_05.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_06"]) Output = Enums.ObjectsID.tileBrown_06.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_07"]) Output = Enums.ObjectsID.tileBrown_07.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_08"]) Output = Enums.ObjectsID.tileBrown_08.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_09"]) Output = Enums.ObjectsID.tileBrown_09.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_10"]) Output = Enums.ObjectsID.tileBrown_10.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_11"]) Output = Enums.ObjectsID.tileBrown_11.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_12"]) Output = Enums.ObjectsID.tileBrown_12.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_13"]) Output = Enums.ObjectsID.tileBrown_13.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_14"]) Output = Enums.ObjectsID.tileBrown_14.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_15"]) Output = Enums.ObjectsID.tileBrown_15.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_16"]) Output = Enums.ObjectsID.tileBrown_16.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_17"]) Output = Enums.ObjectsID.tileBrown_17.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_18"]) Output = Enums.ObjectsID.tileBrown_18.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_19"]) Output = Enums.ObjectsID.tileBrown_19.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_20"]) Output = Enums.ObjectsID.tileBrown_20.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_21"]) Output = Enums.ObjectsID.tileBrown_21.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_22"]) Output = Enums.ObjectsID.tileBrown_22.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_23"]) Output = Enums.ObjectsID.tileBrown_23.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_24"]) Output = Enums.ObjectsID.tileBrown_24.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_25"]) Output = Enums.ObjectsID.tileBrown_25.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_26"]) Output = Enums.ObjectsID.tileBrown_26.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBrown_27"]) Output = Enums.ObjectsID.tileBrown_27.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_01"]) Output = Enums.ObjectsID.tileYellow_01.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_02"]) Output = Enums.ObjectsID.tileYellow_02.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_03"]) Output = Enums.ObjectsID.tileYellow_03.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_04"]) Output = Enums.ObjectsID.tileYellow_04.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_05"]) Output = Enums.ObjectsID.tileYellow_05.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_06"]) Output = Enums.ObjectsID.tileYellow_06.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_07"]) Output = Enums.ObjectsID.tileYellow_07.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_08"]) Output = Enums.ObjectsID.tileYellow_08.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_09"]) Output = Enums.ObjectsID.tileYellow_09.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_10"]) Output = Enums.ObjectsID.tileYellow_10.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_11"]) Output = Enums.ObjectsID.tileYellow_11.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_12"]) Output = Enums.ObjectsID.tileYellow_12.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_13"]) Output = Enums.ObjectsID.tileYellow_13.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_14"]) Output = Enums.ObjectsID.tileYellow_14.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_15"]) Output = Enums.ObjectsID.tileYellow_15.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_16"]) Output = Enums.ObjectsID.tileYellow_16.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_17"]) Output = Enums.ObjectsID.tileYellow_17.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_18"]) Output = Enums.ObjectsID.tileYellow_18.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_19"]) Output = Enums.ObjectsID.tileYellow_19.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_20"]) Output = Enums.ObjectsID.tileYellow_20.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_21"]) Output = Enums.ObjectsID.tileYellow_21.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_22"]) Output = Enums.ObjectsID.tileYellow_22.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_23"]) Output = Enums.ObjectsID.tileYellow_23.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_24"]) Output = Enums.ObjectsID.tileYellow_24.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_25"]) Output = Enums.ObjectsID.tileYellow_25.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_26"]) Output = Enums.ObjectsID.tileYellow_26.ToString();
+                if (GameObject.getTexture() == platformTextures["tileYellow_27"]) Output = Enums.ObjectsID.tileYellow_27.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_01"]) Output = Enums.ObjectsID.tileBlue_01.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_02"]) Output = Enums.ObjectsID.tileBlue_02.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_03"]) Output = Enums.ObjectsID.tileBlue_03.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_04"]) Output = Enums.ObjectsID.tileBlue_04.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_05"]) Output = Enums.ObjectsID.tileBlue_05.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_06"]) Output = Enums.ObjectsID.tileBlue_06.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_07"]) Output = Enums.ObjectsID.tileBlue_07.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_08"]) Output = Enums.ObjectsID.tileBlue_08.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_09"]) Output = Enums.ObjectsID.tileBlue_09.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_10"]) Output = Enums.ObjectsID.tileBlue_10.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_11"]) Output = Enums.ObjectsID.tileBlue_11.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_12"]) Output = Enums.ObjectsID.tileBlue_12.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_13"]) Output = Enums.ObjectsID.tileBlue_13.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_14"]) Output = Enums.ObjectsID.tileBlue_14.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_15"]) Output = Enums.ObjectsID.tileBlue_15.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_16"]) Output = Enums.ObjectsID.tileBlue_16.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_17"]) Output = Enums.ObjectsID.tileBlue_17.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_18"]) Output = Enums.ObjectsID.tileBlue_18.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_19"]) Output = Enums.ObjectsID.tileBlue_19.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_20"]) Output = Enums.ObjectsID.tileBlue_20.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_21"]) Output = Enums.ObjectsID.tileBlue_21.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_22"]) Output = Enums.ObjectsID.tileBlue_22.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_23"]) Output = Enums.ObjectsID.tileBlue_23.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_24"]) Output = Enums.ObjectsID.tileBlue_24.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_25"]) Output = Enums.ObjectsID.tileBlue_25.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_26"]) Output = Enums.ObjectsID.tileBlue_26.ToString();
+                if (GameObject.getTexture() == platformTextures["tileBlue_27"]) Output = Enums.ObjectsID.tileBlue_27.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_01"]) Output = Enums.ObjectsID.tileGreen_01.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_02"]) Output = Enums.ObjectsID.tileGreen_02.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_03"]) Output = Enums.ObjectsID.tileGreen_03.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_04"]) Output = Enums.ObjectsID.tileGreen_04.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_05"]) Output = Enums.ObjectsID.tileGreen_05.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_06"]) Output = Enums.ObjectsID.tileGreen_06.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_07"]) Output = Enums.ObjectsID.tileGreen_07.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_08"]) Output = Enums.ObjectsID.tileGreen_08.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_09"]) Output = Enums.ObjectsID.tileGreen_09.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_10"]) Output = Enums.ObjectsID.tileGreen_10.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_11"]) Output = Enums.ObjectsID.tileGreen_11.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_12"]) Output = Enums.ObjectsID.tileGreen_12.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_13"]) Output = Enums.ObjectsID.tileGreen_13.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_14"]) Output = Enums.ObjectsID.tileGreen_14.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_15"]) Output = Enums.ObjectsID.tileGreen_15.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_16"]) Output = Enums.ObjectsID.tileGreen_16.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_17"]) Output = Enums.ObjectsID.tileGreen_17.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_18"]) Output = Enums.ObjectsID.tileGreen_18.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_19"]) Output = Enums.ObjectsID.tileGreen_19.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_20"]) Output = Enums.ObjectsID.tileGreen_20.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_21"]) Output = Enums.ObjectsID.tileGreen_21.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_22"]) Output = Enums.ObjectsID.tileGreen_22.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_23"]) Output = Enums.ObjectsID.tileGreen_23.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_24"]) Output = Enums.ObjectsID.tileGreen_24.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_25"]) Output = Enums.ObjectsID.tileGreen_25.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_26"]) Output = Enums.ObjectsID.tileGreen_26.ToString();
+                if (GameObject.getTexture() == platformTextures["tileGreen_27"]) Output = Enums.ObjectsID.tileGreen_27.ToString();
 
 
-                Output += "," + platform.gameObjectPosition.X + "," + platform.gameObjectPosition.Y;
+                Output += "," + GameObject.gameObjectPosition.X + "," + GameObject.gameObjectPosition.Y;
 
                 outputList.Add(Output);
             }
@@ -486,7 +501,7 @@ namespace Reggie {
             List<string> NamesList = new List<string>();
             NamesList = new List<string>(System.IO.File.ReadAllLines(@"PlatformTileSheetNames.txt"));
             NamesList = NamesList.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
-
+            Console.WriteLine(NamesList);
             int i = 0;
             for (int m = 0; m < 12; m++)
             {
@@ -495,8 +510,9 @@ namespace Reggie {
                         PlatformsDic.Add(NamesList[i].ToString(), new Rectangle(n * 64, m * 64, 64, 64));
                         platformTextures.Add(NamesList[i].ToString(), CreatePartImage(PlatformsDic[NamesList[i].ToString()], Platform_TileSheet, graphics));
                     //Console.WriteLine(NamesList[i]);
-                    Console.WriteLine(platformTextures.ElementAt(i));
-                        i++;
+                    //Console.WriteLine(platformTextures.ElementAt(i));
+                    Console.WriteLine(NamesList[i]);
+                    i++;
                   }
             }
 

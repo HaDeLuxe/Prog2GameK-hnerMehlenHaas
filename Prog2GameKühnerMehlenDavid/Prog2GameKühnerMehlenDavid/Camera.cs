@@ -14,7 +14,7 @@ namespace Reggie
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        float zoom = 1f;
+        float zoom = .05f;
 
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
         {
@@ -32,17 +32,22 @@ namespace Reggie
         public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList, ref List<GameObject> interactiveObject)
         {
             List<GameObject> objectsToRender = new List<GameObject>();
+            List<GameObject> interactiveObjectsList = new List<GameObject>();
             for(int i = 0; i < gameObjectsList.Count; i++)
             {
                 if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1350 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 1350
                     && gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                 {
                         objectsToRender.Add(gameObjectsList[i]);
-                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE)
-                        interactiveObject.Add(gameObjectsList[i]);
+                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE 
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                        interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }
-
+            interactiveObject = interactiveObjectsList;
             return objectsToRender;
         }
 
