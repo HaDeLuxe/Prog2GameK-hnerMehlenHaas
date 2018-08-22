@@ -140,10 +140,10 @@ namespace Reggie {
         /// </summary>
         /// <param name="cameraOffset"></param>
         public void moveCamera(ref Vector2 cameraOffset) {
-            if (Keyboard.GetState().IsKeyDown(Keys.U)) cameraOffset.Y += 100;
-            if (Keyboard.GetState().IsKeyDown(Keys.J)) cameraOffset.Y -= 100;
-            if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 100;
-            if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 100;
+            if (Keyboard.GetState().IsKeyDown(Keys.U)) cameraOffset.Y += 20;
+            if (Keyboard.GetState().IsKeyDown(Keys.J)) cameraOffset.Y -= 20;
+            if (Keyboard.GetState().IsKeyDown(Keys.K)) cameraOffset.X -= 20;
+            if (Keyboard.GetState().IsKeyDown(Keys.H)) cameraOffset.X += 20;
         }
 
         
@@ -317,7 +317,7 @@ namespace Reggie {
                 //}
                 if(textureName == temp)
                 {
-                    gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, false));
+                    gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, true));
                 }
             }
 

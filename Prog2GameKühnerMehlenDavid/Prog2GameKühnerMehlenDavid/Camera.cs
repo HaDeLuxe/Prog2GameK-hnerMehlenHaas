@@ -14,7 +14,7 @@ namespace Reggie
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        float zoom = .05f;
+        float zoom = 1f;
 
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
         {
@@ -66,7 +66,7 @@ namespace Reggie
                         platformList[i].enemySpawnCheck = true;
                         Random rand = new Random();
                         int randomizedNumber = rand.Next(0, 100);
-                        if (randomizedNumber % 2 == 0)
+                        if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
                         {
                             enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY));
                             enemyList.Last().SetPlayer(wormPlayer);

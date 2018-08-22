@@ -31,6 +31,12 @@ namespace Reggie {
         List<Enemy> viewableEnemies;
         List<GameObject> gameObjectsToRender;
         List<GameObject> interactiveObject;
+        List<GameObject> TutorialGameObjects;
+        List<GameObject> DungHillGameObjects;
+        List<GameObject> GreenHouseGameObjects;
+        List<GameObject> AntGameObjects;
+        List<GameObject> TreeGameObjects;
+        List<GameObject> HubGameObjects;
         Dictionary<string, Texture2D> texturesDictionnary;
 
         int enemycounter;
@@ -68,6 +74,7 @@ namespace Reggie {
         SpriteFont font;
         Camera camera = new Camera();
         GameManager GameManager;
+        Levels LevelManager;
 
         //for switching LevelEditor
         public static KeyboardState previousState;
@@ -109,6 +116,7 @@ namespace Reggie {
             splashScreen = new SplashScreen();
             MainMenu = new MainMenu();
             GameManager = new GameManager();
+            LevelManager = new Levels();
         }
 
         /// <summary>
@@ -179,12 +187,18 @@ namespace Reggie {
             platformList = new List<Platform>();
             gameObjectList = new List<GameObject>();
             interactiveObject = new List<GameObject>();
+            TutorialGameObjects = new List<GameObject>();
+            DungHillGameObjects = new List<GameObject>();
+            GreenHouseGameObjects = new List<GameObject>();
+            AntGameObjects = new List<GameObject>();
+            TreeGameObjects = new List<GameObject>();
+            HubGameObjects = new List<GameObject>();
             //foreach (var enemy in enemyList)
             //    enemy.SetPlayer(wormPlayer);
 
             background = Content.Load<Texture2D>("Images\\Lvl1_Background");
-            Sky_2000_1000 = Content.Load<Texture2D>("Images\\Himmel_Level_Tutorial");
-            Ground_Tutorial_2000_1000 = Content.Load<Texture2D>("Images\\Erde_Level_Tutorial");
+            Sky_2000_1000 = Content.Load<Texture2D>("Images\\World\\Himmel_Level_Tutorial");
+            Ground_Tutorial_2000_1000 = Content.Load<Texture2D>("Images\\World\\Erde_Level_Tutorial");
             Ant_Cave_Background = Content.Load<Texture2D>("Images\\World\\Ameisenhöhle");
             Tree_Background = Content.Load<Texture2D>("Images\\World\\Baum");
             Roof_Background = Content.Load<Texture2D>("Images\\World\\Dach");
@@ -238,8 +252,10 @@ namespace Reggie {
             //gameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(-3500, 530), (int)Enums.ObjectsID.ARMOR));
             //gameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(-1500, 530), (int)Enums.ObjectsID.SHOVEL));
             //gameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
-            
 
+            LevelManager.sortGameObjects(gameObjectList, ref TutorialGameObjects, ref DungHillGameObjects, ref GreenHouseGameObjects, ref AntGameObjects, ref TreeGameObjects, ref HubGameObjects);
+
+           
             FillLists();
             
             // MONO: use this.Content to load your game content here
@@ -405,28 +421,9 @@ namespace Reggie {
 
                         if(lastGameState == currentGameState)
                         {
-                            //TODO: LEVEL CLASS --> Draw Function
-                            //BACKGROUND
-                            spriteBatch.Draw(background, new Vector2(0, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(2000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(4000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(6000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(background, new Vector2(8000, -50), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+                            LevelManager.drawLevelsBackground(spriteBatch, background, Sky_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
 
-                            spriteBatch.Draw(Sky_2000_1000, new Vector2(0, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_1000, new Vector2(2000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_1000, new Vector2(4000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_1000, new Vector2(6000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Sky_2000_1000, new Vector2(8000, -1050), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(0, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(2000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(4000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(6000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                            spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(8000, 950), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-
-
+                            
                             //this draws the platforms visible in the viewport
                             foreach (var platformSprite in gameObjectsToRender)
                                 if (platformSprite.IsThisAVisibleObject())
@@ -448,102 +445,7 @@ namespace Reggie {
                     case GameState.LEVELEDITOR:
 
 
-                        //TODO: LEVEL CLASS --> Draw Function
-                        //BACKGROUND
-                        spriteBatch.Draw(background, new Vector2(0, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(2000, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(4000, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(6000, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(background, new Vector2(8000, 0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Sky_2000_1000, new Vector2(0, -1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_1000, new Vector2(2000, -1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_1000, new Vector2(4000, -1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_1000, new Vector2(6000, -1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Sky_2000_1000, new Vector2(8000, -1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(0, 1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(2000, 1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(4000, 1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(6000, 1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ground_Tutorial_2000_1000, new Vector2(8000, 1000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-                        //Hub
-
-                        spriteBatch.Draw(Hub_Background, new Vector2(-500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Hub_Background, new Vector2(-2500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-                        //Ant Cave
-
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-5500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-7500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-9500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-11500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-13500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-15500, 2000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-5500, 4000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-7500, 4000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-9500, 4000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-11500, 4000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-13500, 4000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Ant_Cave_Background, new Vector2(-15500, 4000), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-
-                        //Greenhouse
-
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-3000, -1000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-5000, -1000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-7000, -1000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-3000, -3000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-5000, -3000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-7000, -3000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-3000, -5000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-5000, -5000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Greenhouse_Background, new Vector2(-7000, -5000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        //Roof
-
-                        spriteBatch.Draw(Roof_Background, new Vector2(-3000, -7000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Roof_Background, new Vector2(-5000, -7000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Roof_Background, new Vector2(-7000, -7000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Roof_Background, new Vector2(-3000, -9000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Roof_Background, new Vector2(-5000, -9000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Roof_Background, new Vector2(-7000, -9000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        //tree
-
-                        spriteBatch.Draw(Tree_Background, new Vector2(-10000, -1000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Tree_Background, new Vector2(-12000, -1000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Tree_Background, new Vector2(-10000, -3000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Tree_Background, new Vector2(-12000, -3000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Tree_Background, new Vector2(-10000, -5000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Tree_Background, new Vector2(-12000, -5000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Tree_Background, new Vector2(-10000, -7000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Tree_Background, new Vector2(-12000, -7000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Tree_Background, new Vector2(-10000, -9000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Tree_Background, new Vector2(-12000, -9000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        //Crown
-
-                        spriteBatch.Draw(Crown_Background, new Vector2(-10000, -11000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Crown_Background, new Vector2(-12000, -11000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Crown_Background, new Vector2(-8000, -11000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Crown_Background, new Vector2(-14000, -11000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Crown_Background, new Vector2(-10000, -13000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Crown_Background, new Vector2(-12000, -13000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Crown_Background, new Vector2(-8000, -13000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                        spriteBatch.Draw(Crown_Background, new Vector2(-14000, -13000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                        spriteBatch.Draw(Crown_Background, new Vector2(-8000, -15000), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        LevelManager.drawLevelsBackground(spriteBatch, background, Sky_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
 
 
 
@@ -611,7 +513,7 @@ namespace Reggie {
                     gameObjectList.Add(new Platform(texturesDictionnary["Climbingplant_38x64"], new Vector2(38, 88), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
-                    gameObjectList.Add(new Platform(texturesDictionnary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, false));
+                    gameObjectList.Add(new Platform(texturesDictionnary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_02.ToString())
                     gameObjectList.Add(new Platform(texturesDictionnary["tileBrown_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_02, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_03.ToString())
