@@ -31,12 +31,7 @@ namespace Reggie {
         List<Enemy> viewableEnemies;
         List<GameObject> gameObjectsToRender;
         List<GameObject> interactiveObject;
-        List<GameObject> TutorialGameObjects;
-        List<GameObject> DungHillGameObjects;
-        List<GameObject> GreenHouseGameObjects;
-        List<GameObject> AntGameObjects;
-        List<GameObject> TreeGameObjects;
-        List<GameObject> HubGameObjects;
+        
         Dictionary<string, Texture2D> texturesDictionnary;
 
         int enemycounter;
@@ -187,12 +182,7 @@ namespace Reggie {
             platformList = new List<Platform>();
             gameObjectList = new List<GameObject>();
             interactiveObject = new List<GameObject>();
-            TutorialGameObjects = new List<GameObject>();
-            DungHillGameObjects = new List<GameObject>();
-            GreenHouseGameObjects = new List<GameObject>();
-            AntGameObjects = new List<GameObject>();
-            TreeGameObjects = new List<GameObject>();
-            HubGameObjects = new List<GameObject>();
+            
             //foreach (var enemy in enemyList)
             //    enemy.SetPlayer(wormPlayer);
 
@@ -253,7 +243,7 @@ namespace Reggie {
             //gameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(-1500, 530), (int)Enums.ObjectsID.SHOVEL));
             //gameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
 
-            LevelManager.sortGameObjects(gameObjectList, ref TutorialGameObjects, ref DungHillGameObjects, ref GreenHouseGameObjects, ref AntGameObjects, ref TreeGameObjects, ref HubGameObjects);
+            LevelManager.sortGameObjects(gameObjectList);
 
            
             FillLists();
@@ -308,6 +298,7 @@ namespace Reggie {
                 case GameState.GAMELOOP:
                     this.IsMouseVisible = false;
                     //switch to LevelEditor
+                    LevelManager.ManageLevels( wormPlayer.gameObjectPosition ,ref gameObjectList);
                     GameManager.ManageItems(ref wormPlayer, ref gameObjectList);
 
                     if (currentGameState == GameState.GAMELOOP)
@@ -421,7 +412,7 @@ namespace Reggie {
 
                         if(lastGameState == currentGameState)
                         {
-                            LevelManager.drawLevelsBackground(spriteBatch, background, Sky_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
+                            LevelManager.drawLevelsBackground(spriteBatch, background, Ground_Tutorial_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
 
                             
                             //this draws the platforms visible in the viewport
@@ -445,12 +436,16 @@ namespace Reggie {
                     case GameState.LEVELEDITOR:
 
 
-                        LevelManager.drawLevelsBackground(spriteBatch, background, Sky_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
+                        LevelManager.drawLevelsBackground(spriteBatch, background, Ground_Tutorial_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
 
 
+                        //spriteBatch.DrawString(font, fps, new Vector2(wormPlayer.gameObjectPosition.X - 620, wormPlayer.gameObjectPosition.Y - 490), Color.Black);
 
 
-
+                        
+                        Vector2 mouse = Vector2.Transform(new Vector2(-Mouse.GetState().Position.X, -Mouse.GetState().Position.Y), transformationMatrix);
+                        string mouseCoordinates = "(x: " + (-mouse.X) + ", y: " + (-mouse.Y) + ")";
+                        spriteBatch.DrawString(font, mouseCoordinates, Vector2.Transform(new Vector2(Mouse.GetState().Position.X+10, Mouse.GetState().Position.Y-15), Matrix.Invert(transformationMatrix)), Color.Black);
 
 
                         //this draws all the platforms in the game
@@ -463,7 +458,7 @@ namespace Reggie {
 
                         //Writes Leveleditor Text when Level Editor is enabled
                         string lvlEditorString = "Level Editor Enabled!";
-                        spriteBatch.DrawString(font, lvlEditorString, new Vector2(wormPlayer.gameObjectPosition.X - 620, wormPlayer.gameObjectPosition.Y - 470), Color.DarkRed);
+                        spriteBatch.DrawString(font, lvlEditorString, Vector2.Transform(new Vector2(10, 30), Matrix.Invert(transformationMatrix)), Color.DarkRed);
                         break;
                 }
 
@@ -471,7 +466,7 @@ namespace Reggie {
                 var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 frameCounter.Update(deltaTime);
                 var fps = string.Format("FPS: {0}", frameCounter.averageFramesPerSecond);
-                spriteBatch.DrawString(font, fps, new Vector2(wormPlayer.gameObjectPosition.X - 620, wormPlayer.gameObjectPosition.Y - 490), Color.Black);
+                spriteBatch.DrawString(font, fps, Vector2.Transform(new Vector2(10,10), Matrix.Invert(transformationMatrix)), Color.Black);
                 //end comment.
 
             }

@@ -77,23 +77,23 @@ namespace Reggie {
                         
                         if(mouseWorldPosition.X % step < step/2 && mouseWorldPosition.Y % step < step/2)
                         {
-                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 - (mouseWorldPosition.X % step),
-                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 - (mouseWorldPosition.Y % step));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width  - (mouseWorldPosition.X % step),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height  - (mouseWorldPosition.Y % step));
                         }
                         else if(mouseWorldPosition.X % step < step/2 && mouseWorldPosition.Y % step > step/2)
                         {
-                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 - (mouseWorldPosition.X % step),
-                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 + (step - (mouseWorldPosition.Y % step)));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width  - (mouseWorldPosition.X % step),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height  + (step - (mouseWorldPosition.Y % step)));
                         }
                         else if (mouseWorldPosition.X % step > step/2 && mouseWorldPosition.Y % step < step/2)
                         {
-                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 + (step - (mouseWorldPosition.X % step)),
-                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 - (mouseWorldPosition.Y % step));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width  + (step - (mouseWorldPosition.X % step)),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height  - (mouseWorldPosition.Y % step));
                         }
                         else if (mouseWorldPosition.X % step > step/2 && mouseWorldPosition.Y % step > step/2)
                         {
-                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width / 2 + (step - (mouseWorldPosition.X % step)),
-                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height / 2 + (step - (mouseWorldPosition.Y % step)));
+                            gameObject.gameObjectPosition = new Vector2((int)mouseWorldPosition.X - gameObject.gameObjectRectangle.Width  + (step - (mouseWorldPosition.X % step)),
+                                                             (int)mouseWorldPosition.Y - gameObject.gameObjectRectangle.Height  + (step - (mouseWorldPosition.Y % step)));
                         }
                     }
                 }
