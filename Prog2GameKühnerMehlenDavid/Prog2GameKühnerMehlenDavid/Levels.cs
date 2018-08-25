@@ -16,11 +16,14 @@ namespace Reggie {
         Rectangle GreenhouseRectangle = new Rectangle(-7168, -8192, 6144, 10240);
         Rectangle TreeRectangle = new Rectangle(-13312, -8192, 4096, 10240);
         Rectangle CrownRectangle = new Rectangle(-15360, -14336, 8192, 6144);
+        Rectangle GazeboRectangle = new Rectangle(-14000, -6200, 600, 200);
         Rectangle TutHubBorderRectangle = new Rectangle(5800, 2000, 400, 1700);
         Rectangle HubToDungRectangle = new Rectangle(3300, 2600, 200, 700);
         Rectangle DungToHubRectangle = new Rectangle(3300, 3200, 200, 600);
         Rectangle DungToGreenRectangle = new Rectangle(-1000, -1500, 500, 3500);
         Rectangle GreenToDungRectangle = new Rectangle(-500, -1500, 500, 3500);
+        Rectangle GreenToTreeRectangle = new Rectangle(-9200, -7400, 1000, 400);
+        Rectangle TreeToGreenRectangle = new Rectangle(-8200, -7400, 1000, 400);
 
 
         List<GameObject> TutorialGameObjects;
@@ -36,6 +39,8 @@ namespace Reggie {
         bool DungToHub = false;
         bool DungToGreen = false;
         bool GreenToDung = false;
+        bool GreenToTree = false;
+        bool TreeToGreen = false;
 
         Enums.Level currentLevel = Enums.Level.TUTORIAL;
 
@@ -49,7 +54,7 @@ namespace Reggie {
             InterLevelGameObjects = new List<GameObject>();
         }
 
-        public void ManageLevels(Vector2 PlayerPos, ref List<GameObject> allGameObjects)
+        public void ManageLevels(Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects)
         {
             if (TutorialRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.TUTORIAL;
             if (DunghillRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.DUNG;
@@ -58,51 +63,79 @@ namespace Reggie {
             if (AntRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.ANTCAVE;
             if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.TREE;
 
-           
-            //if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
-            //{
-            //    allGameObjects = HubGameObjects;
-            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
-            //    TutToHub = true;
-            //}
+
+            if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
+            {
+                currentLevelGameObjects = HubGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                TutToHub = true;
+            }
 
 
-            //if (HubToDungRectangle.Contains(PlayerPos) && !DungToHubRectangle.Contains(PlayerPos) && !HubToDung)
-            //{
-            //    allGameObjects = DungHillGameObjects;
-            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
-            //    HubToDung = true;
-            //    DungToHub = false;
-            //    resetBooleans(HubToDung.GetType().Name);
+            if (HubToDungRectangle.Contains(PlayerPos) && !DungToHubRectangle.Contains(PlayerPos) && !HubToDung)
+            {
+                currentLevelGameObjects = DungHillGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                HubToDung = true;
+                DungToHub = false;
 
-            //}
+            }
 
 
-            //if (DungToHubRectangle.Contains(PlayerPos) && !HubToDungRectangle.Contains(PlayerPos) && !DungToHub)
-            //{
-            //    allGameObjects = HubGameObjects;
-            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
-            //    DungToHub = true;
-            //    HubToDung = false;
-            //    resetBooleans(DungToHub.GetType().Name);
-            //}
+            if (DungToHubRectangle.Contains(PlayerPos) && !HubToDungRectangle.Contains(PlayerPos) && !DungToHub)
+            {
+                currentLevelGameObjects = HubGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                DungToHub = true;
+                HubToDung = false;
+            }
 
-            //if (DungToGreenRectangle.Contains(PlayerPos) && !DungToGreen)
-            //{
-            //    allGameObjects = GreenHouseGameObjects;
-            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
-            //    DungToGreen = true;
-            //    GreenToDung = false;
-            //    resetBooleans(DungToGreen.GetType().Name);
-            //}
-            //if (GreenToDungRectangle.Contains(PlayerPos) && !GreenToDung)
-            //{
-            //    allGameObjects = DungHillGameObjects;
-            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
-            //    GreenToDung = true;
-            //    DungToGreen = false;
-            //    resetBooleans(GreenToDung.GetType().Name);
-            //}
+            if (DungToGreenRectangle.Contains(PlayerPos) && !DungToGreen)
+            {
+                currentLevelGameObjects = GreenHouseGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                DungToGreen = true;
+                GreenToDung = false;
+            }
+            if (GreenToDungRectangle.Contains(PlayerPos) && !GreenToDung)
+            {
+                currentLevelGameObjects = DungHillGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                GreenToDung = true;
+                DungToGreen = false;
+            }
+
+            if(GreenToTreeRectangle.Contains(PlayerPos) && !GreenToTree)
+            {
+                currentLevelGameObjects = TreeGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                GreenToTree = true;
+                TreeToGreen = false;
+            }
+
+            if(TreeToGreenRectangle.Contains(PlayerPos) && !TreeToGreen)
+            {
+                currentLevelGameObjects = GreenHouseGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                TreeToGreen = true;
+                GreenToTree = false;
+            }
+
+            bool once = false;
+
+            if (GazeboRectangle.Contains(PlayerPos))
+            {
+                
+                Camera.zoom = 0.05f;
+
+                Game1.cameraOffset = new Vector2(-100000, 10000);
+                if (!once)
+                {
+                    //Game1.cameraOffset = new Vector2(-60000,15000);
+                    Game1.cameraOffset.X += -10000;
+                    once = true;
+                }
+            }
 
             switch (currentLevel)
             {
@@ -112,16 +145,7 @@ namespace Reggie {
             }
         }
 
-        private void resetBooleans(string skip) {
-            if (HubToDung.GetType().Name != skip) HubToDung = false;
-            //else if(HubToDung.GetType().Name == skip) HubToDung = true;
-            if (DungToHub.GetType().Name != skip) DungToHub = false;
-            //else if (DungToHub.GetType().Name == skip) DungToHub = true;
-            if (DungToGreen.GetType().Name != skip) DungToGreen = false;
-            //else if (DungToGreen.GetType().Name == skip) DungToGreen = true;
-            if (GreenToDung.GetType().Name != skip) GreenToDung = false;
-            //else if (GreenToDung.GetType().Name == skip) GreenToDung = true;
-        }
+        
 
 
         public void sortGameObjects(List<GameObject> allGameObjects) 

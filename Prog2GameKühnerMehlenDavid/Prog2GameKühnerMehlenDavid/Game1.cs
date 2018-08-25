@@ -26,6 +26,7 @@ namespace Reggie {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         List<GameObject> AllGameObjectList;
+        List<GameObject> LevelObjectList;
         
         List<Platform> platformList;
         List<Enemy> enemyList;
@@ -173,7 +174,7 @@ namespace Reggie {
 
 
             animManager = new AnimationManager(playerSpriteSheets);
-            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(8000,500), (int) Enums.ObjectsID.PLAYER);
+            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), /*new Vector2(8000,500)*/ new Vector2(-7500,-7404), (int) Enums.ObjectsID.PLAYER);
 
             enemyList = new List<Enemy>();
             //{
@@ -243,6 +244,7 @@ namespace Reggie {
             //AllGameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(-1500, 530), (int)Enums.ObjectsID.SHOVEL));
             //AllGameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
 
+            LevelObjectList = AllGameObjectList;
             LevelManager.sortGameObjects(AllGameObjectList);
 
            
@@ -298,8 +300,8 @@ namespace Reggie {
                 case GameState.GAMELOOP:
                     this.IsMouseVisible = false;
                     //switch to LevelEditor
-                    LevelManager.ManageLevels( wormPlayer.gameObjectPosition ,ref AllGameObjectList);
-                    GameManager.ManageItems(ref wormPlayer, ref AllGameObjectList);
+                    LevelManager.ManageLevels( wormPlayer.gameObjectPosition ,ref LevelObjectList);
+                    GameManager.ManageItems(ref wormPlayer, ref LevelObjectList);
 
                     if (currentGameState == GameState.GAMELOOP)
                     {
@@ -309,15 +311,15 @@ namespace Reggie {
                         previousState = Keyboard.GetState();
                     }
 
-                    gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, AllGameObjectList, ref interactiveObject);
+                    gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, LevelObjectList, ref interactiveObject);
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref AllGameObjectList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref LevelObjectList);
 
                     foreach (var enemy in enemyList.ToList())
                     {
-                        enemy.Update(gameTime, AllGameObjectList);
+                        enemy.Update(gameTime, LevelObjectList);
                         if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
                             enemyList.RemoveAt(enemyList.IndexOf(enemy));
                     }

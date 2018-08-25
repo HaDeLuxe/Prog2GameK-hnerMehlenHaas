@@ -14,7 +14,7 @@ namespace Reggie
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        float zoom = 1f;
+        public static float zoom = 1f;
 
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
         {
