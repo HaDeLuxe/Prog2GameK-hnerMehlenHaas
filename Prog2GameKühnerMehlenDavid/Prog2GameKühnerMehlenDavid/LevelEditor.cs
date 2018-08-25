@@ -270,7 +270,7 @@ namespace Reggie {
             }
             if(platformTexture == platformTextures["Climbingplant_38x64"])
             {
-                gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(38, 88), transformedPos, (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
+                gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
             }
             if(platformTexture == platformTextures["SnailShell"])
             {
@@ -317,6 +317,9 @@ namespace Reggie {
                 //}
                 if(textureName == temp)
                 {
+                    if (textureName == "tileBrown_01" || textureName == "tileYellow_01" || textureName == "tileBlue_01" || textureName == "tileGreen_01")
+                        gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, false));
+
                     gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, true));
                 }
             }

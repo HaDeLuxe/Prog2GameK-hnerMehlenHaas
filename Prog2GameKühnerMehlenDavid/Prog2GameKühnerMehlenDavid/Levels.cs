@@ -17,6 +17,11 @@ namespace Reggie {
         Rectangle TreeRectangle = new Rectangle(-13312, -8192, 4096, 10240);
         Rectangle CrownRectangle = new Rectangle(-15360, -14336, 8192, 6144);
         Rectangle TutHubBorderRectangle = new Rectangle(5800, 2000, 400, 1700);
+        Rectangle HubToDungRectangle = new Rectangle(3300, 2600, 200, 700);
+        Rectangle DungToHubRectangle = new Rectangle(3300, 3200, 200, 600);
+        Rectangle DungToGreenRectangle = new Rectangle(-1000, -1500, 500, 3500);
+        Rectangle GreenToDungRectangle = new Rectangle(-500, -1500, 500, 3500);
+
 
         List<GameObject> TutorialGameObjects;
         List<GameObject> DungHillGameObjects;
@@ -27,6 +32,10 @@ namespace Reggie {
         List<GameObject> InterLevelGameObjects;
 
         bool TutToHub = false;
+        bool HubToDung = false;
+        bool DungToHub = false;
+        bool DungToGreen = false;
+        bool GreenToDung = false;
 
         Enums.Level currentLevel = Enums.Level.TUTORIAL;
 
@@ -50,12 +59,50 @@ namespace Reggie {
             if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.TREE;
 
            
-            if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
-            {
-                allGameObjects = HubGameObjects;
-                foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
-                TutToHub = true;
-            }
+            //if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
+            //{
+            //    allGameObjects = HubGameObjects;
+            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
+            //    TutToHub = true;
+            //}
+
+
+            //if (HubToDungRectangle.Contains(PlayerPos) && !DungToHubRectangle.Contains(PlayerPos) && !HubToDung)
+            //{
+            //    allGameObjects = DungHillGameObjects;
+            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
+            //    HubToDung = true;
+            //    DungToHub = false;
+            //    resetBooleans(HubToDung.GetType().Name);
+
+            //}
+
+
+            //if (DungToHubRectangle.Contains(PlayerPos) && !HubToDungRectangle.Contains(PlayerPos) && !DungToHub)
+            //{
+            //    allGameObjects = HubGameObjects;
+            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
+            //    DungToHub = true;
+            //    HubToDung = false;
+            //    resetBooleans(DungToHub.GetType().Name);
+            //}
+
+            //if (DungToGreenRectangle.Contains(PlayerPos) && !DungToGreen)
+            //{
+            //    allGameObjects = GreenHouseGameObjects;
+            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
+            //    DungToGreen = true;
+            //    GreenToDung = false;
+            //    resetBooleans(DungToGreen.GetType().Name);
+            //}
+            //if (GreenToDungRectangle.Contains(PlayerPos) && !GreenToDung)
+            //{
+            //    allGameObjects = DungHillGameObjects;
+            //    foreach (GameObject GameObject in InterLevelGameObjects) allGameObjects.Add(GameObject);
+            //    GreenToDung = true;
+            //    DungToGreen = false;
+            //    resetBooleans(GreenToDung.GetType().Name);
+            //}
 
             switch (currentLevel)
             {
@@ -63,8 +110,17 @@ namespace Reggie {
                     Console.WriteLine("Player is in hub");
                     break;
             }
+        }
 
-
+        private void resetBooleans(string skip) {
+            if (HubToDung.GetType().Name != skip) HubToDung = false;
+            //else if(HubToDung.GetType().Name == skip) HubToDung = true;
+            if (DungToHub.GetType().Name != skip) DungToHub = false;
+            //else if (DungToHub.GetType().Name == skip) DungToHub = true;
+            if (DungToGreen.GetType().Name != skip) DungToGreen = false;
+            //else if (DungToGreen.GetType().Name == skip) DungToGreen = true;
+            if (GreenToDung.GetType().Name != skip) GreenToDung = false;
+            //else if (GreenToDung.GetType().Name == skip) GreenToDung = true;
         }
 
 
