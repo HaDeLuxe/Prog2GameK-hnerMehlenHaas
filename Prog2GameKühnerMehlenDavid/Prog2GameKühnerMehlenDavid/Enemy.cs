@@ -19,6 +19,8 @@ namespace Reggie
         float knockBackValue;
         float fallCooldown;
         public bool fallOutOfMap;
+
+        public bool facingLeft = true;
         
         public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
@@ -38,15 +40,23 @@ namespace Reggie
             enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.W), (int)(enemyAggroAreaSize.Z));
             collisionBoxSize = new Vector2(50, 50);
         }
+
+
         //public Rectangle EnemyAggroArea
         //{
         //    get { return new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y + EnemyAggroAreaSize.W)); }
         //}
+
+
         public override void Update(GameTime gameTime, List<GameObject> gameObjectList) {
             ResizeEnemyAggroArea(gameObjectList);
             EnemyPositionCalculation(gameTime, gameObjectList);
             if (DetectPlayer() && !knockedBack)
                 EnemyMovement();
+        }
+
+        public void changeTexture(Texture2D texture) {
+            this.gameObjectTexture = texture;
         }
 
         private void ResizeEnemyAggroArea(List<GameObject> spriteList)
@@ -156,7 +166,9 @@ namespace Reggie
             //    IsStanding = true;
             //    GravityActive = false;
             //}
+
             
+
         }
 
         private void EnemyMovement()
@@ -181,6 +193,11 @@ namespace Reggie
                 pressedRightKey = true;
                 velocity.X = movementSpeed;
             }
+
+            if (velocity.X < 0)
+                facingLeft = true;
+            else if (velocity.X > 0)
+                facingLeft = false;
         }
 
         public virtual void EnemyAttack() { }

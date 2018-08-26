@@ -24,6 +24,13 @@ namespace Reggie {
         Rectangle GreenToDungRectangle = new Rectangle(-500, -1500, 500, 3500);
         Rectangle GreenToTreeRectangle = new Rectangle(-9200, -7400, 1000, 400);
         Rectangle TreeToGreenRectangle = new Rectangle(-8200, -7400, 1000, 400);
+        Rectangle GreenToTreeBottomRectangle = new Rectangle(-9200,1000,1200,1000);
+        Rectangle TreeToGreenBottomRectangle = new Rectangle(-8000,1000,800,1000);
+        Rectangle HubToAntRectangle = new Rectangle(-4000, 5600, 900, 400);
+        Rectangle AntToHubRectangle = new Rectangle(-3100, 5600, 900, 400);
+        Rectangle AntToTreeRectangle = new Rectangle(-12500, 3000, 500, 600);
+        Rectangle TreeToAntRectangle = new Rectangle(-12000, 3300, 1000, 400);
+        Rectangle TreeToAntBottomRectangle = new Rectangle(-8600, 2200, 400, 400);
 
 
         List<GameObject> TutorialGameObjects;
@@ -41,8 +48,13 @@ namespace Reggie {
         bool GreenToDung = false;
         bool GreenToTree = false;
         bool TreeToGreen = false;
+        bool HubToAnt = false;
+        bool AntToHub = false;
+        bool AntToTree = false;
+        bool TreeToAnt = false;
+        bool TreeToAntBottom = false;
 
-        Enums.Level currentLevel = Enums.Level.TUTORIAL;
+        public Enums.Level currentLevel = Enums.Level.TUTORIAL;
 
         public Levels() {
             TutorialGameObjects = new List<GameObject>();
@@ -121,20 +133,76 @@ namespace Reggie {
                 GreenToTree = false;
             }
 
-            bool once = false;
+            if (GreenToTreeBottomRectangle.Contains(PlayerPos) && !GreenToTree)
+            {
+                currentLevelGameObjects = TreeGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                GreenToTree = true;
+                TreeToGreen = false;
+                TreeToAntBottom = false;
+            }
+
+            if (TreeToGreenBottomRectangle.Contains(PlayerPos) && !TreeToGreen)
+            {
+                currentLevelGameObjects = GreenHouseGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                TreeToGreen = true;
+                GreenToTree = false;
+            }
+
+            if (HubToAntRectangle.Contains(PlayerPos) && !HubToAnt)
+            {
+                currentLevelGameObjects = AntGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                HubToAnt = true;
+                AntToHub = false;
+            }
+
+            if(AntToHubRectangle.Contains(PlayerPos) && !AntToHub)
+            {
+                currentLevelGameObjects = HubGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                AntToHub = true;
+                HubToAnt = false;
+            }
+
+            if(AntToTreeRectangle.Contains(PlayerPos) && !AntToTree)
+            {
+                currentLevelGameObjects = TreeGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                AntToTree = true;
+                TreeToAnt = false;
+            }
+
+            if(TreeToAntRectangle.Contains(PlayerPos) && !TreeToAnt)
+            {
+                currentLevelGameObjects = AntGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                TreeToAnt = true;
+                AntToTree = false;
+            }
+
+            if(TreeToAntBottomRectangle.Contains(PlayerPos) && !TreeToAntBottom)
+            {
+                currentLevelGameObjects = AntGameObjects;
+                foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
+                TreeToAntBottom = true;
+                GreenToTree = false;
+            }
+
 
             if (GazeboRectangle.Contains(PlayerPos))
             {
+                Camera.enableCameraMovement = false;
                 
+                Game1.cameraOffset = new Vector2(5000, 8000);
                 Camera.zoom = 0.05f;
-
-                Game1.cameraOffset = new Vector2(-100000, 10000);
-                if (!once)
-                {
-                    //Game1.cameraOffset = new Vector2(-60000,15000);
-                    Game1.cameraOffset.X += -10000;
-                    once = true;
-                }
+            }
+            else
+            {
+                Camera.enableCameraMovement = true;
+                Game1.cameraOffset = new Vector2(0, 0);
+                Camera.zoom = 1f;
             }
 
             switch (currentLevel)

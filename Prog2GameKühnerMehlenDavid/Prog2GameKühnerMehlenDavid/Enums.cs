@@ -141,5 +141,6 @@ namespace Reggie {
         public enum MainMenuButtons { START, RESUME, OPTIONS, CREDITS, EXIT}
         public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN }
         public enum Level{TUTORIAL, DUNG, GREENHOUSE, ROOF, ANTCAVE, HUB, TREE, CROWN }
+        public enum EnemyAnimations{LADYBUG_FLY_LEFT, LADYBUG_FLY_RIGHT }
     }
 }

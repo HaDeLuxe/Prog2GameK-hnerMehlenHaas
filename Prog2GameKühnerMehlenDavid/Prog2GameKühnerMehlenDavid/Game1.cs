@@ -30,11 +30,14 @@ namespace Reggie {
         
         List<Platform> platformList;
         List<Enemy> enemyList;
+        List<AnimationManagerEnemy> enemyAnimationManagerList;
         List<Enemy> viewableEnemies;
         List<GameObject> gameObjectsToRender;
         List<GameObject> interactiveObject;
         
         Dictionary<string, Texture2D> texturesDictionnary;
+        Dictionary<String, Texture2D> PlayerSpriteSheets;
+        Dictionary<String, Texture2D> EnemySpriteSheets;
         
         //Texture2D enemytexture;
         Texture2D enemySkinTexture;
@@ -85,12 +88,9 @@ namespace Reggie {
         Matrix transformationMatrix;
 
         public static Vector2 cameraOffset;
+      
 
-
-
-
-        Dictionary<String, Texture2D> playerSpriteSheets;
-
+        
         public Game1()
         {
             currentGameState = GameState.SPLASHSCREEN;
@@ -104,10 +104,13 @@ namespace Reggie {
             graphics.ApplyChanges();
             Window.AllowUserResizing = true;
             input.ReadImageSizeDataSheet();
-            playerSpriteSheets = new Dictionary<string, Texture2D>();
+            PlayerSpriteSheets = new Dictionary<string, Texture2D>();
+            EnemySpriteSheets = new Dictionary<string, Texture2D>();
             levelEditor = new LevelEditor();
             cameraOffset = new Vector2(0, 0);
             texturesDictionnary = new Dictionary<string, Texture2D>();
+            enemyList = new List<Enemy>();
+            enemyAnimationManagerList = new List<AnimationManagerEnemy>();
             Enums = new Enums();
             splashScreen = new SplashScreen();
             MainMenu = new MainMenu();
@@ -141,42 +144,45 @@ namespace Reggie {
             Texture2D platformTexture = Content.Load<Texture2D>("Images\\floor");
 
 
+            ///Load Player Sprite Sheets
             Texture2D playerJumpSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Small");
-            playerSpriteSheets.Add("playerJumpSpriteSheet", playerJumpSpriteSheet);
+            PlayerSpriteSheets.Add("playerJumpSpriteSheet", playerJumpSpriteSheet);
             Texture2D playerJumpHatSpritesSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Hat");
-            playerSpriteSheets.Add("playerJumpHatSpriteSheet", playerJumpHatSpritesSheet);
+            PlayerSpriteSheets.Add("playerJumpHatSpriteSheet", playerJumpHatSpritesSheet);
             Texture2D playerJumpArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Armor");
-            playerSpriteSheets.Add("playerJumpArmorSpriteSheet", playerJumpArmorSpriteSheet);
+            PlayerSpriteSheets.Add("playerJumpArmorSpriteSheet", playerJumpArmorSpriteSheet);
             Texture2D playerJumpArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Armor_Hat");
-            playerSpriteSheets.Add("playerJumpArmorHatSpriteSheet", playerJumpArmorHatSpriteSheet);
+            PlayerSpriteSheets.Add("playerJumpArmorHatSpriteSheet", playerJumpArmorHatSpriteSheet);
 
             Texture2D playerMoveSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Even_Smaller");
-            playerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
+            PlayerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
             Texture2D playerMoveHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Hat");
-            playerSpriteSheets.Add("playerMoveHatSpriteSheet", playerMoveHatSpriteSheet);
+            PlayerSpriteSheets.Add("playerMoveHatSpriteSheet", playerMoveHatSpriteSheet);
             Texture2D playerMoveArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Armor");
-            playerSpriteSheets.Add("playerMoveArmorSpriteSheet", playerMoveArmorSpriteSheet);
+            PlayerSpriteSheets.Add("playerMoveArmorSpriteSheet", playerMoveArmorSpriteSheet);
             Texture2D playerMoveArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Armor_Hat");
-            playerSpriteSheets.Add("playerMoveArmorHatSpriteSheet", playerMoveArmorHatSpriteSheet);
+            PlayerSpriteSheets.Add("playerMoveArmorHatSpriteSheet", playerMoveArmorHatSpriteSheet);
 
             Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack");
-            playerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
+            PlayerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
             Texture2D playerAttackHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Hat");
-            playerSpriteSheets.Add("playerAttackHatSpriteSheet", playerAttackHatSpriteSheet);
+            PlayerSpriteSheets.Add("playerAttackHatSpriteSheet", playerAttackHatSpriteSheet);
             Texture2D playerAttackArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Armor");
-            playerSpriteSheets.Add("playerAttackArmorSpriteSheet", playerAttackArmorSpriteSheet);
+            PlayerSpriteSheets.Add("playerAttackArmorSpriteSheet", playerAttackArmorSpriteSheet);
             Texture2D playerAttackArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Armor_Hat");
-            playerSpriteSheets.Add("playerAttackArmorHatSpritesheet", playerAttackArmorHatSpriteSheet);
+            PlayerSpriteSheets.Add("playerAttackArmorHatSpritesheet", playerAttackArmorHatSpriteSheet);
+
+            //Load EnemySpriteSheets
+            Texture2D Ladybug_Fly = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\ladybug_floating_Left_Small");
+            EnemySpriteSheets.Add("Ladybug_Fly_Spritesheet", Ladybug_Fly);
 
 
 
 
+            animManager = new AnimationManager(PlayerSpriteSheets);
+            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500) /*new Vector2(-7500,-7404)*/, (int) Enums.ObjectsID.PLAYER);
 
-
-            animManager = new AnimationManager(playerSpriteSheets);
-            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), /*new Vector2(8000,500)*/ new Vector2(-7500,-7404), (int) Enums.ObjectsID.PLAYER);
-
-            enemyList = new List<Enemy>();
+           
             //{
             //    new Enemy(enemySkinTexture, new Vector2(50,50),new Vector2(700,200)),
             //};
@@ -313,7 +319,7 @@ namespace Reggie {
 
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, LevelObjectList, ref interactiveObject);
 
-                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture);
+                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList,ref enemyAnimationManagerList, enemySkinTexture, EnemySpriteSheets);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref LevelObjectList);
 
@@ -372,6 +378,15 @@ namespace Reggie {
                     //    //enemyaggroposition = new Vector2(enemy.EnemyAggroArea.X, enemy.EnemyAggroArea.Y);
                     //}
 
+                    //for (int i = 0; i < enemyList.Count(); i++)
+                    //{
+                    //    //Enemy tempEnemy = enemyList[i];
+                    //    //AnimationManagerEnemy tempAnimationManager = enemyAnimationManagerList[i];
+                    //    //if (enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
+                    //    //else if (!enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+                    //}
+
+
                     break;
             }
         }
@@ -424,14 +439,31 @@ namespace Reggie {
 
                             //this draws the enemy
                             //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
-                            foreach (var enemy in viewableEnemies)
-                                enemy.DrawSpriteBatch(spriteBatch);
+                            //foreach (var enemy in viewableEnemies)
+                            //    enemy.DrawSpriteBatch(spriteBatch);
+
+                            if (LevelManager.currentLevel == Enums.Level.TUTORIAL)
+                            {
+                                for (int i = 0; i < enemyList.Count(); i++)
+                                {
+                                    Enemy tempEnemy = enemyList[i];
+                                    AnimationManagerEnemy tempAnimationManager = enemyAnimationManagerList[i];
+                                    if (enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
+                                    else if (!enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+                                    enemyAnimationManagerList[i].Animation(gameTime, ref tempEnemy, spriteBatch);
+                                }
+                            }
 
                             //This draws the player
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
+
+
                             //This draws the UI
                             GameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice);
+
+
+
                         }
                         break;
 
