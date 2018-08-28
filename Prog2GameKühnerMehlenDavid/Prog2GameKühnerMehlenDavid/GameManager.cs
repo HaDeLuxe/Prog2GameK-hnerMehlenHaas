@@ -155,7 +155,7 @@ namespace Reggie {
 
         public void drawUI(Dictionary<string, Texture2D> TexturesDictionnary, SpriteBatch spriteBatch, Matrix transformationMatrix, GraphicsDevice graphics) 
         {
-            spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-790, 90), Matrix.Invert(transformationMatrix)), Color.White);
+            spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-797, 90), Matrix.Invert(transformationMatrix)), Color.White);
             if (SnailShellPickedUp)
                 spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 685), Matrix.Invert(transformationMatrix)), Color.White);
             else spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 685), Matrix.Invert(transformationMatrix)), Color.Black);
@@ -172,10 +172,10 @@ namespace Reggie {
             }
 
 
-            spriteBatch.Draw(TexturesDictionnary["buttonL1"], Vector2.Transform(new Vector2(95, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
-            spriteBatch.Draw(TexturesDictionnary["buttonR1"], Vector2.Transform(new Vector2(215, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
-            spriteBatch.Draw(TexturesDictionnary["buttonL2"], Vector2.Transform(new Vector2(295, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
-            spriteBatch.Draw(TexturesDictionnary["buttonR2"], Vector2.Transform(new Vector2(420, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
+            spriteBatch.Draw(TexturesDictionnary["buttonL1"], Vector2.Transform(new Vector2(88, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
+            spriteBatch.Draw(TexturesDictionnary["buttonR1"], Vector2.Transform(new Vector2(208, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
+            spriteBatch.Draw(TexturesDictionnary["buttonL2"], Vector2.Transform(new Vector2(288, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
+            spriteBatch.Draw(TexturesDictionnary["buttonR2"], Vector2.Transform(new Vector2(413, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
 
 
 
