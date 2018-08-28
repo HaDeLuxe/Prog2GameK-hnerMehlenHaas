@@ -30,7 +30,7 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Ladybug_Fly_Right", Ladybug_Fly_Right);
         }
 
-        public void Animation(GameTime gameTime, ref Enemy enemy, SpriteBatch spriteBatch) 
+        public void Animation(GameTime gameTime, Enemy enemy, SpriteBatch spriteBatch) 
         {
             if(currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_LEFT
                 || currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_RIGHT)

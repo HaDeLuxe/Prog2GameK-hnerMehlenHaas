@@ -20,9 +20,11 @@ namespace Reggie
         float fallCooldown;
         public bool fallOutOfMap;
 
+        private AnimationManagerEnemy AnimationManager;
+
         public bool facingLeft = true;
         
-        public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
+        public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
             gravityActive = true;
             isStanding = false;
@@ -39,6 +41,7 @@ namespace Reggie
             collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
             enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.W), (int)(enemyAggroAreaSize.Z));
             collisionBoxSize = new Vector2(50, 50);
+            AnimationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
         }
 
 
@@ -47,12 +50,19 @@ namespace Reggie
         //    get { return new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y + EnemyAggroAreaSize.W)); }
         //}
 
+        public void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            if (facingLeft) AnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
+            else if (!facingLeft) AnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+            AnimationManager.Animation(gameTime, this, spriteBatch);
+        }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjectList) {
             ResizeEnemyAggroArea(gameObjectList);
             EnemyPositionCalculation(gameTime, gameObjectList);
             if (DetectPlayer() && !knockedBack)
                 EnemyMovement();
+            
         }
 
         public void changeTexture(Texture2D texture) {

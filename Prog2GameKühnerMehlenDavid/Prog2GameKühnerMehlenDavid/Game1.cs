@@ -30,7 +30,6 @@ namespace Reggie {
         
         List<Platform> platformList;
         List<Enemy> enemyList;
-        List<AnimationManagerEnemy> enemyAnimationManagerList;
         List<Enemy> viewableEnemies;
         List<GameObject> gameObjectsToRender;
         List<GameObject> interactiveObject;
@@ -110,7 +109,6 @@ namespace Reggie {
             cameraOffset = new Vector2(0, 0);
             texturesDictionnary = new Dictionary<string, Texture2D>();
             enemyList = new List<Enemy>();
-            enemyAnimationManagerList = new List<AnimationManagerEnemy>();
             Enums = new Enums();
             splashScreen = new SplashScreen();
             MainMenu = new MainMenu();
@@ -319,7 +317,7 @@ namespace Reggie {
 
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, LevelObjectList, ref interactiveObject);
 
-                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList,ref enemyAnimationManagerList, enemySkinTexture, EnemySpriteSheets);
+                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, EnemySpriteSheets);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref LevelObjectList);
 
@@ -446,19 +444,14 @@ namespace Reggie {
                             {
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
-                                    Enemy tempEnemy = enemyList[i];
-                                    AnimationManagerEnemy tempAnimationManager = enemyAnimationManagerList[i];
-                                    if (enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
-                                    else if (!enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
-                                    enemyAnimationManagerList[i].Animation(gameTime, ref tempEnemy, spriteBatch);
+                                    enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                 }
                             }
 
                             //This draws the player
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
-
-
+                            
                             //This draws the UI
                             GameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice);
 
