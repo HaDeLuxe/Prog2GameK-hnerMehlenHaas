@@ -14,7 +14,8 @@ namespace Reggie
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        float zoom = 1f;
+        public static float zoom = 1f;
+        public static bool enableCameraMovement = true;
 
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
         {
@@ -51,7 +52,7 @@ namespace Reggie
             return objectsToRender;
         }
 
-        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList, Texture2D enemySkinTexture)
+        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList,Texture2D enemySkinTexture, Dictionary<string, Texture2D> enemySpriteSheets)
         {
            
             for (int i = 0; i < platformList.Count; i++)
@@ -66,9 +67,9 @@ namespace Reggie
                         platformList[i].enemySpawnCheck = true;
                         Random rand = new Random();
                         int randomizedNumber = rand.Next(0, 100);
-                        if (randomizedNumber % 2 == 0)
+                        if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
                         {
-                            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY));
+                            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
                             enemyList.Last().SetPlayer(wormPlayer);
                         }
 
@@ -106,6 +107,7 @@ namespace Reggie
         public void IncreaseRightCounter(){ counterRight++; }
         public void ResetLeftCounter(){ counterLeft = 0; }
         public void ResetRightCounter(){ counterRight = 0; }
+        
 
         public void cameraOffset(GameTime GameTime, bool Left, bool isMoving) 
         {
@@ -118,7 +120,7 @@ namespace Reggie
                 float gameFrameTime = (float)GameTime.ElapsedGameTime.TotalSeconds;
                 timeUntilNextFrame -= gameFrameTime;
 
-                if (timeUntilNextFrame <= 0)
+                if (timeUntilNextFrame <= 0 && enableCameraMovement)
                 {
                     if (Left && Game1.cameraOffset.X <= cap)
                     {
