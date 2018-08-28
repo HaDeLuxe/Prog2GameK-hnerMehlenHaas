@@ -668,3 +668,15 @@
 /processorParam:TextureFormat=Color
 /build:Images/Enemies Sprite Sheets/ladybug_floating_Left_Small.png
 
+#begin Images/Enemies Sprite Sheets/Ladybug_Attack_Small.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Enemies Sprite Sheets/Ladybug_Attack_Small.png
+

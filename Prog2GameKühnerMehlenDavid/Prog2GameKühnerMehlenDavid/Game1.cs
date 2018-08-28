@@ -173,6 +173,8 @@ namespace Reggie {
             //Load EnemySpriteSheets
             Texture2D Ladybug_Fly = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\ladybug_floating_Left_Small");
             EnemySpriteSheets.Add("Ladybug_Fly_Spritesheet", Ladybug_Fly);
+            Texture2D Ladybug_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Ladybug_Attack_Small");
+            EnemySpriteSheets.Add("Ladybug_Attack_Spritesheet", Ladybug_Attack);
 
 
 
