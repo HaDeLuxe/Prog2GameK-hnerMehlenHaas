@@ -241,14 +241,14 @@ namespace Reggie {
             for(int i = 0; i < texturesDictionnary.Count(); i++)
             Console.WriteLine(texturesDictionnary.ElementAt(i));
             LoadGameObjects();
-            //AllGameObjectList.Add(new Item(SnailShell, new Vector2(64, 64), new Vector2(-2300, 532), (int)Enums.ObjectsID.SNAILSHELL));
+            AllGameObjectList.Add(new Item(SnailShell, new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3000, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3400, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            //AllGameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(-3500, 530), (int)Enums.ObjectsID.ARMOR));
-            //AllGameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(-1500, 530), (int)Enums.ObjectsID.SHOVEL));
-            //AllGameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(-2500, 530), (int)Enums.ObjectsID.SCISSORS));
+            AllGameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
+            AllGameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
+            AllGameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
 
             LevelObjectList = AllGameObjectList;
             LevelManager.sortGameObjects(AllGameObjectList);
