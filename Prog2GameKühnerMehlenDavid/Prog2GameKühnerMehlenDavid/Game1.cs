@@ -56,6 +56,7 @@ namespace Reggie {
         Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
         Texture2D UserInterface;
+        Texture2D playerHealthbar;
         Texture2D L1ButtonIcon;
         Texture2D L2ButtonIcon;
         Texture2D R1ButtonIcon;
@@ -225,6 +226,8 @@ namespace Reggie {
             texturesDictionnary.Add("Shovel_64x64", Shovel);
             UserInterface = Content.Load<Texture2D>("Images\\UI\\UI");
             texturesDictionnary.Add("UI", UserInterface);
+            playerHealthbar = Content.Load<Texture2D>("Images\\UI\\Healthbar");
+            texturesDictionnary.Add("Healthbar", playerHealthbar);
             L1ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonL1");
             texturesDictionnary.Add("buttonL1", L1ButtonIcon);
             L2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonL2");

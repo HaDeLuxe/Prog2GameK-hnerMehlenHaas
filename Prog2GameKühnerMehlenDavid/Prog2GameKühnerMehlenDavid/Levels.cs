@@ -68,12 +68,18 @@ namespace Reggie {
 
         public void ManageLevels(Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects)
         {
-            if (TutorialRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.TUTORIAL;
-            if (DunghillRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.DUNG;
-            if (GreenhouseRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.GREENHOUSE;
-            if (HubRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.HUB;
-            if (AntRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.ANTCAVE;
-            if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.TREE;
+            if (TutorialRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.TUTORIAL;
+            if (DunghillRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.DUNG;
+            if (GreenhouseRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.GREENHOUSE;
+            if (HubRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.HUB;
+            if (AntRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.ANTCAVE;
+            if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.TREE;
 
 
             if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
