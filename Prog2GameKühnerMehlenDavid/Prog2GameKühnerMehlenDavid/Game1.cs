@@ -208,6 +208,8 @@ namespace Reggie {
             texturesDictionnary.Add("Green_320_64", Platform_320_64);
             Transparent_Wall_500x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_500x50");
             texturesDictionnary.Add("Transparent_500x50", Transparent_Wall_500x50);
+            Texture2D Transparent_Wall_64x64 = Content.Load<Texture2D>("Images\\WorldObjects\\Transparent - 64x64");
+            texturesDictionnary.Add("Transparent_64x64", Transparent_Wall_64x64);
             Transparent_Wall_1000x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_1000x50");
             texturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1000x50);
             levelEditorUIBackButton = Content.Load<Texture2D>("Images\\UI\\LvlEdtorSaveButton");
@@ -253,7 +255,10 @@ namespace Reggie {
             AllGameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
             AllGameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
 
-            LevelObjectList = AllGameObjectList;
+
+            LevelObjectList = new List<GameObject>();
+            //LevelObjectList = AllGameObjectList;
+            foreach (GameObject gameObject in AllGameObjectList) LevelObjectList.Add(gameObject);
             LevelManager.sortGameObjects(AllGameObjectList);
 
            
@@ -538,6 +543,10 @@ namespace Reggie {
                 if(dataSeperated[i] == Enums.ObjectsID.VINE.ToString())
                 {
                     AllGameObjectList.Add(new Platform(texturesDictionnary["Climbingplant_38x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
+                }
+                if (dataSeperated[i] == Enums.ObjectsID.INVISIBLE_WALL_64x64.ToString())
+                {
+                    AllGameObjectList.Add(new Platform(texturesDictionnary["Transparent_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE, (int)Enums.ObjectsID.VINE, false));
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
                     AllGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, false));

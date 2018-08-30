@@ -180,6 +180,7 @@ namespace Reggie
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
                 if (gravity.Y > 20 && (previousState.IsKeyDown(Keys.Space) || previousGamepadState.IsButtonDown(Buttons.A)))
                     gravity.Y = 23f;
+
                 collisionBoxPosition.Y += gravity.Y;
             }
             else

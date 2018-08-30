@@ -172,6 +172,8 @@ namespace Reggie {
             m++;
             spriteBatch.Draw(platformTextures["Climbingplant_38x64"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
             m++;
+            spriteBatch.Draw(platformTextures["Transparent_64x64"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            m++;
 
             for (int i = 0; i < PlatformsDic.Count(); i++)
             {
@@ -188,7 +190,7 @@ namespace Reggie {
             {
                 Rectangle checkRectangle;
                 button1Pushed = true;
-                for (int i = 3; i < PlatformsDic.Count()+3; i++)
+                for (int i = 4; i < PlatformsDic.Count()+4; i++)
                 {
                     checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + i * 100 - yoffset, 64,64);
                     if(checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
@@ -200,19 +202,23 @@ namespace Reggie {
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 0 * 100 - yoffset, 500, 50);
                 if(checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     createNewPlatform(ref gameObjectList, platformTextures["Transparent_500x50"], transformationMatrix, platformTextures);
+
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 1 * 100 - yoffset, 1000, 50);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     createNewPlatform(ref gameObjectList, platformTextures["Transparent_1000x50"], transformationMatrix, platformTextures);
+
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 2 * 100 - yoffset, 38, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     createNewPlatform(ref gameObjectList, platformTextures["Climbingplant_38x64"], transformationMatrix, platformTextures);
-                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count()+3) * 100) - yoffset, 64, 64);
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 3 * 100 - yoffset, 64, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-                {
-                    
+                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_64x64"], transformationMatrix, platformTextures);
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count()+4) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     createNewPlatform(ref gameObjectList, platformTextures["SnailShell"], transformationMatrix, platformTextures);
-                    Console.WriteLine("SnailShell creating Button Pushed");
-                }
+
             }
             if (ButtonState.Released == mouseState.LeftButton)
             button1Pushed = false;
@@ -275,6 +281,11 @@ namespace Reggie {
             if(platformTexture == platformTextures["SnailShell"])
             {
                 gameObjectList.Add(new Item(platformTextures["SnailShell"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.SNAILSHELL));
+            }
+            if(platformTexture == platformTextures["Transparent_64x64"])
+            {
+                gameObjectList.Add(new Platform(platformTextures["Transparent_64x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_64x64, false));
+                gameObjectList.Last().DontDrawThisObject();
             }
         }
 
@@ -348,6 +359,7 @@ namespace Reggie {
                 if (GameObject.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
                 if (GameObject.getTexture() == platformTextures["Transparent_500x50"]) Output = Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
                 if (GameObject.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
+                if (GameObject.getTexture() == platformTextures["Transparent_64x64"]) Output = Enums.ObjectsID.INVISIBLE_WALL_64x64.ToString();
                 if (GameObject.getTexture() == platformTextures["Climbingplant_38x64"]) Output = Enums.ObjectsID.VINE.ToString();
                 if (GameObject.getTexture() == platformTextures["tileBrown_01"]) Output = Enums.ObjectsID.tileBrown_01.ToString();
                 if (GameObject.getTexture() == platformTextures["tileBrown_02"]) Output = Enums.ObjectsID.tileBrown_02.ToString();
