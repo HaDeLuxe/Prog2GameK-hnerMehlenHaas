@@ -133,6 +133,7 @@ namespace Reggie {
             SPIDERWEB,
             ARMOR,
             SHOVEL,
+            INVISIBLE_WALL_64x64,
             ///ADD NEW ITEM HERE
 
         }

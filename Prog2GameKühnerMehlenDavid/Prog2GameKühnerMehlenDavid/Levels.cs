@@ -68,17 +68,27 @@ namespace Reggie {
 
         public void ManageLevels(Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects)
         {
-            if (TutorialRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.TUTORIAL;
-            if (DunghillRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.DUNG;
-            if (GreenhouseRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.GREENHOUSE;
-            if (HubRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.HUB;
-            if (AntRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.ANTCAVE;
-            if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos)) currentLevel = Enums.Level.TREE;
+            if (TutorialRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.TUTORIAL;
+            if (DunghillRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.DUNG;
+            if (GreenhouseRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.GREENHOUSE;
+            if (HubRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.HUB;
+            if (AntRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.ANTCAVE;
+            if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.TREE;
 
 
             if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
             {
-                currentLevelGameObjects = HubGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach(GameObject gameObject in HubGameObjects)
+                {
+                    currentLevelGameObjects.Add(gameObject);
+                }
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 TutToHub = true;
             }
@@ -86,7 +96,8 @@ namespace Reggie {
 
             if (HubToDungRectangle.Contains(PlayerPos) && !DungToHubRectangle.Contains(PlayerPos) && !HubToDung)
             {
-                currentLevelGameObjects = DungHillGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in DungHillGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 HubToDung = true;
                 DungToHub = false;
@@ -96,7 +107,8 @@ namespace Reggie {
 
             if (DungToHubRectangle.Contains(PlayerPos) && !HubToDungRectangle.Contains(PlayerPos) && !DungToHub)
             {
-                currentLevelGameObjects = HubGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in HubGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 DungToHub = true;
                 HubToDung = false;
@@ -104,14 +116,16 @@ namespace Reggie {
 
             if (DungToGreenRectangle.Contains(PlayerPos) && !DungToGreen)
             {
-                currentLevelGameObjects = GreenHouseGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in GreenHouseGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 DungToGreen = true;
                 GreenToDung = false;
             }
             if (GreenToDungRectangle.Contains(PlayerPos) && !GreenToDung)
             {
-                currentLevelGameObjects = DungHillGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in DungHillGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 GreenToDung = true;
                 DungToGreen = false;
@@ -119,7 +133,8 @@ namespace Reggie {
 
             if(GreenToTreeRectangle.Contains(PlayerPos) && !GreenToTree)
             {
-                currentLevelGameObjects = TreeGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in TreeGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 GreenToTree = true;
                 TreeToGreen = false;
@@ -127,7 +142,8 @@ namespace Reggie {
 
             if(TreeToGreenRectangle.Contains(PlayerPos) && !TreeToGreen)
             {
-                currentLevelGameObjects = GreenHouseGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in GreenHouseGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 TreeToGreen = true;
                 GreenToTree = false;
@@ -135,7 +151,8 @@ namespace Reggie {
 
             if (GreenToTreeBottomRectangle.Contains(PlayerPos) && !GreenToTree)
             {
-                currentLevelGameObjects = TreeGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in TreeGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 GreenToTree = true;
                 TreeToGreen = false;
@@ -144,7 +161,8 @@ namespace Reggie {
 
             if (TreeToGreenBottomRectangle.Contains(PlayerPos) && !TreeToGreen)
             {
-                currentLevelGameObjects = GreenHouseGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in GreenHouseGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 TreeToGreen = true;
                 GreenToTree = false;
@@ -152,7 +170,8 @@ namespace Reggie {
 
             if (HubToAntRectangle.Contains(PlayerPos) && !HubToAnt)
             {
-                currentLevelGameObjects = AntGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in AntGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 HubToAnt = true;
                 AntToHub = false;
@@ -160,7 +179,8 @@ namespace Reggie {
 
             if(AntToHubRectangle.Contains(PlayerPos) && !AntToHub)
             {
-                currentLevelGameObjects = HubGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in HubGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 AntToHub = true;
                 HubToAnt = false;
@@ -168,7 +188,8 @@ namespace Reggie {
 
             if(AntToTreeRectangle.Contains(PlayerPos) && !AntToTree)
             {
-                currentLevelGameObjects = TreeGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in TreeGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 AntToTree = true;
                 TreeToAnt = false;
@@ -176,7 +197,8 @@ namespace Reggie {
 
             if(TreeToAntRectangle.Contains(PlayerPos) && !TreeToAnt)
             {
-                currentLevelGameObjects = AntGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in AntGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 TreeToAnt = true;
                 AntToTree = false;
@@ -184,7 +206,8 @@ namespace Reggie {
 
             if(TreeToAntBottomRectangle.Contains(PlayerPos) && !TreeToAntBottom)
             {
-                currentLevelGameObjects = AntGameObjects;
+                currentLevelGameObjects.Clear();
+                foreach (GameObject gameObject in AntGameObjects) currentLevelGameObjects.Add(gameObject);
                 foreach (GameObject GameObject in InterLevelGameObjects) currentLevelGameObjects.Add(GameObject);
                 TreeToAntBottom = true;
                 GreenToTree = false;

@@ -23,6 +23,7 @@ namespace Reggie
         float jumpSpeed;
         float cooldown;
         int playerHP;
+        bool climbAllowed;
 
         MouseState mouseState;
 
@@ -179,6 +180,7 @@ namespace Reggie
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
                 if (gravity.Y > 20 && (previousState.IsKeyDown(Keys.Space) || previousGamepadState.IsButtonDown(Buttons.A)))
                     gravity.Y = 23f;
+
                 collisionBoxPosition.Y += gravity.Y;
             }
             else
@@ -340,6 +342,9 @@ namespace Reggie
                 }
                 jumpButtonPressed = true;
                 playerGameElementInteraction = false;
+                climbAllowed = false;
+                isStanding = false;
+                gravityActive = true;
                 if (firstJump == false || secondJump == false)
                     jumpSpeed = -20f;
                 PlayerJump();
@@ -437,7 +442,7 @@ namespace Reggie
             }
             if(Keyboard.GetState().IsKeyDown(Keys.W) && playerGameElementInteraction)
             {
-                bool climbAllowed = false;
+                climbAllowed = false;
                 velocity.Y = -movementSpeed - 2;
                 foreach (var vine in interactiveObject)
                 {
