@@ -153,10 +153,10 @@ namespace Reggie {
 
         }
 
-        public void drawUI(Dictionary<string, Texture2D> TexturesDictionnary, SpriteBatch spriteBatch, Matrix transformationMatrix, GraphicsDevice graphics) 
+        public void drawUI(Dictionary<string, Texture2D> TexturesDictionnary, SpriteBatch spriteBatch, Matrix transformationMatrix, GraphicsDevice graphics, float playerHPRatio) 
         {
-            spriteBatch.Draw(TexturesDictionnary["Healthbar"], Vector2.Transform(new Vector2(0, 63), Matrix.Invert(transformationMatrix)), null, Color.White , 0, Vector2.One, new Vector2(1f,0.4f),SpriteEffects.None,0);
-            spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-797, 90), Matrix.Invert(transformationMatrix)), Color.White);
+            spriteBatch.Draw(TexturesDictionnary["Healthbar"], Vector2.Transform(new Vector2(4, 150+(1-playerHPRatio)*770), Matrix.Invert(transformationMatrix)), null, Color.White , 0, Vector2.One, new Vector2(1f,playerHPRatio),SpriteEffects.None,0);
+            spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-757, 90), Matrix.Invert(transformationMatrix)), Color.White);
 
             if (SnailShellPickedUp)
                 spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 685), Matrix.Invert(transformationMatrix)), Color.White);

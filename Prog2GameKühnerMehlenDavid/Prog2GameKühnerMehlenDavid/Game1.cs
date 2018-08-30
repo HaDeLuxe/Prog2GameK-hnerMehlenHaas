@@ -280,7 +280,7 @@ namespace Reggie {
             // MONO: Add your update logic here
 
             //In every State you are able to quit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || !wormPlayer.PlayerIsStillAlive())
                 Exit();
 
             lastGameState = currentGameState;
@@ -458,7 +458,7 @@ namespace Reggie {
 
                             
                             //This draws the UI
-                            GameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice);
+                            GameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
 
 
 

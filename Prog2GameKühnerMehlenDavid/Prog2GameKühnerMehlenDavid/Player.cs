@@ -22,7 +22,7 @@ namespace Reggie
         bool stillAlive;
         float jumpSpeed;
         float cooldown;
-        int playerHP;
+        float playerHP;
         bool climbAllowed;
 
         MouseState mouseState;
@@ -56,7 +56,7 @@ namespace Reggie
             changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
             collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
-            playerHP = 50;
+            playerHP = 1f;
             movementSpeed = 10f;
             jumpSpeed = -20f;
         }
@@ -236,6 +236,8 @@ namespace Reggie
             }
             if (!playerGameElementInteraction)
             {
+                if (Keyboard.GetState().IsKeyDown(Keys.P))
+                    ReducePlayerHP();
                 if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
                 {
 
@@ -544,9 +546,19 @@ namespace Reggie
         public void ReducePlayerHP()
         {
             if (playerHP > 0)
-                playerHP--;
+                playerHP -=0.05f;
             else
                 stillAlive = false;
+        }
+
+        public float PlayersCurrentHP()
+        {
+            return playerHP;
+        }
+
+        public bool PlayerIsStillAlive()
+        {
+            return stillAlive;
         }
     }
 }
