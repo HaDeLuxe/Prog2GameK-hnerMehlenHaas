@@ -90,6 +90,12 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         GameManager.ShovelPickedUp = true;
                 }
+                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.HealthPotion)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        //Console.WriteLine("Health Detection");
+                        GameManager.HealthPickedUp = true;
+                }
             }
         }
 

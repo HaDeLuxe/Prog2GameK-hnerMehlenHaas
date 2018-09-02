@@ -14,11 +14,13 @@ namespace Reggie {
         public static bool ScissorsPickedUp { get; set; }
         public static bool ArmorPickedUp { get; set; }
         public static bool ShovelPickedUp { get; set; }
+        public static bool HealthPickedUp { get; set; }
         GameObject SnailShell;
         GameObject Scissors;
         GameObject Armor;
         GameObject Shovel;
         GameObject currentlyEquipped;
+        GameObject HealthPotion;
         bool TriggerPushed = false;
 
 
@@ -54,7 +56,6 @@ namespace Reggie {
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
                         SnailShell = GameObjectList[i];
-                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) Scissors = GameObjectList[i];
                 }
             }
             if (SnailShell != null)
@@ -71,7 +72,6 @@ namespace Reggie {
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS)
                         Scissors = GameObjectList[i];
-                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) Scissors = GameObjectList[i];
                 }
             }
             if (Scissors != null)
@@ -90,7 +90,6 @@ namespace Reggie {
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR)
                         Armor = GameObjectList[i];
-                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) Armor = GameObjectList[i];
                 }
             }
             if (Armor != null)
@@ -105,7 +104,6 @@ namespace Reggie {
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL)
                         Shovel = GameObjectList[i];
-                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) Shovel = GameObjectList[i];
                 }
             }
             if (Shovel != null)
@@ -115,6 +113,21 @@ namespace Reggie {
                     if (ItemsFound.Count == 0) currentlyEquipped = Shovel;
                     ItemsFound.Add(Shovel);
                     DestroyGameItem(Enums.ObjectsID.SHOVEL, ref GameObjectList);
+                }
+            }
+            if (HealthPotion == null)
+            {
+                for (int i = 0; i < GameObjectList.Count(); i++)
+                {
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.HealthPotion)
+                        HealthPotion = GameObjectList[i];
+                }
+            }
+            if(HealthPotion != null)
+            {
+                if (HealthPickedUp)
+                {
+                    DestroyGameItem(Enums.ObjectsID.HealthPotion, ref GameObjectList);
                 }
             }
 
