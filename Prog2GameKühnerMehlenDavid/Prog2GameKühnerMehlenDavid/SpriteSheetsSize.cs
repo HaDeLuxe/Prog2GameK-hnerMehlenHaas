@@ -38,7 +38,6 @@ namespace Reggie {
             {
                 List<String> tempStringList = stringData.Split(',').ToList();
                 foreach (String st in tempStringList) spriteStringList.Add(st);
-                //System.Console.WriteLine(s);
             
             }
 

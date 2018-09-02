@@ -93,7 +93,6 @@ namespace Reggie
                 if(interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
-                        //Console.WriteLine("Health Detection");
                         GameManager.HealthPickedUp = true;
                 }
             }

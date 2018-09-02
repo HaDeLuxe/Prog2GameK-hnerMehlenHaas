@@ -228,12 +228,7 @@ namespace Reggie {
                 Camera.zoom = 1f;
             }
 
-            switch (currentLevel)
-            {
-                case Enums.Level.HUB:
-                    Console.WriteLine("Player is in hub");
-                    break;
-            }
+           
         }
 
         
@@ -289,96 +284,96 @@ namespace Reggie {
                 return false;
         }
 
-        public void drawLevelsBackground(SpriteBatch spriteBatch, Texture2D background, Texture2D Tutorial_Background, Texture2D Hub_Background, Texture2D Dunghill_Background, Texture2D Ant_Cave_Background, Texture2D Greenhouse_Background, Texture2D Tree_Background, Texture2D Crown_Background, Texture2D Roof_Background) {
+        public void drawLevelsBackground(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionnary) {
             //BACKGROUND
-            spriteBatch.Draw(Tutorial_Background, new Vector2(5120, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tutorial_Background, new Vector2(7168, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tutorial_Background, new Vector2(9216, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tutorial_Background, new Vector2(11264, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tutorial_Background, new Vector2(13312, 0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tut_Tile_1"], new Vector2(5120, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tut_Tile_2"], new Vector2(7168, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tut_Tile_3"], new Vector2(9216, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tut_Tile_4"], new Vector2(11264, -0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tut_Tile_5"], new Vector2(13312, 0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
             //Hub
 
-            spriteBatch.Draw(Hub_Background, new Vector2(-2048, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Hub_Background, new Vector2(0, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Hub_Background, new Vector2(2048, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Hub_Background"], new Vector2(-2048, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Hub_Background"], new Vector2(0, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Hub_Background"], new Vector2(2048, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
             //DungHill
 
-            spriteBatch.Draw(Dunghill_Background, new Vector2(0, -2048), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Dunghill_Background, new Vector2(2048, -2048), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Dunghill_Background, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Dunghill_Background, new Vector2(2048, 0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Dunghill_Background"], new Vector2(0, -2048), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Dunghill_Background"], new Vector2(2048, -2048), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Dunghill_Background"], new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Dunghill_Background"], new Vector2(2048, 0), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
             //Ant Cave
 
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-12288, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-10240, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-8192, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-6144, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-12288, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-10240, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-8192, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-6144, 4096), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-12288, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-10240, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-8192, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Ant_Cave_Background, new Vector2(-6144, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-12288, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-10240, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-8192, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Ant_Cave_Background"], new Vector2(-6144, 6144), null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0f);
 
             //Greenhouse
 
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-7168, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-5120, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-3072, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-7168, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-5120, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-3072, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-7168, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-5120, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-3072, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-7168, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-5120, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-3072, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-7168, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-5120, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Greenhouse_Background, new Vector2(-3072, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-7168, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-5120, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Greenhouse_Background"], new Vector2(-3072, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             //Roof
 
-            spriteBatch.Draw(Roof_Background, new Vector2(-7168, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Roof_Background, new Vector2(-5120, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Roof_Background, new Vector2(-3072, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Roof_Background"], new Vector2(-7168, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Roof_Background"], new Vector2(-5120, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Roof_Background"], new Vector2(-3072, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Roof_Background, new Vector2(-7168, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Roof_Background, new Vector2(-5120, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Roof_Background, new Vector2(-3072, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Roof_Background"], new Vector2(-7168, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Roof_Background"], new Vector2(-5120, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Roof_Background"], new Vector2(-3072, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             //tree
 
-            spriteBatch.Draw(Tree_Background, new Vector2(-13312, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tree_Background, new Vector2(-11264, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-13312, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-11264, -8192), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Tree_Background, new Vector2(-13312, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tree_Background, new Vector2(-11264, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-13312, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-11264, -6144), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Tree_Background, new Vector2(-13312, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tree_Background, new Vector2(-11264, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-13312, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-11264, -4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Tree_Background, new Vector2(-13312, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tree_Background, new Vector2(-11264, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-13312, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-11264, -2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Tree_Background, new Vector2(-13312, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Tree_Background, new Vector2(-11264, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-13312, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Tree_Background"], new Vector2(-11264, -0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             //Crown
 
-            spriteBatch.Draw(Crown_Background, new Vector2(-15360, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-13312, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-11264, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-9216, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-15360, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-13312, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-11264, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-9216, -14336), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Crown_Background, new Vector2(-15360, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-13312, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-11264, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-9216, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-15360, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-13312, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-11264, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-9216, -12288), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(Crown_Background, new Vector2(-15360, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-13312, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-11264, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Crown_Background, new Vector2(-9216, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-15360, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-13312, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-11264, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texturesDictionnary["Crown_Background"], new Vector2(-9216, -10240), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -38,35 +38,9 @@ namespace Reggie {
         Dictionary<String, Texture2D> PlayerSpriteSheets;
         Dictionary<String, Texture2D> EnemySpriteSheets;
         
-        //Texture2D enemytexture;
         Texture2D enemySkinTexture;
-        Texture2D background;
-        Texture2D Sky_2000_1000;
-        Texture2D Ground_Tutorial_2000_1000;
-        Texture2D Hub_Background;
-        Texture2D Ant_Cave_Background;
-        Texture2D Tree_Background;
-        Texture2D Roof_Background;
-        Texture2D Greenhouse_Background;
-        Texture2D Crown_Background;
-        Texture2D Dunghill_Background;
-        Texture2D Platform_320_64;
-        Texture2D Transparent_Wall_512x64;
-        Texture2D Transparent_Wall_1024x64;
-        Texture2D ClimbinPlant_38_64;
-        Texture2D levelEditorUIBackButton;
-        Texture2D UserInterface;
-        Texture2D playerHealthbar;
-        Texture2D L1ButtonIcon;
-        Texture2D L2ButtonIcon;
-        Texture2D R1ButtonIcon;
-        Texture2D R2ButtonIcon;
-        Texture2D SnailShell;
-        Texture2D SpiderWeb;
-        Texture2D Scissors;
-        Texture2D Armor;
-        Texture2D Shovel;
-        Texture2D HealthItem;
+        
+       
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -75,6 +49,7 @@ namespace Reggie {
         Camera camera = new Camera();
         GameManager GameManager;
         Levels LevelManager;
+        
 
         //for switching LevelEditor
         public static KeyboardState previousState;
@@ -141,127 +116,35 @@ namespace Reggie {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("Arial");
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
-            Texture2D platformTexture = Content.Load<Texture2D>("Images\\floor");
 
-
-            ///Load Player Sprite Sheets
-            Texture2D playerJumpSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Small");
-            PlayerSpriteSheets.Add("playerJumpSpriteSheet", playerJumpSpriteSheet);
-            Texture2D playerJumpHatSpritesSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Hat");
-            PlayerSpriteSheets.Add("playerJumpHatSpriteSheet", playerJumpHatSpritesSheet);
-            Texture2D playerJumpArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Armor");
-            PlayerSpriteSheets.Add("playerJumpArmorSpriteSheet", playerJumpArmorSpriteSheet);
-            Texture2D playerJumpArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Armor_Hat");
-            PlayerSpriteSheets.Add("playerJumpArmorHatSpriteSheet", playerJumpArmorHatSpriteSheet);
-
-            Texture2D playerMoveSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Even_Smaller");
-            PlayerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
-            Texture2D playerMoveHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Hat");
-            PlayerSpriteSheets.Add("playerMoveHatSpriteSheet", playerMoveHatSpriteSheet);
-            Texture2D playerMoveArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Armor");
-            PlayerSpriteSheets.Add("playerMoveArmorSpriteSheet", playerMoveArmorSpriteSheet);
-            Texture2D playerMoveArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Armor_Hat");
-            PlayerSpriteSheets.Add("playerMoveArmorHatSpriteSheet", playerMoveArmorHatSpriteSheet);
-
-            Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack");
-            PlayerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
-            Texture2D playerAttackHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Hat");
-            PlayerSpriteSheets.Add("playerAttackHatSpriteSheet", playerAttackHatSpriteSheet);
-            Texture2D playerAttackArmorSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Armor");
-            PlayerSpriteSheets.Add("playerAttackArmorSpriteSheet", playerAttackArmorSpriteSheet);
-            Texture2D playerAttackArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Armor_Hat");
-            PlayerSpriteSheets.Add("playerAttackArmorHatSpritesheet", playerAttackArmorHatSpriteSheet);
-
-            //Load EnemySpriteSheets
-            Texture2D Ladybug_Fly = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\ladybug_floating_Left_Small");
-            EnemySpriteSheets.Add("Ladybug_Fly_Spritesheet", Ladybug_Fly);
-            Texture2D Ladybug_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Ladybug_Attack_Small");
-            EnemySpriteSheets.Add("Ladybug_Attack_Spritesheet", Ladybug_Attack);
-
-
-
+            
+            Loading loading = new Loading();
+            loading.loadEverything(this.Content, ref PlayerSpriteSheets, ref texturesDictionnary, ref EnemySpriteSheets);
+            levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
 
             animManager = new AnimationManager(PlayerSpriteSheets);
-            wormPlayer = new Player(playerMoveSpriteSheet, new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500) /*new Vector2(-7500,-7404)*/, (int) Enums.ObjectsID.PLAYER);
+            wormPlayer = new Player(PlayerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500) /*new Vector2(-7500,-7404)*/, (int) Enums.ObjectsID.PLAYER);
 
            
-            //{
-            //    new Enemy(enemySkinTexture, new Vector2(50,50),new Vector2(700,200)),
-            //};
+           
             platformList = new List<Platform>();
             AllGameObjectList = new List<GameObject>();
             interactiveObject = new List<GameObject>();
             
-            //foreach (var enemy in enemyList)
-            //    enemy.SetPlayer(wormPlayer);
-
-            background = Content.Load<Texture2D>("Images\\World\\Lvl1_Background");
-            Sky_2000_1000 = Content.Load<Texture2D>("Images\\World\\Himmel_Level_Tutorial");
-            Ground_Tutorial_2000_1000 = Content.Load<Texture2D>("Images\\World\\Erde_Level_Tutorial");
-            Ant_Cave_Background = Content.Load<Texture2D>("Images\\World\\Ameisenhöhle");
-            Tree_Background = Content.Load<Texture2D>("Images\\World\\Baum");
-            Roof_Background = Content.Load<Texture2D>("Images\\World\\Dach");
-            Greenhouse_Background = Content.Load<Texture2D>("Images\\World\\Gewächshaus");
-            Hub_Background = Content.Load<Texture2D>("Images\\World\\Hub");
-            Crown_Background = Content.Load<Texture2D>("Images\\World\\krone");
-            Dunghill_Background = Content.Load<Texture2D>("Images\\World\\Misthaufen");
-            Platform_320_64 = Content.Load<Texture2D>("Images\\Platform_320_64");
-            texturesDictionnary.Add("Green_320_64", Platform_320_64);
-            Transparent_Wall_512x64 = Content.Load<Texture2D>("Images\\Transparent_Wall_512x64");
-            texturesDictionnary.Add("Transparent_500x50", Transparent_Wall_512x64);
-            Texture2D Transparent_Wall_64x64 = Content.Load<Texture2D>("Images\\WorldObjects\\Transparent - 64x64");
-            texturesDictionnary.Add("Transparent_64x64", Transparent_Wall_64x64);
-            Transparent_Wall_1024x64 = Content.Load<Texture2D>("Images\\Transparent_Wall_1024x64");
-            texturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1024x64);
-            levelEditorUIBackButton = Content.Load<Texture2D>("Images\\UI\\LvlEdtorSaveButton");
-            texturesDictionnary.Add("LevelEditorUIBackButton", levelEditorUIBackButton);
-            ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
-            texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
-            SnailShell = Content.Load<Texture2D>("Images\\Schneckenhaus");
-            texturesDictionnary.Add("SnailShell", SnailShell);
-            SpiderWeb = Content.Load<Texture2D>("Images\\WorldObjects\\SpiderWeb");
-            texturesDictionnary.Add("Spiderweb_64x64", SpiderWeb);
-            Scissors = Content.Load<Texture2D>("Images\\Schere");
-            texturesDictionnary.Add("Scissors_64x64", Scissors);
-            Armor = Content.Load<Texture2D>("Images\\Rüstung");
-            texturesDictionnary.Add("Armor_64x64", Armor);
-            Shovel = Content.Load<Texture2D>("Images\\Schaufel");
-            texturesDictionnary.Add("Shovel_64x64", Shovel);
-            HealthItem = Content.Load<Texture2D>("Images\\HealthPotion");
-            texturesDictionnary.Add("HealthPotion", HealthItem);
-            UserInterface = Content.Load<Texture2D>("Images\\UI\\UI");
-            texturesDictionnary.Add("UI", UserInterface);
-            playerHealthbar = Content.Load<Texture2D>("Images\\UI\\Healthbar");
-            texturesDictionnary.Add("Healthbar", playerHealthbar);
-            L1ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonL1");
-            texturesDictionnary.Add("buttonL1", L1ButtonIcon);
-            L2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonL2");
-            texturesDictionnary.Add("buttonL2", L2ButtonIcon);
-            R1ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR1");
-            texturesDictionnary.Add("buttonR1", R1ButtonIcon);
-            R2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR2");
-            texturesDictionnary.Add("buttonR2", R2ButtonIcon);
-
-
-
-
-            levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
-            for(int i = 0; i < texturesDictionnary.Count(); i++)
-            Console.WriteLine(texturesDictionnary.ElementAt(i));
+            
             LoadGameObjects();
-            AllGameObjectList.Add(new Item(SnailShell, new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
+
+            AllGameObjectList.Add(new Item(texturesDictionnary["SnailShell"], new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3000, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3400, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            AllGameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
-            AllGameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
-            AllGameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
-            AllGameObjectList.Add(new Item(HealthItem, new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
-
-
+            AllGameObjectList.Add(new Item(texturesDictionnary["Armor_64x64"], new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
+            AllGameObjectList.Add(new Item(texturesDictionnary["Shovel_64x64"], new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
+            AllGameObjectList.Add(new Item(texturesDictionnary["Scissors_64x64"], new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
+            AllGameObjectList.Add(new Item(texturesDictionnary["HealthItem"], new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
+            
             LevelObjectList = new List<GameObject>();
-            //LevelObjectList = AllGameObjectList;
             foreach (GameObject gameObject in AllGameObjectList) LevelObjectList.Add(gameObject);
             LevelManager.sortGameObjects(AllGameObjectList);
 
@@ -441,7 +324,7 @@ namespace Reggie {
 
                         if(lastGameState == currentGameState)
                         {
-                            LevelManager.drawLevelsBackground(spriteBatch, background, Ground_Tutorial_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
+                            LevelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
 
                             
                             //this draws the platforms visible in the viewport
@@ -477,7 +360,7 @@ namespace Reggie {
                     case GameState.LEVELEDITOR:
 
 
-                        LevelManager.drawLevelsBackground(spriteBatch, background, Ground_Tutorial_2000_1000, Hub_Background, Dunghill_Background, Ant_Cave_Background, Greenhouse_Background, Tree_Background, Crown_Background, Roof_Background);
+                        LevelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
 
 
                         //spriteBatch.DrawString(font, fps, new Vector2(wormPlayer.gameObjectPosition.X - 620, wormPlayer.gameObjectPosition.Y - 490), Color.Black);
@@ -530,10 +413,7 @@ namespace Reggie {
 
             for (int i = 0; i < dataSeperated.Count(); i++)
             {
-                if (dataSeperated[i] == Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString())
-                {
-                    AllGameObjectList.Add(new Platform(texturesDictionnary["Green_320_64"], new Vector2(320, 64), new Vector2(Int32.Parse(dataSeperated[i+1]), Int32.Parse(dataSeperated[i+2])), (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.GREEN_PLATFORM_320_64, true));
-                }
+                
                 if (dataSeperated[i] == Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString())
                 {
                     AllGameObjectList.Add(new Platform(texturesDictionnary["Transparent_500x50"], new Vector2(512, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
@@ -800,10 +680,7 @@ namespace Reggie {
 
             }
 
-            for (int i = 0; i < interactiveObject.Count(); i++)
-            {
-                Console.WriteLine(interactiveObject[i]);
-            }
+          
         }
 
 
