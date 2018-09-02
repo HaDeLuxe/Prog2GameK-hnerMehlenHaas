@@ -51,8 +51,8 @@ namespace Reggie {
         Texture2D Crown_Background;
         Texture2D Dunghill_Background;
         Texture2D Platform_320_64;
-        Texture2D Transparent_Wall_500x50;
-        Texture2D Transparent_Wall_1000x50;
+        Texture2D Transparent_Wall_512x64;
+        Texture2D Transparent_Wall_1024x64;
         Texture2D ClimbinPlant_38_64;
         Texture2D levelEditorUIBackButton;
         Texture2D UserInterface;
@@ -66,6 +66,7 @@ namespace Reggie {
         Texture2D Scissors;
         Texture2D Armor;
         Texture2D Shovel;
+        Texture2D HealthItem;
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -206,12 +207,12 @@ namespace Reggie {
             Dunghill_Background = Content.Load<Texture2D>("Images\\World\\Misthaufen");
             Platform_320_64 = Content.Load<Texture2D>("Images\\Platform_320_64");
             texturesDictionnary.Add("Green_320_64", Platform_320_64);
-            Transparent_Wall_500x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_500x50");
-            texturesDictionnary.Add("Transparent_500x50", Transparent_Wall_500x50);
+            Transparent_Wall_512x64 = Content.Load<Texture2D>("Images\\Transparent_Wall_512x64");
+            texturesDictionnary.Add("Transparent_500x50", Transparent_Wall_512x64);
             Texture2D Transparent_Wall_64x64 = Content.Load<Texture2D>("Images\\WorldObjects\\Transparent - 64x64");
             texturesDictionnary.Add("Transparent_64x64", Transparent_Wall_64x64);
-            Transparent_Wall_1000x50 = Content.Load<Texture2D>("Images\\Transparent_Wall_1000x50");
-            texturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1000x50);
+            Transparent_Wall_1024x64 = Content.Load<Texture2D>("Images\\Transparent_Wall_1024x64");
+            texturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1024x64);
             levelEditorUIBackButton = Content.Load<Texture2D>("Images\\UI\\LvlEdtorSaveButton");
             texturesDictionnary.Add("LevelEditorUIBackButton", levelEditorUIBackButton);
             ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
@@ -226,6 +227,8 @@ namespace Reggie {
             texturesDictionnary.Add("Armor_64x64", Armor);
             Shovel = Content.Load<Texture2D>("Images\\Schaufel");
             texturesDictionnary.Add("Shovel_64x64", Shovel);
+            HealthItem = Content.Load<Texture2D>("Images\\HealthPotion");
+            texturesDictionnary.Add("HealthPotion", HealthItem);
             UserInterface = Content.Load<Texture2D>("Images\\UI\\UI");
             texturesDictionnary.Add("UI", UserInterface);
             playerHealthbar = Content.Load<Texture2D>("Images\\UI\\Healthbar");
@@ -254,6 +257,7 @@ namespace Reggie {
             AllGameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
             AllGameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
             AllGameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
+            AllGameObjectList.Add(new Item(HealthItem, new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HealthPotion));
 
 
             LevelObjectList = new List<GameObject>();
@@ -532,12 +536,12 @@ namespace Reggie {
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString())
                 {
-                    AllGameObjectList.Add(new Platform(texturesDictionnary["Transparent_500x50"], new Vector2(500, 50), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
+                    AllGameObjectList.Add(new Platform(texturesDictionnary["Transparent_500x50"], new Vector2(512, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
                     AllGameObjectList.Last().DontDrawThisObject();
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString())
                 {
-                    AllGameObjectList.Add(new Platform(texturesDictionnary["Transparent_1000x50"], new Vector2(1000, 50),  new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
+                    AllGameObjectList.Add(new Platform(texturesDictionnary["Transparent_1000x50"], new Vector2(1024, 64),  new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
                     AllGameObjectList.Last().DontDrawThisObject();
                 }
                 if(dataSeperated[i] == Enums.ObjectsID.VINE.ToString())
@@ -781,6 +785,8 @@ namespace Reggie {
                 if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(AllGameObjectList[i]);
                 if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) interactiveObject.Add(AllGameObjectList[i]);
                 if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL) interactiveObject.Add(AllGameObjectList[i]);
+                if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.HealthPotion)
+                    interactiveObject.Add(AllGameObjectList[i]);
 
 
                 foreach (Platform platform in AllGameObjectList.Cast<GameObject>().OfType<Platform>())
