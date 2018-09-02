@@ -14,7 +14,7 @@ namespace Reggie
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        public static float zoom = 1f;
+        public static float zoom = 0.05f;
         public static bool enableCameraMovement = true;
 
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
@@ -44,7 +44,8 @@ namespace Reggie
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                         interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }

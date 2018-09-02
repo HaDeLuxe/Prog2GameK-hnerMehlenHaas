@@ -195,7 +195,7 @@ namespace Reggie {
                     checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + i * 100 - yoffset, 64,64);
                     if(checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     {
-                        createNewPlatform(ref gameObjectList, PlatformsDic.ElementAt(i-3).Key, transformationMatrix, graphics, platformTextures);
+                        createNewPlatform(ref gameObjectList, PlatformsDic.ElementAt(i-4).Key, transformationMatrix, graphics, platformTextures);
                     }
                 }
                
@@ -262,16 +262,15 @@ namespace Reggie {
         private void createNewPlatform(ref List<GameObject> gameObjectList, Texture2D platformTexture, Matrix transformationMatrix, Dictionary<string, Texture2D> platformTextures)
         {
             Vector2 transformedPos = Vector2.Transform(new Vector2(1000,200), Matrix.Invert(transformationMatrix));
-            if(platformTexture == platformTextures["Green_320_64"])
-                gameObjectList.Add(new Platform(platformTextures["Green_320_64"], new Vector2(320, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.GREEN_PLATFORM_320_64,true));
+           
             if (platformTexture == platformTextures["Transparent_500x50"])
             {
-                gameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(500, 50), transformedPos, (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
+                gameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(512, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
                 gameObjectList.Last().DontDrawThisObject();
             }
             if(platformTexture == platformTextures["Transparent_1000x50"])
             {
-                gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1000, 50), transformedPos, (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
+                gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1024, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
                 gameObjectList.Last().DontDrawThisObject();
             }
             if(platformTexture == platformTextures["Climbingplant_38x64"])
@@ -355,8 +354,7 @@ namespace Reggie {
                 //    Output = "" + platform.PlatformType;
                 //}
                 //if (platform.PlatformType >= (int)Enums.ObjectsID.tileBrown_01 && platform.PlatformType <= (int)Enums.ObjectsID.tileGreen_27) Output = "" + platform.PlatformType;
-
-                if (GameObject.getTexture() == platformTextures["Green_320_64"]) Output = Enums.ObjectsID.GREEN_PLATFORM_320_64.ToString();
+                
                 if (GameObject.getTexture() == platformTextures["Transparent_500x50"]) Output = Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString();
                 if (GameObject.getTexture() == platformTextures["Transparent_1000x50"]) Output = Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString();
                 if (GameObject.getTexture() == platformTextures["Transparent_64x64"]) Output = Enums.ObjectsID.INVISIBLE_WALL_64x64.ToString();
@@ -516,7 +514,6 @@ namespace Reggie {
             List<string> NamesList = new List<string>();
             NamesList = new List<string>(System.IO.File.ReadAllLines(@"PlatformTileSheetNames.txt"));
             NamesList = NamesList.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
-            Console.WriteLine(NamesList);
             int i = 0;
             for (int m = 0; m < 12; m++)
             {
@@ -524,10 +521,7 @@ namespace Reggie {
                   {
                         PlatformsDic.Add(NamesList[i].ToString(), new Rectangle(n * 64, m * 64, 64, 64));
                         platformTextures.Add(NamesList[i].ToString(), CreatePartImage(PlatformsDic[NamesList[i].ToString()], Platform_TileSheet, graphics));
-                    //Console.WriteLine(NamesList[i]);
-                    //Console.WriteLine(platformTextures.ElementAt(i));
-                    Console.WriteLine(NamesList[i]);
-                    i++;
+                        i++;
                   }
             }
 
