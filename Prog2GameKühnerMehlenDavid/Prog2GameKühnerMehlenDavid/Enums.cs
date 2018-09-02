@@ -134,7 +134,7 @@ namespace Reggie {
             ARMOR,
             SHOVEL,
             INVISIBLE_WALL_64x64,
-            HealthPotion,
+            HEALTHPOTION,
             ///ADD NEW ITEM HERE
 
         }

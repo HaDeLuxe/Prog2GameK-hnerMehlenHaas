@@ -119,7 +119,8 @@ namespace Reggie {
             {
                 for (int i = 0; i < GameObjectList.Count(); i++)
                 {
-                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.HealthPotion)
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+
                         HealthPotion = GameObjectList[i];
                 }
             }
@@ -127,7 +128,7 @@ namespace Reggie {
             {
                 if (HealthPickedUp)
                 {
-                    DestroyGameItem(Enums.ObjectsID.HealthPotion, ref GameObjectList);
+                    DestroyGameItem(Enums.ObjectsID.HEALTHPOTION, ref GameObjectList);
                 }
             }
 

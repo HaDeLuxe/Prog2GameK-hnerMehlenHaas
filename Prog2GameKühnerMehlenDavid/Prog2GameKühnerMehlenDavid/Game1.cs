@@ -257,7 +257,7 @@ namespace Reggie {
             AllGameObjectList.Add(new Item(Armor, new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
             AllGameObjectList.Add(new Item(Shovel, new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
             AllGameObjectList.Add(new Item(Scissors, new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
-            AllGameObjectList.Add(new Item(HealthItem, new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HealthPotion));
+            AllGameObjectList.Add(new Item(HealthItem, new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
 
 
             LevelObjectList = new List<GameObject>();
@@ -785,7 +785,7 @@ namespace Reggie {
                 if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(AllGameObjectList[i]);
                 if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) interactiveObject.Add(AllGameObjectList[i]);
                 if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL) interactiveObject.Add(AllGameObjectList[i]);
-                if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.HealthPotion)
+                if (AllGameObjectList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                     interactiveObject.Add(AllGameObjectList[i]);
 
 
