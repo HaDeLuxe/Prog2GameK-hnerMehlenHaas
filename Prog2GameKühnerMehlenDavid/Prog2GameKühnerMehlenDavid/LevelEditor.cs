@@ -195,7 +195,7 @@ namespace Reggie {
                     checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + i * 100 - yoffset, 64,64);
                     if(checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     {
-                        createNewPlatform(ref gameObjectList, PlatformsDic.ElementAt(i-3).Key, transformationMatrix, graphics, platformTextures);
+                        createNewPlatform(ref gameObjectList, PlatformsDic.ElementAt(i-4).Key, transformationMatrix, graphics, platformTextures);
                     }
                 }
                

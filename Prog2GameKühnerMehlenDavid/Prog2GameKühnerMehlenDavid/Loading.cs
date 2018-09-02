@@ -51,6 +51,9 @@ namespace Reggie {
             texturesDictionnary.Add("Crown_Background", Crown_Background);
             Texture2D Dunghill_Background = Content.Load<Texture2D>("Images\\World\\Misthaufen");
             texturesDictionnary.Add("Dunghill_Background", Dunghill_Background);
+
+            Texture2D InterLevel_1 = Content.Load<Texture2D>("Images\\World\\Inter\\Interlevel_1");
+            texturesDictionnary.Add("Interlevel_1", InterLevel_1);
         }
 
 

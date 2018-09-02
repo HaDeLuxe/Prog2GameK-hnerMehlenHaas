@@ -56,9 +56,7 @@ namespace Reggie {
 
         SplashScreen splashScreen;
         MainMenu MainMenu;
-
-       // Color[] colorData;
-       // Vector2 enemyaggroposition;
+        
         Enums Enums;
 
         Matrix transformationMatrix;
@@ -73,8 +71,6 @@ namespace Reggie {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
-            //graphics.PreferredBackBufferHeight = 1000;
-            //graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 1080-40-20;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.ApplyChanges();
@@ -123,7 +119,7 @@ namespace Reggie {
             levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
 
             animManager = new AnimationManager(PlayerSpriteSheets);
-            wormPlayer = new Player(PlayerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500) /*new Vector2(-7500,-7404)*/, (int) Enums.ObjectsID.PLAYER);
+            wormPlayer = new Player(PlayerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int) Enums.ObjectsID.PLAYER);
 
            
            
@@ -135,10 +131,6 @@ namespace Reggie {
             LoadGameObjects();
 
             AllGameObjectList.Add(new Item(texturesDictionnary["SnailShell"], new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
-            //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-2800, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3000, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3200, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
-            //AllGameObjectList.Add(new Platform(SpiderWeb, new Vector2(64, 64), new Vector2(-3400, 400), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
             AllGameObjectList.Add(new Item(texturesDictionnary["Armor_64x64"], new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
             AllGameObjectList.Add(new Item(texturesDictionnary["Shovel_64x64"], new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
             AllGameObjectList.Add(new Item(texturesDictionnary["Scissors_64x64"], new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
@@ -351,9 +343,6 @@ namespace Reggie {
                             
                             //This draws the UI
                             GameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
-
-
-
                         }
                         break;
 
@@ -398,7 +387,6 @@ namespace Reggie {
             spriteBatch.End();
             base.Draw(gameTime);
         }
-
 
         private void LoadGameObjects()
         {
@@ -674,17 +662,7 @@ namespace Reggie {
                     if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
                         interactiveObject.Add(platform);
                 }
-               
-                
-
-
             }
-
-          
         }
-
-
-
-        
     }
 }

@@ -112,9 +112,6 @@ namespace Reggie {
                 String s = "" + spritesSizes.ElementAt(i);
                 System.Console.WriteLine(s);
             }
-
-            
-            
         }
     }
 }
