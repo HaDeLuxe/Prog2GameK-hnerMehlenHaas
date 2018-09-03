@@ -78,7 +78,8 @@ namespace Reggie {
             {
                 if (ScissorsPickedUp)
                 {
-                    if (ItemsFound.Count == 0) currentlyEquipped = Scissors;
+                    if (ItemsFound.Count == 0)
+                        currentlyEquipped = Scissors;
                     ItemsFound.Add(Scissors);
                     DestroyGameItem(Enums.ObjectsID.SCISSORS, ref GameObjectList);
                 }
@@ -178,6 +179,10 @@ namespace Reggie {
             if(ArmorPickedUp)
                 spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 495), Matrix.Invert(transformationMatrix)),null, Color.White,0,Vector2.One,new Vector2(1.4f,1.4f),SpriteEffects.None,0);
             else spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 495), Matrix.Invert(transformationMatrix)), null, Color.Black, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+
+        //added by Markus
+            if (HealthPickedUp)
+                    spriteBatch.Draw(TexturesDictionnary["HealthItem"], Vector2.Transform(new Vector2(345, 860), Matrix.Invert(transformationMatrix)), Color.White);
 
 
 
