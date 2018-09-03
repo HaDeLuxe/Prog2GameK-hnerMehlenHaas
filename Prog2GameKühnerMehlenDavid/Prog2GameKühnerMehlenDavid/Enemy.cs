@@ -19,8 +19,12 @@ namespace Reggie
         float knockBackValue;
         float fallCooldown;
         public bool fallOutOfMap;
+
+        private AnimationManagerEnemy AnimationManager;
+
+        public bool facingLeft = true;
         
-        public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition) : base(enemyTexture, enemySize, enemyPosition)
+        public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
             gravityActive = true;
             isStanding = false;
@@ -28,24 +32,41 @@ namespace Reggie
             knockedBack = false;
             fallOutOfMap = false;
             enemyHP = 3;
-            movementSpeed = 1f;
-            knockBackValue = 20f; 
+            movementSpeed = 7f;
+            knockBackValue = 20f;
+           // objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
             enemyAggroAreaSize = new Vector4(400, 300, 650, 850);
             collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
             enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.W), (int)(enemyAggroAreaSize.Z));
             collisionBoxSize = new Vector2(50, 50);
+            AnimationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
         }
+
+
         //public Rectangle EnemyAggroArea
         //{
         //    get { return new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y + EnemyAggroAreaSize.W)); }
         //}
+
+        public void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            if (facingLeft) AnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
+            else if (!facingLeft) AnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+            AnimationManager.Animation(gameTime, this, spriteBatch);
+        }
+
         public override void Update(GameTime gameTime, List<GameObject> gameObjectList) {
             ResizeEnemyAggroArea(gameObjectList);
             EnemyPositionCalculation(gameTime, gameObjectList);
             if (DetectPlayer() && !knockedBack)
                 EnemyMovement();
+            
+        }
+
+        public void changeTexture(Texture2D texture) {
+            this.gameObjectTexture = texture;
         }
 
         private void ResizeEnemyAggroArea(List<GameObject> spriteList)
@@ -155,7 +176,9 @@ namespace Reggie
             //    IsStanding = true;
             //    GravityActive = false;
             //}
+
             
+
         }
 
         private void EnemyMovement()
@@ -165,13 +188,26 @@ namespace Reggie
               enemyAggroArea.Right > worm.collisionRectangle.Right &&
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                pressedRightKey = false;
+                pressedLeftKey = true;
                 velocity.X = -movementSpeed;
+            }
             else if (enemyAggroArea.Right + velocity.X - enemyAggroAreaSize.X /*+ SpriteSize.X*/ < worm.collisionRectangle.Left &&
                 enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
                 enemyAggroArea.Left < worm.collisionRectangle.Left &&
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                pressedLeftKey = false;
+                pressedRightKey = true;
                 velocity.X = movementSpeed;
+            }
+
+            if (velocity.X < 0)
+                facingLeft = true;
+            else if (velocity.X > 0)
+                facingLeft = false;
         }
 
         public virtual void EnemyAttack() { }
@@ -182,12 +218,20 @@ namespace Reggie
                 enemyAggroArea.Left < worm.collisionRectangle.Left &&
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                //pressedLeftKey = false;
+                //pressedRightKey = true;
                 return true;
+            }
             else if (enemyAggroArea.Left + velocity.X < worm.collisionRectangle.Right &&
               enemyAggroArea.Right > worm.collisionRectangle.Right &&
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
+            {
+                //pressedLeftKey = true;
+                //pressedRightKey = false;
                 return true;
+            }
             else if (enemyAggroArea.Bottom + velocity.Y + gravity.Y > worm.collisionRectangle.Top &&
             enemyAggroArea.Top < worm.collisionRectangle.Top &&
             enemyAggroArea.Right > worm.collisionRectangle.Left &&

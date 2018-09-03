@@ -16,7 +16,7 @@ namespace Reggie
         Texture2D splashScreenBackground;
         bool loadTextures = true;
 
-        KeyboardState keyboardState;
+        //KeyboardState keyboardState;
 
         public void RenderSplashScreen(ContentManager content, SpriteBatch spriteBatch)
         {
@@ -32,7 +32,7 @@ namespace Reggie
             //keyboardState = Keyboard.GetState().GetPressedKeys();
 
             if (Keyboard.GetState().GetPressedKeys().Count() > 0)
-                Game1.currentGameState = Game1.GameState.GAMELOOP;
+                Game1.currentGameState = Game1.GameState.MAINMENU;
         }
        
         private void LoadSplashScreenTextures(ContentManager content)
