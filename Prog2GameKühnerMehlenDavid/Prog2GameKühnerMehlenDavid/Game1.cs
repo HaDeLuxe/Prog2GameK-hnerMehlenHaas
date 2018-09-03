@@ -39,8 +39,10 @@ namespace Reggie {
         Dictionary<String, Texture2D> EnemySpriteSheets;
         
         Texture2D enemySkinTexture;
-        
-       
+
+        private float timeUntilNextFrame1 = 0;
+        private float timeUntilNextFrame2 = 0;
+
         AnimationManager animManager;
         LevelEditor levelEditor;
         SpriteSheetSizes input = new SpriteSheetSizes();
@@ -168,7 +170,14 @@ namespace Reggie {
                 Exit();
 
             lastGameState = currentGameState;
-          
+
+            //Update Timer
+            float animationFrameTime = 0.02f;
+
+            float gameFrameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timeUntilNextFrame1 -= gameFrameTime;
+            timeUntilNextFrame2 -= gameFrameTime;
+
             switch (currentGameState)
             {
                 case GameState.SPLASHSCREEN:
@@ -204,19 +213,29 @@ namespace Reggie {
                         previousState = Keyboard.GetState();
                     }
 
-                    gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, LevelObjectList, ref interactiveObject);
+
+                    if(timeUntilNextFrame1 <= 0)
+                    {
+                        gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, LevelObjectList, ref interactiveObject);
+                        timeUntilNextFrame1 += animationFrameTime;
+
+                    }
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, EnemySpriteSheets);
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref LevelObjectList);
 
-                    foreach (var enemy in enemyList.ToList())
+                    if(timeUntilNextFrame2 <= 0)
                     {
-                        enemy.Update(gameTime, LevelObjectList);
-                        if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
-                            enemyList.RemoveAt(enemyList.IndexOf(enemy));
+                        foreach (var enemy in enemyList.ToList())
+                        {
+                            enemy.Update(gameTime, LevelObjectList);
+                            if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
+                                enemyList.RemoveAt(enemyList.IndexOf(enemy));
+                        }
+                        timeUntilNextFrame2 += animationFrameTime;
                     }
-
+                    
                     // calculates players collision rect(visual)
                     //enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
                     //colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];
@@ -318,7 +337,7 @@ namespace Reggie {
                         {
                             LevelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
 
-                            
+
                             //this draws the platforms visible in the viewport
                             foreach (var platformSprite in gameObjectsToRender)
                                 if (platformSprite.IsThisAVisibleObject())
@@ -328,6 +347,7 @@ namespace Reggie {
                             //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                             //foreach (var enemy in viewableEnemies)
                             //    enemy.DrawSpriteBatch(spriteBatch);
+
 
                             if (LevelManager.currentLevel == Enums.Level.TUTORIAL)
                             {
