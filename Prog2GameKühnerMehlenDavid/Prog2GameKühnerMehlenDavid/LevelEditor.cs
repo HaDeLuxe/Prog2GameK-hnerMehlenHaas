@@ -27,9 +27,6 @@ namespace Reggie {
         bool alreadyDragged = false;
         bool button1Pushed = false;
         bool button2Pushed = false;
-        bool button3Pushed = false;
-        bool button4Pushed = false;
-        bool button5Pushed = false;
 
 
      
@@ -230,9 +227,9 @@ namespace Reggie {
             Rectangle rectangleBackButton = new Rectangle((int)positionBackButton.X, (int)positionBackButton.Y, 200, 50);
             if (rectangleBackButton.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
             {
-                if (ButtonState.Pressed == mouseState.LeftButton && !button4Pushed)
+                if (ButtonState.Pressed == mouseState.LeftButton && !button2Pushed)
                 {
-                    button4Pushed = true;
+                    button2Pushed = true;
                     color = Color.LightGray;
                     SavePlatforms(gameObjectList, platformTextures);
 
@@ -244,7 +241,7 @@ namespace Reggie {
             }
             else
             {
-                button4Pushed = false;
+                button2Pushed = false;
                 color = Color.White;
             }
 
