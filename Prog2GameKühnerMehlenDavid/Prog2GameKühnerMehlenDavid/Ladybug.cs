@@ -17,13 +17,16 @@ namespace Reggie
             enemyHP = 3;
             movementSpeed = 5f;
             knockBackValue = 20f;
+            attackRange = 10f;
         }
 
 
         public override void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (facingLeft) animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
-            else if (!facingLeft) animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+            if (facingLeft)
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
+            else if (!facingLeft)
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
             animationManager.Animation(gameTime, this, spriteBatch);
         }
 

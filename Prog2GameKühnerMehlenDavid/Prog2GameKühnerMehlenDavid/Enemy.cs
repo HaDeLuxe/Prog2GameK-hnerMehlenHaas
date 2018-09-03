@@ -12,6 +12,7 @@ namespace Reggie
     {
         public Rectangle enemyAggroArea;
         public Vector4 enemyAggroAreaSize;
+        public float attackRange;
         public Player worm;
         public int enemyHP;
         bool stillAlive;
@@ -210,7 +211,7 @@ namespace Reggie
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (enemyAggroArea.Right - enemyAggroAreaSize.W / 8 * 7 > worm.collisionRectangle.Left)
+                if (worm.collisionRectangle.Left -collisionBoxPosition.X  < 2* collisionBoxSize.X)
                     attackAction = true;
                 return true;
             }
@@ -219,7 +220,7 @@ namespace Reggie
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (enemyAggroArea.Left - enemyAggroAreaSize.W / 8 * 7 < worm.collisionRectangle.Right)
+                if (collisionBoxPosition.X - enemyAggroArea.Left <  collisionBoxSize.X)
                     attackAction = true;
                 return true;
             }
@@ -228,7 +229,7 @@ namespace Reggie
             enemyAggroArea.Right > worm.collisionRectangle.Left &&
             enemyAggroArea.Left < worm.collisionRectangle.Right)
             {
-                if (enemyAggroArea.Bottom + velocity.Y + gravity.Y > worm.collisionRectangle.Top)
+                if (worm.collisionRectangle.Top - (collisionBoxPosition.Y+ collisionBoxSize.Y) < collisionBoxSize.Y)
                     attackAction = true;
                 return true;
             }
@@ -237,7 +238,7 @@ namespace Reggie
            enemyAggroArea.Right > worm.collisionRectangle.Left &&
            enemyAggroArea.Left < worm.collisionRectangle.Right)
             {
-                if (enemyAggroArea.Top + velocity.Y < worm.collisionRectangle.Bottom)
+                if (collisionBoxPosition.Y- worm.collisionRectangle.Bottom < collisionBoxSize.Y)
                     attackAction = true;
                 return true;
             }
