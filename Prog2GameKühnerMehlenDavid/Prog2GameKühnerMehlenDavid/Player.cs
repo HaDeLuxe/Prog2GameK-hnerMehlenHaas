@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Xna.Framework.Media;
 
 namespace Reggie
 {
@@ -24,6 +24,7 @@ namespace Reggie
         float cooldown;
         float playerHP;
         bool climbAllowed;
+
 
         MouseState mouseState;
 
@@ -204,6 +205,8 @@ namespace Reggie
             velocity.Y = jumpSpeed;
             if (previousState.IsKeyDown(Keys.S) || previousGamepadState.ThumbSticks.Left.Y < -0.5f)
                 velocity.Y = movementSpeed;
+
+            //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
         }
 
         //Contains Player Movement in all 4 directions and the attack
@@ -355,6 +358,9 @@ namespace Reggie
                 if (firstJump == false || secondJump == false)
                     jumpSpeed = -20f;
                 PlayerJump();
+
+                //SOUNDS
+                MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
             }
 
             //Player Attack Input

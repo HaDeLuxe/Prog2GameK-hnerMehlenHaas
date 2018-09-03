@@ -1,22 +1,24 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Media; //AUDIOSTUFF //SONGS
+using Microsoft.Xna.Framework.Audio; //Sounds
 
-namespace Reggie {
+namespace Reggie
+{
     class Loading {
 
 
-        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionnary, ref Dictionary<string, Texture2D> EnemySpriteSheets) {
+        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionnary, ref Dictionary<string, Texture2D> EnemySpriteSheets, ref Dictionary<string, Song> songDictionnary, ref Dictionary<string, SoundEffect> soundEffectDictionnary) {
             loadPlayerSprites(Content, ref PlayerSpriteSheets);
             loadWorldSprites(Content, ref texturesDictionnary);
             loadEnemySprites(Content, ref EnemySpriteSheets);
             loadItemSprites(Content, ref texturesDictionnary);
             loadWorldObjects(Content, ref texturesDictionnary);
             loadUIElements(Content, ref texturesDictionnary);
+
+            //Markus
+            loadSongs(Content, ref songDictionnary);
         }
 
         /// <summary>
@@ -163,6 +165,22 @@ namespace Reggie {
             texturesDictionnary.Add("buttonR1", R1ButtonIcon);
             Texture2D R2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR2");
             texturesDictionnary.Add("buttonR2", R2ButtonIcon);
+        }
+
+
+        private void loadSongs(ContentManager Content, ref Dictionary<string, Song> songDictionnary)
+        {
+            Song temp = Content.Load<Song>("Audio\\houseChord");
+            songDictionnary.Add("houseChord", temp);
+
+            //MediaPlayer.Play(testSong);
+            //MediaPlayer.IsRepeating = true;
+        }
+
+        private void loadSoundEffects(ContentManager Content, ref Dictionary<string, SoundEffect> soundEffectDictionnary)
+        {
+            SoundEffect temp = Content.Load<SoundEffect>("Audio\\houseChord");
+            soundEffectDictionnary.Add("houseChord", temp);
         }
     }
 }

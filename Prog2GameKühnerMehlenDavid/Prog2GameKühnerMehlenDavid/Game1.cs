@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
+using Microsoft.Xna.Framework.Media; //AUDIOSTUFF //SONGS
+using Microsoft.Xna.Framework.Audio; //Sounds
 
 
-namespace Reggie {
+namespace Reggie
+{
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -33,9 +33,11 @@ namespace Reggie {
         List<Enemy> viewableEnemies;
         List<GameObject> gameObjectsToRender;
         List<GameObject> interactiveObject;
-        
+
         Dictionary<string, Texture2D> texturesDictionnary;
-        Dictionary<String, Texture2D> PlayerSpriteSheets;
+       public static Dictionary<string, Song> songDictionnary;
+        Dictionary<string, SoundEffect> soundEffectDictionnary;
+        Dictionary<String, Texture2D> PlayerSpriteSheets; 
         Dictionary<String, Texture2D> EnemySpriteSheets;
         
         Texture2D enemySkinTexture;
@@ -80,6 +82,8 @@ namespace Reggie {
             input.ReadImageSizeDataSheet();
             PlayerSpriteSheets = new Dictionary<string, Texture2D>();
             EnemySpriteSheets = new Dictionary<string, Texture2D>();
+            songDictionnary = new Dictionary<string, Song>();
+            soundEffectDictionnary = new Dictionary<string, SoundEffect>();
             levelEditor = new LevelEditor();
             cameraOffset = new Vector2(0, 0);
             texturesDictionnary = new Dictionary<string, Texture2D>();
@@ -117,7 +121,7 @@ namespace Reggie {
 
             
             Loading loading = new Loading();
-            loading.loadEverything(this.Content, ref PlayerSpriteSheets, ref texturesDictionnary, ref EnemySpriteSheets);
+            loading.loadEverything(this.Content, ref PlayerSpriteSheets, ref texturesDictionnary, ref EnemySpriteSheets, ref songDictionnary, ref soundEffectDictionnary);
             levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
 
             animManager = new AnimationManager(PlayerSpriteSheets);
