@@ -47,8 +47,8 @@ namespace Reggie {
         FrameCounter frameCounter = new FrameCounter();
         SpriteFont font;
         Camera camera = new Camera();
-        GameManager GameManager;
-        Levels LevelManager;
+        GameManager gameManager;
+        Levels levelManager;
         
 
         //for switching LevelEditor
@@ -85,8 +85,8 @@ namespace Reggie {
             Enums = new Enums();
             splashScreen = new SplashScreen();
             MainMenu = new MainMenu();
-            GameManager = new GameManager();
-            LevelManager = new Levels();
+            gameManager = new GameManager();
+            levelManager = new Levels();
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Reggie {
             
             LevelObjectList = new List<GameObject>();
             foreach (GameObject gameObject in AllGameObjectList) LevelObjectList.Add(gameObject);
-            LevelManager.sortGameObjects(AllGameObjectList);
+            levelManager.sortGameObjects(AllGameObjectList);
 
            
             FillLists();
@@ -193,8 +193,8 @@ namespace Reggie {
                 case GameState.GAMELOOP:
                     this.IsMouseVisible = false;
                     //switch to LevelEditor
-                    LevelManager.ManageLevels( wormPlayer.gameObjectPosition ,ref LevelObjectList);
-                    GameManager.ManageItems(ref wormPlayer, ref LevelObjectList);
+                    levelManager.ManageLevels( wormPlayer.gameObjectPosition ,ref LevelObjectList);
+                    gameManager.ManageItems(ref wormPlayer, ref LevelObjectList);
 
                     if (currentGameState == GameState.GAMELOOP)
                     {
@@ -206,7 +206,7 @@ namespace Reggie {
 
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, LevelObjectList, ref interactiveObject);
 
-                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, EnemySpriteSheets);
+                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, EnemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref LevelObjectList);
 
@@ -316,7 +316,7 @@ namespace Reggie {
 
                         if(lastGameState == currentGameState)
                         {
-                            LevelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
+                            levelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
 
                             
                             //this draws the platforms visible in the viewport
@@ -329,7 +329,7 @@ namespace Reggie {
                             //foreach (var enemy in viewableEnemies)
                             //    enemy.DrawSpriteBatch(spriteBatch);
 
-                            if (LevelManager.currentLevel == Enums.Level.TUTORIAL)
+                            if (levelManager.currentLevel == Enums.Level.TUTORIAL)
                             {
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
@@ -342,14 +342,14 @@ namespace Reggie {
 
                             
                             //This draws the UI
-                            GameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
+                            gameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
                         }
                         break;
 
                     case GameState.LEVELEDITOR:
 
 
-                        LevelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
+                        levelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
 
 
                         //spriteBatch.DrawString(font, fps, new Vector2(wormPlayer.gameObjectPosition.X - 620, wormPlayer.gameObjectPosition.Y - 490), Color.Black);

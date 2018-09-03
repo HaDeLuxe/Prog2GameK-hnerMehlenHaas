@@ -256,7 +256,10 @@ namespace Reggie {
             }
         }
 
-
+        public Enums.Level PlayerLevelLocation()
+        {
+            return currentLevel;
+        }
 
         private bool DetectCollision(GameObject gameObject, Rectangle rec) 
         {
