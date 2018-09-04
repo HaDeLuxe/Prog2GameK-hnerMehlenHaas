@@ -176,6 +176,12 @@ namespace Reggie
             texturesDictionnary.Add("buttonR1", R1ButtonIcon);
             Texture2D R2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR2");
             texturesDictionnary.Add("buttonR2", R2ButtonIcon);
+
+            //Minimap loading thingis
+            Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");
+            texturesDictionnary.Add("Minimap", Minimap);
+            Texture2D Point = Content.Load<Texture2D>("Images\\Minimap\\Point");
+            texturesDictionnary.Add("Point", Point);
         }
 
 
