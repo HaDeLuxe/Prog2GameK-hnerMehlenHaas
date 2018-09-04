@@ -14,6 +14,8 @@ namespace Reggie
     {
         KeyboardState previousState;
         GamePadState previousGamepadState;
+        Texture2D UmbrellaTexture = null;
+        Texture2D thirdPlayerTexture = null;
         bool firstJump;
         bool secondJump;
         bool jumpButtonPressed;
@@ -25,7 +27,9 @@ namespace Reggie
         float playerHP;
         bool climbAllowed;
         public bool invincibilityFrames;
+        public bool isFloating;
         public float invincibilityTimer;
+        
 
 
         MouseState mouseState;
@@ -111,6 +115,16 @@ namespace Reggie
             this.gameObjectTexture = texture;
         }
 
+        public void changeSecondTexture(Texture2D texture) 
+        {
+            this.UmbrellaTexture = texture;
+        }
+
+        public void changeThirdTexture(Texture2D texture) 
+        {
+            this.thirdPlayerTexture = texture;
+        }
+
 
         private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender,List <GameObject> interactiveObject)
         {
@@ -191,7 +205,13 @@ namespace Reggie
             {
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
                 if (gravity.Y > 20 && (previousState.IsKeyDown(Keys.Space) || previousGamepadState.IsButtonDown(Buttons.A)))
+                {
                     gravity.Y = 23f;
+                    isFloating = true;
+                }
+                else
+                    isFloating = false;
+                    
 
                 collisionBoxPosition.Y += gravity.Y;
             }
@@ -587,6 +607,17 @@ namespace Reggie
                 invincibilityTimer = 0;
                 invincibilityFrames = false;
             }
+        }
+
+
+        public void drawSecondTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset) 
+        {
+            spriteBatch.Draw(UmbrellaTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+        }
+
+        public void drawThirdTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset) 
+        {
+            spriteBatch.Draw(thirdPlayerTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
         }
     }
 }
