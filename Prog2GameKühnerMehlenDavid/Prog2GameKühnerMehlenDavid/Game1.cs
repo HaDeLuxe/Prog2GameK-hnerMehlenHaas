@@ -310,8 +310,7 @@ namespace Reggie
             {
                 GraphicsDevice.Clear(Color.CornflowerBlue);
             }
-            
-            
+
             // MONO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
             Vector2 screenCenter = new Vector2(viewport.Width / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/10) + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/10)+50 + cameraOffset.Y);

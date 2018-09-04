@@ -24,6 +24,8 @@ namespace Reggie
         float cooldown;
         float playerHP;
         bool climbAllowed;
+        public bool invincibilityFrames;
+        public float invincibilityTimer;
 
 
         MouseState mouseState;
@@ -54,12 +56,14 @@ namespace Reggie
             facingDirectionRight = true;
             jumpButtonPressed = false;
             playerGameElementInteraction = false;
+            invincibilityFrames = false;
             changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
             collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
             playerHP = 1f;
             movementSpeed = 10f;
             jumpSpeed = -20f;
+            invincibilityTimer = 0;
         }
 
         public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects)
@@ -97,6 +101,8 @@ namespace Reggie
                         GameManager.HealthPickedUp = true;
                 }
             }
+            if (invincibilityFrames)
+                InvincibleFrameState(gameTime);
         }
 
 
@@ -556,7 +562,7 @@ namespace Reggie
 
         //Reduces player's hp if he is hit by the enemy
         public void ReducePlayerHP()
-        {
+        { 
             if (playerHP > 0)
                 playerHP -=0.05f;
             else
@@ -571,6 +577,16 @@ namespace Reggie
         public bool PlayerIsStillAlive()
         {
             return stillAlive;
+        }
+
+        public void InvincibleFrameState(GameTime gameTime)
+        {
+            invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            if(invincibilityTimer > 5f)
+            {
+                invincibilityTimer = 0;
+                invincibilityFrames = false;
+            }
         }
     }
 }
