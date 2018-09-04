@@ -1,0 +1,237 @@
+<Project>
+  <Name>Reggie</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Class Diagramm</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Inventory</Name>
+        <Access>Public</Access>
+        <Location left="227" top="229" />
+        <Size width="162" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int healthPotionQuantity</Member>
+        <Member type="Field">int jumpPotionQuantity</Member>
+        <Member type="Field">int jumpPotionQuantity</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>itemEnum</Name>
+        <Access>Public</Access>
+        <Location left="521" top="229" />
+        <Size width="162" height="231" />
+        <Collapsed>False</Collapsed>
+        <Value>CHESTPLATE</Value>
+        <Value>HELMET</Value>
+        <Value>SCISSORS</Value>
+        <Value>SHOVEL</Value>
+        <Value>GOLDENUMBRELLA</Value>
+        <Value>UMBREALLA</Value>
+        <Value>EXTRAHEART</Value>
+        <Value>HEALTH_POTION</Value>
+        <Value>STRENGTH_POTION</Value>
+        <Value>JUMP_POTION</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>movementEnum</Name>
+        <Access>Public</Access>
+        <Location left="828" top="229" />
+        <Size width="162" height="147" />
+        <Collapsed>False</Collapsed>
+        <Value>UP</Value>
+        <Value>DOWN</Value>
+        <Value>LEFT</Value>
+        <Value>RIGHT</Value>
+        <Value>JUMP</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>mapEnum</Name>
+        <Access>Public</Access>
+        <Location left="1183" top="229" />
+        <Size width="162" height="333" />
+        <Collapsed>False</Collapsed>
+        <Value>EMPTY</Value>
+        <Value>PLATFORM_TUTORIAL</Value>
+        <Value>PLATFORM_HUB</Value>
+        <Value>PLATFORM_DUNGHILL</Value>
+        <Value>PLATFORM_ANTCAVE</Value>
+        <Value>PLATFORM_GREENHOUSE</Value>
+        <Value>PLATFORM_ROOF</Value>
+        <Value>PLATFORM_TREETRUNK</Value>
+        <Value>PLATFORM_BOSSARENA</Value>
+        <Value>WALL</Value>
+        <Value>FLOOR</Value>
+        <Value>BOXCOLLIDER</Value>
+        <Value>WATER</Value>
+        <Value>SPIDERWEB</Value>
+        <Value>POISON</Value>
+        <Value>SLIME</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>Item</Name>
+        <Access>Public</Access>
+        <Location left="391" top="594" />
+        <Size width="226" height="366" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private itemEnum id</Member>
+        <Member type="Field">bool isDrawnOnMap</Member>
+        <Member type="Field">int x</Member>
+        <Member type="Field">int y</Member>
+        <Member type="Field">bool Collected</Member>
+        <Member type="Field">int isMounted</Member>
+        <Member type="Field">bool isEquipable</Member>
+        <Member type="Field">int height</Member>
+        <Member type="Field">int width</Member>
+        <Member type="Method">public void setX()</Member>
+        <Member type="Method">public void setY()</Member>
+        <Member type="Method">public void getX()</Member>
+        <Member type="Method">public void getY()</Member>
+        <Member type="Method">public itemEnum getItemID()</Member>
+        <Member type="Method">public void setItemPos(int x, int y)</Member>
+        <Member type="Method">public void draw(int xOffset, int yOffset)</Member>
+        <Member type="Method">public void setCollect()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Potion</Name>
+        <Access>Public</Access>
+        <Location left="391" top="1044" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">float buffTime</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Timer</Name>
+        <Access>Public</Access>
+        <Location left="704" top="1044" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Player</Name>
+        <Access>Public</Access>
+        <Location left="704" top="608" />
+        <Size width="273" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int playerXPos</Member>
+        <Member type="Field">int playerYPos</Member>
+        <Member type="Field">int playerHP</Member>
+        <Member type="Field">int jumpHeight</Member>
+        <Member type="Field">int playerDamageOutput</Member>
+        <Member type="Method">public void manageHP(int lifeChange)</Member>
+        <Member type="Method">public void move(movementEnum movment)</Member>
+        <Member type="Method">public void draw(int xOffset, int yOffset)</Member>
+        <Member type="Method">public void useItem()</Member>
+        <Member type="Method">public bool attack()</Member>
+        <Member type="Method">public bool checkCollision(movementEnum movement)</Member>
+        <Member type="Method">public bool checkItemCollision()</Member>
+        <Member type="Method">public void mountOnUmbrella()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Map</Name>
+        <Access>Public</Access>
+        <Location left="1135" top="676" />
+        <Size width="201" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Array&lt;Array&lt;int&gt;&gt; mapGrid</Member>
+        <Member type="Field">Array&lt;Array&lt;int&gt;&gt; itemGrid</Member>
+        <Member type="Field">int playerTileXCoord</Member>
+        <Member type="Field">int playerTileYCoord</Member>
+        <Member type="Field">int xOffset</Member>
+        <Member type="Field">int yOffset</Member>
+        <Member type="Method">public void draw()</Member>
+        <Member type="Method">public void convertPlayerToTilePosition()</Member>
+        <Member type="Method">public void loadMap()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Enemy</Name>
+        <Access>Public</Access>
+        <Location left="1057" top="966" />
+        <Size width="163" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int enemyHP</Member>
+        <Member type="Field">int enemyDamageOutput</Member>
+        <Member type="Field">int enemyXPos</Member>
+        <Member type="Field">int enemyYPos</Member>
+        <Member type="Field">int enemyID</Member>
+        <Member type="Method">public bool manageHp(int lifeChange)</Member>
+        <Member type="Method">public void attack()</Member>
+        <Member type="Method">public void move()</Member>
+        <Member type="Method">public bool checkCollision(movementEnum movement)</Member>
+        <Member type="Method">public void draw(int xOffset, int yOffset)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Ant</Name>
+        <Access>Public</Access>
+        <Location left="879" top="1297" />
+        <Size width="163" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Dung_Beetle</Name>
+        <Access>Public</Access>
+        <Location left="1199" top="1297" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int dungProjectileXPos</Member>
+        <Member type="Field">int dungProjectileYPos</Member>
+        <Member type="Field">int closeCombatState</Member>
+        <Member type="Method">public void moveProjectile()</Member>
+        <Member type="Method">public bool setCloseCombatState()</Member>
+        <Member type="Method">public void changeState()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="4" second="1">
+        <Label>itemID</Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="6" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="10" second="9">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="9">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace Reggie {
     class SpriteSheetSizes {
 
-        private List<String> SpriteSheetsData;
-        public static Dictionary<string, int> SpritesSizes{get; private set; }
+        private List<String> spriteSheetsData;
+        public static Dictionary<string, int> spritesSizes{get; private set; }
 
         //Constructor
         public SpriteSheetSizes() {
-            SpriteSheetsData = null;
-            SpritesSizes = new Dictionary<string, int>();
+            spriteSheetsData = null;
+            spritesSizes = new Dictionary<string, int>();
         }
 
 
@@ -24,66 +24,94 @@ namespace Reggie {
         public void ReadImageSizeDataSheet() 
         {
             //Write Spritesheetsizes into an Array
-            SpriteSheetsData = new List<string>(System.IO.File.ReadAllLines(@"SpriteSheetSizes.txt"));
+            spriteSheetsData = new List<string>(System.IO.File.ReadAllLines(@"SpriteSheetSizes.txt"));
             
-            for (int i = 0; i < SpriteSheetsData.Count; i++)
+            for (int i = 0; i < spriteSheetsData.Count; i++)
             {
-                SpriteSheetsData[i] = Regex.Replace(SpriteSheetsData[i], "[^0-9,]", "");
+                spriteSheetsData[i] = Regex.Replace(spriteSheetsData[i], "[^0-9,]", "");
             }
 
-            SpriteSheetsData = SpriteSheetsData.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+            spriteSheetsData = spriteSheetsData.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
 
-            List<String> SpriteStringList = new List<String>();
-            foreach (String s in SpriteSheetsData)
+            List<String> spriteStringList = new List<String>();
+            foreach (String stringData in spriteSheetsData)
             {
-                List<String> tempStringList = s.Split(',').ToList();
-                foreach (String st in tempStringList) SpriteStringList.Add(st);
-                //System.Console.WriteLine(s);
+                List<String> tempStringList = stringData.Split(',').ToList();
+                foreach (String st in tempStringList) spriteStringList.Add(st);
             
             }
 
-            for(int i = 0; i < SpriteStringList.Count; i++)
+            for(int i = 0; i < spriteStringList.Count; i++)
             {
                 switch (i)
                 {
                     default:
-                        SpritesSizes.Add("Error", 50);
+                        spritesSizes.Add("Error", 50);
                         break;
                     case 0:
-                        SpritesSizes.Add("Reggie_Move_X", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Move_X", Int32.Parse(spriteStringList[i]));
                         break;
                     case 1:
-                        SpritesSizes.Add("Reggie_Move_Y", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Move_Y", Int32.Parse(spriteStringList[i]));
                         break;
                     case 2:
-                        SpritesSizes.Add("Reggie_Move_Hitbox_Pos_X", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Move_Hitbox_Pos_X", Int32.Parse(spriteStringList[i]));
                         break;
                     case 3:
-                        SpritesSizes.Add("Reggie_Move_Hitbox_Pos_Y", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Move_Hitbox_Pos_Y", Int32.Parse(spriteStringList[i]));
                         break;
                     case 4:
-                        SpritesSizes.Add("Reggie_Move_Hitbox_Size_X", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Move_Hitbox_Size_X", Int32.Parse(spriteStringList[i]));
                         break;
                     case 5:
-                        SpritesSizes.Add("Reggie_Move_Hitbox_Size_Y", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Move_Hitbox_Size_Y", Int32.Parse(spriteStringList[i]));
                         break;
                     case 6:
-                        SpritesSizes.Add("Reggie_Jump_X", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Jump_X", Int32.Parse(spriteStringList[i]));
                         break;
                     case 7:
-                        SpritesSizes.Add("Reggie_Jump_Y", Int32.Parse(SpriteStringList[i]));
+                        spritesSizes.Add("Reggie_Jump_Y", Int32.Parse(spriteStringList[i]));
                         break;
+                    case 8:
+                        spritesSizes.Add("Reggie_Attack_X", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 9:
+                        spritesSizes.Add("Reggie_Attack_Y", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 10:
+                        spritesSizes.Add("Reggie_Move_Hat_X", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 11:
+                        spritesSizes.Add("Reggie_Move_Hat_Y", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 12:
+                        spritesSizes.Add("Reggie_Jump_Hat_X", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 13:
+                        spritesSizes.Add("Reggie_Jump_Hat_Y", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 14:
+                        spritesSizes.Add("Reggie_Attack_Hat_X", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 15:
+                        spritesSizes.Add("Reggie_Attack_Hat_Y", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 16:
+                        spritesSizes.Add("Reggie_Jump_Armor_X", Int32.Parse(spriteStringList[i]));
+                        break;
+                    case 17:
+                        spritesSizes.Add("Reggie_Jump_Armor_Y", Int32.Parse(spriteStringList[i]));
+                        break;
+
+
                 }
             }
 
-            for(int i = 0; i < SpritesSizes.Count; i++)
+            for(int i = 0; i < spritesSizes.Count; i++)
             {
-                String s = "" + SpritesSizes.ElementAt(i);
+                String s = "" + spritesSizes.ElementAt(i);
                 System.Console.WriteLine(s);
             }
-
-            
-            
         }
     }
 }

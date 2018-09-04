@@ -8,89 +8,155 @@ using System.Threading;
 
 using System.Threading.Tasks;
 
-namespace Reggie {
-    class Camera {
+namespace Reggie
+{
+    class Camera
+    {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
+        public static float zoom = 0.05f;
+        public static bool enableCameraMovement = true;
 
-        public void setCameraWorldPosition(Vector2 cameraWorldPosition) {
+        public void setCameraWorldPosition(Vector2 cameraWorldPosition)
+        {
             this.cameraWorldPosition = cameraWorldPosition;
         }
 
-        public Matrix cameraTransformationMatrix(Viewport viewport, Vector2 screenCentre) {
-             Vector2 translation = -cameraWorldPosition + screenCentre;
-             Matrix cameraMatrix = Matrix.CreateTranslation(translation.X, translation.Y, 0);
+        public Matrix cameraTransformationMatrix(Viewport viewport, Vector2 screenCenter)
+        {
+             Vector2 translation = -cameraWorldPosition + screenCenter;
+             Matrix cameraMatrix = Matrix.CreateTranslation(translation.X, translation.Y, 0) * Matrix.CreateScale(zoom,zoom, 1);
+             
              return cameraMatrix;
         }
 
-        public List<GameObject> objectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList) {
+        public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList, ref List<GameObject> interactiveObject)
+        {
             List<GameObject> objectsToRender = new List<GameObject>();
+            List<GameObject> interactiveObjectsList = new List<GameObject>();
             for(int i = 0; i < gameObjectsList.Count; i++)
             {
-                if (gameObjectsList[i].Position.X < playerPosition.X + 1250 && gameObjectsList[i].SpriteRectangle.Right > playerPosition.X - 950)
+                if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1350 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 1350
+                    && gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                 {
-                    if (gameObjectsList[i].Position.Y < playerPosition.Y + 550 && gameObjectsList[i].SpriteRectangle.Bottom > playerPosition.Y - 550)
-                    {
                         objectsToRender.Add(gameObjectsList[i]);
-                    }
+                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE 
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                        interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }
-
+            //foreach (GameObject gameObject in interactiveObjectsList) interactiveObject.Add(gameObject);
+            interactiveObject = interactiveObjectsList;
             return objectsToRender;
         }
 
-
-
-        public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> EnemyList)
+        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList,Texture2D enemySkinTexture, Dictionary<string, Texture2D> enemySpriteSheets, Enums.Level currentLevel)
         {
-            List<Enemy> EnemyToRender = new List<Enemy>();
-            for (int i = 0; i < EnemyList.Count; i++)
+           
+            for (int i = 0; i < platformList.Count; i++)
             {
-                if (EnemyList[i].Position.X < playerPosition.X + 950 && EnemyList[i].SpriteRectangle.Right > playerPosition.X - 950)
+                if (!platformList[i].enemySpawnCheck)
                 {
-                    if (EnemyList[i].Position.Y < playerPosition.Y + 550 && EnemyList[i].SpriteRectangle.Bottom > playerPosition.Y - 550)
+                    if (platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750)
+                        platformList[i].enemySpawnCheck = true;
+                    if ((platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectPosition.X > wormPlayer.gameObjectPosition.X + 950) || (platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectRectangle.Right < wormPlayer.gameObjectPosition.X - 950)
+                        || (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
                     {
-                        EnemyToRender.Add(EnemyList[i]);
+                        platformList[i].enemySpawnCheck = true;
+                        Random rand = new Random();
+                        int randomizedNumber = rand.Next(0, 100);
+                        if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
+                        {
+                            if(currentLevel == Enums.Level.TUTORIAL)
+                                enemyList.Add(new Ladybug(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
+                            enemyList.Last().SetPlayer(wormPlayer);
+                        }
+
+                    }
+                }
+            }
+        
+        }
+
+       
+
+        public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> enemyList)
+        {
+            List<Enemy> enemyToRender = new List<Enemy>();
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                if (enemyList[i].gameObjectPosition.X < playerPosition.X + 1050 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 1050)
+                {
+                    if (enemyList[i].gameObjectPosition.Y < playerPosition.Y + 550 && enemyList[i].gameObjectRectangle.Bottom > playerPosition.Y - 550)
+                    {
+                        enemyToRender.Add(enemyList[i]);
                     }
                 }
             }
 
-            return EnemyToRender;
+            return enemyToRender;
         }
 
         float timeUntilNextFrame = 0;
         int cap = 200;
+        public int counterLeft = 0;
+        public int counterRight = 0;
+
+        public void IncreaseLeftCounter() { counterLeft++; }
+        public void IncreaseRightCounter(){ counterRight++; }
+        public void ResetLeftCounter(){ counterLeft = 0; }
+        public void ResetRightCounter(){ counterRight = 0; }
+        
 
         public void cameraOffset(GameTime GameTime, bool Left, bool isMoving) 
         {
-            if(isMoving) cap = 0;
-            else cap = 200;
-            float animationFrameTime = 1f/1000f;
-            
-            float gameFrameTime = (float)GameTime.ElapsedGameTime.TotalSeconds;
-            timeUntilNextFrame -= gameFrameTime;
-
-            if (timeUntilNextFrame <= 0)
+            if(Game1.currentGameState == Game1.GameState.GAMELOOP)
             {
-                if (Left && Game1.cameraOffset.X <= cap)
+                if(isMoving) cap = 0;
+                else cap = 200;
+                float animationFrameTime = 1f/1000f;
+            
+                float gameFrameTime = (float)GameTime.ElapsedGameTime.TotalSeconds;
+                timeUntilNextFrame -= gameFrameTime;
+
+                if (timeUntilNextFrame <= 0 && enableCameraMovement)
                 {
-                    Game1.cameraOffset.X += 10;
+                    if (Left && Game1.cameraOffset.X <= cap)
+                    {
+                        if(counterLeft >= 25)
+                        Game1.cameraOffset.X += 10;
+                        else if (Game1.cameraOffset.X <= 0) Game1.cameraOffset.X += 10;
+                    }
+                    if (!Left && Game1.cameraOffset.X >= -cap)
+                    {
+                        if (counterRight >= 25)
+                            Game1.cameraOffset.X -= 10;
+                        else if (Game1.cameraOffset.X >= 0) Game1.cameraOffset.X -= 10;
+                    }
+                    if (Game1.cameraOffset.X > 200)
+                    {
+                        Game1.cameraOffset.X = cap;
+                    }
+                    if (Game1.cameraOffset.X < -200)
+                    {
+                        Game1.cameraOffset.X = -cap;
+                    }
+                    if (isMoving && Left && Game1.cameraOffset.X > 0 && Game1.cameraOffset.X > cap)
+                    {
+                        Game1.cameraOffset.X -= 10;
+                    }
+                    if (isMoving && !Left && Game1.cameraOffset.X < 0 && Game1.cameraOffset.X < cap)
+                    {
+                        Game1.cameraOffset.X += 10;
+                    }
+                    timeUntilNextFrame += animationFrameTime;
+
                 }
-                if (!Left && Game1.cameraOffset.X >= -cap)
-                {
-                    Game1.cameraOffset.X -= 10;
-                }
-                if (Game1.cameraOffset.X > 200)
-                {
-                    Game1.cameraOffset.X = cap;
-                }
-                if (Game1.cameraOffset.X < -200)
-                {
-                    Game1.cameraOffset.X = -cap;
-                }
-                timeUntilNextFrame += animationFrameTime;
             }
         }
-       
     }
 }
