@@ -68,6 +68,13 @@ namespace Reggie {
             return spriteSheetDestRectangle[currentFrame];
 
         }
+
+        public Rectangle ReturnRectFromFrameNumber(int frame) 
+        {
+            return spriteSheetDestRectangle[frame];
+        }
+
+        
     }
 
 

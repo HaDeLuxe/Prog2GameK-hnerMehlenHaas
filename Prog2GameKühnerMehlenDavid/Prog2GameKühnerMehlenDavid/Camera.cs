@@ -45,7 +45,10 @@ namespace Reggie
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.POWERPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                         interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }

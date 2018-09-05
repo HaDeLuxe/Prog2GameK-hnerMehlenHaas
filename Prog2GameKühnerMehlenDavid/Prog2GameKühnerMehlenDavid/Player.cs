@@ -104,6 +104,21 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.healthPickedUp = true;
                 }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.JUMPPOTION)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        ItemUIManager.jumpPickedUp = true;
+                }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        ItemUIManager.powerPickedUp = true;
+                }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        ItemUIManager.goldenUmbrellaPickedUp = true;
+                }
             }
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
