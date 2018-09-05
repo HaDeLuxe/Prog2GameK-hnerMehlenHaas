@@ -36,7 +36,19 @@ namespace Reggie {
             Attack_Armor_Hat_Left,
             Attack_Armor_Hat_Right,
             Floating_Left,
-            Floating_Right};
+            Floating_Right,
+            Jump_Shovel,
+            Jump_Scissors,
+            Jump_Golden,
+            Walk_Shovel,
+            Walk_Scissors,
+            Walk_Golden,
+            Attack_Shovel,
+            Attack_Scissors,
+            Attack_Golden,
+            Float_Shovel,
+            Float_Scissors,
+            Float_Golden};
 
 
 
@@ -53,118 +65,155 @@ namespace Reggie {
         //DIVerse ANIMATION DESTination RECTANGLES DICtionnary
         Dictionary<string, Animation> divAnimationDestRectanglesDic;
 
-        Animation Walk_Animation_Left = null;
-        Animation Walk_Animation_Right = null;
-        Animation Walk_Hat_Animation_Left = null;
-        Animation Walk_Hat_Animation_Right = null;
-        Animation Walk_Armor_Animation_Left = null;
-        Animation Walk_Armor_Animation_Right = null;
-        Animation Walk_Armor_Hat_Animation_Left = null;
-        Animation Walk_Armor_Hat_Animation_Right = null;
+        Animation walk_Animation_Left = null;
+        Animation walk_Animation_Right = null;
+        Animation walk_Hat_Animation_Left = null;
+        Animation walk_Hat_Animation_Right = null;
+        Animation walk_Armor_Animation_Left = null;
+        Animation walk_Armor_Animation_Right = null;
+        Animation walk_Armor_Hat_Animation_Left = null;
+        Animation walk_Armor_Hat_Animation_Right = null;
 
-        Animation Jump_Animation_Left = null;
-        Animation Jump_Animation_Right = null;
-        Animation Jump_Hat_Animation_Left = null;
-        Animation Jump_Hat_Animation_Right = null;
-        Animation Jump_Armor_Animation_Left = null;
-        Animation Jump_Armor_Animation_Right = null;
-        Animation Jump_Armor_Hat_Animation_Left = null;
-        Animation Jump_Armor_Hat_Animation_Right = null;
+        Animation jump_Animation_Left = null;
+        Animation jump_Animation_Right = null;
+        Animation jump_Hat_Animation_Left = null;
+        Animation jump_Hat_Animation_Right = null;
+        Animation jump_Armor_Animation_Left = null;
+        Animation jump_Armor_Animation_Right = null;
+        Animation jump_Armor_Hat_Animation_Left = null;
+        Animation jump_Armor_Hat_Animation_Right = null;
 
-        Animation Attack_Animation_Left = null;
-        Animation Attack_Animation_Right = null;
-        Animation Attack_Hat_Animation_Left = null;
-        Animation Attack_Hat_Animation_Right = null;
-        Animation Attack_Armor_Animation_Left = null;
-        Animation Attack_Armor_Animation_Right = null;
-        Animation Attack_Armor_Hat_Animation_Left = null;
-        Animation Attack_Armor_Hat_Animation_Right = null;
+        Animation attack_Animation_Left = null;
+        Animation attack_Animation_Right = null;
+        Animation attack_Hat_Animation_Left = null;
+        Animation attack_Hat_Animation_Right = null;
+        Animation attack_Armor_Animation_Left = null;
+        Animation attack_Armor_Animation_Right = null;
+        Animation attack_Armor_Hat_Animation_Left = null;
+        Animation attack_Armor_Hat_Animation_Right = null;
 
         Animation floatingAnimation_Right = null;
         Animation floatingAnimation_Left = null;
 
         Animation walk_Umbrella_Empty_Animation_Left = null;
         Animation walk_Umbrella_Empty_Animation_Right = null;
+        Animation walk_Umbrella_Golden_Animation_Left = null;
+        Animation walk_Umbrella_Golden_Animation_Right = null;
 
-        Animation Jump_Umbrella_Empty_Animation_Left = null;
-        Animation Jump_Umbrella_Empty_Animation_Right = null;
+        Animation jump_Umbrella_Empty_Animation_Left = null;
+        Animation jump_Umbrella_Empty_Animation_Right = null;
+        Animation jump_Umbrella_Golden_Animation_Left = null;
+        Animation jump_Umbrella_Golden_Animation_Right = null;
+       
 
-        Animation Attack_Umbrella_Empty_Animation_Left = null;
-        Animation Attack_Umbrella_Empty_Animation_Right = null;
+        Animation attack_Umbrella_Empty_Animation_Left = null;
+        Animation attack_Umbrella_Empty_Animation_Right = null;
+        Animation attack_Umbrella_Golden_Animation_Left = null;
+        Animation attack_Umbrella_Golden_Animation_Right = null;
+
+        Animation walk_Shovel_Animation_Left = null;
+        Animation walk_Shovel_Animation_Right = null;
+        Animation jump_Shovel_Animation_Left = null;
+        Animation jump_Shovel_Animation_Right = null;
+        Animation attack_Shovel_Animation_Left = null;
+        Animation attack_Shovel_Animation_Right = null;
+
+        Animation walk_Scissors_Animation_Left = null;
+        Animation walk_Scissors_Animation_Right = null;
+        Animation jump_Scissors_Animation_Left = null;
+        Animation jump_Scissors_Animation_Right = null;
+        Animation attack_Scissors_Animation_Left = null;
+        Animation attack_Scissors_Animation_Right = null;
 
 
+        
 
 
         public AnimationManager(Dictionary<string, Texture2D> PlayerSpriteSheet) 
         {
             divAnimationDestRectanglesDic = new Dictionary<string, Animation>();
             //Walk Animations
-            Walk_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/5,PlayerSpriteSheet["playerMoveSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Animation_Left",Walk_Animation_Left);
-            Walk_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5, PlayerSpriteSheet["playerMoveSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Animation_Right", Walk_Animation_Right);
-            Walk_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Hat_Animation_Left", Walk_Hat_Animation_Left);
-            Walk_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Hat_Animation_Right", Walk_Hat_Animation_Right);
-            Walk_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 108, 87, PlayerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Armor_Animation_Left", Walk_Armor_Animation_Left);
-            Walk_Armor_Animation_Right = new Animation(true, SpriteEffects.None, 108, 87, PlayerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Armor_Animation_Right", Walk_Armor_Animation_Right);
-            Walk_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Armor_Hat_Animation_Left", Walk_Armor_Hat_Animation_Left);
-            Walk_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Walk_Armor_Hat_Animation_Right", Walk_Armor_Hat_Animation_Right);
+            walk_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/5,PlayerSpriteSheet["playerMoveSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Animation_Left",walk_Animation_Left);
+            walk_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5, PlayerSpriteSheet["playerMoveSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Animation_Right", walk_Animation_Right);
+            walk_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Hat_Animation_Left", walk_Hat_Animation_Left);
+            walk_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Hat_Animation_Right", walk_Hat_Animation_Right);
+            walk_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 108, 87, PlayerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Armor_Animation_Left", walk_Armor_Animation_Left);
+            walk_Armor_Animation_Right = new Animation(true, SpriteEffects.None, 108, 87, PlayerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Armor_Animation_Right", walk_Armor_Animation_Right);
+            walk_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Armor_Hat_Animation_Left", walk_Armor_Hat_Animation_Left);
+            walk_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Armor_Hat_Animation_Right", walk_Armor_Hat_Animation_Right);
             //Jump Animations
-            Jump_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Animation_Left", Jump_Animation_Left);
-            Jump_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Animation_Right", Jump_Animation_Right);
-            Jump_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Hat_Animation_Left", Jump_Hat_Animation_Left);
-            Jump_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Hat_Animation_Right", Jump_Hat_Animation_Right);
-            Jump_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, PlayerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Armor_Animation_Left", Jump_Armor_Animation_Left);
-            Jump_Armor_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, PlayerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Armor_Animation_Right", Jump_Armor_Animation_Right);
-            Jump_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Armor_Hat_Animation_Left", Jump_Armor_Hat_Animation_Left);
-            Jump_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Armor_Hat_Animation_Right", Jump_Armor_Hat_Animation_Right);
+            jump_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Animation_Left", jump_Animation_Left);
+            jump_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Animation_Right", jump_Animation_Right);
+            jump_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Hat_Animation_Left", jump_Hat_Animation_Left);
+            jump_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Hat_Animation_Right", jump_Hat_Animation_Right);
+            jump_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, PlayerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Armor_Animation_Left", jump_Armor_Animation_Left);
+            jump_Armor_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, PlayerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Armor_Animation_Right", jump_Armor_Animation_Right);
+            jump_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Armor_Hat_Animation_Left", jump_Armor_Hat_Animation_Left);
+            jump_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Armor_Hat_Animation_Right", jump_Armor_Hat_Animation_Right);
             //Attack Animtions
-            Attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Animation_Left", Attack_Animation_Left);
-            Attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Animation_Right", Attack_Animation_Right);
-            Attack_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Left", Attack_Hat_Animation_Left);
-            Attack_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Right", Attack_Hat_Animation_Right);
-            Attack_Armor_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Left", Attack_Armor_Animation_Left);
-            Attack_Armor_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Right", Attack_Armor_Animation_Right);
-            Attack_Armor_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Armor_Hat_Animation_Left", Attack_Armor_Hat_Animation_Left);
-            Attack_Armor_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Armor_Hat_Animation_Right", Attack_Armor_Hat_Animation_Right);
+            attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Animation_Left", attack_Animation_Left);
+            attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Animation_Right", attack_Animation_Right);
+            attack_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Left", attack_Hat_Animation_Left);
+            attack_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Right", attack_Hat_Animation_Right);
+            attack_Armor_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Left", attack_Armor_Animation_Left);
+            attack_Armor_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Right", attack_Armor_Animation_Right);
+            attack_Armor_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Armor_Hat_Animation_Left", attack_Armor_Hat_Animation_Left);
+            attack_Armor_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Armor_Hat_Animation_Right", attack_Armor_Hat_Animation_Right);
 
             //Umbrella Animations
-            Attack_Umbrella_Empty_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 147, PlayerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Umbrella_Empty_Animation_Left", Attack_Umbrella_Empty_Animation_Left);
-            Attack_Umbrella_Empty_Animation_Right = new Animation(false, SpriteEffects.None, 115, 147, PlayerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
-            divAnimationDestRectanglesDic.Add("Attack_Umbrella_Empty_Animation_Right", Attack_Umbrella_Empty_Animation_Right);
+            attack_Umbrella_Empty_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 147, PlayerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Umbrella_Empty_Animation_Left", attack_Umbrella_Empty_Animation_Left);
+            attack_Umbrella_Empty_Animation_Right = new Animation(false, SpriteEffects.None, 115, 147, PlayerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Umbrella_Empty_Animation_Right", attack_Umbrella_Empty_Animation_Right);
+            attack_Umbrella_Golden_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 148, PlayerSpriteSheet["playerAttackGoldenSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Umbrella_Golden_Animation_Left", attack_Umbrella_Golden_Animation_Left);
+            attack_Umbrella_Golden_Animation_Right = new Animation(false, SpriteEffects.None, 115, 148, PlayerSpriteSheet["playerAttackGoldenSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("Attack_Umbrella_Golden_Animation_Right", attack_Umbrella_Golden_Animation_Right);
 
             walk_Umbrella_Empty_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 75, 106, PlayerSpriteSheet["playerMoveUmbrellaEmptySpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Umbrella_Empty_Animation_Left", walk_Umbrella_Empty_Animation_Left);
             walk_Umbrella_Empty_Animation_Right = new Animation(true, SpriteEffects.None, 75, 106, PlayerSpriteSheet["playerMoveUmbrellaEmptySpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Umbrella_Empty_Animation_Right", walk_Umbrella_Empty_Animation_Right);
+            walk_Umbrella_Golden_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 75, 106, PlayerSpriteSheet["playerWalkGoldenSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Umbrella_Golden_Animation_Left", walk_Umbrella_Golden_Animation_Left);
+            walk_Umbrella_Golden_Animation_Right = new Animation(true, SpriteEffects.None, 75, 106, PlayerSpriteSheet["playerWalkGoldenSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Walk_Umbrella_Golden_Animation_Right", walk_Umbrella_Golden_Animation_Right);
 
-            Jump_Umbrella_Empty_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 48, 95, PlayerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Umbrella_Empty_Animation_Left", Jump_Umbrella_Empty_Animation_Left);
-            Jump_Umbrella_Empty_Animation_Right = new Animation(true, SpriteEffects.None, 48, 95, PlayerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
-            divAnimationDestRectanglesDic.Add("Jump_Umbrella_Empty_Animation_Right", Jump_Umbrella_Empty_Animation_Right);
+            jump_Umbrella_Empty_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 48, 95, PlayerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Umbrella_Empty_Animation_Left", jump_Umbrella_Empty_Animation_Left);
+            jump_Umbrella_Empty_Animation_Right = new Animation(true, SpriteEffects.None, 48, 95, PlayerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Umbrella_Empty_Animation_Right", jump_Umbrella_Empty_Animation_Right);
+            jump_Umbrella_Golden_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 48, 95, PlayerSpriteSheet["playerJumpGoldenSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Umbrella_Golden_Animation_Left", jump_Umbrella_Golden_Animation_Left);
+            jump_Umbrella_Golden_Animation_Right = new Animation(true, SpriteEffects.None, 48, 95, PlayerSpriteSheet["playerJumpGoldenSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Jump_Umbrella_Golden_Animation_Right", jump_Umbrella_Golden_Animation_Right);
+
+
+            //Item Animations
 
 
             //Floating Animation
@@ -214,14 +263,14 @@ namespace Reggie {
                 || currentAnimation == Animations.Attack_Armor_Hat_Left
                 || currentAnimation == Animations.Attack_Armor_Hat_Right)
             {
-                if (Attack_Animation_Right.getPlayedOnce()
-                    || Attack_Animation_Left.getPlayedOnce()
-                    || Attack_Hat_Animation_Left.getPlayedOnce()
-                    || Attack_Hat_Animation_Right.getPlayedOnce()
-                    || Attack_Armor_Animation_Left.getPlayedOnce()
-                    || Attack_Armor_Animation_Right.getPlayedOnce()
-                    || Attack_Armor_Hat_Animation_Left.getPlayedOnce()
-                    || Attack_Armor_Hat_Animation_Right.getPlayedOnce())
+                if (attack_Animation_Right.getPlayedOnce()
+                    || attack_Animation_Left.getPlayedOnce()
+                    || attack_Hat_Animation_Left.getPlayedOnce()
+                    || attack_Hat_Animation_Right.getPlayedOnce()
+                    || attack_Armor_Animation_Left.getPlayedOnce()
+                    || attack_Armor_Animation_Right.getPlayedOnce()
+                    || attack_Armor_Hat_Animation_Left.getPlayedOnce()
+                    || attack_Armor_Hat_Animation_Right.getPlayedOnce())
                 {
                     if(nextAnimation == Animations.Attack_Left 
                         || nextAnimation == Animations.Attack_Right
@@ -236,14 +285,14 @@ namespace Reggie {
                     nextAnimation = previousAnimation;
                     currentAnimation = nextAnimation;
 
-                    Attack_Animation_Left.resetPlayedOnce();
-                    Attack_Animation_Right.resetPlayedOnce();
-                    Attack_Hat_Animation_Left.resetPlayedOnce();
-                    Attack_Hat_Animation_Right.resetPlayedOnce();
-                    Attack_Armor_Animation_Left.resetPlayedOnce();
-                    Attack_Armor_Animation_Right.resetPlayedOnce();
-                    Attack_Armor_Hat_Animation_Left.resetPlayedOnce();
-                    Attack_Armor_Hat_Animation_Right.resetPlayedOnce();
+                    attack_Animation_Left.resetPlayedOnce();
+                    attack_Animation_Right.resetPlayedOnce();
+                    attack_Hat_Animation_Left.resetPlayedOnce();
+                    attack_Hat_Animation_Right.resetPlayedOnce();
+                    attack_Armor_Animation_Left.resetPlayedOnce();
+                    attack_Armor_Animation_Right.resetPlayedOnce();
+                    attack_Armor_Hat_Animation_Left.resetPlayedOnce();
+                    attack_Armor_Hat_Animation_Right.resetPlayedOnce();
                 }
             }
 
@@ -253,101 +302,101 @@ namespace Reggie {
             switch (currentAnimation)
             {
                 case Animations.Walk_Right:
-                    player.changeTexture(Walk_Animation_Right.texture);
+                    player.changeTexture(walk_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Animation_Right.getSpriteEffects(),new Vector2(0,0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Animation_Right.getSpriteEffects(),new Vector2(0,0));
                     previousAnimation = Animations.Walk_Right;
                     break;
                 case Animations.Walk_Left:
-                    player.changeTexture(Walk_Animation_Left.texture);
+                    player.changeTexture(walk_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Animation_Left.getSpriteEffects(),new Vector2(0,0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Animation_Left.getSpriteEffects(),new Vector2(0,0));
                     previousAnimation = Animations.Walk_Left;
                     break;
                 case Animations.Walk_Hat_Left:
-                    player.changeTexture(Walk_Hat_Animation_Left.texture);
+                    player.changeTexture(walk_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Hat_Animation_Left.getSpriteEffects(), new Vector2(0, -20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Hat_Animation_Left.getSpriteEffects(), new Vector2(0, -20));
                     previousAnimation = Animations.Walk_Hat_Left;
                     break;
                 case Animations.Walk_Hat_Right:
-                    player.changeTexture(Walk_Hat_Animation_Right.texture);
+                    player.changeTexture(walk_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Hat_Animation_Right.getSpriteEffects(), new Vector2(0, -20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Hat_Animation_Right.getSpriteEffects(), new Vector2(0, -20));
                     previousAnimation = Animations.Walk_Hat_Right;
                     break;
                 case Animations.Walk_Armor_Left:
-                    player.changeTexture(Walk_Armor_Animation_Left.texture);
+                    player.changeTexture(walk_Armor_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Armor_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Armor_Animation_Left.getSpriteEffects(), new Vector2(0, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Armor_Animation_Left.getSpriteEffects(), new Vector2(0, 0));
                     previousAnimation = Animations.Walk_Armor_Left;
                     break;
                 case Animations.Walk_Armor_Right:
-                    player.changeTexture(Walk_Armor_Animation_Right.texture);
+                    player.changeTexture(walk_Armor_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Armor_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Armor_Animation_Right.getSpriteEffects(), new Vector2(0, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Armor_Animation_Right.getSpriteEffects(), new Vector2(0, 0));
                     previousAnimation = Animations.Walk_Armor_Right;
                     break;
                 case Animations.Walk_Armor_Hat_Left:
-                    player.changeTexture(Walk_Armor_Hat_Animation_Left.texture);
+                    player.changeTexture(walk_Armor_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Armor_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(0, -20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(0, -20));
                     previousAnimation = Animations.Walk_Armor_Hat_Left;
                     break;
                 case Animations.Walk_Armor_Hat_Right:
-                    player.changeTexture(Walk_Armor_Hat_Animation_Right.texture);
+                    player.changeTexture(walk_Armor_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Walk_Armor_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Walk_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(0, -20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, walk_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(0, -20));
                     previousAnimation = Animations.Walk_Armor_Hat_Right;
                     break;
 
 
                 case Animations.Jump_Right:
-                    player.changeTexture(Jump_Animation_Right.texture);
+                    player.changeTexture(jump_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Animation_Right.getSpriteEffects(), new Vector2(35,-20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Animation_Right.getSpriteEffects(), new Vector2(35,-20));
                     previousAnimation = Animations.Jump_Right;
                     break;
                 case Animations.Jump_Left:
-                    player.changeTexture(Jump_Animation_Left.texture);
+                    player.changeTexture(jump_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Animation_Left.getSpriteEffects(), new Vector2(15, -20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Animation_Left.getSpriteEffects(), new Vector2(15, -20));
                     previousAnimation = Animations.Jump_Left;
                     break;
                 case Animations.Jump_Hat_Left:
-                    player.changeTexture(Jump_Hat_Animation_Left.texture);
+                    player.changeTexture(jump_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Hat_Animation_Left.getSpriteEffects(), new Vector2(15, -35));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Hat_Animation_Left.getSpriteEffects(), new Vector2(15, -35));
                     previousAnimation = Animations.Jump_Hat_Left;
                     break;
                 case Animations.Jump_Hat_Right:
-                    player.changeTexture(Jump_Hat_Animation_Right.texture);
+                    player.changeTexture(jump_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Hat_Animation_Right.getSpriteEffects(), new Vector2(22, -35));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Hat_Animation_Right.getSpriteEffects(), new Vector2(22, -35));
                     previousAnimation = Animations.Jump_Hat_Right;
                     break;
                 case Animations.Jump_Armor_Left:
-                    player.changeTexture(Jump_Armor_Animation_Left.texture);
+                    player.changeTexture(jump_Armor_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Armor_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Armor_Animation_Left.getSpriteEffects(), new Vector2(22, -22));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Armor_Animation_Left.getSpriteEffects(), new Vector2(22, -22));
                     previousAnimation = Animations.Jump_Armor_Left;
                     break;
                 case Animations.Jump_Armor_Right:
-                    player.changeTexture(Jump_Armor_Animation_Right.texture);
+                    player.changeTexture(jump_Armor_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Armor_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Armor_Animation_Right.getSpriteEffects(), new Vector2(34, -22));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Armor_Animation_Right.getSpriteEffects(), new Vector2(34, -22));
                     previousAnimation = Animations.Jump_Armor_Right;
                     break;
                 case Animations.Jump_Armor_Hat_Left:
-                    player.changeTexture(Jump_Armor_Hat_Animation_Left.texture);
+                    player.changeTexture(jump_Armor_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Armor_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(22, -35));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(22, -35));
                     previousAnimation = Animations.Jump_Armor_Hat_Left;
                     break;
                 case Animations.Jump_Armor_Hat_Right:
-                    player.changeTexture(Jump_Armor_Hat_Animation_Right.texture);
+                    player.changeTexture(jump_Armor_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Jump_Armor_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Jump_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(22, -35));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, jump_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(22, -35));
                     previousAnimation = Animations.Jump_Armor_Hat_Right;
                     break;
 
@@ -356,60 +405,60 @@ namespace Reggie {
 
 
                 case Animations.Attack_Left:
-                    player.changeTexture(Attack_Animation_Left.texture);
+                    player.changeTexture(attack_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Animation_Left.getSpriteEffects(), new Vector2(-15, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Animation_Left.getSpriteEffects(), new Vector2(-15, 0));
                     break;
                 case Animations.Attack_Right:
-                    player.changeTexture(Attack_Animation_Right.texture);
+                    player.changeTexture(attack_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Animation_Right.getSpriteEffects(), new Vector2(32, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Animation_Right.getSpriteEffects(), new Vector2(32, 0));
                     break;
                 case Animations.Attack_Hat_Left:
-                    player.changeTexture(Attack_Hat_Animation_Left.texture);
+                    player.changeTexture(attack_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Hat_Animation_Left.getSpriteEffects(), new Vector2(-25, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Left.getSpriteEffects(), new Vector2(-25, 0));
                     break;
                 case Animations.Attack_Hat_Right:
-                    player.changeTexture(Attack_Hat_Animation_Right.texture);
+                    player.changeTexture(attack_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, 0));
                     break;
                 case Animations.Attack_Armor_Left:
-                    player.changeTexture(Attack_Armor_Animation_Left.texture);
+                    player.changeTexture(attack_Armor_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Armor_Animation_Left.getSpriteEffects(), new Vector2(-25, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Animation_Left.getSpriteEffects(), new Vector2(-25, 0));
                     break;
                 case Animations.Attack_Armor_Right:
-                    player.changeTexture(Attack_Armor_Animation_Right.texture);
+                    player.changeTexture(attack_Armor_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Armor_Animation_Right.getSpriteEffects(), new Vector2(32, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Animation_Right.getSpriteEffects(), new Vector2(32, 0));
                     break;
                 case Animations.Attack_Armor_Hat_Left:
-                    player.changeTexture(Attack_Armor_Hat_Animation_Left.texture);
+                    player.changeTexture(attack_Armor_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(-15, -20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(-15, -20));
                     break;
                 case Animations.Attack_Armor_Hat_Right:
-                    player.changeTexture(Attack_Armor_Hat_Animation_Right.texture);
+                    player.changeTexture(attack_Armor_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, Attack_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, -20));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, -20));
                     break;
 
             }
 
             if(currentAnimation == Animations.Attack_Right || currentAnimation == Animations.Attack_Hat_Right || currentAnimation == Animations.Attack_Armor_Right || currentAnimation == Animations.Attack_Armor_Hat_Right)
             {
-                player.changeSecondTexture(Attack_Umbrella_Empty_Animation_Right.texture);
+                player.changeSecondTexture(attack_Umbrella_Empty_Animation_Right.texture);
                 tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].Update(gameTime);
-                player.drawSecondTexture(spriteBatch, tempRec2, Attack_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(64, -33));
+                player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(64, -33));
             }
 
             if (currentAnimation == Animations.Attack_Left || currentAnimation == Animations.Attack_Hat_Left || currentAnimation == Animations.Attack_Armor_Left || currentAnimation == Animations.Attack_Armor_Hat_Left)
             {
-                player.changeSecondTexture(Attack_Umbrella_Empty_Animation_Left.texture);
+                player.changeSecondTexture(attack_Umbrella_Empty_Animation_Left.texture);
                 tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].Update(gameTime);
-                player.drawSecondTexture(spriteBatch, tempRec2, Attack_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-71, -33));
+                player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-71, -33));
             }
             if(currentAnimation == Animations.Walk_Right || currentAnimation == Animations.Walk_Hat_Right || currentAnimation == Animations.Walk_Armor_Right || currentAnimation == Animations.Walk_Armor_Hat_Right)
             {
@@ -427,9 +476,9 @@ namespace Reggie {
             {
                 if (!player.isFloating)
                 {
-                    player.changeSecondTexture(Jump_Umbrella_Empty_Animation_Right.texture);
+                    player.changeSecondTexture(jump_Umbrella_Empty_Animation_Right.texture);
                     tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Right"].Update(gameTime);
-                    player.drawSecondTexture(spriteBatch, tempRec2, Jump_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(58,-63));
+                    player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(58,-63));
                 }
                 else
                 {
@@ -442,9 +491,9 @@ namespace Reggie {
             {
                 if (!player.isFloating)
                 {
-                    player.changeSecondTexture(Jump_Umbrella_Empty_Animation_Left.texture);
+                    player.changeSecondTexture(jump_Umbrella_Empty_Animation_Left.texture);
                     tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Left"].Update(gameTime);
-                    player.drawSecondTexture(spriteBatch, tempRec2, Jump_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(0, -60));
+                    player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(0, -60));
                 }
                 else
                 {
