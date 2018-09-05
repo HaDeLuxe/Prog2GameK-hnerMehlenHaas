@@ -19,7 +19,8 @@ namespace Reggie {
         public static bool powerPickedUp { get; set; }
         GameObject scissors;
         GameObject shovel;
-        GameObject currentlyEquipped;
+        GameObject idle;
+        public static GameObject currentlyEquipped;
         GameObject healthPotion;
         GameObject jumpPotion;
         GameObject powerPotion;
@@ -33,6 +34,7 @@ namespace Reggie {
             snailShellPickedUp = false;
             scissorsPickedUp = false;
             ItemsFound = new List<GameObject>();
+            currentlyEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
         }
 
         //public int getCurrentEquipped() {

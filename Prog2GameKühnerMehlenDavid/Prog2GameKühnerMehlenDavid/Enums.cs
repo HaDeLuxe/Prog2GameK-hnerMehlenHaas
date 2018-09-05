@@ -137,6 +137,7 @@ namespace Reggie {
             HEALTHPOTION,
             JUMPPOTION,
             POWERPOTION,
+            NONE,
             ///ADD NEW ITEM HERE
 
         }

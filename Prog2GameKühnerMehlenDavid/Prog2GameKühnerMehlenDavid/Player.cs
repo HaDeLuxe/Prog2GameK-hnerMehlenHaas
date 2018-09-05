@@ -15,7 +15,7 @@ namespace Reggie
         KeyboardState previousState;
         GamePadState previousGamepadState;
         Texture2D UmbrellaTexture = null;
-        Texture2D thirdPlayerTexture = null;
+        Texture2D itemPlayerTexture = null;
         bool firstJump;
         bool secondJump;
         bool jumpButtonPressed;
@@ -122,7 +122,7 @@ namespace Reggie
 
         public void changeThirdTexture(Texture2D texture) 
         {
-            this.thirdPlayerTexture = texture;
+            this.itemPlayerTexture = texture;
         }
 
 
@@ -617,7 +617,7 @@ namespace Reggie
 
         public void drawThirdTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset) 
         {
-            spriteBatch.Draw(thirdPlayerTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+            spriteBatch.Draw(itemPlayerTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
         }
     }
 }
