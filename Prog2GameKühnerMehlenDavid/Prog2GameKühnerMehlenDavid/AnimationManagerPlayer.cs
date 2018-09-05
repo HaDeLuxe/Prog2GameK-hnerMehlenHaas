@@ -214,7 +214,7 @@ namespace Reggie {
 
 
             //Item Animations
-            walk_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 35, 50, PlayerSpriteSheet["playerMoveShovelSpriteSheet"], 25f);
+            //walk_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 35, 50, PlayerSpriteSheet["playerMoveShovelSpriteSheet"], 25f);
             //walk_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 35,50,PlayerSpriteSheet89)
 
             //Floating Animation
