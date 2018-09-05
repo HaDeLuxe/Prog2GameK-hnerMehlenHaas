@@ -8,34 +8,36 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
-    class GameManager {
+    class ItemUIManager {
 
-        public static bool SnailShellPickedUp { get; set; }
-        public static bool ScissorsPickedUp { get; set; }
-        public static bool ArmorPickedUp { get; set; }
-        public static bool ShovelPickedUp { get; set; }
-        public static bool HealthPickedUp { get; set; }
-        GameObject SnailShell;
-        GameObject Scissors;
-        GameObject Armor;
-        GameObject Shovel;
+        public static bool snailShellPickedUp { get; set; }
+        public static bool scissorsPickedUp { get; set; }
+        public static bool armorPickedUp { get; set; }
+        public static bool shovelPickedUp { get; set; }
+        public static bool healthPickedUp { get; set; }
+        public static bool jumpPickedUp { get; set; }
+        public static bool powerPickedUp { get; set; }
+        GameObject scissors;
+        GameObject shovel;
         GameObject currentlyEquipped;
-        GameObject HealthPotion;
-        bool TriggerPushed = false;
+        GameObject healthPotion;
+        GameObject jumpPotion;
+        GameObject powerPotion;
+        bool triggerPushed = false;
 
 
         List<GameObject> ItemsFound;
 
-        public GameManager() 
+        public ItemUIManager() 
         {
-            SnailShellPickedUp = false;
-            ScissorsPickedUp = false;
+            snailShellPickedUp = false;
+            scissorsPickedUp = false;
             ItemsFound = new List<GameObject>();
         }
 
-        public int getCurrentEquipped() {
-            return currentlyEquipped.objectID;
-        }
+        //public int getCurrentEquipped() {
+        //    return currentlyEquipped.objectID;
+        //}
 
 
         private void DestroyGameItem(Enums.ObjectsID ObjectID, ref List<GameObject> GameObjectList) {
@@ -50,89 +52,101 @@ namespace Reggie {
 
         public void ManageItems(ref Player Player, ref List<GameObject> GameObjectList) 
         {
-            if (SnailShell == null)
+          
+            if (snailShellPickedUp)
             {
-                for (int i = 0; i < GameObjectList.Count(); i++)
-                {
-                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
-                        SnailShell = GameObjectList[i];
-                }
+               DestroyGameItem(Enums.ObjectsID.SNAILSHELL, ref GameObjectList);
             }
-            if (SnailShell != null)
-            {
-                if (SnailShellPickedUp)
-                {
-                    DestroyGameItem(Enums.ObjectsID.SNAILSHELL, ref GameObjectList);
-                }
-            }
+           
 
-            if (Scissors == null)
+            if (scissors == null)
             {
                 for (int i = 0; i < GameObjectList.Count(); i++)
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS)
-                        Scissors = GameObjectList[i];
+                        scissors = GameObjectList[i];
                 }
             }
-            if (Scissors != null)
+            if (scissors != null)
             {
-                if (ScissorsPickedUp)
+                if (scissorsPickedUp)
                 {
-                    if (ItemsFound.Count == 0) currentlyEquipped = Scissors;
-                    ItemsFound.Add(Scissors);
+                    if (ItemsFound.Count == 0) currentlyEquipped = scissors;
+                    ItemsFound.Add(scissors);
                     DestroyGameItem(Enums.ObjectsID.SCISSORS, ref GameObjectList);
                 }
             }
+            
+            if (armorPickedUp)
+                DestroyGameItem(Enums.ObjectsID.ARMOR, ref GameObjectList);
 
-            if (Armor == null)
-            {
-                for (int i = 0; i < GameObjectList.Count(); i++)
-                {
-                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR)
-                        Armor = GameObjectList[i];
-                }
-            }
-            if (Armor != null)
-            {
-                if (ArmorPickedUp)
-                    DestroyGameItem(Enums.ObjectsID.ARMOR, ref GameObjectList);
-            }
-
-            if (Shovel == null)
+            if (shovel == null)
             {
                 for (int i = 0; i < GameObjectList.Count(); i++)
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL)
-                        Shovel = GameObjectList[i];
+                        shovel = GameObjectList[i];
                 }
             }
-            if (Shovel != null)
+            if (shovel != null)
             {
-                if (ShovelPickedUp)
+                if (shovelPickedUp)
                 {
-                    if (ItemsFound.Count == 0) currentlyEquipped = Shovel;
-                    ItemsFound.Add(Shovel);
+                    if (ItemsFound.Count == 0) currentlyEquipped = shovel;
+                    ItemsFound.Add(shovel);
                     DestroyGameItem(Enums.ObjectsID.SHOVEL, ref GameObjectList);
                 }
             }
-            if (HealthPotion == null)
+            if (healthPotion == null)
             {
                 for (int i = 0; i < GameObjectList.Count(); i++)
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
 
-                        HealthPotion = GameObjectList[i];
+                        healthPotion = GameObjectList[i];
                 }
             }
-            if(HealthPotion != null)
+            if(healthPotion != null)
             {
-                if (HealthPickedUp)
+                if (healthPickedUp)
                 {
                     DestroyGameItem(Enums.ObjectsID.HEALTHPOTION, ref GameObjectList);
                 }
             }
+            if(jumpPotion == null)
+            {
+                for (int i = 0; i < GameObjectList.Count(); i++)
+                {
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION)
+                        jumpPotion = GameObjectList[i];
+                }
+            }
+            if(healthPotion != null)
+            {
+                if (jumpPickedUp)
+                {
+                    DestroyGameItem(Enums.ObjectsID.JUMPPOTION, ref GameObjectList);
+                }
+            }
+            if(powerPotion == null)
+            {
+                for (int i = 0; i < GameObjectList.Count(); i++)
+                {
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
+                        jumpPotion = GameObjectList[i];
+                }
+            }
+            if (powerPotion != null)
+            {
+                for (int i = 0; i < GameObjectList.Count(); i++)
+                {
+                    DestroyGameItem(Enums.ObjectsID.POWERPOTION, ref GameObjectList);
+                }
+            }
 
-            if (GamePad.GetState(0).IsButtonDown(Buttons.LeftShoulder) && !TriggerPushed)
+
+
+            if (GamePad.GetState(0).IsButtonDown(Buttons.LeftShoulder) && !triggerPushed)
             {
                 if(ItemsFound.Count() > 0)
                 {
@@ -145,9 +159,9 @@ namespace Reggie {
                     if (currentIndex < 0) currentIndex = ItemsFound.Count()-1;
                     currentlyEquipped = ItemsFound[currentIndex];
                 }
-                TriggerPushed = true;
+                triggerPushed = true;
             }
-            if (GamePad.GetState(0).IsButtonDown(Buttons.RightShoulder) && !TriggerPushed)
+            if (GamePad.GetState(0).IsButtonDown(Buttons.RightShoulder) && !triggerPushed)
             {
                 if (ItemsFound.Count() > 0)
                 {
@@ -160,9 +174,9 @@ namespace Reggie {
                     if (currentIndex >= ItemsFound.Count()) currentIndex = 0;
                     currentlyEquipped = ItemsFound[currentIndex];
                 }
-                TriggerPushed = true;
+                triggerPushed = true;
             }
-            if (GamePad.GetState(0).IsButtonUp(Buttons.LeftShoulder) && GamePad.GetState(0).IsButtonUp(Buttons.RightShoulder)) TriggerPushed = false;
+            if (GamePad.GetState(0).IsButtonUp(Buttons.LeftShoulder) && GamePad.GetState(0).IsButtonUp(Buttons.RightShoulder)) triggerPushed = false;
 
 
         }
@@ -172,15 +186,15 @@ namespace Reggie {
             spriteBatch.Draw(TexturesDictionnary["Healthbar"], Vector2.Transform(new Vector2(10, 150+(1-playerHPRatio)*770), Matrix.Invert(transformationMatrix)), null, Color.White , 0, Vector2.One, new Vector2(1f,playerHPRatio),SpriteEffects.None,0);
             spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-751, 90), Matrix.Invert(transformationMatrix)), Color.White);
 
-            if (SnailShellPickedUp)
-                spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 685), Matrix.Invert(transformationMatrix)), Color.White);
-            else spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(105, 685), Matrix.Invert(transformationMatrix)), Color.Black);
-            if(ArmorPickedUp)
+            if (snailShellPickedUp)
+                spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(100, 685), Matrix.Invert(transformationMatrix)), Color.White);
+            else spriteBatch.Draw(TexturesDictionnary["SnailShell"], Vector2.Transform(new Vector2(100, 685), Matrix.Invert(transformationMatrix)), Color.Black);
+            if(armorPickedUp)
                 spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 495), Matrix.Invert(transformationMatrix)),null, Color.White,0,Vector2.One,new Vector2(1.4f,1.4f),SpriteEffects.None,0);
             else spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 495), Matrix.Invert(transformationMatrix)), null, Color.Black, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
 
-            if (HealthPickedUp)
-                spriteBatch.Draw(TexturesDictionnary["HealthItem"], Vector2.Transform(new Vector2(345, 860), Matrix.Invert(transformationMatrix)), Color.White);
+            if (healthPickedUp)
+                spriteBatch.Draw(TexturesDictionnary["HealthItem"], Vector2.Transform(new Vector2(355, 880), Matrix.Invert(transformationMatrix)), Color.White);
 
             if (ItemsFound.Count() > 0)
             {

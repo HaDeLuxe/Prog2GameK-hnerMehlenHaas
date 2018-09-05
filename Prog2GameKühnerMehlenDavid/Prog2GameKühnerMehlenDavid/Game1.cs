@@ -51,7 +51,7 @@ namespace Reggie
         FrameCounter frameCounter = new FrameCounter();
         SpriteFont font;
         Camera camera = new Camera();
-        GameManager gameManager;
+        ItemUIManager gameManager;
         Levels levelManager;
         Minimap minimap;
         
@@ -92,7 +92,7 @@ namespace Reggie
             Enums = new Enums();
             splashScreen = new SplashScreen();
             mainMenu = new MainMenu();
-            gameManager = new GameManager();
+            gameManager = new ItemUIManager();
             levelManager = new Levels();
             minimap = new Minimap();
         }

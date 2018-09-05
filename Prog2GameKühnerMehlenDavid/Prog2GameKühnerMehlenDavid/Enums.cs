@@ -135,6 +135,8 @@ namespace Reggie {
             SHOVEL,
             INVISIBLE_WALL_64x64,
             HEALTHPOTION,
+            JUMPPOTION,
+            POWERPOTION,
             ///ADD NEW ITEM HERE
 
         }

@@ -160,8 +160,12 @@ namespace Reggie
             texturesDictionnary.Add("Armor_64x64", Armor);
             Texture2D Shovel = Content.Load<Texture2D>("Images\\Schaufel");
             texturesDictionnary.Add("Shovel_64x64", Shovel);
-            Texture2D HealthItem = Content.Load<Texture2D>("Images\\HealthPotion");
+            Texture2D HealthItem = Content.Load<Texture2D>("Images\\healthPotion");
             texturesDictionnary.Add("HealthItem", HealthItem);
+            Texture2D jumpPotion = Content.Load<Texture2D>("Images\\jumpPotion");
+            texturesDictionnary.Add("JumpItem", jumpPotion);
+            Texture2D strengthPotion = Content.Load<Texture2D>("Images\\StrengthPotion");
+            texturesDictionnary.Add("strengthPotion", strengthPotion);
         }
 
 
@@ -179,7 +183,6 @@ namespace Reggie
             texturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1024x64);
             Texture2D ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
-
         }
 
 
