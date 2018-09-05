@@ -17,12 +17,15 @@ namespace Reggie {
         public static bool healthPickedUp { get; set; }
         public static bool jumpPickedUp { get; set; }
         public static bool powerPickedUp { get; set; }
+        public static bool goldenUmbrellaPickedUp{ get; set; }
         GameObject scissors;
         GameObject shovel;
-        GameObject currentlyEquipped;
+        GameObject idle;
+        public static GameObject currentlyEquipped;
         GameObject healthPotion;
         GameObject jumpPotion;
         GameObject powerPotion;
+        GameObject goldenUmbrella;
         bool triggerPushed = false;
 
 
@@ -33,6 +36,7 @@ namespace Reggie {
             snailShellPickedUp = false;
             scissorsPickedUp = false;
             ItemsFound = new List<GameObject>();
+            currentlyEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
         }
 
         //public int getCurrentEquipped() {
@@ -121,7 +125,7 @@ namespace Reggie {
                         jumpPotion = GameObjectList[i];
                 }
             }
-            if(healthPotion != null)
+            if(jumpPotion != null)
             {
                 if (jumpPickedUp)
                 {
@@ -133,16 +137,31 @@ namespace Reggie {
                 for (int i = 0; i < GameObjectList.Count(); i++)
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
-                        jumpPotion = GameObjectList[i];
+                        powerPotion = GameObjectList[i];
                 }
             }
             if (powerPotion != null)
             {
-                for (int i = 0; i < GameObjectList.Count(); i++)
+                if(powerPickedUp)
                 {
                     DestroyGameItem(Enums.ObjectsID.POWERPOTION, ref GameObjectList);
                 }
             }
+            if(goldenUmbrella == null){
+                for (int i = 0; i < GameObjectList.Count(); i++)
+                {
+                    if (GameObjectList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                        goldenUmbrella = GameObjectList[i];
+                }
+            }
+            if(goldenUmbrella != null)
+            {
+                if(goldenUmbrellaPickedUp)
+                    DestroyGameItem(Enums.ObjectsID.GOLDENUMBRELLA, ref GameObjectList);
+
+            }
+            
+
 
 
 

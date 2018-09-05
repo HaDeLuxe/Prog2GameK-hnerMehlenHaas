@@ -214,8 +214,32 @@ namespace Reggie {
 
 
             //Item Animations
-            //walk_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 35, 50, PlayerSpriteSheet["playerMoveShovelSpriteSheet"], 25f);
-            //walk_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 35,50,PlayerSpriteSheet89)
+            walk_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 35, 50, PlayerSpriteSheet["playerWalkShovelSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("walk_Shovel_Animation_Left", walk_Shovel_Animation_Left);
+            walk_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 35, 50, PlayerSpriteSheet["playerWalkShovelSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("walk_Shovel_Animation_Right", walk_Shovel_Animation_Right);
+            jump_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 25, 32, PlayerSpriteSheet["playerJumpShovelSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("jump_Shovel_Animation_Left", jump_Shovel_Animation_Left);
+            jump_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 25, 32, PlayerSpriteSheet["playerJumpShovelSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("jump_Shovel_Animation_Right", jump_Shovel_Animation_Right);
+            attack_Shovel_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 67, 76, PlayerSpriteSheet["playerAttackShovelSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("attack_Shovel_Animation_Left", attack_Shovel_Animation_Left);
+            attack_Shovel_Animation_Right = new Animation(false, SpriteEffects.None, 67, 76, PlayerSpriteSheet["playerAttackShovelSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("attack_Shovel_Animation_Right", attack_Shovel_Animation_Right);
+
+            walk_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 45, 53, PlayerSpriteSheet["playerWalkScissorsSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("walk_Scissors_Animation_Left", walk_Scissors_Animation_Left);
+            walk_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 45, 53, PlayerSpriteSheet["playerWalkScissorsSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("walk_Scissors_Animation_Right", walk_Scissors_Animation_Right);
+            jump_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 27, 39, PlayerSpriteSheet["playerJumpScissorsSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("jump_Scissors_Animation_Left", jump_Scissors_Animation_Left);
+            jump_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 27, 39, PlayerSpriteSheet["playerJumpScissorsSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("jump_Scissors_Animation_Right", jump_Scissors_Animation_Right);
+            attack_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 68, 73, PlayerSpriteSheet["playerAttackScissorsSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("attack_Scissors_Animation_Left", attack_Scissors_Animation_Left);
+            attack_Scissors_Animation_Right = new Animation(false, SpriteEffects.None, 68, 73, PlayerSpriteSheet["playerAttackScissorsSpriteSheet"], 50f);
+            divAnimationDestRectanglesDic.Add("attack_Scissors_Animation_Right", attack_Scissors_Animation_Right);
+
 
             //Floating Animation
             floatingAnimation_Right = new Animation(true, SpriteEffects.None, 79, 93, PlayerSpriteSheet["playerFloatSpriteSheet"], 25f);
@@ -300,6 +324,8 @@ namespace Reggie {
 
             Rectangle tempRec;
             Rectangle tempRec2;
+            Rectangle tempRec3;
+            Rectangle tempRec4;
             switch (currentAnimation)
             {
                 case Animations.Walk_Right:
@@ -447,28 +473,82 @@ namespace Reggie {
                     break;
 
             }
-
+            
+            //Manage Umbrella and Objects Animations
             if(currentAnimation == Animations.Attack_Right || currentAnimation == Animations.Attack_Hat_Right || currentAnimation == Animations.Attack_Armor_Right || currentAnimation == Animations.Attack_Armor_Hat_Right)
             {
+                if(ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                {
+                    player.changeThirdTexture(attack_Shovel_Animation_Right.texture);
+                    tempRec3 = divAnimationDestRectanglesDic["attack_Shovel_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec3, attack_Shovel_Animation_Right.getSpriteEffects(), new Vector2(75, 18));
+                }
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                {
+                    player.changeThirdTexture(attack_Scissors_Animation_Right.texture);
+                    tempRec4 = divAnimationDestRectanglesDic["attack_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec4, attack_Scissors_Animation_Right.getSpriteEffects(), new Vector2(70, 18));
+                }
                 player.changeSecondTexture(attack_Umbrella_Empty_Animation_Right.texture);
                 tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].Update(gameTime);
                 player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(64, -33));
+
             }
 
             if (currentAnimation == Animations.Attack_Left || currentAnimation == Animations.Attack_Hat_Left || currentAnimation == Animations.Attack_Armor_Left || currentAnimation == Animations.Attack_Armor_Hat_Left)
             {
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                {
+                    player.changeThirdTexture(attack_Shovel_Animation_Left.texture);
+                    tempRec3 = divAnimationDestRectanglesDic["attack_Shovel_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec3, attack_Shovel_Animation_Left.getSpriteEffects(), new Vector2(-35, 23));
+                }
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                {
+                    player.changeThirdTexture(attack_Scissors_Animation_Left.texture);
+                    tempRec4 = divAnimationDestRectanglesDic["attack_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec4, attack_Scissors_Animation_Left.getSpriteEffects(), new Vector2(-27, 20));
+                }
                 player.changeSecondTexture(attack_Umbrella_Empty_Animation_Left.texture);
                 tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].Update(gameTime);
                 player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-71, -33));
             }
             if(currentAnimation == Animations.Walk_Right || currentAnimation == Animations.Walk_Hat_Right || currentAnimation == Animations.Walk_Armor_Right || currentAnimation == Animations.Walk_Armor_Hat_Right)
             {
+               
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                {
+                    player.changeThirdTexture(walk_Shovel_Animation_Right.texture);
+                    tempRec3 = divAnimationDestRectanglesDic["walk_Shovel_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec3, walk_Shovel_Animation_Right.getSpriteEffects(), new Vector2(95, 28));
+                    
+                }
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                {
+                    player.changeThirdTexture(walk_Scissors_Animation_Right.texture);
+                    tempRec4 = divAnimationDestRectanglesDic["walk_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec4, walk_Scissors_Animation_Right.getSpriteEffects(), new Vector2(83, 25));
+                }
                 player.changeSecondTexture(walk_Umbrella_Empty_Animation_Right.texture);
                 tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].Update(gameTime);
                 player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(78, -22));
+
             }
             if(currentAnimation == Animations.Walk_Left || currentAnimation == Animations.Walk_Hat_Left || currentAnimation == Animations.Walk_Armor_Left || currentAnimation == Animations.Walk_Armor_Hat_Left)
             {
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                {
+                    player.changeThirdTexture(walk_Shovel_Animation_Left.texture);
+                    tempRec3 = divAnimationDestRectanglesDic["walk_Shovel_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec3, walk_Shovel_Animation_Left.getSpriteEffects(), new Vector2(-20, 25));
+
+                }
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                {
+                    player.changeThirdTexture(walk_Scissors_Animation_Left.texture);
+                    tempRec4 = divAnimationDestRectanglesDic["walk_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
+                    player.drawThirdTexture(spriteBatch, tempRec4, walk_Scissors_Animation_Left.getSpriteEffects(), new Vector2(-2, 26));
+                }
                 player.changeSecondTexture(walk_Umbrella_Empty_Animation_Left.texture);
                 tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].Update(gameTime);
                 player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-45, -20));

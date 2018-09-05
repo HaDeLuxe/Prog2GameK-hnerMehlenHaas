@@ -143,7 +143,12 @@ namespace Reggie
             allGameObjectList.Add(new Item(texturesDictionnary["Shovel_64x64"], new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
             allGameObjectList.Add(new Item(texturesDictionnary["Scissors_64x64"], new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
             allGameObjectList.Add(new Item(texturesDictionnary["HealthItem"], new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
-            
+            allGameObjectList.Add(new Item(texturesDictionnary["PowerPotion"], new Vector2(64, 64), new Vector2(12200, 1600), (int)Enums.ObjectsID.POWERPOTION));
+            allGameObjectList.Add(new Item(texturesDictionnary["JumpPotion"], new Vector2(64, 64), new Vector2(12100, 1600), (int)Enums.ObjectsID.JUMPPOTION));
+            allGameObjectList.Add(new Item(texturesDictionnary["GoldenUmbrella"], new Vector2(100, 29), new Vector2(11900, 1600), (int)Enums.ObjectsID.GOLDENUMBRELLA));
+
+
+
             levelObjectList = new List<GameObject>();
             foreach (GameObject gameObject in allGameObjectList) levelObjectList.Add(gameObject);
             levelManager.sortGameObjects(allGameObjectList);
@@ -697,6 +702,9 @@ namespace Reggie
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL) interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                     interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA) interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION) interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION) interactiveObject.Add(allGameObjectList[i]);
 
 
                 foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())

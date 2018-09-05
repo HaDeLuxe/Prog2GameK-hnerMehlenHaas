@@ -15,7 +15,7 @@ namespace Reggie
         KeyboardState previousState;
         GamePadState previousGamepadState;
         Texture2D UmbrellaTexture = null;
-        Texture2D thirdPlayerTexture = null;
+        Texture2D itemPlayerTexture = null;
         bool firstJump;
         bool secondJump;
         bool jumpButtonPressed;
@@ -104,6 +104,21 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.healthPickedUp = true;
                 }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.JUMPPOTION)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        ItemUIManager.jumpPickedUp = true;
+                }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        ItemUIManager.powerPickedUp = true;
+                }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        ItemUIManager.goldenUmbrellaPickedUp = true;
+                }
             }
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
@@ -122,7 +137,7 @@ namespace Reggie
 
         public void changeThirdTexture(Texture2D texture) 
         {
-            this.thirdPlayerTexture = texture;
+            this.itemPlayerTexture = texture;
         }
 
 
@@ -617,7 +632,7 @@ namespace Reggie
 
         public void drawThirdTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset) 
         {
-            spriteBatch.Draw(thirdPlayerTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+            spriteBatch.Draw(itemPlayerTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
         }
     }
 }

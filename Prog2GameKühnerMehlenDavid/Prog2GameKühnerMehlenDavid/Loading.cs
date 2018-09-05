@@ -163,9 +163,11 @@ namespace Reggie
             Texture2D HealthItem = Content.Load<Texture2D>("Images\\healthPotion");
             texturesDictionnary.Add("HealthItem", HealthItem);
             Texture2D jumpPotion = Content.Load<Texture2D>("Images\\jumpPotion");
-            texturesDictionnary.Add("JumpItem", jumpPotion);
+            texturesDictionnary.Add("JumpPotion", jumpPotion);
             Texture2D strengthPotion = Content.Load<Texture2D>("Images\\StrengthPotion");
-            texturesDictionnary.Add("strengthPotion", strengthPotion);
+            texturesDictionnary.Add("PowerPotion", strengthPotion);
+            Texture2D goldenUmbrella = Content.Load<Texture2D>("Images\\GoldenUmbrella");
+            texturesDictionnary.Add("GoldenUmbrella", goldenUmbrella);
         }
 
 
