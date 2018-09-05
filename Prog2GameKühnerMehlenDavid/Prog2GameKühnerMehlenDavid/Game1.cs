@@ -118,7 +118,7 @@ namespace Reggie
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = Content.Load<SpriteFont>("Arial");
+            font = Content.Load<SpriteFont>("Fonts/Arial");
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
 
             

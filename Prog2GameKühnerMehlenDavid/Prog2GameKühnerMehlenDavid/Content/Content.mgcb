@@ -1069,3 +1069,10 @@
 /processorParam:Quality=Best
 /build:Images/Audio/SuperMarioCoinSound.mp3
 
+#begin Fonts/Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Arial.spritefont
+
