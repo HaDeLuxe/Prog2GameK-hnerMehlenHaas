@@ -61,7 +61,7 @@ namespace Reggie
                 CalculationChargingVector();
             if(attackTimer <4f)
             {
-                velocity.X = -5f;
+                velocity.X = -10f;
             }
             else if(attackTimer>4f && attackTimer<10f)
             {
