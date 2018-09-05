@@ -14,6 +14,8 @@ namespace Reggie
     {
         KeyboardState previousState;
         GamePadState previousGamepadState;
+        Texture2D UmbrellaTexture = null;
+        Texture2D thirdPlayerTexture = null;
         bool firstJump;
         bool secondJump;
         bool jumpButtonPressed;
@@ -24,6 +26,10 @@ namespace Reggie
         float cooldown;
         float playerHP;
         bool climbAllowed;
+        public bool invincibilityFrames;
+        public bool isFloating;
+        public float invincibilityTimer;
+        
 
 
         MouseState mouseState;
@@ -54,12 +60,14 @@ namespace Reggie
             facingDirectionRight = true;
             jumpButtonPressed = false;
             playerGameElementInteraction = false;
+            invincibilityFrames = false;
             changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
             collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
             playerHP = 1f;
             movementSpeed = 10f;
             jumpSpeed = -20f;
+            invincibilityTimer = 0;
         }
 
         public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects)
@@ -97,12 +105,24 @@ namespace Reggie
                         ItemUIManager.healthPickedUp = true;
                 }
             }
+            if (invincibilityFrames)
+                InvincibleFrameState(gameTime);
         }
 
 
         public void changeTexture(Texture2D texture)
         {
             this.gameObjectTexture = texture;
+        }
+
+        public void changeSecondTexture(Texture2D texture) 
+        {
+            this.UmbrellaTexture = texture;
+        }
+
+        public void changeThirdTexture(Texture2D texture) 
+        {
+            this.thirdPlayerTexture = texture;
         }
 
 
@@ -185,7 +205,13 @@ namespace Reggie
             {
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
                 if (gravity.Y > 20 && (previousState.IsKeyDown(Keys.Space) || previousGamepadState.IsButtonDown(Buttons.A)))
+                {
                     gravity.Y = 23f;
+                    isFloating = true;
+                }
+                else
+                    isFloating = false;
+                    
 
                 collisionBoxPosition.Y += gravity.Y;
             }
@@ -556,7 +582,7 @@ namespace Reggie
 
         //Reduces player's hp if he is hit by the enemy
         public void ReducePlayerHP()
-        {
+        { 
             if (playerHP > 0)
                 playerHP -=0.05f;
             else
@@ -571,6 +597,27 @@ namespace Reggie
         public bool PlayerIsStillAlive()
         {
             return stillAlive;
+        }
+
+        public void InvincibleFrameState(GameTime gameTime)
+        {
+            invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            if(invincibilityTimer > 5f)
+            {
+                invincibilityTimer = 0;
+                invincibilityFrames = false;
+            }
+        }
+
+
+        public void drawSecondTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset) 
+        {
+            spriteBatch.Draw(UmbrellaTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+        }
+
+        public void drawThirdTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset) 
+        {
+            spriteBatch.Draw(thirdPlayerTexture, gameObjectPosition + offset, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
         }
     }
 }

@@ -10,14 +10,15 @@ namespace Reggie
 {
     public class Ladybug : Enemy
     {
-        private AnimationManagerEnemy animationManager;
 
+        private AnimationManagerEnemy animationManager;
         public Ladybug(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
             enemyHP = 3;
             movementSpeed = 5f;
             knockBackValue = 20f;
             attackRange = 10f;
+            animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
         }
 
 
@@ -33,10 +34,58 @@ namespace Reggie
         public override void Update(GameTime gameTime, List<GameObject> gameObjectList)
         {
             ResizeEnemyAggroArea(gameObjectList);
+            if(attackAction && attackCooldown == 0)
+                EnemyAttack(gameTime);
+            if (attackExecuted)
+                CalculationCooldown(gameTime);
             EnemyPositionCalculation(gameTime, gameObjectList);
             if (DetectPlayer() && !knockedBack)
                 EnemyMovement();
 
+        }
+
+        private void CalculationCooldown(GameTime gameTime)
+        {
+            attackCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            if(attackCooldown >5f)
+            {
+                attackCooldown = 0;
+                attackExecuted = false;
+            }
+        }
+
+        public override void EnemyAttack(GameTime gameTime)
+        {
+            attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            if(!calculateCharge)
+                CalculationChargingVector();
+            if(attackTimer <4f)
+            {
+                velocity.X = -5f;
+            }
+            else if(attackTimer>4f && attackTimer<10f)
+            {
+                if (HitPlayer() && !worm.invincibilityFrames)
+                {
+                    worm.invincibilityFrames = true;
+                    worm.ReducePlayerHP();
+                }  
+            }
+            else
+            {
+                attackTimer = 0;
+                attackAction = false;
+                calculateCharge = false;
+                velocity = Vector2.Zero;
+                attackExecuted = true;
+            }
+        }
+
+        private void CalculationChargingVector()
+        {
+            velocity.X = worm.collisionRectangle.X / 2 - collisionRectangle.X / 2;
+            velocity.Y = worm.collisionRectangle.Y / 2 - collisionRectangle.Y / 2;
+            calculateCharge = true;
         }
     }
 }

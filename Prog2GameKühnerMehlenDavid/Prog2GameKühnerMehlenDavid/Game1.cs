@@ -15,7 +15,7 @@ namespace Reggie
     /// </summary>
     public class Game1 : Game {
 
-        public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN }
+        public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN, MINIMAP }
         public static GameState currentGameState {get;set; }
         //forces an update before draw action
         public GameState lastGameState;
@@ -53,6 +53,7 @@ namespace Reggie
         Camera camera = new Camera();
         ItemUIManager gameManager;
         Levels levelManager;
+        Minimap minimap;
         
 
         //for switching LevelEditor
@@ -93,6 +94,7 @@ namespace Reggie
             mainMenu = new MainMenu();
             gameManager = new ItemUIManager();
             levelManager = new Levels();
+            minimap = new Minimap();
         }
 
         /// <summary>
@@ -214,6 +216,9 @@ namespace Reggie
                         //cameraOffset = new Vector2(0, 0);
                         if (Keyboard.GetState().IsKeyDown(Keys.L) && !previousState.IsKeyDown(Keys.L))
                             currentGameState = GameState.LEVELEDITOR;
+                        //previousState = Keyboard.GetState();
+                        if (Keyboard.GetState().IsKeyDown(Keys.M) && !previousState.IsKeyDown(Keys.M) && levelManager.currentLevel != Enums.Level.TUTORIAL)
+                            currentGameState = GameState.MINIMAP;
                         previousState = Keyboard.GetState();
                     }
 
@@ -298,6 +303,12 @@ namespace Reggie
 
 
                     break;
+
+                case GameState.MINIMAP:
+                    if (Keyboard.GetState().IsKeyDown(Keys.M) && !previousState.IsKeyDown(Keys.M))
+                        currentGameState = GameState.GAMELOOP;
+                    previousState = Keyboard.GetState();
+                    break;
             }
         }
 
@@ -310,8 +321,7 @@ namespace Reggie
             {
                 GraphicsDevice.Clear(Color.CornflowerBlue);
             }
-            
-            
+
             // MONO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
             Vector2 screenCenter = new Vector2(viewport.Width / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/10) + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/10)+50 + cameraOffset.Y);
@@ -335,6 +345,8 @@ namespace Reggie
                     case GameState.MAINMENU:
                         mainMenu.RenderMainMenu(Content, spriteBatch, font);
                         break;
+                    case GameState.MINIMAP:
+                        //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
                     case GameState.GAMELOOP:
 
                         if(lastGameState == currentGameState)
@@ -367,7 +379,10 @@ namespace Reggie
                             
                             //This draws the UI
                             gameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
+                            if(levelManager.currentLevel != Enums.Level.TUTORIAL)
+                                minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionnary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
+                        
                         break;
 
                     case GameState.LEVELEDITOR:
@@ -397,6 +412,9 @@ namespace Reggie
                         string lvlEditorString = "Level Editor Enabled!";
                         spriteBatch.DrawString(font, lvlEditorString, Vector2.Transform(new Vector2(10, 30), Matrix.Invert(transformationMatrix)), Color.DarkRed);
                         break;
+
+                   
+                       
                 }
 
                 //Comment: SEE Framecounter.cs for additional commentary

@@ -73,6 +73,8 @@ namespace Reggie
             PlayerSpriteSheets.Add("playerJumpArmorSpriteSheet", playerJumpArmorSpriteSheet);
             Texture2D playerJumpArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Armor_Hat");
             PlayerSpriteSheets.Add("playerJumpArmorHatSpriteSheet", playerJumpArmorHatSpriteSheet);
+            Texture2D playerJumpUmbrellaEmptySpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Umbrella_Empty");
+            PlayerSpriteSheets.Add("playerJumpUmbrellaEmptySpriteSheet", playerJumpUmbrellaEmptySpriteSheet);
 
             Texture2D playerMoveSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Even_Smaller");
             PlayerSpriteSheets.Add("playerMoveSpriteSheet", playerMoveSpriteSheet);
@@ -82,6 +84,8 @@ namespace Reggie
             PlayerSpriteSheets.Add("playerMoveArmorSpriteSheet", playerMoveArmorSpriteSheet);
             Texture2D playerMoveArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Armor_Hat");
             PlayerSpriteSheets.Add("playerMoveArmorHatSpriteSheet", playerMoveArmorHatSpriteSheet);
+            Texture2D playerMoveUmbrellaEmptySpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Umbrella_Empty");
+            PlayerSpriteSheets.Add("playerMoveUmbrellaEmptySpriteSheet", playerMoveUmbrellaEmptySpriteSheet);
 
             Texture2D playerAttackSpritesheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack");
             PlayerSpriteSheets.Add("playerAttackSpriteSheet", playerAttackSpritesheet);
@@ -91,6 +95,40 @@ namespace Reggie
             PlayerSpriteSheets.Add("playerAttackArmorSpriteSheet", playerAttackArmorSpriteSheet);
             Texture2D playerAttackArmorHatSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Armor_Hat");
             PlayerSpriteSheets.Add("playerAttackArmorHatSpritesheet", playerAttackArmorHatSpriteSheet);
+            Texture2D playerAttackUmbrellaEmptySpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Umbrella");
+            PlayerSpriteSheets.Add("playerAttackUmbrellaEmptySpriteSheet", playerAttackUmbrellaEmptySpriteSheet);
+
+            Texture2D playerJumpShovelSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Shovel");
+            PlayerSpriteSheets.Add("playerJumpShovelSpriteSheet", playerJumpShovelSpriteSheet);
+            Texture2D playerWalkShovelSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Shovel");
+            PlayerSpriteSheets.Add("playerWalkShovelSpriteSheet", playerWalkShovelSpriteSheet);
+            Texture2D playerAttackShovelSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Shovel");
+            PlayerSpriteSheets.Add("playerAttackShovelSpriteSheet", playerAttackShovelSpriteSheet);
+            Texture2D playerFloatShovelSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Float_Shovel");
+            PlayerSpriteSheets.Add("playerFloatShovelSpriteSheet", playerFloatShovelSpriteSheet);
+
+            Texture2D playerJumpScissorsSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Scirssors");
+            PlayerSpriteSheets.Add("playerJumpScissorsSpriteSheet", playerJumpScissorsSpriteSheet);
+            Texture2D playerWalkScissorsSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Scissors");
+            PlayerSpriteSheets.Add("playerWalkScissorsSpriteSheet", playerWalkScissorsSpriteSheet);
+            Texture2D playerAttackScissorsSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Scissors");
+            PlayerSpriteSheets.Add("playerAttackScissorsSpriteSheet", playerAttackScissorsSpriteSheet);
+            Texture2D playerFloatScissorsSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Float_Scissors");
+            PlayerSpriteSheets.Add("playerFloatScissorsSpriteSheet", playerFloatScissorsSpriteSheet);
+
+            Texture2D playerJumpGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Umbrella_Golden");
+            PlayerSpriteSheets.Add("playerJumpGoldenSpriteSheet", playerJumpGoldenSpriteSheet);
+            Texture2D playerWalkGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Umbrella_Golden");
+            PlayerSpriteSheets.Add("playerWalkGoldenSpriteSheet", playerWalkScissorsSpriteSheet);
+            Texture2D playerAttackGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Umbrella_Golden");
+            PlayerSpriteSheets.Add("playerAttackGoldenSpriteSheet", playerAttackScissorsSpriteSheet);
+            Texture2D playerFloatGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Float_Golden");
+            PlayerSpriteSheets.Add("playerFloatGoldenSpriteSheet", playerFloatGoldenSpriteSheet);
+
+            Texture2D playerFloatingSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Float_Umbrella");
+            PlayerSpriteSheets.Add("playerFloatSpriteSheet", playerFloatingSpriteSheet);
+
+            
         }
 
         /// <summary>
@@ -168,6 +206,12 @@ namespace Reggie
             texturesDictionnary.Add("buttonR1", R1ButtonIcon);
             Texture2D R2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR2");
             texturesDictionnary.Add("buttonR2", R2ButtonIcon);
+
+            //Minimap loading thingis
+            Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");
+            texturesDictionnary.Add("Minimap", Minimap);
+            Texture2D Point = Content.Load<Texture2D>("Images\\Minimap\\Point");
+            texturesDictionnary.Add("Point", Point);
         }
 
 

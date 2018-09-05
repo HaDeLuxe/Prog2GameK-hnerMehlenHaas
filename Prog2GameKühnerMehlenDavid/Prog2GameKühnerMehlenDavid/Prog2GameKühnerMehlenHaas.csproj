@@ -59,6 +59,7 @@
     <Compile Include="Levels.cs" />
     <Compile Include="Loading.cs" />
     <Compile Include="MainMenu.cs" />
+    <Compile Include="Minimap.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="SpriteSheetsSize.cs" />
     <Compile Include="Platform.cs" />

@@ -21,8 +21,13 @@ namespace Reggie
         public bool attackAction;
         float fallCooldown;
         public bool fallOutOfMap;
+        public float attackTimer;
+        public Vector2 chargingVector;
+        public bool calculateCharge;
+        public bool attackExecuted;
+        public float attackCooldown;
 
-        private AnimationManagerEnemy animationManager;
+   
 
         public bool facingLeft = true;
         
@@ -34,21 +39,18 @@ namespace Reggie
             knockedBack = false;
             fallOutOfMap = false;
             attackAction = false;
+            calculateCharge = false;
+            attackExecuted = false;
+            attackCooldown = 0;
            // objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
-            enemyAggroAreaSize = new Vector4(400, 300, 650, 850);
+            enemyAggroAreaSize = new Vector4(400, 300, 850, 650);
             collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
-            enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.W), (int)(enemyAggroAreaSize.Z));
-            collisionBoxSize = new Vector2(50, 50);
-            animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
+            enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.Z), (int)(enemyAggroAreaSize.W));
+            collisionBoxSize = new Vector2(enemySize.X, enemySize.Y);
+       
         }
-
-
-        //public Rectangle EnemyAggroArea
-        //{
-        //    get { return new Rectangle((int)(Position.X - EnemyAggroAreaSize.X), (int)(Position.Y - EnemyAggroAreaSize.Y), (int)(Position.X + EnemyAggroAreaSize.Z), (int)(Position.Y + EnemyAggroAreaSize.W)); }
-        //}
 
         public virtual void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -113,15 +115,13 @@ namespace Reggie
                 }
                 else if (IsTouchingTopSide(platform, gravity))
                 {
-                    velocity.Y = 0;
-                    gravity = Vector2.Zero;
+                    resetBasicValues();
                     fallCooldown = 0;
                     collisionBoxPosition.Y = platform.gameObjectPosition.Y - collisionBoxSize.Y;
                     //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     //EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
 
-                    gravityActive = false;
-                    isStanding = true;
+                    
                     knockedBack = false;
                     pressedLeftKey= false;
                     pressedRightKey = false;
@@ -202,7 +202,7 @@ namespace Reggie
                 facingLeft = false;
         }
 
-        public virtual void EnemyAttack() { }
+        public virtual void EnemyAttack(GameTime gameTime) { }
 
         public bool DetectPlayer()
         {
@@ -211,8 +211,12 @@ namespace Reggie
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (worm.collisionRectangle.Left -collisionBoxPosition.X  < 2* collisionBoxSize.X)
+                if (worm.collisionRectangle.Right - collisionRectangle.Left < collisionBoxSize.X)
+                {
+                    resetBasicValues();
+                    velocity.X = 0;
                     attackAction = true;
+                }
                 return true;
             }
             else if (enemyAggroArea.Left + velocity.X < worm.collisionRectangle.Right &&
@@ -220,8 +224,12 @@ namespace Reggie
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (collisionBoxPosition.X - enemyAggroArea.Left <  collisionBoxSize.X)
+                if (collisionRectangle.Left - enemyAggroArea.Left <  collisionBoxSize.X)
+                {
+                    resetBasicValues();
+                    velocity.X = 0;
                     attackAction = true;
+                }
                 return true;
             }
             else if (enemyAggroArea.Bottom + velocity.Y + gravity.Y > worm.collisionRectangle.Top &&
@@ -229,8 +237,12 @@ namespace Reggie
             enemyAggroArea.Right > worm.collisionRectangle.Left &&
             enemyAggroArea.Left < worm.collisionRectangle.Right)
             {
-                if (worm.collisionRectangle.Top - (collisionBoxPosition.Y+ collisionBoxSize.Y) < collisionBoxSize.Y)
+                if (worm.collisionRectangle.Top - collisionRectangle.Bottom < collisionBoxSize.Y)
+                {
+                    resetBasicValues();
+                    velocity.X = 0;
                     attackAction = true;
+                }
                 return true;
             }
             else if (enemyAggroArea.Top + velocity.Y < worm.collisionRectangle.Bottom &&
@@ -238,13 +250,46 @@ namespace Reggie
            enemyAggroArea.Right > worm.collisionRectangle.Left &&
            enemyAggroArea.Left < worm.collisionRectangle.Right)
             {
-                if (collisionBoxPosition.Y- worm.collisionRectangle.Bottom < collisionBoxSize.Y)
+                if (collisionRectangle.Top- worm.collisionRectangle.Bottom < collisionBoxSize.Y)
+                {
+                    resetBasicValues();
+                    velocity.X = 0;
                     attackAction = true;
+                }
                 return true;
             }
             else
                 return false;
         }
+
+        public bool HitPlayer()
+        {
+            if (collisionRectangle.Right + velocity.X > worm.collisionRectangle.Left &&
+                collisionRectangle.Left < worm.collisionRectangle.Left &&
+                collisionRectangle.Bottom > worm.collisionRectangle.Top &&
+                collisionRectangle.Top < worm.collisionRectangle.Bottom)
+                    return true;
+            else if (collisionRectangle.Left + velocity.X < worm.collisionRectangle.Right &&
+              collisionRectangle.Right > worm.collisionRectangle.Right &&
+              collisionRectangle.Bottom > worm.collisionRectangle.Top &&
+              collisionRectangle.Top < worm.collisionRectangle.Bottom)
+                return true;
+            else if (collisionRectangle.Bottom + velocity.Y + gravity.Y > worm.collisionRectangle.Top &&
+            collisionRectangle.Top < worm.collisionRectangle.Top &&
+            collisionRectangle.Right > worm.collisionRectangle.Left &&
+            collisionRectangle.Left < worm.collisionRectangle.Right)
+                return true;
+            else if (collisionRectangle.Top + velocity.Y < worm.collisionRectangle.Bottom &&
+           collisionRectangle.Bottom > worm.collisionRectangle.Bottom &&
+           collisionRectangle.Right > worm.collisionRectangle.Left &&
+           collisionRectangle.Left < worm.collisionRectangle.Right)
+                return true;
+            else
+                return false;
+        }
+
+
+
         public void ReduceEnemyHP()
         {
             if (stillAlive)
@@ -276,6 +321,14 @@ namespace Reggie
                 pressedLeftKey = true;
             }
             ReduceEnemyHP();
+        }
+
+        public void resetBasicValues()
+        {
+            velocity.Y = 0;
+            gravityActive = false;
+            gravity = Vector2.Zero;
+            isStanding = true;
         }
     }
 }
