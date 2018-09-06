@@ -21,7 +21,10 @@ namespace Reggie {
         public Texture2D texture = null;
 
         
-        public int currentFrameGetSetter{get{ return currentFrame; }}
+        public int currentFrameGetSetter{ get { return currentFrame; } }
+        public void setCurrentFrame(int frame) {
+            this.currentFrame = frame;
+        }
 
         public SpriteEffects getSpriteEffects() 
         {
@@ -65,6 +68,13 @@ namespace Reggie {
             return spriteSheetDestRectangle[currentFrame];
 
         }
+
+        public Rectangle ReturnRectFromFrameNumber(int frame) 
+        {
+            return spriteSheetDestRectangle[frame];
+        }
+
+        
     }
 
 

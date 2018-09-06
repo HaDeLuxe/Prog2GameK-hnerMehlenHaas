@@ -52,12 +52,14 @@
     <Compile Include="Enums.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameManager.cs" />
+    <Compile Include="ItemUIManager.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Ladybug.cs" />
     <Compile Include="LevelEditor.cs" />
     <Compile Include="Levels.cs" />
     <Compile Include="Loading.cs" />
     <Compile Include="MainMenu.cs" />
+    <Compile Include="Minimap.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="SpriteSheetsSize.cs" />
     <Compile Include="Platform.cs" />

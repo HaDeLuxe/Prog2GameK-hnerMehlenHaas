@@ -45,7 +45,10 @@ namespace Reggie
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.POWERPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                         interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }
@@ -54,7 +57,7 @@ namespace Reggie
             return objectsToRender;
         }
 
-        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList,Texture2D enemySkinTexture, Dictionary<string, Texture2D> enemySpriteSheets)
+        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList,Texture2D enemySkinTexture, Dictionary<string, Texture2D> enemySpriteSheets, Enums.Level currentLevel)
         {
            
             for (int i = 0; i < platformList.Count; i++)
@@ -71,7 +74,8 @@ namespace Reggie
                         int randomizedNumber = rand.Next(0, 100);
                         if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
                         {
-                            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
+                            if (currentLevel == Enums.Level.TUTORIAL) ;
+                            enemyList.Add(new Ladybug(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
                             enemyList.Last().SetPlayer(wormPlayer);
                         }
 

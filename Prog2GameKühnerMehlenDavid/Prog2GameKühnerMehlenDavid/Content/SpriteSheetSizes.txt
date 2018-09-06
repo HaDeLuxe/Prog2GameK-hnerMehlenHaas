@@ -1,12 +1,12 @@
-(765,560) 	Reggie_Move_Even_Smaller
-(50,30)		Reggie_Move_Hitbox_Position
+(540,435) 	Reggie_Move_Even_Smaller
+(50,0)		Reggie_Move_Hitbox_Position
 (50,81)		Reggie_Move_Hitbox_Size
-(370,880)	Reggie_Jump
-(735,815)	Reggie_Attack
-(765, 560)	Reggie_Move_Hat
-(425, 880)	Reggie_Jump_Hat
-(735, 735)	Reggie_Attack_Hat
-(370,880)	Reggie_Jump_Armor
+(270,660)	Reggie_Jump
+(450,430)	Reggie_Attack
+(540, 540)	Reggie_Move_Hat
+(330, 760)	Reggie_Jump_Hat
+(450, 540)	Reggie_Attack_Hat
+(270,660)	Reggie_Jump_Armor
 
 
 
