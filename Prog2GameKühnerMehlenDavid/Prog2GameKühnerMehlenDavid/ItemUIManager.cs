@@ -156,9 +156,12 @@ namespace Reggie {
             }
             if(goldenUmbrella != null)
             {
-                if(goldenUmbrellaPickedUp)
+                if (goldenUmbrellaPickedUp)
+                {
+                    if(ItemsFound.Count == 0) currentlyEquipped = goldenUmbrella;
                     DestroyGameItem(Enums.ObjectsID.GOLDENUMBRELLA, ref GameObjectList);
-
+                }
+                    
             }
             
 

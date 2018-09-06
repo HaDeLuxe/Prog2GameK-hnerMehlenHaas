@@ -94,6 +94,8 @@ namespace Reggie {
 
         Animation floatingAnimation_Right = null;
         Animation floatingAnimation_Left = null;
+        Animation floatingGoldenAnimation_Right = null;
+        Animation floatingGoldenAnimation_Left = null;
 
         Animation walk_Umbrella_Empty_Animation_Left = null;
         Animation walk_Umbrella_Empty_Animation_Right = null;
@@ -246,11 +248,10 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Float_Animation_Right", floatingAnimation_Right);
             floatingAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, PlayerSpriteSheet["playerFloatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Float_Animation_Left", floatingAnimation_Left);
-
-
-
-
-
+            floatingGoldenAnimation_Right = new Animation(true, SpriteEffects.None, 79, 93, PlayerSpriteSheet["playerFloatGoldenSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Float_Golden_Animation_Right", floatingGoldenAnimation_Right);
+            floatingGoldenAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, PlayerSpriteSheet["playerFloatGoldenSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("Float_Golden_Animation_Left", floatingGoldenAnimation_Left);
         }
 
         
@@ -489,9 +490,18 @@ namespace Reggie {
                     tempRec4 = divAnimationDestRectanglesDic["attack_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec4, attack_Scissors_Animation_Right.getSpriteEffects(), new Vector2(70, 18));
                 }
-                player.changeSecondTexture(attack_Umbrella_Empty_Animation_Right.texture);
-                tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].Update(gameTime);
-                player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(64, -33));
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    player.changeSecondTexture(attack_Umbrella_Golden_Animation_Right.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Golden_Animation_Right"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Golden_Animation_Right.getSpriteEffects(), new Vector2(64, -33));
+                }
+                else
+                {
+                    player.changeSecondTexture(attack_Umbrella_Empty_Animation_Right.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(64, -33));
+                }
 
             }
 
@@ -509,9 +519,18 @@ namespace Reggie {
                     tempRec4 = divAnimationDestRectanglesDic["attack_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec4, attack_Scissors_Animation_Left.getSpriteEffects(), new Vector2(-27, 20));
                 }
-                player.changeSecondTexture(attack_Umbrella_Empty_Animation_Left.texture);
-                tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].Update(gameTime);
-                player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-71, -33));
+                if(ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    player.changeSecondTexture(attack_Umbrella_Golden_Animation_Left.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Golden_Animation_Left"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Golden_Animation_Left.getSpriteEffects(), new Vector2(-71, -33));
+                }
+                else
+                {
+                    player.changeSecondTexture(attack_Umbrella_Empty_Animation_Left.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-71, -33));
+                }
             }
             if(currentAnimation == Animations.Walk_Right || currentAnimation == Animations.Walk_Hat_Right || currentAnimation == Animations.Walk_Armor_Right || currentAnimation == Animations.Walk_Armor_Hat_Right)
             {
@@ -529,9 +548,21 @@ namespace Reggie {
                     tempRec4 = divAnimationDestRectanglesDic["walk_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec4, walk_Scissors_Animation_Right.getSpriteEffects(), new Vector2(83, 25));
                 }
-                player.changeSecondTexture(walk_Umbrella_Empty_Animation_Right.texture);
-                tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].Update(gameTime);
-                player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(78, -22));
+
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    player.changeSecondTexture(walk_Umbrella_Golden_Animation_Right.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Golden_Animation_Right"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Golden_Animation_Right.getSpriteEffects(), new Vector2(78, -22));
+
+                }
+                else
+                {
+                    player.changeSecondTexture(walk_Umbrella_Empty_Animation_Right.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(78, -22));
+                }
+
 
             }
             if(currentAnimation == Animations.Walk_Left || currentAnimation == Animations.Walk_Hat_Left || currentAnimation == Animations.Walk_Armor_Left || currentAnimation == Animations.Walk_Armor_Hat_Left)
@@ -549,38 +580,85 @@ namespace Reggie {
                     tempRec4 = divAnimationDestRectanglesDic["walk_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec4, walk_Scissors_Animation_Left.getSpriteEffects(), new Vector2(-2, 26));
                 }
-                player.changeSecondTexture(walk_Umbrella_Empty_Animation_Left.texture);
-                tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].Update(gameTime);
-                player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-45, -20));
+                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    player.changeSecondTexture(walk_Umbrella_Golden_Animation_Left.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Golden_Animation_Left"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Golden_Animation_Left.getSpriteEffects(), new Vector2(-45, -20));
+                }
+                else if(ItemUIManager.currentlyEquipped.objectID != (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    player.changeSecondTexture(walk_Umbrella_Empty_Animation_Left.texture);
+                    tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].Update(gameTime);
+                    player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-45, -20));
+                }
             }
             if (currentAnimation == Animations.Jump_Right || currentAnimation == Animations.Jump_Hat_Right || currentAnimation == Animations.Jump_Armor_Right || currentAnimation == Animations.Jump_Armor_Hat_Right)
             {
                 if (!player.isFloating)
                 {
-                    player.changeSecondTexture(jump_Umbrella_Empty_Animation_Right.texture);
-                    tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Right"].Update(gameTime);
-                    player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(58,-63));
+                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    {
+                        player.changeSecondTexture(jump_Umbrella_Golden_Animation_Right.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Golden_Animation_Right"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Golden_Animation_Right.getSpriteEffects(), new Vector2(58, -63));
+                    }
+                    else
+                    {
+                        player.changeSecondTexture(jump_Umbrella_Empty_Animation_Right.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Right"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(58, -63));
+                    }
                 }
                 else
                 {
-                    player.changeSecondTexture(floatingAnimation_Right.texture);
-                    tempRec2 = divAnimationDestRectanglesDic["Float_Animation_Right"].Update(gameTime);
-                    player.drawSecondTexture(spriteBatch, tempRec2, floatingAnimation_Right.getSpriteEffects(), new Vector2(53, -63));
+                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    {
+                        player.changeSecondTexture(floatingGoldenAnimation_Right.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Float_Golden_Animation_Right"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, floatingGoldenAnimation_Right.getSpriteEffects(), new Vector2(53, -63));
+                    }
+                    else
+                    {
+                        player.changeSecondTexture(floatingAnimation_Right.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Float_Animation_Right"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, floatingAnimation_Right.getSpriteEffects(), new Vector2(53, -63));
+                    }
+                    
                 }
             }
             if(currentAnimation == Animations.Jump_Left || currentAnimation == Animations.Jump_Hat_Left || currentAnimation == Animations.Jump_Armor_Left || currentAnimation == Animations.Jump_Armor_Hat_Left)
             {
                 if (!player.isFloating)
                 {
-                    player.changeSecondTexture(jump_Umbrella_Empty_Animation_Left.texture);
-                    tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Left"].Update(gameTime);
-                    player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(0, -60));
+                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    {
+                        player.changeSecondTexture(jump_Umbrella_Golden_Animation_Left.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Golden_Animation_Left"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Golden_Animation_Left.getSpriteEffects(), new Vector2(0, -63));
+                    }
+                    else
+                    {
+                        player.changeSecondTexture(jump_Umbrella_Empty_Animation_Left.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Left"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(0, -63));
+                    }
                 }
                 else
                 {
-                    player.changeSecondTexture(floatingAnimation_Left.texture);
-                    tempRec2 = divAnimationDestRectanglesDic["Float_Animation_Left"].Update(gameTime);
-                    player.drawSecondTexture(spriteBatch, tempRec2, floatingAnimation_Left.getSpriteEffects(), new Vector2(-24, -60));
+                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    {
+                        player.changeSecondTexture(floatingGoldenAnimation_Left.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Float_Golden_Animation_Left"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, floatingGoldenAnimation_Left.getSpriteEffects(), new Vector2(-23, -63));
+                    }
+                    else
+                    {
+                        player.changeSecondTexture(floatingAnimation_Left.texture);
+                        tempRec2 = divAnimationDestRectanglesDic["Float_Animation_Left"].Update(gameTime);
+                        player.drawSecondTexture(spriteBatch, tempRec2, floatingAnimation_Left.getSpriteEffects(), new Vector2(-23, -63));
+                    }
+
                 }
             }
 

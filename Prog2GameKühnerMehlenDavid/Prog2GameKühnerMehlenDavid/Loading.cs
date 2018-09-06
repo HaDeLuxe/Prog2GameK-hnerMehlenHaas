@@ -119,9 +119,9 @@ namespace Reggie
             Texture2D playerJumpGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Jump_Umbrella_Golden");
             PlayerSpriteSheets.Add("playerJumpGoldenSpriteSheet", playerJumpGoldenSpriteSheet);
             Texture2D playerWalkGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Move_Umbrella_Golden");
-            PlayerSpriteSheets.Add("playerWalkGoldenSpriteSheet", playerWalkScissorsSpriteSheet);
+            PlayerSpriteSheets.Add("playerWalkGoldenSpriteSheet", playerWalkGoldenSpriteSheet);
             Texture2D playerAttackGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Attack_Umbrella_Golden");
-            PlayerSpriteSheets.Add("playerAttackGoldenSpriteSheet", playerAttackScissorsSpriteSheet);
+            PlayerSpriteSheets.Add("playerAttackGoldenSpriteSheet", playerAttackGoldenSpriteSheet);
             Texture2D playerFloatGoldenSpriteSheet = Content.Load<Texture2D>("Images\\PlayerSpriteSheets\\Reggie_Float_Golden");
             PlayerSpriteSheets.Add("playerFloatGoldenSpriteSheet", playerFloatGoldenSpriteSheet);
 
