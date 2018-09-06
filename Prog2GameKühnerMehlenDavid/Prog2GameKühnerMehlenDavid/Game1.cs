@@ -329,7 +329,7 @@ namespace Reggie
 
             // MONO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
-            Vector2 screenCenter = new Vector2(viewport.Width / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/10) + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/10)+50 + cameraOffset.Y);
+            Vector2 screenCenter = new Vector2(viewport.Width / 2 - (SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5) + cameraOffset.X, viewport.Height / 2 - (SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5)-100 + cameraOffset.Y);
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
 
