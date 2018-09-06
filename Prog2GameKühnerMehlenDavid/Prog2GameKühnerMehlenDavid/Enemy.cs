@@ -45,7 +45,7 @@ namespace Reggie
            // objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
-            enemyAggroAreaSize = new Vector4(400, 300, 850, 650);
+            enemyAggroAreaSize = new Vector4(400, 300, 900, 650);
             collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
             enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.Z), (int)(enemyAggroAreaSize.W));
             collisionBoxSize = new Vector2(enemySize.X, enemySize.Y);
@@ -185,7 +185,7 @@ namespace Reggie
                 pressedLeftKey = true;
                 velocity.X = -movementSpeed;
             }
-            else if (enemyAggroArea.Right + velocity.X - enemyAggroAreaSize.X /*+ SpriteSize.X*/ < worm.collisionRectangle.Left &&
+            else if (enemyAggroArea.Right + velocity.X - enemyAggroAreaSize.X < worm.collisionRectangle.Left &&
                 enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
                 enemyAggroArea.Left < worm.collisionRectangle.Left &&
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
@@ -195,6 +195,8 @@ namespace Reggie
                 pressedRightKey = true;
                 velocity.X = movementSpeed;
             }
+            else
+                velocity.X = 0;
 
             if (velocity.X < 0)
                 facingLeft = true;
