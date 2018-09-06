@@ -57,12 +57,13 @@ namespace Reggie
             isStanding = false;
             stillAlive = true;
             playerAttackPressed = false;
-            facingDirectionRight = true;
+            facingDirectionRight = false;
             jumpButtonPressed = false;
             playerGameElementInteraction = false;
             invincibilityFrames = false;
-            changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
-            collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
+            //changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
+            changeCollisionBox = new Vector2(0, 0);
+            collisionBoxPosition = new Vector2(playerPosition.X - changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
             collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
             playerHP = 1f;
             movementSpeed = 10f;
@@ -72,7 +73,10 @@ namespace Reggie
 
         public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects)
         {
-
+            if (!facingDirectionRight)
+                changeCollisionBox.X = 0;
+            else
+                changeCollisionBox.X = 50;
             PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects);
             gameObjectPosition.Y = collisionBoxPosition.Y - changeCollisionBox.Y;
             PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);

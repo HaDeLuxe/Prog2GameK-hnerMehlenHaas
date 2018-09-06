@@ -67,9 +67,21 @@ namespace Reggie
         Matrix transformationMatrix;
 
         public static Vector2 cameraOffset;
-      
 
-        
+
+
+        //check dumb stuff
+        public Texture2D enemytexture;
+        public Color[] colordata;
+        public Vector2 enemyaggroposition;
+
+        public Color[] playercolorData;
+        public Texture2D playertexture;
+        public Vector2 playeraggroposition;
+
+
+
+
         public Game1()
         {
             currentGameState = GameState.SPLASHSCREEN;
@@ -118,7 +130,7 @@ namespace Reggie
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = Content.Load<SpriteFont>("Arial");
+            font = Content.Load<SpriteFont>("Fonts/Arial");
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
 
             
@@ -249,64 +261,6 @@ namespace Reggie
                         }
                         timeUntilNextFrame2 += animationFrameTime;
                     }
-                    
-                    // calculates players collision rect(visual)
-                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(WormPlayer.CollisionBoxSize.X), (int)(WormPlayer.CollisionBoxSize.Y));
-                    //colorData = new Color[(int)((WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y))];
-                    //for (int i = 0; i < (WormPlayer.CollisionBoxSize.X) * (WormPlayer.CollisionBoxSize.Y); i++)
-                    //    colorData[i] = Color.White;
-                    //enemytexture.SetData<Color>(colorData);
-                    //enemyaggroposition = new Vector2(WormPlayer.CollisionRectangle.X, WormPlayer.CollisionRectangle.Y);
-
-
-                    //enemycounter = 0;
-                    ////if (EnemyList.Count != 0)
-
-                    //foreach (var enemy in enemyList.ToList())
-                    //{
-                    //    enemy.Update(gameTime, AllGameObjectList);
-                    //    if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
-                    //        enemyList.RemoveAt(enemycounter);
-                    //    if (!enemyList.Any())
-                    //    {
-                    //        Random rand = new Random();
-                    //        int randomizedNumber = rand.Next(0, 3);
-                    //        if (randomizedNumber == 0)
-                    //            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(100, 200)));
-                    //        else
-                    //            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(600, 200)));
-                    //        enemyList.Last().SetPlayer(wormPlayer);
-                    //    }
-                    //    if (enemyList.Count < 2)
-                    //    {
-                    //        Random rand = new Random();
-                    //        int randomizedNumber = rand.Next(0, 3);
-                    //        if (randomizedNumber == 0)
-                    //            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(400, 200)));
-                    //        else if (randomizedNumber == 1)
-                    //            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(900, 200)));
-                    //        else
-                    //            enemyList.Add(new Enemy(enemySkinTexture, new Vector2(50, 50), new Vector2(300, 200)));
-                    //        enemyList.Last().SetPlayer(wormPlayer);
-                    //    }
-                    //    enemycounter++;
-                    //    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemy.EnemyAggroAreaSize.W), (int)(enemy.EnemyAggroAreaSize.Z));
-                    //    //colorData = new Color[(int)((enemy.EnemyAggroAreaSize.W) * (enemy.EnemyAggroAreaSize.Z))];
-                    //    //for (int i = 0; i < (enemy.EnemyAggroAreaSize.W) * (enemy.EnemyAggroAreaSize.Z); i++)
-                    //    //    colorData[i] = Color.White;
-                    //    //enemytexture.SetData<Color>(colorData);
-                    //    //enemyaggroposition = new Vector2(enemy.EnemyAggroArea.X, enemy.EnemyAggroArea.Y);
-                    //}
-
-                    //for (int i = 0; i < enemyList.Count(); i++)
-                    //{
-                    //    //Enemy tempEnemy = enemyList[i];
-                    //    //AnimationManagerEnemy tempAnimationManager = enemyAnimationManagerList[i];
-                    //    //if (enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
-                    //    //else if (!enemyList[i].facingLeft) tempAnimationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
-                    //}
-
-
                     break;
 
                 case GameState.MINIMAP:
@@ -329,7 +283,7 @@ namespace Reggie
 
             // MONO: Add your drawing code here
             Viewport viewport = GraphicsDevice.Viewport;
-            Vector2 screenCenter = new Vector2(viewport.Width / 2 - (SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5) + cameraOffset.X, viewport.Height / 2 - (SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5)-100 + cameraOffset.Y);
+            Vector2 screenCenter = new Vector2(viewport.Width / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5) + cameraOffset.X, viewport.Height / 2-(SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/5)+50 + cameraOffset.Y);
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
 
@@ -364,24 +318,31 @@ namespace Reggie
                                 if (platformSprite.IsThisAVisibleObject())
                                     platformSprite.DrawSpriteBatch(spriteBatch);
 
-                            //this draws the enemy
-                            //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
-                            //foreach (var enemy in viewableEnemies)
-                            //    enemy.DrawSpriteBatch(spriteBatch);
-
-
                             if (levelManager.currentLevel == Enums.Level.TUTORIAL)
                             {
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
+                                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].enemyAggroAreaSize.Z), (int)(enemyList[i].enemyAggroAreaSize.W));
+                                    //colordata = new Color[(int)((enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z))];
+                                    //for (int j = 0; j < (enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z); j++)
+                                    //    colordata[j] = Color.White;
+                                    //enemytexture.SetData<Color>(colordata);
+                                    //enemyaggroposition = new Vector2(enemyList[i].enemyAggroArea.X, enemyList[i].enemyAggroArea.Y);
+                                    //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                                     enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                 }
                             }
 
                             //This draws the player
+                            playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
+                            playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
+                            for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
+                                playercolorData[i] = Color.Black;
+                            playertexture.SetData<Color>(playercolorData);
+                            playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
+                            spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
-                            
                             //This draws the UI
                             gameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
                             if(levelManager.currentLevel != Enums.Level.TUTORIAL)

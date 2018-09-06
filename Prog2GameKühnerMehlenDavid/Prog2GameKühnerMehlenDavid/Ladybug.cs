@@ -56,29 +56,29 @@ namespace Reggie
 
         public override void EnemyAttack(GameTime gameTime)
         {
-            attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(!calculateCharge)
-                CalculationChargingVector();
-            if(attackTimer <4f)
-            {
-                velocity.X = -5f;
-            }
-            else if(attackTimer>4f && attackTimer<10f)
-            {
-                if (HitPlayer() && !worm.invincibilityFrames)
-                {
-                    worm.invincibilityFrames = true;
-                    worm.ReducePlayerHP();
-                }  
-            }
-            else
-            {
-                attackTimer = 0;
-                attackAction = false;
-                calculateCharge = false;
-                velocity = Vector2.Zero;
-                attackExecuted = true;
-            }
+            //attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            //if(!calculateCharge)
+            //    CalculationChargingVector();
+            //if(attackTimer <4f)
+            //{
+            //    velocity.Y = -10f;
+            //}
+            //else if(attackTimer>4f && attackTimer<10f)
+            //{
+            //    if (HitPlayer() && !worm.invincibilityFrames)
+            //    {
+            //        worm.invincibilityFrames = true;
+            //        worm.ReducePlayerHP();
+            //    }  
+            //}
+            //else
+            //{
+            //    attackTimer = 0;
+            //    attackAction = false;
+            //    calculateCharge = false;
+            //    velocity = Vector2.Zero;
+            //    attackExecuted = true;
+            //}
         }
 
         private void CalculationChargingVector()
