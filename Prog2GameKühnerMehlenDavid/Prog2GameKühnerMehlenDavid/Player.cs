@@ -47,6 +47,7 @@ namespace Reggie
             }
         }
 
+
         public Player(Texture2D playerTexture,Vector2 playerSize, Vector2 playerPosition, int gameObjectID) : base(playerTexture,playerSize, playerPosition, gameObjectID)
         {
             gravityActive = true;
@@ -63,7 +64,7 @@ namespace Reggie
             invincibilityFrames = false;
             //changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             changeCollisionBox = new Vector2(0, 0);
-            collisionBoxPosition = new Vector2(playerPosition.X - changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
+            collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
             collisionBoxSize = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Size_Y"]);
             playerHP = 1f;
             movementSpeed = 10f;
@@ -78,7 +79,7 @@ namespace Reggie
             else
                 changeCollisionBox.X = 50;
             PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects);
-            gameObjectPosition.Y = collisionBoxPosition.Y - changeCollisionBox.Y;
+            collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
 
             for (int i = 0; i < interactiveObject.Count(); i++)
