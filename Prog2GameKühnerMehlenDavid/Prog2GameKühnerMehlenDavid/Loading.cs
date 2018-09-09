@@ -214,6 +214,18 @@ namespace Reggie
             texturesDictionnary.Add("Minimap", Minimap);
             Texture2D Point = Content.Load<Texture2D>("Images\\Minimap\\Point");
             texturesDictionnary.Add("Point", Point);
+
+            //LoadMenuPic
+            Texture2D MainMenu1 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-1");
+            texturesDictionnary.Add("MainMenu1", MainMenu1);
+            Texture2D MainMenu2 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-2");
+            texturesDictionnary.Add("MainMenu2", MainMenu2);
+            Texture2D MainMenu3 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-3");
+            texturesDictionnary.Add("MainMenu3", MainMenu3);
+            Texture2D MainMenu4 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-4");
+            texturesDictionnary.Add("MainMenu4", MainMenu4);
+            Texture2D MainMenu5 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-5");
+            texturesDictionnary.Add("MainMenu5", MainMenu5);
         }
 
 

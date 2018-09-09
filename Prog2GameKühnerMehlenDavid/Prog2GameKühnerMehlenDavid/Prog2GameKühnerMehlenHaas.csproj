@@ -58,9 +58,10 @@
     <Compile Include="LevelEditor.cs" />
     <Compile Include="Levels.cs" />
     <Compile Include="Loading.cs" />
-    <Compile Include="MainMenu.cs" />
+    <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Menus\Options.cs" />
     <Compile Include="Minimap.cs" />
-    <Compile Include="SplashScreen.cs" />
+    <Compile Include="Menus\SplashScreen.cs" />
     <Compile Include="SpriteSheetsSize.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />

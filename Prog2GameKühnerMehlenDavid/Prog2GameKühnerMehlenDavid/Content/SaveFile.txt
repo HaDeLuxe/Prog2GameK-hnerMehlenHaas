@@ -735,10 +735,9 @@ VINE,-11264,4160
 VINE,-11264,4224
 VINE,-11264,4288
 INVISIBLE_WALL_500x50,-11392,4416
-tileBrown_01,13568,1600
-tileBrown_01,13504,1600
-tileBrown_01,13440,1600
-tileBrown_01,13376,1600
+tileBrown_01,13440,1408
+tileBrown_01,13376,1408
+tileBrown_01,13312,1408
 ,13000,1600
 ,12800,1600
 ,12500,1600
@@ -747,3 +746,12 @@ tileBrown_01,13376,1600
 ,12200,1600
 ,12100,1600
 ,11900,1600
+Playerposition, 12404,1711
+Armor,False
+Helmet, False
+HealthPotion,False
+JumpPotion, False
+PowerPotion, False
+Scissors, False
+Shovel,False
+GoldenUmbrellaFalse

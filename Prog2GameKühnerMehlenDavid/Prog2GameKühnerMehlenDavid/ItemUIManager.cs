@@ -10,37 +10,38 @@ using System.Threading.Tasks;
 namespace Reggie {
     class ItemUIManager {
 
-        public static bool snailShellPickedUp { get; set; }
-        public static bool scissorsPickedUp { get; set; }
-        public static bool armorPickedUp { get; set; }
-        public static bool shovelPickedUp { get; set; }
-        public static bool healthPickedUp { get; set; }
-        public static bool jumpPickedUp { get; set; }
-        public static bool powerPickedUp { get; set; }
-        public static bool goldenUmbrellaPickedUp{ get; set; }
+        public static bool snailShellPickedUp { get; set; } = false;
+        public static bool scissorsPickedUp { get; set; } = false;
+        public static bool armorPickedUp { get; set; } = false;
+        public static bool shovelPickedUp { get; set; } = false;
+        public static bool healthPickedUp { get; set; } = false;
+        public static bool jumpPickedUp { get; set; } = false;
+        public static bool powerPickedUp { get; set; } = false;
+        public static bool goldenUmbrellaPickedUp { get; set; } = false;
         GameObject scissors;
         GameObject shovel;
-        GameObject idle;
-        public static GameObject currentlyEquipped;
+        public static GameObject currentItemEquipped;
+        public static GameObject currentPotionEquipped;
         GameObject healthPotion;
         GameObject jumpPotion;
         GameObject powerPotion;
         GameObject goldenUmbrella;
-        bool triggerPushed = false;
+        bool shoulderButtonPushed = false;
+        bool triggerButtonPushed = false;
 
 
         List<GameObject> ItemsFound;
+        List<GameObject> PotionsFound;
 
         public ItemUIManager() 
         {
-            snailShellPickedUp = false;
-            scissorsPickedUp = false;
             ItemsFound = new List<GameObject>();
-            currentlyEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
+            PotionsFound = new List<GameObject>();
+            currentItemEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
         }
 
         //public int getCurrentEquipped() {
-        //    return currentlyEquipped.objectID;
+        //    return currentItemEquipped.objectID;
         //}
 
 
@@ -75,7 +76,7 @@ namespace Reggie {
             {
                 if (scissorsPickedUp)
                 {
-                    if (ItemsFound.Count == 0) currentlyEquipped = scissors;
+                    if (ItemsFound.Count == 0) currentItemEquipped = scissors;
                     ItemsFound.Add(scissors);
                     DestroyGameItem(Enums.ObjectsID.SCISSORS, ref GameObjectList);
                 }
@@ -96,7 +97,7 @@ namespace Reggie {
             {
                 if (shovelPickedUp)
                 {
-                    if (ItemsFound.Count == 0) currentlyEquipped = shovel;
+                    if (ItemsFound.Count == 0) currentItemEquipped = shovel;
                     ItemsFound.Add(shovel);
                     DestroyGameItem(Enums.ObjectsID.SHOVEL, ref GameObjectList);
                 }
@@ -106,7 +107,6 @@ namespace Reggie {
                 for (int i = 0; i < GameObjectList.Count(); i++)
                 {
                     if (GameObjectList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
-
                         healthPotion = GameObjectList[i];
                 }
             }
@@ -114,6 +114,8 @@ namespace Reggie {
             {
                 if (healthPickedUp)
                 {
+                    if (PotionsFound.Count == 0) currentPotionEquipped = healthPotion;
+                    PotionsFound.Add(healthPotion);
                     DestroyGameItem(Enums.ObjectsID.HEALTHPOTION, ref GameObjectList);
                 }
             }
@@ -129,6 +131,8 @@ namespace Reggie {
             {
                 if (jumpPickedUp)
                 {
+                    if (PotionsFound.Count == 0) currentPotionEquipped = jumpPotion;
+                    PotionsFound.Add(jumpPotion);
                     DestroyGameItem(Enums.ObjectsID.JUMPPOTION, ref GameObjectList);
                 }
             }
@@ -144,6 +148,8 @@ namespace Reggie {
             {
                 if(powerPickedUp)
                 {
+                    if (PotionsFound.Count == 0) currentPotionEquipped = powerPotion;
+                    PotionsFound.Add(powerPotion);
                     DestroyGameItem(Enums.ObjectsID.POWERPOTION, ref GameObjectList);
                 }
             }
@@ -158,7 +164,7 @@ namespace Reggie {
             {
                 if (goldenUmbrellaPickedUp)
                 {
-                    if(ItemsFound.Count == 0) currentlyEquipped = goldenUmbrella;
+                    if(ItemsFound.Count == 0) currentItemEquipped = goldenUmbrella;
                     ItemsFound.Add(goldenUmbrella);
                     DestroyGameItem(Enums.ObjectsID.GOLDENUMBRELLA, ref GameObjectList);
                 }
@@ -169,38 +175,70 @@ namespace Reggie {
 
 
 
-            if (GamePad.GetState(0).IsButtonDown(Buttons.LeftShoulder) && !triggerPushed)
+            if (GamePad.GetState(0).IsButtonDown(Buttons.LeftShoulder) && !shoulderButtonPushed)
             {
                 if(ItemsFound.Count() > 0)
                 {
                     int currentIndex = 0;
                     for (int i = 0; i < ItemsFound.Count(); i++)
                     {
-                        if (ItemsFound[i] == currentlyEquipped) currentIndex = i;
+                        if (ItemsFound[i] == currentItemEquipped) currentIndex = i;
                     }
                     currentIndex--;
                     if (currentIndex < 0) currentIndex = ItemsFound.Count()-1;
-                    currentlyEquipped = ItemsFound[currentIndex];
+                    currentItemEquipped = ItemsFound[currentIndex];
                 }
-                triggerPushed = true;
+                shoulderButtonPushed = true;
             }
 
-            if (GamePad.GetState(0).IsButtonDown(Buttons.RightShoulder) && !triggerPushed)
+            if (GamePad.GetState(0).IsButtonDown(Buttons.RightShoulder) && !shoulderButtonPushed)
             {
                 if (ItemsFound.Count() > 0)
                 {
                     int currentIndex = 0;
                     for (int i = 0; i < ItemsFound.Count(); i++)
                     {
-                        if (ItemsFound[i] == currentlyEquipped) currentIndex = i;
+                        if (ItemsFound[i] == currentItemEquipped) currentIndex = i;
                     }
                     currentIndex++;
                     if (currentIndex >= ItemsFound.Count()) currentIndex = 0;
-                    currentlyEquipped = ItemsFound[currentIndex];
+                    currentItemEquipped = ItemsFound[currentIndex];
                 }
-                triggerPushed = true;
+                shoulderButtonPushed = true;
             }
-            if (GamePad.GetState(0).IsButtonUp(Buttons.LeftShoulder) && GamePad.GetState(0).IsButtonUp(Buttons.RightShoulder)) triggerPushed = false;
+            if (GamePad.GetState(0).IsButtonUp(Buttons.LeftShoulder) && GamePad.GetState(0).IsButtonUp(Buttons.RightShoulder)) shoulderButtonPushed = false;
+
+            if (GamePad.GetState(0).IsButtonDown(Buttons.RightTrigger) && !triggerButtonPushed)
+            {
+                if (PotionsFound.Count() > 0)
+                {
+                    int currentIndex = 0;
+                    for (int i = 0; i < PotionsFound.Count(); i++)
+                    {
+                        if (PotionsFound[i] == currentPotionEquipped) currentIndex = i;
+                    }
+                    currentIndex++;
+                    if (currentIndex >= PotionsFound.Count()) currentIndex = 0;
+                    currentPotionEquipped = PotionsFound[currentIndex];
+                }
+                triggerButtonPushed = true;
+            }
+            if (GamePad.GetState(0).IsButtonDown(Buttons.LeftTrigger) && !triggerButtonPushed)
+            {
+                if (PotionsFound.Count() > 0)
+                {
+                    int currentIndex = 0;
+                    for (int i = 0; i < PotionsFound.Count(); i++)
+                    {
+                        if (PotionsFound[i] == currentPotionEquipped) currentIndex = i;
+                    }
+                    currentIndex--;
+                    if (currentIndex < 0) currentIndex = PotionsFound.Count() - 1;
+                    currentPotionEquipped = PotionsFound[currentIndex];
+                }
+                triggerButtonPushed = true;
+            }
+            if (GamePad.GetState(0).IsButtonUp(Buttons.LeftTrigger) && GamePad.GetState(0).IsButtonUp(Buttons.RightTrigger)) triggerButtonPushed = false;
 
 
         }
@@ -217,15 +255,18 @@ namespace Reggie {
                 spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 495), Matrix.Invert(transformationMatrix)),null, Color.White,0,Vector2.One,new Vector2(1.4f,1.4f),SpriteEffects.None,0);
             else spriteBatch.Draw(TexturesDictionnary["Armor_64x64"], Vector2.Transform(new Vector2(95, 495), Matrix.Invert(transformationMatrix)), null, Color.Black, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
 
-            if (healthPickedUp)
-                spriteBatch.Draw(TexturesDictionnary["HealthItem"], Vector2.Transform(new Vector2(355, 880), Matrix.Invert(transformationMatrix)), Color.White);
-
+            
             if (ItemsFound.Count() > 0)
             {
-                if(currentlyEquipped == goldenUmbrella)
-                    spriteBatch.Draw(currentlyEquipped.getTexture(), Vector2.Transform(new Vector2(145, 960), Matrix.Invert(transformationMatrix)), null, Color.White, -45, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                if(currentItemEquipped == goldenUmbrella)
+                    spriteBatch.Draw(currentItemEquipped.getTexture(), Vector2.Transform(new Vector2(145, 960), Matrix.Invert(transformationMatrix)), null, Color.White, -45, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
                 else
-                    spriteBatch.Draw(currentlyEquipped.getTexture(), Vector2.Transform(new Vector2(145, 860), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                    spriteBatch.Draw(currentItemEquipped.getTexture(), Vector2.Transform(new Vector2(145, 860), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+            }
+
+            if (PotionsFound.Count() > 0)
+            {
+                spriteBatch.Draw(currentPotionEquipped.getTexture(), Vector2.Transform(new Vector2(345, 865), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
             }
 
 
@@ -233,12 +274,6 @@ namespace Reggie {
             spriteBatch.Draw(TexturesDictionnary["buttonR1"], Vector2.Transform(new Vector2(208, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
             spriteBatch.Draw(TexturesDictionnary["buttonL2"], Vector2.Transform(new Vector2(297, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
             spriteBatch.Draw(TexturesDictionnary["buttonR2"], Vector2.Transform(new Vector2(413, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
-
-
-
-
-
-
         }
 
     }
