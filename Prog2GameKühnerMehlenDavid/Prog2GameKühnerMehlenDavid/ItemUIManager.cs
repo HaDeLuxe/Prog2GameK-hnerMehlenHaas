@@ -159,6 +159,7 @@ namespace Reggie {
                 if (goldenUmbrellaPickedUp)
                 {
                     if(ItemsFound.Count == 0) currentlyEquipped = goldenUmbrella;
+                    ItemsFound.Add(goldenUmbrella);
                     DestroyGameItem(Enums.ObjectsID.GOLDENUMBRELLA, ref GameObjectList);
                 }
                     
@@ -183,6 +184,7 @@ namespace Reggie {
                 }
                 triggerPushed = true;
             }
+
             if (GamePad.GetState(0).IsButtonDown(Buttons.RightShoulder) && !triggerPushed)
             {
                 if (ItemsFound.Count() > 0)
@@ -220,8 +222,10 @@ namespace Reggie {
 
             if (ItemsFound.Count() > 0)
             {
-                //currentlyEquipped = ItemsFound[0];
-                spriteBatch.Draw(currentlyEquipped.getTexture(), Vector2.Transform(new Vector2(145, 860), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                if(currentlyEquipped == goldenUmbrella)
+                    spriteBatch.Draw(currentlyEquipped.getTexture(), Vector2.Transform(new Vector2(145, 960), Matrix.Invert(transformationMatrix)), null, Color.White, -45, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                else
+                    spriteBatch.Draw(currentlyEquipped.getTexture(), Vector2.Transform(new Vector2(145, 860), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
             }
 
 

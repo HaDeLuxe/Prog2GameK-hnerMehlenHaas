@@ -340,7 +340,7 @@ namespace Reggie
                                 playercolorData[i] = Color.Black;
                             playertexture.SetData<Color>(playercolorData);
                             playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                            spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
+                            //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
                             //This draws the UI
