@@ -9,16 +9,17 @@ namespace Reggie
     class Loading {
 
 
-        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionnary, ref Dictionary<string, Texture2D> EnemySpriteSheets, ref Dictionary<string, Song> songDictionnary, ref Dictionary<string, SoundEffect> soundEffectDictionnary) {
+        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionary, ref Dictionary<string, Texture2D> EnemySpriteSheets, ref Dictionary<string, Song> songDictionary, ref Dictionary<string, SoundEffect> soundEffectDictionnary) {
             loadPlayerSprites(Content, ref PlayerSpriteSheets);
-            loadWorldSprites(Content, ref texturesDictionnary);
+            loadWorldSprites(Content, ref texturesDictionary);
             loadEnemySprites(Content, ref EnemySpriteSheets);
-            loadItemSprites(Content, ref texturesDictionnary);
-            loadWorldObjects(Content, ref texturesDictionnary);
-            loadUIElements(Content, ref texturesDictionnary);
+            loadItemSprites(Content, ref texturesDictionary);
+            loadWorldObjects(Content, ref texturesDictionary);
+            loadUIElements(Content, ref texturesDictionary);
+            loadInteractivePlatforms(Content, ref texturesDictionary);
 
             //Markus
-            loadSongs(Content, ref songDictionnary);
+            loadSongs(Content, ref songDictionary);
         }
 
         /// <summary>
@@ -148,28 +149,34 @@ namespace Reggie
         /// This method laods all item sprite sheets and adds them to the texturesDictionnary
         /// </summary>
         /// <param name="Content"></param>
-        /// <param name="texturesDictionnary"></param>
-        private void loadItemSprites(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionnary) {
-            Texture2D SnailShell = Content.Load<Texture2D>("Images\\Schneckenhaus");
-            texturesDictionnary.Add("SnailShell", SnailShell);
-            Texture2D SpiderWeb = Content.Load<Texture2D>("Images\\WorldObjects\\SpiderWeb");
-            texturesDictionnary.Add("Spiderweb_64x64", SpiderWeb);
-            Texture2D Scissors = Content.Load<Texture2D>("Images\\Schere");
-            texturesDictionnary.Add("Scissors_64x64", Scissors);
-            Texture2D Armor = Content.Load<Texture2D>("Images\\Rüstung");
-            texturesDictionnary.Add("Armor_64x64", Armor);
-            Texture2D Shovel = Content.Load<Texture2D>("Images\\Schaufel");
-            texturesDictionnary.Add("Shovel_64x64", Shovel);
-            Texture2D HealthItem = Content.Load<Texture2D>("Images\\healthPotion");
-            texturesDictionnary.Add("HealthItem", HealthItem);
+        /// <param name="texturesDictionary"></param>
+        private void loadItemSprites(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionary)
+        {
+            Texture2D snailShell = Content.Load<Texture2D>("Images\\Schneckenhaus");
+            texturesDictionary.Add("SnailShell", snailShell);
+            Texture2D scissors = Content.Load<Texture2D>("Images\\Schere");
+            texturesDictionary.Add("Scissors_64x64", scissors);
+            Texture2D armor = Content.Load<Texture2D>("Images\\Rüstung");
+            texturesDictionary.Add("Armor_64x64", armor);
+            Texture2D shovel = Content.Load<Texture2D>("Images\\Schaufel");
+            texturesDictionary.Add("Shovel_64x64", shovel);
+            Texture2D healthItem = Content.Load<Texture2D>("Images\\healthPotion");
+            texturesDictionary.Add("HealthItem", healthItem);
             Texture2D jumpPotion = Content.Load<Texture2D>("Images\\jumpPotion");
-            texturesDictionnary.Add("JumpPotion", jumpPotion);
+            texturesDictionary.Add("JumpPotion", jumpPotion);
             Texture2D strengthPotion = Content.Load<Texture2D>("Images\\StrengthPotion");
-            texturesDictionnary.Add("PowerPotion", strengthPotion);
+            texturesDictionary.Add("PowerPotion", strengthPotion);
             Texture2D goldenUmbrella = Content.Load<Texture2D>("Images\\GoldenUmbrella");
-            texturesDictionnary.Add("GoldenUmbrella", goldenUmbrella);
+            texturesDictionary.Add("GoldenUmbrella", goldenUmbrella);
         }
 
+        private void loadInteractivePlatforms(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionary)
+        {
+            Texture2D vineDoor = Content.Load<Texture2D>("Images\\WorldObjects\\VineDOORBLOCK_Reggie");
+            texturesDictionary.Add("VineDoor", vineDoor);
+            Texture2D spiderWeb = Content.Load<Texture2D>("Images\\WorldObjects\\SpiderWeb");
+            texturesDictionary.Add("Spiderweb_64x64", spiderWeb);
+        }
 
         /// <summary>
         /// This method loads all World Objects sprites and adds them to the texturesDictionnary

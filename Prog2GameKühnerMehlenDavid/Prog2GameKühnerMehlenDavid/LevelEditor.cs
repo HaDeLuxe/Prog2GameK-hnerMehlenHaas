@@ -158,35 +158,54 @@ namespace Reggie {
         /// <param name="graphics"></param>
         public void DrawLvlEditorUI(Dictionary<string, Texture2D> platformTextures, SpriteBatch spriteBatch, Matrix transformationMatrix, ref List<GameObject> gameObjectList, GraphicsDevice graphics) 
         {
-            int m = 0;
+            int j = 0;
             MouseState mouseState = Mouse.GetState();
             Vector2 firstPosition = new Vector2(1750, 200);
             Vector2 transformedPos_firstPosition = Vector2.Transform(firstPosition, Matrix.Invert(transformationMatrix));
             
-            spriteBatch.Draw(platformTextures["Transparent_500x50"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
-            m++;
-            spriteBatch.Draw(platformTextures["Transparent_1000x50"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
-            m++;
-            spriteBatch.Draw(platformTextures["Climbingplant_38x64"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
-            m++;
-            spriteBatch.Draw(platformTextures["Transparent_64x64"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
-            m++;
+            spriteBatch.Draw(platformTextures["Transparent_500x50"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["Transparent_1000x50"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["Climbingplant_38x64"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["Transparent_64x64"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
 
             for (int i = 0; i < PlatformsDic.Count(); i++)
             {
-                spriteBatch.Draw(Platform_TileSheet, transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), PlatformsDic.ElementAt(i).Value, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
-                m++;
+                spriteBatch.Draw(Platform_TileSheet, transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), PlatformsDic.ElementAt(i).Value, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
+                j++;
             }
 
-            spriteBatch.Draw(platformTextures["SnailShell"], transformedPos_firstPosition + m * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
-            m++;
-           
+            spriteBatch.Draw(platformTextures["SnailShell"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["Armor_64x64"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["Shovel_64x64"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["Scissors_64x64"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["HealthItem"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["PowerPotion"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["JumpPotion"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["GoldenUmbrella"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["Spiderweb_64x64"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(platformTextures["VineDoor"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
 
-
-            if(ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
+            if (ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
             {
+                Vector2 transformedPos = Vector2.Transform(new Vector2(1000, 200), Matrix.Invert(transformationMatrix));
+
                 Rectangle checkRectangle;
                 button1Pushed = true;
+
                 for (int i = 4; i < PlatformsDic.Count()+4; i++)
                 {
                     checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + i * 100 - yoffset, 64,64);
@@ -197,26 +216,71 @@ namespace Reggie {
                 }
                
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 0 * 100 - yoffset, 500, 50);
-                if(checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_500x50"], transformationMatrix, platformTextures);
-
-                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 1 * 100 - yoffset, 1000, 50);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_1000x50"], transformationMatrix, platformTextures);
+                {
+                    gameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(512, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
+                    gameObjectList.Last().DontDrawThisObject();
+                }
+                
+                    checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 1 * 100 - yoffset, 1000, 50);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                {
+                    gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1024, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
+                    gameObjectList.Last().DontDrawThisObject();
+                }
 
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 2 * 100 - yoffset, 38, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-                    createNewPlatform(ref gameObjectList, platformTextures["Climbingplant_38x64"], transformationMatrix, platformTextures);
+                    gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.VINE, (int)Enums.ObjectsID.VINE, false));
 
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 3 * 100 - yoffset, 64, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-                    createNewPlatform(ref gameObjectList, platformTextures["Transparent_64x64"], transformationMatrix, platformTextures);
+                {
+                    gameObjectList.Add(new Platform(platformTextures["Transparent_64x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_64x64, false));
+                    gameObjectList.Last().DontDrawThisObject();
+                }
 
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count()+4) * 100) - yoffset, 64, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
-                    createNewPlatform(ref gameObjectList, platformTextures["SnailShell"], transformationMatrix, platformTextures);
+                    gameObjectList.Add(new Item(platformTextures["SnailShell"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.SNAILSHELL));
 
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 5) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(platformTextures["Armor_64x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.ARMOR));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 6) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(platformTextures["Shovel_64x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.SHOVEL));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 7) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(platformTextures["Scissors_64x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.SCISSORS));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 8) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(platformTextures["HealthItem"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.HEALTHPOTION));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 9) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(platformTextures["PowerPotion"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.POWERPOTION));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 10) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(platformTextures["JumpPotion"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.JUMPPOTION));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 11) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(platformTextures["GoldenUmbrella"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.GOLDENUMBRELLA));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 12) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Platform(platformTextures["Spiderweb_64x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 13) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Platform(platformTextures["VineDoor"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
             }
+            
             if (ButtonState.Released == mouseState.LeftButton)
             button1Pushed = false;
 
@@ -248,43 +312,7 @@ namespace Reggie {
 
             spriteBatch.Draw(platformTextures["LevelEditorUIBackButton"], transformedBackButton, color);
         }
-
-
-        /// <summary>
-        /// Add a new Platform to the GameObjectList and gives it the standard viewport coordinates (1000,200)
-        /// </summary>
-        /// <param name="gameObjectList"></param>
-        /// <param name="platformTextures"></param>
-        /// <param name="transformationMatrix"></param>
-        private void createNewPlatform(ref List<GameObject> gameObjectList, Texture2D platformTexture, Matrix transformationMatrix, Dictionary<string, Texture2D> platformTextures)
-        {
-            Vector2 transformedPos = Vector2.Transform(new Vector2(1000,200), Matrix.Invert(transformationMatrix));
-           
-            if (platformTexture == platformTextures["Transparent_500x50"])
-            {
-                gameObjectList.Add(new Platform(platformTextures["Transparent_500x50"], new Vector2(512, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
-                gameObjectList.Last().DontDrawThisObject();
-            }
-            if(platformTexture == platformTextures["Transparent_1000x50"])
-            {
-                gameObjectList.Add(new Platform(platformTextures["Transparent_1000x50"], new Vector2(1024, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
-                gameObjectList.Last().DontDrawThisObject();
-            }
-            if(platformTexture == platformTextures["Climbingplant_38x64"])
-            {
-                gameObjectList.Add(new Platform(platformTextures["Climbingplant_38x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
-            }
-            if(platformTexture == platformTextures["SnailShell"])
-            {
-                gameObjectList.Add(new Item(platformTextures["SnailShell"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.SNAILSHELL));
-            }
-            if(platformTexture == platformTextures["Transparent_64x64"])
-            {
-                gameObjectList.Add(new Platform(platformTextures["Transparent_64x64"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_64x64, false));
-                gameObjectList.Last().DontDrawThisObject();
-            }
-        }
-
+        
         private void createNewPlatform(ref List<GameObject> gameObjectList, string textureName, Matrix transformationMatrix, GraphicsDevice graphics, Dictionary<string, Texture2D> platformTextures) {
             Vector2 transformedPos = Vector2.Transform(new Vector2(1000, 200), Matrix.Invert(transformationMatrix));
 

@@ -406,7 +406,7 @@ namespace Reggie
                 PlayerJump();
 
                 //SOUNDS
-                MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
+                //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
             }
 
             //Player Attack Input
@@ -443,20 +443,32 @@ namespace Reggie
                     }
                 }
 
-                if (ItemUIManager.scissorsPickedUp)
+                if (ItemUIManager.currentItemEquipped.objectID == (int) Enums.ObjectsID.SCISSORS)
                 {
-                    Platform temp = null;
-                    foreach(Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>())
+                    //Platform temp = null;
+                    foreach(Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
                     {
                         if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
                         {
-                            temp = platform;
+                            //temp = platform;
+                            GameObjectsList.Remove(platform);
                             break;
                         }
                     }
-                    GameObjectsList.Remove(temp);
+                    //GameObjectsList.Remove(temp);
                 }
 
+                //TODO:Destroyable? temp
+               // Platform temp = null;
+                foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
+                {
+                    if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.VINEDOOR)
+                    {
+                        GameObjectsList.Remove(platform);
+                        break;
+                    }
+                }
+                //GameObjectsList.Remove(temp);
 
                 //Remove Spiderweb when scissors equipped
                 if (ItemUIManager.scissorsPickedUp)
