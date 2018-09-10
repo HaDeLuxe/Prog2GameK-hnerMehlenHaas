@@ -316,12 +316,6 @@ namespace Reggie {
                     else temp = "tileGreen_" + (i - 81);
                 }
                 Enums.ObjectsID tempObjectID = Enums.ObjectsID.tileBrown_01;
-                //switch (temp)
-                //{
-                //    case "tileBrown_01":
-                //        tempObjectID = Enums.ObjectsID.tileBrown_01;
-                //        break;
-                //}
                 if(textureName == temp)
                 {
                     if (textureName == "tileBrown_01" || textureName == "tileYellow_01" || textureName == "tileBlue_01" || textureName == "tileGreen_01")
@@ -470,6 +464,26 @@ namespace Reggie {
 
                 outputList.Add(Output);
             }
+
+            string OutputLine = "Playerposition, " + Game1.wormPlayer.gameObjectPosition.X +"," + Game1.wormPlayer.gameObjectPosition.Y; 
+            outputList.Add(OutputLine);
+            OutputLine = "Armor," + ItemUIManager.armorPickedUp;
+            outputList.Add(OutputLine);
+            OutputLine = "Helmet, " + ItemUIManager.snailShellPickedUp;
+            outputList.Add(OutputLine);
+            OutputLine = "HealthPotion," + ItemUIManager.healthPickedUp;
+            outputList.Add(OutputLine);
+            OutputLine = "JumpPotion, " + ItemUIManager.jumpPickedUp;
+            outputList.Add(OutputLine);
+            OutputLine = "PowerPotion, " + ItemUIManager.powerPickedUp;
+            outputList.Add(OutputLine);
+            OutputLine = "Scissors, " + ItemUIManager.scissorsPickedUp;
+            outputList.Add(OutputLine);
+            OutputLine = "Shovel," + ItemUIManager.shovelPickedUp;
+            outputList.Add(OutputLine);
+            OutputLine = "GoldenUmbrella" + ItemUIManager.goldenUmbrellaPickedUp;
+            outputList.Add(OutputLine);
+
 
 
             using (var stream = new FileStream(@"SaveFile.txt", FileMode.Truncate))

@@ -302,7 +302,7 @@ namespace Reggie
 
                         break;
                     case GameState.MAINMENU:
-                        mainMenu.RenderMainMenu(Content, spriteBatch, font);
+                        mainMenu.RenderMainMenu(texturesDictionnary, spriteBatch, font);
                         break;
                     case GameState.MINIMAP:
                         //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
@@ -334,12 +334,12 @@ namespace Reggie
                             }
 
                             //This draws the player
-                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                            //    playercolorData[i] = Color.Black;
-                            //playertexture.SetData<Color>(playercolorData);
-                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
+                            playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
+                            playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
+                            for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
+                                playercolorData[i] = Color.Black;
+                            playertexture.SetData<Color>(playercolorData);
+                            playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
                             //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
@@ -645,7 +645,19 @@ namespace Reggie
                     allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_26, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_27.ToString())
                     allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_27, true));
-
+                if(dataSeperated[i] == "Playerposition")
+                {
+                    wormPlayer.gameObjectPosition.X = float.Parse(dataSeperated[i + 1]);
+                    wormPlayer.gameObjectPosition.Y = float.Parse(dataSeperated[i + 2]);
+                }
+                if (dataSeperated[i] == "Armor") ItemUIManager.armorPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "Helmet") ItemUIManager.snailShellPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "HealthPotion") ItemUIManager.healthPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "JumpPotion") ItemUIManager.jumpPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "PowerPotion") ItemUIManager.powerPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "Scissors") ItemUIManager.scissorsPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "Shovel") ItemUIManager.shovelPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "GoldenUmbrella") ItemUIManager.goldenUmbrellaPickedUp = bool.Parse(dataSeperated[i + 1]);
             }
         }
 

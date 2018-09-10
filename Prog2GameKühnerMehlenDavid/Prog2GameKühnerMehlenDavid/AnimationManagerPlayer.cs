@@ -57,11 +57,6 @@ namespace Reggie {
 
         private Animations previousAnimation = Animations.Walk_Left;
 
-        private Animations secondaryAnimation = Animations.Floating_Left;
-        private Animations tertiaryAnimation = Animations.None;
-        
-        
-
         //DIVerse ANIMATION DESTination RECTANGLES DICtionnary
         Dictionary<string, Animation> divAnimationDestRectanglesDic;
 
@@ -119,6 +114,8 @@ namespace Reggie {
         Animation jump_Shovel_Animation_Right = null;
         Animation attack_Shovel_Animation_Left = null;
         Animation attack_Shovel_Animation_Right = null;
+        Animation float_Shovel_Animation_Left = null;
+        Animation float_Shovel_Animation_Right = null;
 
         Animation walk_Scissors_Animation_Left = null;
         Animation walk_Scissors_Animation_Right = null;
@@ -126,7 +123,8 @@ namespace Reggie {
         Animation jump_Scissors_Animation_Right = null;
         Animation attack_Scissors_Animation_Left = null;
         Animation attack_Scissors_Animation_Right = null;
-
+        Animation float_Scissors_Animation_Left = null;
+        Animation float_Scissors_Animation_Right = null;
 
         
 
@@ -177,9 +175,9 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Left", attack_Hat_Animation_Left);
             attack_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Right", attack_Hat_Animation_Right);
-            attack_Armor_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
+            attack_Armor_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 90, 86, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Left", attack_Armor_Animation_Left);
-            attack_Armor_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
+            attack_Armor_Animation_Right = new Animation(false, SpriteEffects.None, 90,86, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Right", attack_Armor_Animation_Right);
             attack_Armor_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Armor_Hat_Animation_Left", attack_Armor_Hat_Animation_Left);
@@ -228,6 +226,11 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("attack_Shovel_Animation_Left", attack_Shovel_Animation_Left);
             attack_Shovel_Animation_Right = new Animation(false, SpriteEffects.None, 67, 76, PlayerSpriteSheet["playerAttackShovelSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("attack_Shovel_Animation_Right", attack_Shovel_Animation_Right);
+            float_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 22, 30, PlayerSpriteSheet["playerFloatShovelSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("float_Shovel_Animation_Left", float_Shovel_Animation_Left);
+            float_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 22, 30, PlayerSpriteSheet["playerFloatShovelSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("float_Shovel_Animation_Right", float_Shovel_Animation_Right);
+
 
             walk_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 45, 53, PlayerSpriteSheet["playerWalkScissorsSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("walk_Scissors_Animation_Left", walk_Scissors_Animation_Left);
@@ -241,6 +244,11 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("attack_Scissors_Animation_Left", attack_Scissors_Animation_Left);
             attack_Scissors_Animation_Right = new Animation(false, SpriteEffects.None, 68, 73, PlayerSpriteSheet["playerAttackScissorsSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("attack_Scissors_Animation_Right", attack_Scissors_Animation_Right);
+            float_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 26, 39, PlayerSpriteSheet["playerFloatScissorsSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("float_Scissors_Animation_Left", float_Scissors_Animation_Left);
+            float_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 26, 39, PlayerSpriteSheet["playerFloatScissorsSpriteSheet"], 25f);
+            divAnimationDestRectanglesDic.Add("float_Scissors_Animation_Right", float_Scissors_Animation_Right);
+            
 
 
             //Floating Animation
@@ -445,12 +453,12 @@ namespace Reggie {
                 case Animations.Attack_Hat_Left:
                     player.changeTexture(attack_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Left.getSpriteEffects(), new Vector2(-25, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Left.getSpriteEffects(), new Vector2(-25, -20));
                     break;
                 case Animations.Attack_Hat_Right:
                     player.changeTexture(attack_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, 0));
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Right.getSpriteEffects(), new Vector2(32,-20));
                     break;
                 case Animations.Attack_Armor_Left:
                     player.changeTexture(attack_Armor_Animation_Left.texture);
@@ -478,19 +486,19 @@ namespace Reggie {
             //Manage Umbrella and Objects Animations
             if(currentAnimation == Animations.Attack_Right || currentAnimation == Animations.Attack_Hat_Right || currentAnimation == Animations.Attack_Armor_Right || currentAnimation == Animations.Attack_Armor_Hat_Right)
             {
-                if(ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                if(ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     player.changeThirdTexture(attack_Shovel_Animation_Right.texture);
                     tempRec3 = divAnimationDestRectanglesDic["attack_Shovel_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec3, attack_Shovel_Animation_Right.getSpriteEffects(), new Vector2(75, 18));
                 }
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     player.changeThirdTexture(attack_Scissors_Animation_Right.texture);
                     tempRec4 = divAnimationDestRectanglesDic["attack_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec4, attack_Scissors_Animation_Right.getSpriteEffects(), new Vector2(70, 18));
                 }
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
                     player.changeSecondTexture(attack_Umbrella_Golden_Animation_Right.texture);
                     tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Golden_Animation_Right"].Update(gameTime);
@@ -507,19 +515,19 @@ namespace Reggie {
 
             if (currentAnimation == Animations.Attack_Left || currentAnimation == Animations.Attack_Hat_Left || currentAnimation == Animations.Attack_Armor_Left || currentAnimation == Animations.Attack_Armor_Hat_Left)
             {
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     player.changeThirdTexture(attack_Shovel_Animation_Left.texture);
                     tempRec3 = divAnimationDestRectanglesDic["attack_Shovel_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec3, attack_Shovel_Animation_Left.getSpriteEffects(), new Vector2(-35, 23));
                 }
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     player.changeThirdTexture(attack_Scissors_Animation_Left.texture);
                     tempRec4 = divAnimationDestRectanglesDic["attack_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Attack_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec4, attack_Scissors_Animation_Left.getSpriteEffects(), new Vector2(-27, 20));
                 }
-                if(ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                if(ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
                     player.changeSecondTexture(attack_Umbrella_Golden_Animation_Left.texture);
                     tempRec2 = divAnimationDestRectanglesDic["Attack_Umbrella_Golden_Animation_Left"].Update(gameTime);
@@ -532,24 +540,25 @@ namespace Reggie {
                     player.drawSecondTexture(spriteBatch, tempRec2, attack_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-71, -33));
                 }
             }
+
             if(currentAnimation == Animations.Walk_Right || currentAnimation == Animations.Walk_Hat_Right || currentAnimation == Animations.Walk_Armor_Right || currentAnimation == Animations.Walk_Armor_Hat_Right)
             {
                
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     player.changeThirdTexture(walk_Shovel_Animation_Right.texture);
                     tempRec3 = divAnimationDestRectanglesDic["walk_Shovel_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec3, walk_Shovel_Animation_Right.getSpriteEffects(), new Vector2(95, 28));
                     
                 }
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     player.changeThirdTexture(walk_Scissors_Animation_Right.texture);
                     tempRec4 = divAnimationDestRectanglesDic["walk_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec4, walk_Scissors_Animation_Right.getSpriteEffects(), new Vector2(83, 25));
                 }
 
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
                     player.changeSecondTexture(walk_Umbrella_Golden_Animation_Right.texture);
                     tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Golden_Animation_Right"].Update(gameTime);
@@ -562,42 +571,55 @@ namespace Reggie {
                     tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Right"].Update(gameTime);
                     player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(78, -22));
                 }
-
-
             }
+
             if(currentAnimation == Animations.Walk_Left || currentAnimation == Animations.Walk_Hat_Left || currentAnimation == Animations.Walk_Armor_Left || currentAnimation == Animations.Walk_Armor_Hat_Left)
             {
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     player.changeThirdTexture(walk_Shovel_Animation_Left.texture);
                     tempRec3 = divAnimationDestRectanglesDic["walk_Shovel_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
                     player.drawThirdTexture(spriteBatch, tempRec3, walk_Shovel_Animation_Left.getSpriteEffects(), new Vector2(-20, 25));
 
                 }
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     player.changeThirdTexture(walk_Scissors_Animation_Left.texture);
                     tempRec4 = divAnimationDestRectanglesDic["walk_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
-                    player.drawThirdTexture(spriteBatch, tempRec4, walk_Scissors_Animation_Left.getSpriteEffects(), new Vector2(-2, 26));
+                    player.drawThirdTexture(spriteBatch, tempRec4, walk_Scissors_Animation_Left.getSpriteEffects(), new Vector2(-20, 26));
                 }
-                if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
                     player.changeSecondTexture(walk_Umbrella_Golden_Animation_Left.texture);
                     tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Golden_Animation_Left"].Update(gameTime);
                     player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Golden_Animation_Left.getSpriteEffects(), new Vector2(-45, -20));
                 }
-                else if(ItemUIManager.currentlyEquipped.objectID != (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                else if(ItemUIManager.currentItemEquipped.objectID != (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
                     player.changeSecondTexture(walk_Umbrella_Empty_Animation_Left.texture);
                     tempRec2 = divAnimationDestRectanglesDic["Walk_Umbrella_Empty_Animation_Left"].Update(gameTime);
                     player.drawSecondTexture(spriteBatch, tempRec2, walk_Umbrella_Empty_Animation_Left.getSpriteEffects(), new Vector2(-45, -20));
                 }
             }
+
             if (currentAnimation == Animations.Jump_Right || currentAnimation == Animations.Jump_Hat_Right || currentAnimation == Animations.Jump_Armor_Right || currentAnimation == Animations.Jump_Armor_Hat_Right)
             {
                 if (!player.isFloating)
                 {
-                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                    {
+                        player.changeThirdTexture(jump_Shovel_Animation_Right.texture);
+                        tempRec3 = divAnimationDestRectanglesDic["jump_Shovel_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec3, jump_Shovel_Animation_Right.getSpriteEffects(), new Vector2(79, -10));
+
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                    {
+                        player.changeThirdTexture(jump_Scissors_Animation_Right.texture);
+                        tempRec4 = divAnimationDestRectanglesDic["jump_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Right"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec4, jump_Scissors_Animation_Right.getSpriteEffects(), new Vector2(70, -14));
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                     {
                         player.changeSecondTexture(jump_Umbrella_Golden_Animation_Right.texture);
                         tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Golden_Animation_Right"].Update(gameTime);
@@ -610,9 +632,25 @@ namespace Reggie {
                         player.drawSecondTexture(spriteBatch, tempRec2, jump_Umbrella_Empty_Animation_Right.getSpriteEffects(), new Vector2(58, -63));
                     }
                 }
+                   
+
+              
+            
                 else
                 {
-                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                    {
+                        player.changeThirdTexture(float_Shovel_Animation_Right.texture);
+                        tempRec3 = divAnimationDestRectanglesDic["float_Shovel_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Float_Animation_Right"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec3, float_Shovel_Animation_Right.getSpriteEffects(), new Vector2(87, -20));
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                    {
+                        player.changeThirdTexture(float_Scissors_Animation_Right.texture);
+                        tempRec4 = divAnimationDestRectanglesDic["float_Scissors_Animation_Right"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Float_Animation_Right"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec4, float_Scissors_Animation_Right.getSpriteEffects(), new Vector2(80, -20));
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                     {
                         player.changeSecondTexture(floatingGoldenAnimation_Right.texture);
                         tempRec2 = divAnimationDestRectanglesDic["Float_Golden_Animation_Right"].Update(gameTime);
@@ -624,14 +662,28 @@ namespace Reggie {
                         tempRec2 = divAnimationDestRectanglesDic["Float_Animation_Right"].Update(gameTime);
                         player.drawSecondTexture(spriteBatch, tempRec2, floatingAnimation_Right.getSpriteEffects(), new Vector2(53, -63));
                     }
-                    
+            
                 }
             }
-            if(currentAnimation == Animations.Jump_Left || currentAnimation == Animations.Jump_Hat_Left || currentAnimation == Animations.Jump_Armor_Left || currentAnimation == Animations.Jump_Armor_Hat_Left)
+
+            if (currentAnimation == Animations.Jump_Left || currentAnimation == Animations.Jump_Hat_Left || currentAnimation == Animations.Jump_Armor_Left || currentAnimation == Animations.Jump_Armor_Hat_Left)
             {
                 if (!player.isFloating)
                 {
-                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                    {
+                        player.changeThirdTexture(jump_Shovel_Animation_Left.texture);
+                        tempRec3 = divAnimationDestRectanglesDic["jump_Shovel_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec3, jump_Shovel_Animation_Left.getSpriteEffects(), new Vector2(2, -10));
+
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                    {
+                        player.changeThirdTexture(jump_Scissors_Animation_Left.texture);
+                        tempRec4 = divAnimationDestRectanglesDic["jump_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Jump_Umbrella_Empty_Animation_Left"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec4, jump_Scissors_Animation_Left.getSpriteEffects(), new Vector2(10, -14));
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                     {
                         player.changeSecondTexture(jump_Umbrella_Golden_Animation_Left.texture);
                         tempRec2 = divAnimationDestRectanglesDic["Jump_Umbrella_Golden_Animation_Left"].Update(gameTime);
@@ -646,7 +698,20 @@ namespace Reggie {
                 }
                 else
                 {
-                    if (ItemUIManager.currentlyEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                    {
+                        player.changeThirdTexture(float_Shovel_Animation_Left.texture);
+                        tempRec3 = divAnimationDestRectanglesDic["float_Shovel_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Float_Animation_Left"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec3, float_Shovel_Animation_Left.getSpriteEffects(), new Vector2(0, -20));
+
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                    {
+                        player.changeThirdTexture(float_Scissors_Animation_Left.texture);
+                        tempRec4 = divAnimationDestRectanglesDic["float_Scissors_Animation_Left"].ReturnRectFromFrameNumber(divAnimationDestRectanglesDic["Float_Animation_Left"].currentFrameGetSetter);
+                        player.drawThirdTexture(spriteBatch, tempRec4, float_Scissors_Animation_Left.getSpriteEffects(), new Vector2(5, -20));
+                    }
+                    if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                     {
                         player.changeSecondTexture(floatingGoldenAnimation_Left.texture);
                         tempRec2 = divAnimationDestRectanglesDic["Float_Golden_Animation_Left"].Update(gameTime);
@@ -658,27 +723,9 @@ namespace Reggie {
                         tempRec2 = divAnimationDestRectanglesDic["Float_Animation_Left"].Update(gameTime);
                         player.drawSecondTexture(spriteBatch, tempRec2, floatingAnimation_Left.getSpriteEffects(), new Vector2(-23, -63));
                     }
-
                 }
             }
-
         }
-
-        //switch (secondaryAnimation)
-        //{
-        //    case Animations.None:
-        //        break;
-        //    case Animations.Floating_Left:
-        //        player.changeSecondTexture(floatingAnimation_Left.texture);
-        //        tempRec = divAnimationDestRectanglesDic["Float_Animation_Left"].Update(gameTime);
-        //        player.drawSecondTexture(spriteBatch, tempRec, floatingAnimation_Left.getSpriteEffects(), new Vector2(0, 0));
-        //        break;
-        //    case Animations.Floating_Right:
-        //        player.changeSecondTexture(floatingAnimation_Right.texture);
-        //        tempRec = divAnimationDestRectanglesDic["Float_Animation_Right"].Update(gameTime);
-        //        player.drawSecondTexture(spriteBatch, tempRec, floatingAnimation_Right.getSpriteEffects(), new Vector2(0, 0));
-        //        break;
-        //}
     }
 
         
