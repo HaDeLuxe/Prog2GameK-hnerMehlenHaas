@@ -107,6 +107,7 @@ namespace Reggie.Menus {
         
         
 
+
         private void LoadNewGame() {
             ItemUIManager.armorPickedUp = false;
             ItemUIManager.snailShellPickedUp = false;
