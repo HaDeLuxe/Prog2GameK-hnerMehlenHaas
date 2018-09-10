@@ -213,7 +213,7 @@ namespace Reggie
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (worm.collisionRectangle.Right - collisionRectangle.Left < collisionBoxSize.X)
+                if (worm.collisionRectangle.Left - collisionRectangle.Right < collisionBoxSize.X)
                 {
                     resetBasicValues();
                     velocity.X = 0;
@@ -226,7 +226,7 @@ namespace Reggie
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (collisionRectangle.Left - enemyAggroArea.Left <  collisionBoxSize.X)
+                if (worm.collisionRectangle.Right - enemyAggroArea.Left <  collisionBoxSize.X)
                 {
                     resetBasicValues();
                     velocity.X = 0;
