@@ -32,14 +32,14 @@ namespace Reggie {
      
         bool alreadyDeleted = false;
         GameObject objectToDelete = null;
-        List<string> outputList;
+        //List<string> outputList;
         Dictionary<string, Rectangle> PlatformsDic;
         Enums Enums;
 
 
         public LevelEditor() {
             mousePosition = new Vector2(0, 0);
-            outputList = new List<string>();
+            
             Enums = new Enums();
             PlatformsDic = new Dictionary<string, Rectangle>();
             previousScrollValue = Mouse.GetState().ScrollWheelValue;
@@ -331,8 +331,8 @@ namespace Reggie {
         }
 
 
-        private void SavePlatforms(List<GameObject> GameObjectList, Dictionary<string, Texture2D> platformTextures) {
-
+        public static void SavePlatforms(List<GameObject> GameObjectList, Dictionary<string, Texture2D> platformTextures) {
+            List<string> outputList = new List<string>(); 
             outputList.RemoveRange(0, outputList.Count());
 
            

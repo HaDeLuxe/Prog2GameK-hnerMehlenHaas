@@ -746,12 +746,12 @@ tileBrown_01,13312,1408
 ,12200,1600
 ,12100,1600
 ,11900,1600
-Playerposition, 12404,1711
-Armor,False
-Helmet, False
+Playerposition, 12554,1711
+Armor,True
+Helmet, True
 HealthPotion,False
 JumpPotion, False
 PowerPotion, False
 Scissors, False
-Shovel,False
+Shovel,True
 GoldenUmbrellaFalse

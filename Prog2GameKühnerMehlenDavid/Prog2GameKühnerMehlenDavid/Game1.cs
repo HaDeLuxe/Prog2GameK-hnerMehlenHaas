@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Media; //AUDIOSTUFF //SONGS
 using Microsoft.Xna.Framework.Audio; //Sounds
-
+using Reggie.Menus;
 
 namespace Reggie
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game {
+    public class Game1 : Game
+    {
 
-        public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN, MINIMAP }
+        public enum GameState { MAINMENU, GAMELOOP, LEVELEDITOR, CREDITS, SPLASHSCREEN, LOADSCREEN, WINSCREEN, LOSESCREEN, MINIMAP, GAMEMENU}
         public static GameState currentGameState {get;set; }
         //forces an update before draw action
         public GameState lastGameState;
@@ -35,7 +36,7 @@ namespace Reggie
         List<GameObject> interactiveObject;
 
         Dictionary<string, Texture2D> texturesDictionnary;
-       public static Dictionary<string, Song> songDictionnary;
+        public static Dictionary<string, Song> songDictionnary;
         Dictionary<string, SoundEffect> soundEffectDictionnary;
         Dictionary<String, Texture2D> playerSpriteSheets; 
         Dictionary<String, Texture2D> enemySpriteSheets;
@@ -54,6 +55,7 @@ namespace Reggie
         ItemUIManager gameManager;
         Levels levelManager;
         Minimap minimap;
+
         
 
         //for switching LevelEditor
@@ -61,6 +63,7 @@ namespace Reggie
 
         SplashScreen splashScreen;
         MainMenu mainMenu;
+        GameMenu gameMenu;
         
         Enums Enums;
 
@@ -104,6 +107,7 @@ namespace Reggie
             Enums = new Enums();
             splashScreen = new SplashScreen();
             mainMenu = new MainMenu();
+            gameMenu = new GameMenu();
             gameManager = new ItemUIManager();
             levelManager = new Levels();
             minimap = new Minimap();
@@ -236,6 +240,8 @@ namespace Reggie
                         //previousState = Keyboard.GetState();
                         if (Keyboard.GetState().IsKeyDown(Keys.M) && !previousState.IsKeyDown(Keys.M) && levelManager.currentLevel != Enums.Level.TUTORIAL)
                             currentGameState = GameState.MINIMAP;
+                        if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
+                            currentGameState = GameState.GAMEMENU;
                         previousState = Keyboard.GetState();
                     }
 
@@ -268,6 +274,12 @@ namespace Reggie
                         currentGameState = GameState.GAMELOOP;
                     previousState = Keyboard.GetState();
                     break;
+                case GameState.GAMEMENU:
+                    gameMenu.Update(this);
+                    //if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
+                    //    currentGameState = GameState.GAMELOOP;
+                    //previousState = Keyboard.GetState();
+                    break;
             }
         }
 
@@ -287,7 +299,7 @@ namespace Reggie
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
 
-            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU)
+            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU || currentGameState == GameState.GAMEMENU)
             spriteBatch.Begin(0, null, null, null, null, null, null);
             else
             spriteBatch.Begin(0, null, null, null, null, null, transformationMatrix);
@@ -352,20 +364,12 @@ namespace Reggie
                         break;
 
                     case GameState.LEVELEDITOR:
-
-
                         levelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
-
-
-                        //spriteBatch.DrawString(font, fps, new Vector2(wormPlayer.gameObjectPosition.X - 620, wormPlayer.gameObjectPosition.Y - 490), Color.Black);
-
-
                         
                         Vector2 mouse = Vector2.Transform(new Vector2(-Mouse.GetState().Position.X, -Mouse.GetState().Position.Y), transformationMatrix);
                         string mouseCoordinates = "(x: " + (-mouse.X) + ", y: " + (-mouse.Y) + ")";
                         spriteBatch.DrawString(font, mouseCoordinates, Vector2.Transform(new Vector2(Mouse.GetState().Position.X+10, Mouse.GetState().Position.Y-15), Matrix.Invert(transformationMatrix)), Color.Black);
-
-
+                        
                         //this draws all the platforms in the game
                         foreach (var platformSprite in allGameObjectList)
                             platformSprite.DrawSpriteBatch(spriteBatch);
@@ -378,9 +382,9 @@ namespace Reggie
                         string lvlEditorString = "Level Editor Enabled!";
                         spriteBatch.DrawString(font, lvlEditorString, Vector2.Transform(new Vector2(10, 30), Matrix.Invert(transformationMatrix)), Color.DarkRed);
                         break;
-
-                   
-                       
+                    case GameState.GAMEMENU:
+                        gameMenu.DrawGameMenu(texturesDictionnary, spriteBatch, font);
+                        break;
                 }
 
                 //Comment: SEE Framecounter.cs for additional commentary
@@ -661,6 +665,8 @@ namespace Reggie
             }
         }
 
+
+
         private void FillLists()
         {
             for(int i = 0; i < allGameObjectList.Count(); i++)
@@ -687,5 +693,7 @@ namespace Reggie
                 }
             }
         }
+
+
     }
 }

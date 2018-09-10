@@ -58,6 +58,7 @@
     <Compile Include="LevelEditor.cs" />
     <Compile Include="Levels.cs" />
     <Compile Include="Loading.cs" />
+    <Compile Include="Menus\GameMenu.cs" />
     <Compile Include="Menus\MainMenu.cs" />
     <Compile Include="Menus\Options.cs" />
     <Compile Include="Minimap.cs" />

@@ -147,5 +147,6 @@ namespace Reggie {
         public enum MainMenuButtons { START, RESUME, OPTIONS, CREDITS, EXIT, CONTROLYES, CONTROLNO }
         public enum Level{TUTORIAL, DUNG, GREENHOUSE, ROOF, ANTCAVE, HUB, TREE, CROWN }
         public enum EnemyAnimations{LADYBUG_FLY_LEFT, LADYBUG_FLY_RIGHT, LADYBUG_ATTACK_LEFT, LADYBUG_ATTACK_RIGHT }
+        public enum GameMenuButtons { RESUME, SAVE, OPTIONS, MAINMENU }
     }
 }
