@@ -170,9 +170,9 @@ namespace Reggie
             texturesDictionary.Add("Armor_64x64", armor);
             Texture2D shovel = Content.Load<Texture2D>("Images\\Schaufel");
             texturesDictionary.Add("Shovel_64x64", shovel);
-            Texture2D healthItem = Content.Load<Texture2D>("Images\\healthPotion");
+            Texture2D healthItem = Content.Load<Texture2D>("Images\\Items\\HealthPotion");
             texturesDictionary.Add("HealthItem", healthItem);
-            Texture2D jumpPotion = Content.Load<Texture2D>("Images\\jumpPotion");
+            Texture2D jumpPotion = Content.Load<Texture2D>("Images\\Items\\JumpPotion");
             texturesDictionary.Add("JumpPotion", jumpPotion);
             Texture2D strengthPotion = Content.Load<Texture2D>("Images\\StrengthPotion");
             texturesDictionary.Add("PowerPotion", strengthPotion);
@@ -417,7 +417,7 @@ namespace Reggie
             outputList.Add(OutputLine);
             OutputLine = "Shovel," + ItemUIManager.shovelPickedUp;
             outputList.Add(OutputLine);
-            OutputLine = "GoldenUmbrella" + ItemUIManager.goldenUmbrellaPickedUp;
+            OutputLine = "GoldenUmbrella," + ItemUIManager.goldenUmbrellaPickedUp;
             outputList.Add(OutputLine);
 
 

@@ -127,7 +127,7 @@ namespace Reggie.Menus {
         void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, Levels levelManager) {
             controlWindowOpen = true;
 
-            if ((Keyboard.GetState().IsKeyDown(Keys.W)|| Keyboard.GetState().IsKeyDown(Keys.Up)) && !controlButtonPressed && controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp)) && !controlButtonPressed && controlWindowOpen)
             {
                 currentControlButton--;
                 if (currentControlButton < Enums.MainMenuButtons.CONTROLYES) currentControlButton = Enums.MainMenuButtons.CONTROLNO;
@@ -167,7 +167,7 @@ namespace Reggie.Menus {
             }
 
 
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0)
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).IsButtonUp(Buttons.DPadUp))
             {
                 controlButtonPressed = false;
 
