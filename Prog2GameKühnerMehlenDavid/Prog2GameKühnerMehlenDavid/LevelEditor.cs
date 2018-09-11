@@ -197,6 +197,8 @@ namespace Reggie {
             j++;
             spriteBatch.Draw(texturesDictionary["VineDoor"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
             j++;
+            spriteBatch.Draw(texturesDictionary["Apple"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
 
             if (ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
             {
@@ -278,6 +280,10 @@ namespace Reggie {
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 13) * 100) - yoffset, 64, 64);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     gameObjectList.Add(new Platform(texturesDictionary["VineDoor"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 14) * 100) - yoffset, 128, 120);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(texturesDictionary["Apple"], new Vector2(128,128), transformedPos, (int)Enums.ObjectsID.APPLE));
             }
             
             if (ButtonState.Released == mouseState.LeftButton)

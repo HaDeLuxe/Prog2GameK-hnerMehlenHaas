@@ -751,12 +751,13 @@ tileBrown_04,13632,1408
 ,11900,1600
 ,11800,1600
 ,11700,1600
-Playerposition, 11914,1711
-Armor,True
-Helmet, True
-HealthPotion,True
-JumpPotion, True
-PowerPotion, True
-Scissors, True
-Shovel,True
-GoldenUmbrella,True
+APPLE,12608,1664
+Playerposition, 13364,1711
+Armor,False
+Helmet, False
+HealthPotion,False
+JumpPotion, False
+PowerPotion, False
+Scissors, False
+Shovel,False
+GoldenUmbrella,False
