@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Media;
+using Reggie.Animations;
+using Reggie.Enemies;
 
 namespace Reggie
 {

@@ -23,9 +23,10 @@ namespace Reggie.Menus {
         public MainMenu() { 
             currentButton = Enums.MainMenuButtons.START;
             currentControlButton = Enums.MainMenuButtons.CONTROLNO;
-            buttonPressed = false;
+            buttonPressed = true;
             controlWindowOpen = false;
-            controlButtonPressed = false;
+            controlButtonPressed = true;
+            
         }
 
         public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font) {
@@ -67,13 +68,14 @@ namespace Reggie.Menus {
         }
 
         public void Update(Game1 Game) {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && !buttonPressed && !controlWindowOpen)
+            
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed && !controlWindowOpen)
             {
                 currentButton--;
                 if (currentButton < 0) currentButton = Enums.MainMenuButtons.EXIT;
                 buttonPressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && !buttonPressed && !controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !buttonPressed && !controlWindowOpen)
             {
                 currentButton++;
                 if (currentButton > Enums.MainMenuButtons.EXIT) currentButton = Enums.MainMenuButtons.START;
@@ -85,6 +87,7 @@ namespace Reggie.Menus {
                 switch (currentButton)
                 {
                     case Enums.MainMenuButtons.START:
+
                         controlWindowOpen = true;
                         break;
                     case Enums.MainMenuButtons.RESUME:
@@ -123,13 +126,13 @@ namespace Reggie.Menus {
         void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary) {
             controlWindowOpen = true;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && !controlButtonPressed && controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.W)|| Keyboard.GetState().IsKeyDown(Keys.Up)) && !controlButtonPressed && controlWindowOpen)
             {
                 currentControlButton--;
                 if (currentControlButton < Enums.MainMenuButtons.CONTROLYES) currentControlButton = Enums.MainMenuButtons.CONTROLNO;
                 controlButtonPressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && !controlButtonPressed && controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !controlButtonPressed && controlWindowOpen)
             {
                 currentControlButton++;
                 if (currentControlButton > Enums.MainMenuButtons.CONTROLNO) currentControlButton = Enums.MainMenuButtons.CONTROLYES;

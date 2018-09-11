@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Reggie.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reggie {
+namespace Reggie.Animations {
     class AnimationManagerEnemy {
 
 
@@ -32,6 +33,11 @@ namespace Reggie {
             divAnimationDestRectanglesDic.Add("Ladybug_Fly_Right", Ladybug_Fly_Right);
             Ladybug_Attack_Left = new Animation(false, SpriteEffects.None, 99, 65, EnemySpriteSheetsDic["Ladybug_Attack_Spritesheet"], 50);
             Ladybug_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 99, 65, EnemySpriteSheetsDic["Ladybug_Attack_Spritesheet"], 50);
+        }
+
+        internal void Animation(GameTime gameTime, Ladybug ladybug, SpriteBatch spriteBatch)
+        {
+            throw new NotImplementedException();
         }
 
         public void Animation(GameTime gameTime, Enemy enemy, SpriteBatch spriteBatch) 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Media; //AUDIOSTUFF //SONGS
-using Microsoft.Xna.Framework.Audio; //Sounds
+using Microsoft.Xna.Framework.Media; 
+using Microsoft.Xna.Framework.Audio; 
 
 namespace Reggie
 {
@@ -170,6 +170,11 @@ namespace Reggie
             texturesDictionary.Add("GoldenUmbrella", goldenUmbrella);
         }
 
+        /// <summary>
+        /// This method loads all interactive game objects sprites and adds them to the texturesDictionnary
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <param name="texturesDictionary"></param>
         private void loadInteractivePlatforms(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionary)
         {
             Texture2D vineDoor = Content.Load<Texture2D>("Images\\WorldObjects\\VineDOORBLOCK_Reggie");

@@ -7,6 +7,8 @@ using System.Linq;
 using Microsoft.Xna.Framework.Media; //AUDIOSTUFF //SONGS
 using Microsoft.Xna.Framework.Audio; //Sounds
 using Reggie.Menus;
+using Reggie.Animations;
+using Reggie.Enemies;
 
 namespace Reggie
 {
