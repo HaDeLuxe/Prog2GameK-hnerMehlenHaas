@@ -57,6 +57,8 @@ namespace Reggie
         ItemUIManager gameManager;
         Levels levelManager;
         Minimap minimap;
+        LoadAndSave loadAndSave;
+
 
         
 
@@ -111,8 +113,8 @@ namespace Reggie
             mainMenu = new MainMenu();
             gameMenu = new GameMenu();
             gameManager = new ItemUIManager();
-            levelManager = new Levels();
             minimap = new Minimap();
+            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionnary);
         }
 
         /// <summary>
@@ -140,7 +142,7 @@ namespace Reggie
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
 
             
-            Loading loading = new Loading();
+            LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionnary);
             loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionnary, ref enemySpriteSheets, ref songDictionnary, ref soundEffectDictionnary);
             levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
 
@@ -170,11 +172,13 @@ namespace Reggie
 
             levelObjectList = new List<GameObject>();
             foreach (GameObject gameObject in allGameObjectList) levelObjectList.Add(gameObject);
-            levelManager.sortGameObjects(allGameObjectList);
+            levelManager = new Levels(wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
+            levelManager.sortGameObjects();
 
            
             FillLists();
             
+            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionnary);
             // MONO: use this.Content to load your game content here
         }
 
@@ -232,7 +236,7 @@ namespace Reggie
                 case GameState.GAMELOOP:
                     this.IsMouseVisible = false;
                     //switch to LevelEditor
-                    levelManager.ManageLevels( wormPlayer.gameObjectPosition ,ref levelObjectList);
+                    levelManager.ManageLevels();
                     gameManager.ManageItems(ref wormPlayer, ref levelObjectList);
 
                     if (currentGameState == GameState.GAMELOOP)
@@ -278,7 +282,7 @@ namespace Reggie
                     previousState = Keyboard.GetState();
                     break;
                 case GameState.GAMEMENU:
-                    gameMenu.Update(this);
+                    gameMenu.Update(this, loadAndSave);
                     //if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                     //    currentGameState = GameState.GAMELOOP;
                     //previousState = Keyboard.GetState();
@@ -317,7 +321,7 @@ namespace Reggie
 
                         break;
                     case GameState.MAINMENU:
-                        mainMenu.RenderMainMenu(texturesDictionnary, spriteBatch, font);
+                        mainMenu.RenderMainMenu(texturesDictionnary, spriteBatch, font, levelManager);
                         break;
                     case GameState.MINIMAP:
                         //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
@@ -376,8 +380,7 @@ namespace Reggie
                         //this draws all the platforms in the game
                         foreach (var platformSprite in allGameObjectList)
                             platformSprite.DrawSpriteBatch(spriteBatch);
-                        levelEditor.DrawLvlEditorUI(texturesDictionnary, spriteBatch, transformationMatrix, ref allGameObjectList, GraphicsDevice);
-
+                        levelEditor.DrawLvlEditorUI(texturesDictionnary, spriteBatch, transformationMatrix, ref allGameObjectList,ref levelObjectList, GraphicsDevice, ref loadAndSave, ref levelManager);
                         //This draws the player
                         animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 

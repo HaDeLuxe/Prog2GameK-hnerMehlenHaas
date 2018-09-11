@@ -738,6 +738,9 @@ INVISIBLE_WALL_500x50,-11392,4416
 tileBrown_01,13440,1408
 tileBrown_01,13376,1408
 tileBrown_01,13312,1408
+tileBrown_05,13504,1408
+tileBrown_05,13568,1408
+tileBrown_04,13632,1408
 ,13000,1600
 ,12800,1600
 ,12500,1600
@@ -748,8 +751,7 @@ tileBrown_01,13312,1408
 ,11900,1600
 ,11800,1600
 ,11700,1600
-tileBrown_05,13952,1536
-Playerposition, 13814,1711
+Playerposition, 13304,1711
 Armor,False
 Helmet, False
 HealthPotion,False

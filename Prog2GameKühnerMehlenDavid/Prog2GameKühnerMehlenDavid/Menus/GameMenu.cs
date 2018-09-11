@@ -43,15 +43,15 @@ namespace Reggie.Menus {
 
         }
 
-        public void Update(Game1 Game)
+        public void Update(Game1 Game, LoadAndSave loadAndSave)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && !buttonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed)
             {
                 currentButton--;
                 if (currentButton < 0) currentButton = Enums.GameMenuButtons.MAINMENU;
                 buttonPressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && !buttonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !buttonPressed)
             {
                 currentButton++;
                 if (currentButton > Enums.GameMenuButtons.MAINMENU) currentButton = Enums.GameMenuButtons.RESUME;
@@ -66,7 +66,7 @@ namespace Reggie.Menus {
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
                         break;
                     case Enums.GameMenuButtons.SAVE:
-                        //LevelEditor.SavePlatforms();
+                        loadAndSave.SavePlatforms();
                         break;
                     case Enums.GameMenuButtons.OPTIONS:
                         break;

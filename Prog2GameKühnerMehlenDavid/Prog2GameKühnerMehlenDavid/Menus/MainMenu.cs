@@ -29,7 +29,7 @@ namespace Reggie.Menus {
             
         }
 
-        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font) {
+        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font, Levels levelManager) {
 
             if (!controlWindowOpen)
             {
@@ -63,12 +63,12 @@ namespace Reggie.Menus {
 
             if (controlWindowOpen)
             {
-                newGameControlScreen(Font, SpriteBatch, texturesDictionary);
+                newGameControlScreen(Font, SpriteBatch, texturesDictionary, levelManager);
             }
         }
 
-        public void Update(Game1 Game) {
-            
+        public void Update(Game1 Game)
+        {
             if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed && !controlWindowOpen)
             {
                 currentButton--;
@@ -107,11 +107,11 @@ namespace Reggie.Menus {
                 buttonPressed = false;
             }
         }
-        
-        
 
 
-        private void LoadNewGame() {
+
+
+        private void LoadNewGame(Levels levelManager) {
             ItemUIManager.armorPickedUp = false;
             ItemUIManager.snailShellPickedUp = false;
             ItemUIManager.shovelPickedUp = false;
@@ -121,9 +121,10 @@ namespace Reggie.Menus {
             ItemUIManager.powerPickedUp = false;
             ItemUIManager.jumpPickedUp = false;
             Game1.wormPlayer.gameObjectPosition = new Vector2(13444, 1700);
+            levelManager.ManageLevels();
         }
 
-        void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary) {
+        void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, Levels levelManager) {
             controlWindowOpen = true;
 
             if ((Keyboard.GetState().IsKeyDown(Keys.W)|| Keyboard.GetState().IsKeyDown(Keys.Up)) && !controlButtonPressed && controlWindowOpen)
@@ -153,7 +154,7 @@ namespace Reggie.Menus {
                 switch (currentControlButton)
                 {
                     case Enums.MainMenuButtons.CONTROLYES:
-                        LoadNewGame();
+                        LoadNewGame(levelManager);
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
                         controlWindowOpen = false;
                         break;
