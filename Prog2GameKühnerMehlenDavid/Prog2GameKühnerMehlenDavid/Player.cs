@@ -472,11 +472,15 @@ namespace Reggie
                 }
                 //GameObjectsList.Remove(temp);
 
-                //Remove Spiderweb when scissors equipped
-                if (ItemUIManager.scissorsPickedUp)
+                foreach(Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
                 {
-                    //if(DetectCollision() && )
+                    if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
+                    {
+                        Console.WriteLine("Apple Collision");
+                        break;
+                    }
                 }
+              
                 playerAttackPressed = true;
             }
             if(playerAttackPressed)

@@ -170,14 +170,16 @@ namespace Reggie
             texturesDictionary.Add("Armor_64x64", armor);
             Texture2D shovel = Content.Load<Texture2D>("Images\\Schaufel");
             texturesDictionary.Add("Shovel_64x64", shovel);
-            Texture2D healthItem = Content.Load<Texture2D>("Images\\Items\\HealthPotion");
+            Texture2D healthItem = Content.Load<Texture2D>("Images\\HealthPotion");
             texturesDictionary.Add("HealthItem", healthItem);
             Texture2D jumpPotion = Content.Load<Texture2D>("Images\\Items\\JumpPotion");
             texturesDictionary.Add("JumpPotion", jumpPotion);
-            Texture2D strengthPotion = Content.Load<Texture2D>("Images\\StrengthPotion");
+            Texture2D strengthPotion = Content.Load<Texture2D>("Images\\Items\\PowerPotion");
             texturesDictionary.Add("PowerPotion", strengthPotion);
             Texture2D goldenUmbrella = Content.Load<Texture2D>("Images\\GoldenUmbrella");
             texturesDictionary.Add("GoldenUmbrella", goldenUmbrella);
+            Texture2D apple = Content.Load<Texture2D>("Images\\Items\\Apple");
+            texturesDictionary.Add("Apple", apple);
         }
 
         /// <summary>
@@ -394,6 +396,7 @@ namespace Reggie
                 if (GameObject.getTexture() == platformTextures["tileGreen_25"]) Output = Enums.ObjectsID.tileGreen_25.ToString();
                 if (GameObject.getTexture() == platformTextures["tileGreen_26"]) Output = Enums.ObjectsID.tileGreen_26.ToString();
                 if (GameObject.getTexture() == platformTextures["tileGreen_27"]) Output = Enums.ObjectsID.tileGreen_27.ToString();
+                if (GameObject.getTexture() == platformTextures["Apple"]) Output = Enums.ObjectsID.APPLE.ToString();
 
 
                 Output += "," + GameObject.gameObjectPosition.X + "," + GameObject.gameObjectPosition.Y;
@@ -419,6 +422,7 @@ namespace Reggie
             outputList.Add(OutputLine);
             OutputLine = "GoldenUmbrella," + ItemUIManager.goldenUmbrellaPickedUp;
             outputList.Add(OutputLine);
+            
 
 
 

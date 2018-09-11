@@ -439,6 +439,10 @@ namespace Reggie
                     allGameObjectList.Add(new Platform(texturesDictionnary["Transparent_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_64x64, false));
                     allGameObjectList.Last().DontDrawThisObject();
                 }
+                if (dataSeperated[i] == Enums.ObjectsID.APPLE.ToString())
+                {
+                    allGameObjectList.Add(new Item(texturesDictionnary["Apple"], new Vector2(128, 128), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.APPLE));
+                }
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
                     allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_02.ToString())
