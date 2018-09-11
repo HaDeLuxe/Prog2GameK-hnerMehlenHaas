@@ -1354,3 +1354,10 @@
 /processorParam:TextureFormat=Color
 /build:Images/Items/PowerPotion.png
 
+#begin Fonts/LuckiestGuy.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/LuckiestGuy.spritefont
+

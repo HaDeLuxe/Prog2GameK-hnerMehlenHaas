@@ -412,7 +412,7 @@ namespace Reggie
             }
 
             //Player Attack Input
-            if((ButtonState.Pressed == mouseState.LeftButton && cooldown ==0 && !playerGameElementInteraction)
+            if ((ButtonState.Pressed == mouseState.LeftButton && cooldown == 0 && !playerGameElementInteraction)
                 || GamePad.GetState(0).IsButtonDown(Buttons.X) && cooldown == 0 && !playerGameElementInteraction)
             {
                 if (facingDirectionRight)
@@ -421,7 +421,7 @@ namespace Reggie
                         AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Hat_Right;
                     else if (ItemUIManager.armorPickedUp)
                         AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Right;
-                    else if 
+                    else if
                         (ItemUIManager.snailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Right;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
                 }
@@ -439,16 +439,16 @@ namespace Reggie
                 // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
                 foreach (var enemy in enemyList)
                 {
-                    if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true )
+                    if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true)
                     {
                         enemy.KnockBackPosition(facingDirectionRight);
                     }
                 }
 
-                if (ItemUIManager.currentItemEquipped.objectID == (int) Enums.ObjectsID.SCISSORS)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     //Platform temp = null;
-                    foreach(Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
+                    foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
                     {
                         if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
                         {
@@ -461,7 +461,7 @@ namespace Reggie
                 }
 
                 //TODO:Destroyable? temp
-               // Platform temp = null;
+                // Platform temp = null;
                 foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
                 {
                     if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.VINEDOOR)
@@ -472,18 +472,31 @@ namespace Reggie
                 }
                 //GameObjectsList.Remove(temp);
 
-                foreach(Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
-                {
-                    if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
-                    {
-                        Console.WriteLine("Apple Collision");
-                        break;
-                    }
-                }
-              
-                playerAttackPressed = true;
+
+
+                //foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+                //{
+                //    if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
+                //    {
+                //        Console.WriteLine("Apple Collision");
+                //        break;
+                //    }
+                //}
+
+                //playerAttackPressed = true;
+            
             }
-            if(playerAttackPressed)
+
+            foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+            {
+                if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
+                {
+                    Console.WriteLine("Apple Collision");
+                    break;
+                }
+            }
+
+            if (playerAttackPressed)
                 cooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
             if(cooldown>=.75)
             {
