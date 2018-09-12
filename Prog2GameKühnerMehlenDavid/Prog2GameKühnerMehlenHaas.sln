@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prog2GameKühnerMehlenHaas", "Prog2GameKühnerMehlenDavid\Prog2GameKühnerMehlenHaas.csproj", "{D3931BEC-9630-4360-88E5-E23E7EB47CF4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B29642B-6072-4C26-BB43-2B1472E7136C}"
-	ProjectSection(SolutionItems) = preProject
-		Ladybug.cs = Ladybug.cs
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

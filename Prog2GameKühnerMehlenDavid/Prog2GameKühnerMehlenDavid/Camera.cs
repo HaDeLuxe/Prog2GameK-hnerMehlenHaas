@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Reggie.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,10 @@ namespace Reggie
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.POWERPOTION
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                         interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }
@@ -71,8 +75,8 @@ namespace Reggie
                         int randomizedNumber = rand.Next(0, 100);
                         if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
                         {
-                            if(currentLevel == Enums.Level.TUTORIAL)
-                                enemyList.Add(new Ladybug(enemySkinTexture, new Vector2(50, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
+                            if (currentLevel == Enums.Level.TUTORIAL) ;
+                            enemyList.Add(new Ladybug(enemySkinTexture, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
                             enemyList.Last().SetPlayer(wormPlayer);
                         }
 

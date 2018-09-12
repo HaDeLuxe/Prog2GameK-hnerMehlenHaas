@@ -44,22 +44,26 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Animation.cs" />
-    <Compile Include="AnimationManagerEnemy.cs" />
-    <Compile Include="AnimationManagerPlayer.cs" />
+    <Compile Include="Animations\Animation.cs" />
+    <Compile Include="Animations\AnimationManagerEnemy.cs" />
+    <Compile Include="Animations\AnimationManagerPlayer.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Enemy.cs" />
+    <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameManager.cs" />
+    <Compile Include="ItemUIManager.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="Ladybug.cs" />
+    <Compile Include="Enemies\Ladybug.cs" />
     <Compile Include="LevelEditor.cs" />
     <Compile Include="Levels.cs" />
-    <Compile Include="Loading.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="SplashScreen.cs" />
+    <Compile Include="LoadAndSave.cs" />
+    <Compile Include="Menus\GameMenu.cs" />
+    <Compile Include="Menus\IngameMenus.cs" />
+    <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Menus\Options.cs" />
+    <Compile Include="Minimap.cs" />
+    <Compile Include="Menus\SplashScreen.cs" />
     <Compile Include="SpriteSheetsSize.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />

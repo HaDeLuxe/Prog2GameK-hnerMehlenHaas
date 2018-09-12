@@ -728,10 +728,36 @@ tileBrown_01,6016,3840
 tileBrown_01,6080,3840
 tileBrown_01,6144,3840
 tileBrown_01,5760,3904
+tileBrown_01,-1216,1408
+tileBrown_01,-1472,1408
+VINE,-11264,4096
+VINE,-11264,4160
+VINE,-11264,4224
+VINE,-11264,4288
+INVISIBLE_WALL_500x50,-11392,4416
+tileBrown_01,13440,1408
+tileBrown_01,13376,1408
+tileBrown_01,13312,1408
+tileBrown_05,13504,1408
+tileBrown_05,13568,1408
+tileBrown_04,13632,1408
 ,13000,1600
 ,12800,1600
 ,12500,1600
 ,12400,1600
 ,12300,1600
-tileBrown_01,-1216,1408
-tileBrown_01,-1472,1408
+,12200,1600
+,12100,1600
+,11900,1600
+,11800,1600
+,11700,1600
+APPLE,12608,1664
+Playerposition, 13364,1711
+Armor,False
+Helmet, False
+HealthPotion,False
+JumpPotion, False
+PowerPotion, False
+Scissors, False
+Shovel,False
+GoldenUmbrella,False
