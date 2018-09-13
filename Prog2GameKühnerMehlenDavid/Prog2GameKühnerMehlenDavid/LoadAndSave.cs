@@ -33,7 +33,7 @@ namespace Reggie
         }
 
         /// <summary>
-        /// This method loads all world background images and adds them to the texturesDictionnary
+        /// This method loads all world background images and adds them to the texturesDictionary
         /// </summary>
         /// <param name="Content"></param>
         private void loadWorldSprites(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionnary) {
@@ -154,9 +154,8 @@ namespace Reggie
             EnemySpriteSheets.Add("Ladybug_Attack_Spritesheet", Ladybug_Attack);
         }
 
-
         /// <summary>
-        /// This method laods all item sprite sheets and adds them to the texturesDictionnary
+        /// This method loads all item sprite sheets and adds them to the texturesDictionary
         /// </summary>
         /// <param name="Content"></param>
         /// <param name="texturesDictionary"></param>
@@ -183,7 +182,7 @@ namespace Reggie
         }
 
         /// <summary>
-        /// This method loads all interactive game objects sprites and adds them to the texturesDictionnary
+        /// This method loads all interactive game objects sprites and adds them to the texturesDictionary
         /// </summary>
         /// <param name="Content"></param>
         /// <param name="texturesDictionary"></param>
@@ -196,7 +195,7 @@ namespace Reggie
         }
 
         /// <summary>
-        /// This method loads all World Objects sprites and adds them to the texturesDictionnary
+        /// This method loads all World Objects sprites and adds them to the texturesDictionary
         /// </summary>
         /// <param name="Content"></param>
         /// <param name="texturesDictionnary"></param>
@@ -213,7 +212,7 @@ namespace Reggie
 
 
         /// <summary>
-        /// This method loads all UI Elements ands adds them to the texturesDictionnary
+        /// This method loads all UI Elements ands adds them to the texturesDictionary
         /// </summary>
         /// <param name="Content"></param>
         /// <param name="texturesDictionnary"></param>
@@ -232,6 +231,8 @@ namespace Reggie
             texturesDictionnary.Add("buttonR1", R1ButtonIcon);
             Texture2D R2ButtonIcon = Content.Load<Texture2D>("Images\\UI\\buttonR2");
             texturesDictionnary.Add("buttonR2", R2ButtonIcon);
+            Texture2D SaveIcon = Content.Load<Texture2D>("Images\\UI\\Save Icon");
+            texturesDictionnary.Add("SaveIcon", SaveIcon);
 
             //Minimap loading thingis
             Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");
