@@ -10,26 +10,27 @@ namespace Reggie.Enemies
 {
     public class Enemy : GameObject
     {
-        public Rectangle enemyAggroArea;
-        public Vector4 enemyAggroAreaSize;
-        public float attackRange;
-        public Player worm;
-        public int enemyHP;
-        bool stillAlive;
-        public bool knockedBack;
-        public float knockBackValue;
-        public bool attackAction;
-        float fallCooldown;
-        public bool fallOutOfMap;
-        public float attackTimer;
-        public Vector2 chargingVector;
-        public bool calculateCharge;
-        public bool attackExecuted;
-        public float attackCooldown;
-
+        protected Rectangle enemyAggroArea;
+        protected Vector4 enemyAggroAreaSize;
+        protected float attackRange;
+        protected Player worm;
+        protected int enemyHP;
+        protected bool stillAlive;
+        protected bool knockedBack;
+        protected float knockBackValue;
+        protected bool attackAction;
+        protected float fallCooldown;
+        public bool fallOutOfMap { get; set; }
+        protected float attackTimer;
+        protected Vector2 chargingVector;
+        protected bool calculateCharge;
+        protected bool attackExecuted;
+        protected float attackCooldown;
+     
+        
    
 
-        public bool facingLeft = true;
+        protected bool facingLeft = true;
         
         public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
@@ -99,14 +100,15 @@ namespace Reggie.Enemies
             worm = wormPlayer;
         }
 
-        public void EnemyPositionCalculation(GameTime gameTime, List<GameObject> platformList)
+        public void EnemyCheckCollision(GameTime gameTime, List<GameObject> platformList)
         {
             foreach (var platform in platformList)
             {
+
                 if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
                    (velocity.X < 0 && IsTouchingRightSide(platform)))
                     velocity.X = 0;
-                else if (IsTouchingBottomSide(platform,gravity))
+                else if (IsTouchingBottomSide(platform, gravity))
                 {
                     velocity.Y = 0;
                     collisionBoxPosition.Y = platform.gameObjectPosition.Y + platform.gameObjectRectangle.Height;
@@ -121,16 +123,16 @@ namespace Reggie.Enemies
                     //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     //EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
 
-                    
+
                     knockedBack = false;
-                    pressedLeftKey= false;
+                    pressedLeftKey = false;
                     pressedRightKey = false;
-                    
+
                 }
 
-                else if (!IsTouchingTopSide(platform, gravity) &&  isStanding == false)
+                else if (!IsTouchingTopSide(platform, gravity) && isStanding == false && !attackAction)
                 {
-                    
+
                     gravityActive = true;
                     if (pressedRightKey && knockedBack == false)
                         velocity.X = movementSpeed;
@@ -144,7 +146,11 @@ namespace Reggie.Enemies
                         velocity.X = 0;
                 }
             }
-            if (gravityActive && isStanding == false)
+        }
+        public void EnemyPositionCalculation(GameTime gameTime)
+        {
+           
+            if (gravityActive && isStanding == false && !attackAction)
             {
                 fallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
@@ -154,8 +160,8 @@ namespace Reggie.Enemies
                 gravity = Vector2.Zero;
             collisionBoxPosition += velocity;
             velocity = Vector2.Zero;
-            if (fallCooldown >= 5)
-                    fallOutOfMap = true;
+            //if (fallCooldown >= 5)
+            //        fallOutOfMap = true;
             if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
             {
                 gameObjectPosition = collisionBoxPosition - changeCollisionBox;
