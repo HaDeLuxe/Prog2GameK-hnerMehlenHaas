@@ -303,7 +303,7 @@ namespace Reggie {
                     foreach (GameObject gameObject in gameObjectList) levelGameObjects.Add(gameObject);
 
                     levelManager.sortGameObjects();
-                    loadAndSave.SavePlatforms();
+                    loadAndSave.Save();
 
                 }
                 else
