@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Reggie
 {
-    class LoadAndSave {
+        public class LoadAndSave {
 
         private List<GameObject> gameObjectList;
         private Dictionary<string, Texture2D> platformTextures;
@@ -269,7 +269,7 @@ namespace Reggie
             soundEffectDictionnary.Add("houseChord", temp);
         }
 
-        public void SavePlatforms()
+        public void Save()
         {
             List<string> outputList = new List<string>();
             outputList.RemoveRange(0, outputList.Count());

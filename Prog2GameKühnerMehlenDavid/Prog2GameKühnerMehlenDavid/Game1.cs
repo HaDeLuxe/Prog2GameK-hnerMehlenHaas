@@ -181,7 +181,7 @@ namespace Reggie
 
             
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
-            ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, ref wormPlayer.gameObjectPosition);
+            ingameMenus = new IngameMenus(spriteBatch, texturesDictionary);
             // MONO: use this.Content to load your game content here
         }
 
@@ -233,7 +233,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, ref ingameMenus);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave);
                     break;
 
                 case GameState.GAMELOOP:
@@ -265,7 +265,7 @@ namespace Reggie
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, ref ingameMenus);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -367,6 +367,8 @@ namespace Reggie
                                 animManager.animation(gameTime, ref wormPlayer, spriteBatch);
                             else
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
+
+                            wormPlayer.drawUpdate(levelObjectList, ref ingameMenus);
 
                             //This draws the UI
                             gameManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());

@@ -12,18 +12,16 @@ namespace Reggie.Menus
     {
         SpriteBatch spriteBatch { get; }
         Dictionary<string, Texture2D> texturesDictionary { get; }
-        Vector2 playerPos { get; }
        
-        public IngameMenus(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary, ref Vector2 playerPos)
+        public IngameMenus(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary)
         {
             this.spriteBatch = spriteBatch;
             this.texturesDictionary = texturesDictionary;
-            this.playerPos = playerPos;
         }
 
-        public void drawSaveIcon()
+        public void drawSaveIcon(Vector2 playerPosition)
         {
-            spriteBatch.Draw(texturesDictionary["SaveIcon"], new Vector2(playerPos.X-50, playerPos.Y-50), Color.White);
+            spriteBatch.Draw(texturesDictionary["SaveIcon"], new Vector2(playerPosition.X, playerPosition.Y -70), Color.White);
         }
 
 
