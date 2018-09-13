@@ -443,7 +443,7 @@ namespace Reggie
                     }
                 }
 
-                if (ItemUIManager.scissorsPickedUp)
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     Platform temp = null;
                     foreach(Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>())
