@@ -483,11 +483,14 @@ namespace Reggie
 
                 foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
                 {
-                    if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
+                    if (item.objectID == (int)Enums.ObjectsID.APPLE)
                     {
-                        loadAndSave.Save();   
-                        Console.WriteLine("Game Saved");
-                        break;
+                        if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
+                        {
+                            loadAndSave.Save();
+                            Console.WriteLine("Game Saved");
+                            break;
+                        }
                     }
                 }
 
@@ -583,12 +586,14 @@ namespace Reggie
         {
             foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
             {
-                if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
+                if (item.objectID == (int)Enums.ObjectsID.APPLE)
                 {
-                    ingameMenus.drawSaveIcon(this.gameObjectPosition);
-                    Console.WriteLine("Apple Collision");
-
-                    break;
+                    if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
+                    {
+                        ingameMenus.drawSaveIcon(this.gameObjectPosition);
+                        Console.WriteLine("Apple Collision");
+                        break;
+                    }
                 }
             }
         }
