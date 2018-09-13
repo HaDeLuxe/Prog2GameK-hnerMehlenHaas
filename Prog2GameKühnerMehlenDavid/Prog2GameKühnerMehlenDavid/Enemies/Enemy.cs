@@ -30,7 +30,7 @@ namespace Reggie.Enemies
         
    
 
-        protected bool facingLeft = true;
+     //   protected bool facingLeft = true;
         
         public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
@@ -132,7 +132,6 @@ namespace Reggie.Enemies
 
                 else if (!IsTouchingTopSide(platform, gravity) && isStanding == false && !attackAction)
                 {
-
                     gravityActive = true;
                     if (pressedRightKey && knockedBack == false)
                         velocity.X = movementSpeed;
@@ -205,9 +204,9 @@ namespace Reggie.Enemies
                 velocity.X = 0;
 
             if (velocity.X < 0)
-                facingLeft = true;
+                facingDirectionRight = false;
             else if (velocity.X > 0)
-                facingLeft = false;
+                facingDirectionRight = true;
         }
 
         public virtual void EnemyAttack(GameTime gameTime) { }
