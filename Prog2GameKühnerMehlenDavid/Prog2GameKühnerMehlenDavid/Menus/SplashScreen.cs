@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reggie
+namespace Reggie.Menus
 {
     public class SplashScreen
     {
@@ -33,6 +33,7 @@ namespace Reggie
 
             if (Keyboard.GetState().GetPressedKeys().Count() > 0)
                 Game1.currentGameState = Game1.GameState.MAINMENU;
+           
         }
        
         private void LoadSplashScreenTextures(ContentManager content)

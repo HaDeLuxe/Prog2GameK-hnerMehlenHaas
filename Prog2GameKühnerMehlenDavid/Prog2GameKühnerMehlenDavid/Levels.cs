@@ -40,6 +40,8 @@ namespace Reggie {
         List<GameObject> TreeGameObjects;
         List<GameObject> HubGameObjects;
         List<GameObject> InterLevelGameObjects;
+        List<GameObject> allGameObjects;
+        List<GameObject> currentLevelGameObjects;
 
         bool TutToHub = false;
         bool HubToDung = false;
@@ -56,7 +58,9 @@ namespace Reggie {
 
         public Enums.Level currentLevel = Enums.Level.TUTORIAL;
 
-        public Levels() {
+        Vector2 PlayerPos;
+
+        public Levels(Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects, ref List<GameObject> allGameObjects) {
             TutorialGameObjects = new List<GameObject>();
             DungHillGameObjects = new List<GameObject>();
             GreenHouseGameObjects = new List<GameObject>();
@@ -64,9 +68,12 @@ namespace Reggie {
             TreeGameObjects = new List<GameObject>();
             HubGameObjects = new List<GameObject>();
             InterLevelGameObjects = new List<GameObject>();
+            this.PlayerPos = PlayerPos;
+            this.currentLevelGameObjects = currentLevelGameObjects;
+            this.allGameObjects = allGameObjects;
         }
 
-        public void ManageLevels(Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects)
+        public void ManageLevels()
         {
             if (TutorialRectangle.Contains(PlayerPos))
                 currentLevel = Enums.Level.TUTORIAL;
@@ -234,8 +241,21 @@ namespace Reggie {
         
 
 
-        public void sortGameObjects(List<GameObject> allGameObjects) 
+        public void sortGameObjects() 
         {
+            currentLevelGameObjects.Clear();
+            foreach(GameObject gameObject in allGameObjects)
+            {
+                currentLevelGameObjects.Add(gameObject);
+            }
+            TutorialGameObjects.Clear();
+            DungHillGameObjects.Clear();
+            HubGameObjects.Clear();
+            AntGameObjects.Clear();
+            GreenHouseGameObjects.Clear();
+            TreeGameObjects.Clear();
+            InterLevelGameObjects.Clear();
+
             foreach(GameObject GameObject in allGameObjects)
             {
                 if (DetectCollision(GameObject, TutorialRectangle))

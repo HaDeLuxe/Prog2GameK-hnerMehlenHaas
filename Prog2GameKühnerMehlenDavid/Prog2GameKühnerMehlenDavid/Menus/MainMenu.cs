@@ -23,12 +23,13 @@ namespace Reggie.Menus {
         public MainMenu() { 
             currentButton = Enums.MainMenuButtons.START;
             currentControlButton = Enums.MainMenuButtons.CONTROLNO;
-            buttonPressed = false;
+            buttonPressed = true;
             controlWindowOpen = false;
-            controlButtonPressed = false;
+            controlButtonPressed = true;
+            
         }
 
-        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font) {
+        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font, Levels levelManager) {
 
             if (!controlWindowOpen)
             {
@@ -62,18 +63,19 @@ namespace Reggie.Menus {
 
             if (controlWindowOpen)
             {
-                newGameControlScreen(Font, SpriteBatch, texturesDictionary);
+                newGameControlScreen(Font, SpriteBatch, texturesDictionary, levelManager);
             }
         }
 
-        public void Update(Game1 Game) {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && !buttonPressed && !controlWindowOpen)
+        public void Update(Game1 Game)
+        {
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed && !controlWindowOpen)
             {
                 currentButton--;
                 if (currentButton < 0) currentButton = Enums.MainMenuButtons.EXIT;
                 buttonPressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && !buttonPressed && !controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !buttonPressed && !controlWindowOpen)
             {
                 currentButton++;
                 if (currentButton > Enums.MainMenuButtons.EXIT) currentButton = Enums.MainMenuButtons.START;
@@ -85,6 +87,7 @@ namespace Reggie.Menus {
                 switch (currentButton)
                 {
                     case Enums.MainMenuButtons.START:
+
                         controlWindowOpen = true;
                         break;
                     case Enums.MainMenuButtons.RESUME:
@@ -104,11 +107,11 @@ namespace Reggie.Menus {
                 buttonPressed = false;
             }
         }
-        
-        
 
 
-        private void LoadNewGame() {
+
+
+        private void LoadNewGame(Levels levelManager) {
             ItemUIManager.armorPickedUp = false;
             ItemUIManager.snailShellPickedUp = false;
             ItemUIManager.shovelPickedUp = false;
@@ -118,18 +121,19 @@ namespace Reggie.Menus {
             ItemUIManager.powerPickedUp = false;
             ItemUIManager.jumpPickedUp = false;
             Game1.wormPlayer.gameObjectPosition = new Vector2(13444, 1700);
+            levelManager.ManageLevels();
         }
 
-        void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary) {
+        void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, Levels levelManager) {
             controlWindowOpen = true;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && !controlButtonPressed && controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp)) && !controlButtonPressed && controlWindowOpen)
             {
                 currentControlButton--;
                 if (currentControlButton < Enums.MainMenuButtons.CONTROLYES) currentControlButton = Enums.MainMenuButtons.CONTROLNO;
                 controlButtonPressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && !controlButtonPressed && controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !controlButtonPressed && controlWindowOpen)
             {
                 currentControlButton++;
                 if (currentControlButton > Enums.MainMenuButtons.CONTROLNO) currentControlButton = Enums.MainMenuButtons.CONTROLYES;
@@ -150,7 +154,7 @@ namespace Reggie.Menus {
                 switch (currentControlButton)
                 {
                     case Enums.MainMenuButtons.CONTROLYES:
-                        LoadNewGame();
+                        LoadNewGame(levelManager);
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
                         controlWindowOpen = false;
                         break;
@@ -163,7 +167,7 @@ namespace Reggie.Menus {
             }
 
 
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0)
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).IsButtonUp(Buttons.DPadUp))
             {
                 controlButtonPressed = false;
 

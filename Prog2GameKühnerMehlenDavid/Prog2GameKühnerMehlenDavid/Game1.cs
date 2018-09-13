@@ -7,6 +7,8 @@ using System.Linq;
 using Microsoft.Xna.Framework.Media; //AUDIOSTUFF //SONGS
 using Microsoft.Xna.Framework.Audio; //Sounds
 using Reggie.Menus;
+using Reggie.Animations;
+using Reggie.Enemies;
 
 namespace Reggie
 {
@@ -55,6 +57,8 @@ namespace Reggie
         ItemUIManager gameManager;
         Levels levelManager;
         Minimap minimap;
+        LoadAndSave loadAndSave;
+
 
         
 
@@ -109,8 +113,8 @@ namespace Reggie
             mainMenu = new MainMenu();
             gameMenu = new GameMenu();
             gameManager = new ItemUIManager();
-            levelManager = new Levels();
             minimap = new Minimap();
+            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionnary);
         }
 
         /// <summary>
@@ -134,11 +138,11 @@ namespace Reggie
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = Content.Load<SpriteFont>("Fonts/Arial");
+            font = Content.Load<SpriteFont>("Fonts/LuckiestGuy");
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
 
             
-            Loading loading = new Loading();
+            LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionnary);
             loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionnary, ref enemySpriteSheets, ref songDictionnary, ref soundEffectDictionnary);
             levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
 
@@ -162,16 +166,19 @@ namespace Reggie
             allGameObjectList.Add(new Item(texturesDictionnary["PowerPotion"], new Vector2(64, 64), new Vector2(12200, 1600), (int)Enums.ObjectsID.POWERPOTION));
             allGameObjectList.Add(new Item(texturesDictionnary["JumpPotion"], new Vector2(64, 64), new Vector2(12100, 1600), (int)Enums.ObjectsID.JUMPPOTION));
             allGameObjectList.Add(new Item(texturesDictionnary["GoldenUmbrella"], new Vector2(100, 29), new Vector2(11900, 1600), (int)Enums.ObjectsID.GOLDENUMBRELLA));
-            allGameObjectList.Add(new Platform(texturesDictionnary["Spiderweb_64x64"], new Vector2(64, 64), new Vector2(11800, 1600),(int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            allGameObjectList.Add(new Platform(texturesDictionnary["VineDoor"], new Vector2(64, 64), new Vector2(11800, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
+            allGameObjectList.Add(new Platform(texturesDictionnary["Spiderweb_64x64"], new Vector2(64, 64), new Vector2(11700, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
 
 
             levelObjectList = new List<GameObject>();
             foreach (GameObject gameObject in allGameObjectList) levelObjectList.Add(gameObject);
-            levelManager.sortGameObjects(allGameObjectList);
+            levelManager = new Levels(wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
+            levelManager.sortGameObjects();
 
            
             FillLists();
             
+            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionnary);
             // MONO: use this.Content to load your game content here
         }
 
@@ -229,7 +236,7 @@ namespace Reggie
                 case GameState.GAMELOOP:
                     this.IsMouseVisible = false;
                     //switch to LevelEditor
-                    levelManager.ManageLevels( wormPlayer.gameObjectPosition ,ref levelObjectList);
+                    levelManager.ManageLevels();
                     gameManager.ManageItems(ref wormPlayer, ref levelObjectList);
 
                     if (currentGameState == GameState.GAMELOOP)
@@ -275,7 +282,7 @@ namespace Reggie
                     previousState = Keyboard.GetState();
                     break;
                 case GameState.GAMEMENU:
-                    gameMenu.Update(this);
+                    gameMenu.Update(this, loadAndSave);
                     //if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                     //    currentGameState = GameState.GAMELOOP;
                     //previousState = Keyboard.GetState();
@@ -314,7 +321,7 @@ namespace Reggie
 
                         break;
                     case GameState.MAINMENU:
-                        mainMenu.RenderMainMenu(texturesDictionnary, spriteBatch, font);
+                        mainMenu.RenderMainMenu(texturesDictionnary, spriteBatch, font, levelManager);
                         break;
                     case GameState.MINIMAP:
                         //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
@@ -346,12 +353,12 @@ namespace Reggie
                             }
 
                             //This draws the player
-                            playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                                playercolorData[i] = Color.Black;
-                            playertexture.SetData<Color>(playercolorData);
-                            playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
+                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
+                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
+                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
+                            //    playercolorData[i] = Color.Black;
+                            //playertexture.SetData<Color>(playercolorData);
+                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
                             //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
@@ -373,8 +380,7 @@ namespace Reggie
                         //this draws all the platforms in the game
                         foreach (var platformSprite in allGameObjectList)
                             platformSprite.DrawSpriteBatch(spriteBatch);
-                        levelEditor.DrawLvlEditorUI(texturesDictionnary, spriteBatch, transformationMatrix, ref allGameObjectList, GraphicsDevice);
-
+                        levelEditor.DrawLvlEditorUI(texturesDictionnary, spriteBatch, transformationMatrix, ref allGameObjectList,ref levelObjectList, GraphicsDevice, ref loadAndSave, ref levelManager);
                         //This draws the player
                         animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
@@ -432,6 +438,10 @@ namespace Reggie
                 {
                     allGameObjectList.Add(new Platform(texturesDictionnary["Transparent_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_64x64, false));
                     allGameObjectList.Last().DontDrawThisObject();
+                }
+                if (dataSeperated[i] == Enums.ObjectsID.APPLE.ToString())
+                {
+                    allGameObjectList.Add(new Item(texturesDictionnary["Apple"], new Vector2(128, 128), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.APPLE));
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
                     allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, false));

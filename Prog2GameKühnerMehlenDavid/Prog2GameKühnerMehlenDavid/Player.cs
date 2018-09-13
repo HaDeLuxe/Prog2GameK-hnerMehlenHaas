@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Media;
+using Reggie.Animations;
+using Reggie.Enemies;
 
 namespace Reggie
 {
@@ -406,11 +408,11 @@ namespace Reggie
                 PlayerJump();
 
                 //SOUNDS
-                MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
+                //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
             }
 
             //Player Attack Input
-            if((ButtonState.Pressed == mouseState.LeftButton && cooldown ==0 && !playerGameElementInteraction)
+            if ((ButtonState.Pressed == mouseState.LeftButton && cooldown == 0 && !playerGameElementInteraction)
                 || GamePad.GetState(0).IsButtonDown(Buttons.X) && cooldown == 0 && !playerGameElementInteraction)
             {
                 if (facingDirectionRight)
@@ -419,7 +421,7 @@ namespace Reggie
                         AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Hat_Right;
                     else if (ItemUIManager.armorPickedUp)
                         AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Armor_Right;
-                    else if 
+                    else if
                         (ItemUIManager.snailShellPickedUp) AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Hat_Right;
                     else AnimationManager.nextAnimation = AnimationManager.Animations.Attack_Right;
                 }
@@ -437,7 +439,7 @@ namespace Reggie
                 // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
                 foreach (var enemy in enemyList)
                 {
-                    if(PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true )
+                    if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true)
                     {
                         enemy.KnockBackPosition(facingDirectionRight);
                     }
@@ -445,27 +447,56 @@ namespace Reggie
 
                 if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
-                    Platform temp = null;
-                    foreach(Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>())
+                    //Platform temp = null;
+                    foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
                     {
                         if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
                         {
-                            temp = platform;
+                            //temp = platform;
+                            GameObjectsList.Remove(platform);
                             break;
                         }
                     }
-                    GameObjectsList.Remove(temp);
+                    //GameObjectsList.Remove(temp);
                 }
 
-
-                //Remove Spiderweb when scissors equipped
-                if (ItemUIManager.scissorsPickedUp)
+                //TODO:Destroyable? temp
+                // Platform temp = null;
+                foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
                 {
-                    //if(DetectCollision() && )
+                    if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.VINEDOOR)
+                    {
+                        GameObjectsList.Remove(platform);
+                        break;
+                    }
                 }
-                playerAttackPressed = true;
+                //GameObjectsList.Remove(temp);
+
+
+
+                //foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+                //{
+                //    if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
+                //    {
+                //        Console.WriteLine("Apple Collision");
+                //        break;
+                //    }
+                //}
+
+                //playerAttackPressed = true;
+            
             }
-            if(playerAttackPressed)
+
+            foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+            {
+                if (DetectCollision(item) && item.objectID == (int)Enums.ObjectsID.APPLE)
+                {
+                    Console.WriteLine("Apple Collision");
+                    break;
+                }
+            }
+
+            if (playerAttackPressed)
                 cooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
             if(cooldown>=.75)
             {

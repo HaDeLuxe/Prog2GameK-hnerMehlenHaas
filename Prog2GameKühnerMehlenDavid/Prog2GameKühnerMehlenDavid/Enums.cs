@@ -138,6 +138,8 @@ namespace Reggie {
             JUMPPOTION,
             POWERPOTION,
             GOLDENUMBRELLA,
+            VINEDOOR,
+            APPLE,
             NONE,
             ///ADD NEW ITEM HERE
 
