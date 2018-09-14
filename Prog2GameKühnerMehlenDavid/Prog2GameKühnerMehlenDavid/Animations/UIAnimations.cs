@@ -67,7 +67,7 @@ namespace Reggie.Animations
             {
                 case uiAnimations.Save:
                     Console.WriteLine("Save Animation");
-                    tempRec = divAnimationDestRectanglesDic["SaveAnimation"].Update(gameTime);
+                    tempRec = save_Animation.Update(gameTime);
                     spriteBatch.Draw(save_Animation.texture, Vector2.Transform(new Vector2(1750, 0), Matrix.Invert(transformationMatrix)), tempRec, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
                     break;
                 case uiAnimations.Reggie_Move_Right:
