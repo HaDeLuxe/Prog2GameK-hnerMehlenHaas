@@ -446,8 +446,10 @@ namespace Reggie
                 // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
                 foreach (var enemy in enemyList)
                 {
-                    if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true)
+                    if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true && !enemy.invincibilityFrames)
                     {
+                        enemy.invincibilityFrames = true;
+                        //worm.KnockBackPosition(facingDirectionRight, 35);
                         enemy.KnockBackPosition(facingDirectionRight);
                     }
                 }
@@ -559,9 +561,6 @@ namespace Reggie
                 else
                     velocity.Y = 0;
             }
-
-
-
 
             if (Keyboard.GetState().IsKeyUp(Keys.D) && Keyboard.GetState().IsKeyUp(Keys.A) && !firstJump && !secondJump && !playerGameElementInteraction)
             {

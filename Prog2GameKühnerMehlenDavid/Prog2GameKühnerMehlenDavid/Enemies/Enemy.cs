@@ -26,12 +26,13 @@ namespace Reggie.Enemies
         protected bool calculateCharge;
         protected bool attackExecuted;
         protected float attackCooldown;
-     
-        
-   
+        public bool invincibilityFrames;
+        public float invincibilityTimer;
 
-     //   protected bool facingLeft = true;
-        
+
+
+        //   protected bool facingLeft = true;
+
         public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
             gravityActive = true;
@@ -43,7 +44,9 @@ namespace Reggie.Enemies
             calculateCharge = false;
             attackExecuted = false;
             attackCooldown = 0;
-           // objectID = (int)Enums.ObjectsID.ENEMY;
+            invincibilityFrames = false;
+            invincibilityTimer = 0;
+            // objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
             enemyAggroAreaSize = new Vector4(400, 300, 900, 650);
@@ -336,6 +339,16 @@ namespace Reggie.Enemies
             gravityActive = false;
             gravity = Vector2.Zero;
             isStanding = true;
+        }
+
+        public void InvincibleFrameState(GameTime gameTime)
+        {
+            invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+            if (invincibilityTimer > 5f)
+            {
+                invincibilityTimer = 0;
+                invincibilityFrames = false;
+            }
         }
     }
 }

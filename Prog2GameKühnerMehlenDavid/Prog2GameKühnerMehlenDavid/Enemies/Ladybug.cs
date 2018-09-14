@@ -46,7 +46,11 @@ namespace Reggie.Enemies
                 CalculationCooldown(gameTime);
             EnemyCheckCollision(gameTime, gameObjectList);
             EnemyPositionCalculation(gameTime);
-           
+
+
+            if (invincibilityFrames)
+                InvincibleFrameState(gameTime);
+
 
         }
 
