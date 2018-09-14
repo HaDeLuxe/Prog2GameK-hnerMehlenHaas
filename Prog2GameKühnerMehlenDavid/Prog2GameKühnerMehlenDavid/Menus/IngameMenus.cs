@@ -18,6 +18,7 @@ namespace Reggie.Menus
         UIAnimations  rightTutPlayer;
         UIAnimations leftTutPlayer;
         UIAnimations jumpTutPlayer;
+        UIAnimations floatingTutPlayer;
 
        
 
@@ -34,6 +35,8 @@ namespace Reggie.Menus
             leftTutPlayer.nextAnimation = UIAnimations.uiAnimations.Reggie_Move_Left;
             jumpTutPlayer = new UIAnimations(texturesDictionary, playerSpriteSheets);
             jumpTutPlayer.nextAnimation = UIAnimations.uiAnimations.Reggie_Jump;
+            floatingTutPlayer = new UIAnimations(texturesDictionary, playerSpriteSheets);
+            floatingTutPlayer.currentAnimation = UIAnimations.uiAnimations.Reggie_Float;
         }
 
        public void saveAnimStart()
@@ -53,6 +56,9 @@ namespace Reggie.Menus
             rightTutPlayer.Animation(gameTime, spriteBatch, transformationMatrix);
             leftTutPlayer.Animation(gameTime, spriteBatch, transformationMatrix);
             jumpTutPlayer.Animation(gameTime, spriteBatch, transformationMatrix);
+            spriteBatch.Draw(texturesDictionary["glideTutorial"], new Vector2(11950, 500), Color.White);
+            floatingTutPlayer.Animation(gameTime, spriteBatch, transformationMatrix);
+
         }
 
 

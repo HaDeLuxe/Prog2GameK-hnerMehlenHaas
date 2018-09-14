@@ -131,136 +131,136 @@ namespace Reggie.Animations {
         
 
 
-        public AnimationManager(Dictionary<string, Texture2D> PlayerSpriteSheet) 
+        public AnimationManager(Dictionary<string, Texture2D> playerSpriteSheet) 
         {
             divAnimationDestRectanglesDic = new Dictionary<string, Animation>();
             //Walk Animations
-            walk_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/5,PlayerSpriteSheet["playerMoveSpriteSheet"], 25f);
+            walk_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"]/5,playerSpriteSheet["playerMoveSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Animation_Left",walk_Animation_Left);
-            walk_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5, PlayerSpriteSheet["playerMoveSpriteSheet"], 25f);
+            walk_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5, playerSpriteSheet["playerMoveSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Animation_Right", walk_Animation_Right);
-            walk_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
+            walk_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, playerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Hat_Animation_Left", walk_Hat_Animation_Left);
-            walk_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
+            walk_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, playerSpriteSheet["playerMoveHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Hat_Animation_Right", walk_Hat_Animation_Right);
-            walk_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 108, 87, PlayerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
+            walk_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 108, 87, playerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Armor_Animation_Left", walk_Armor_Animation_Left);
-            walk_Armor_Animation_Right = new Animation(true, SpriteEffects.None, 108, 87, PlayerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
+            walk_Armor_Animation_Right = new Animation(true, SpriteEffects.None, 108, 87, playerSpriteSheet["playerMoveArmorSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Armor_Animation_Right", walk_Armor_Animation_Right);
-            walk_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
+            walk_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, playerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Armor_Hat_Animation_Left", walk_Armor_Hat_Animation_Left);
-            walk_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, PlayerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
+            walk_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Hat_Y"] / 5, playerSpriteSheet["playerMoveArmorHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Armor_Hat_Animation_Right", walk_Armor_Hat_Animation_Right);
             //Jump Animations
-            jump_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
+            jump_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, playerSpriteSheet["playerJumpSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Animation_Left", jump_Animation_Left);
-            jump_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, PlayerSpriteSheet["playerJumpSpriteSheet"], 25f);
+            jump_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Y"] / 5, playerSpriteSheet["playerJumpSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Animation_Right", jump_Animation_Right);
-            jump_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
+            jump_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, playerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Hat_Animation_Left", jump_Hat_Animation_Left);
-            jump_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
+            jump_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, playerSpriteSheet["playerJumpHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Hat_Animation_Right", jump_Hat_Animation_Right);
-            jump_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, PlayerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
+            jump_Armor_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, playerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Armor_Animation_Left", jump_Armor_Animation_Left);
-            jump_Armor_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, PlayerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
+            jump_Armor_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Armor_Y"] / 5, playerSpriteSheet["playerJumpArmorSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Armor_Animation_Right", jump_Armor_Animation_Right);
-            jump_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
+            jump_Armor_Hat_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, playerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Armor_Hat_Animation_Left", jump_Armor_Hat_Animation_Left);
-            jump_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, PlayerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
+            jump_Armor_Hat_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Jump_Hat_Y"] / 5, playerSpriteSheet["playerJumpArmorHatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Armor_Hat_Animation_Right", jump_Armor_Hat_Animation_Right);
             //Attack Animtions
-            attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
+            attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, playerSpriteSheet["playerAttackSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Left", attack_Animation_Left);
-            attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, PlayerSpriteSheet["playerAttackSpriteSheet"], 50f);
+            attack_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, playerSpriteSheet["playerAttackSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Animation_Right", attack_Animation_Right);
-            attack_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
+            attack_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, playerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Left", attack_Hat_Animation_Left);
-            attack_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
+            attack_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, playerSpriteSheet["playerAttackHatSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Hat_Animation_Right", attack_Hat_Animation_Right);
-            attack_Armor_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 90, 86, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
+            attack_Armor_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 90, 86, playerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Left", attack_Armor_Animation_Left);
-            attack_Armor_Animation_Right = new Animation(false, SpriteEffects.None, 90,86, PlayerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
+            attack_Armor_Animation_Right = new Animation(false, SpriteEffects.None, 90,86, playerSpriteSheet["playerAttackArmorSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Armor_Animation_Right", attack_Armor_Animation_Right);
-            attack_Armor_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
+            attack_Armor_Hat_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, playerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Armor_Hat_Animation_Left", attack_Armor_Hat_Animation_Left);
-            attack_Armor_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, PlayerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
+            attack_Armor_Hat_Animation_Right = new Animation(false, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Hat_Y"] / 5, playerSpriteSheet["playerAttackArmorHatSpritesheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Armor_Hat_Animation_Right", attack_Armor_Hat_Animation_Right);
 
             //Umbrella Animations
-            attack_Umbrella_Empty_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 147, PlayerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
+            attack_Umbrella_Empty_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 147, playerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Umbrella_Empty_Animation_Left", attack_Umbrella_Empty_Animation_Left);
-            attack_Umbrella_Empty_Animation_Right = new Animation(false, SpriteEffects.None, 115, 147, PlayerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
+            attack_Umbrella_Empty_Animation_Right = new Animation(false, SpriteEffects.None, 115, 147, playerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Umbrella_Empty_Animation_Right", attack_Umbrella_Empty_Animation_Right);
-            attack_Umbrella_Golden_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 148, PlayerSpriteSheet["playerAttackGoldenSpriteSheet"], 50f);
+            attack_Umbrella_Golden_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 148, playerSpriteSheet["playerAttackGoldenSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Umbrella_Golden_Animation_Left", attack_Umbrella_Golden_Animation_Left);
-            attack_Umbrella_Golden_Animation_Right = new Animation(false, SpriteEffects.None, 115, 148, PlayerSpriteSheet["playerAttackGoldenSpriteSheet"], 50f);
+            attack_Umbrella_Golden_Animation_Right = new Animation(false, SpriteEffects.None, 115, 148, playerSpriteSheet["playerAttackGoldenSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("Attack_Umbrella_Golden_Animation_Right", attack_Umbrella_Golden_Animation_Right);
 
-            walk_Umbrella_Empty_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 75, 106, PlayerSpriteSheet["playerMoveUmbrellaEmptySpriteSheet"], 25f);
+            walk_Umbrella_Empty_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 75, 106, playerSpriteSheet["playerMoveUmbrellaEmptySpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Umbrella_Empty_Animation_Left", walk_Umbrella_Empty_Animation_Left);
-            walk_Umbrella_Empty_Animation_Right = new Animation(true, SpriteEffects.None, 75, 106, PlayerSpriteSheet["playerMoveUmbrellaEmptySpriteSheet"], 25f);
+            walk_Umbrella_Empty_Animation_Right = new Animation(true, SpriteEffects.None, 75, 106, playerSpriteSheet["playerMoveUmbrellaEmptySpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Umbrella_Empty_Animation_Right", walk_Umbrella_Empty_Animation_Right);
-            walk_Umbrella_Golden_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 75, 106, PlayerSpriteSheet["playerWalkGoldenSpriteSheet"], 25f);
+            walk_Umbrella_Golden_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 75, 106, playerSpriteSheet["playerWalkGoldenSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Umbrella_Golden_Animation_Left", walk_Umbrella_Golden_Animation_Left);
-            walk_Umbrella_Golden_Animation_Right = new Animation(true, SpriteEffects.None, 75, 106, PlayerSpriteSheet["playerWalkGoldenSpriteSheet"], 25f);
+            walk_Umbrella_Golden_Animation_Right = new Animation(true, SpriteEffects.None, 75, 106, playerSpriteSheet["playerWalkGoldenSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Walk_Umbrella_Golden_Animation_Right", walk_Umbrella_Golden_Animation_Right);
 
-            jump_Umbrella_Empty_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 48, 95, PlayerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
+            jump_Umbrella_Empty_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 48, 95, playerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Umbrella_Empty_Animation_Left", jump_Umbrella_Empty_Animation_Left);
-            jump_Umbrella_Empty_Animation_Right = new Animation(true, SpriteEffects.None, 48, 95, PlayerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
+            jump_Umbrella_Empty_Animation_Right = new Animation(true, SpriteEffects.None, 48, 95, playerSpriteSheet["playerJumpUmbrellaEmptySpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Umbrella_Empty_Animation_Right", jump_Umbrella_Empty_Animation_Right);
-            jump_Umbrella_Golden_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 48, 95, PlayerSpriteSheet["playerJumpGoldenSpriteSheet"], 25f);
+            jump_Umbrella_Golden_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 48, 95, playerSpriteSheet["playerJumpGoldenSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Umbrella_Golden_Animation_Left", jump_Umbrella_Golden_Animation_Left);
-            jump_Umbrella_Golden_Animation_Right = new Animation(true, SpriteEffects.None, 48, 95, PlayerSpriteSheet["playerJumpGoldenSpriteSheet"], 25f);
+            jump_Umbrella_Golden_Animation_Right = new Animation(true, SpriteEffects.None, 48, 95, playerSpriteSheet["playerJumpGoldenSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Jump_Umbrella_Golden_Animation_Right", jump_Umbrella_Golden_Animation_Right);
 
 
             //Item Animations
-            walk_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 35, 50, PlayerSpriteSheet["playerWalkShovelSpriteSheet"], 25f);
+            walk_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 35, 50, playerSpriteSheet["playerWalkShovelSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("walk_Shovel_Animation_Left", walk_Shovel_Animation_Left);
-            walk_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 35, 50, PlayerSpriteSheet["playerWalkShovelSpriteSheet"], 25f);
+            walk_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 35, 50, playerSpriteSheet["playerWalkShovelSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("walk_Shovel_Animation_Right", walk_Shovel_Animation_Right);
-            jump_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 25, 32, PlayerSpriteSheet["playerJumpShovelSpriteSheet"], 25f);
+            jump_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 25, 32, playerSpriteSheet["playerJumpShovelSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("jump_Shovel_Animation_Left", jump_Shovel_Animation_Left);
-            jump_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 25, 32, PlayerSpriteSheet["playerJumpShovelSpriteSheet"], 25f);
+            jump_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 25, 32, playerSpriteSheet["playerJumpShovelSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("jump_Shovel_Animation_Right", jump_Shovel_Animation_Right);
-            attack_Shovel_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 67, 76, PlayerSpriteSheet["playerAttackShovelSpriteSheet"], 50f);
+            attack_Shovel_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 67, 76, playerSpriteSheet["playerAttackShovelSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("attack_Shovel_Animation_Left", attack_Shovel_Animation_Left);
-            attack_Shovel_Animation_Right = new Animation(false, SpriteEffects.None, 67, 76, PlayerSpriteSheet["playerAttackShovelSpriteSheet"], 50f);
+            attack_Shovel_Animation_Right = new Animation(false, SpriteEffects.None, 67, 76, playerSpriteSheet["playerAttackShovelSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("attack_Shovel_Animation_Right", attack_Shovel_Animation_Right);
-            float_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 22, 30, PlayerSpriteSheet["playerFloatShovelSpriteSheet"], 25f);
+            float_Shovel_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 22, 30, playerSpriteSheet["playerFloatShovelSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("float_Shovel_Animation_Left", float_Shovel_Animation_Left);
-            float_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 22, 30, PlayerSpriteSheet["playerFloatShovelSpriteSheet"], 25f);
+            float_Shovel_Animation_Right = new Animation(true, SpriteEffects.None, 22, 30, playerSpriteSheet["playerFloatShovelSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("float_Shovel_Animation_Right", float_Shovel_Animation_Right);
 
 
-            walk_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 45, 53, PlayerSpriteSheet["playerWalkScissorsSpriteSheet"], 25f);
+            walk_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 45, 53, playerSpriteSheet["playerWalkScissorsSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("walk_Scissors_Animation_Left", walk_Scissors_Animation_Left);
-            walk_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 45, 53, PlayerSpriteSheet["playerWalkScissorsSpriteSheet"], 25f);
+            walk_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 45, 53, playerSpriteSheet["playerWalkScissorsSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("walk_Scissors_Animation_Right", walk_Scissors_Animation_Right);
-            jump_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 27, 39, PlayerSpriteSheet["playerJumpScissorsSpriteSheet"], 25f);
+            jump_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 27, 39, playerSpriteSheet["playerJumpScissorsSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("jump_Scissors_Animation_Left", jump_Scissors_Animation_Left);
-            jump_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 27, 39, PlayerSpriteSheet["playerJumpScissorsSpriteSheet"], 25f);
+            jump_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 27, 39, playerSpriteSheet["playerJumpScissorsSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("jump_Scissors_Animation_Right", jump_Scissors_Animation_Right);
-            attack_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 68, 73, PlayerSpriteSheet["playerAttackScissorsSpriteSheet"], 50f);
+            attack_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 68, 73, playerSpriteSheet["playerAttackScissorsSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("attack_Scissors_Animation_Left", attack_Scissors_Animation_Left);
-            attack_Scissors_Animation_Right = new Animation(false, SpriteEffects.None, 68, 73, PlayerSpriteSheet["playerAttackScissorsSpriteSheet"], 50f);
+            attack_Scissors_Animation_Right = new Animation(false, SpriteEffects.None, 68, 73, playerSpriteSheet["playerAttackScissorsSpriteSheet"], 50f);
             divAnimationDestRectanglesDic.Add("attack_Scissors_Animation_Right", attack_Scissors_Animation_Right);
-            float_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 26, 39, PlayerSpriteSheet["playerFloatScissorsSpriteSheet"], 25f);
+            float_Scissors_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 26, 39, playerSpriteSheet["playerFloatScissorsSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("float_Scissors_Animation_Left", float_Scissors_Animation_Left);
-            float_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 26, 39, PlayerSpriteSheet["playerFloatScissorsSpriteSheet"], 25f);
+            float_Scissors_Animation_Right = new Animation(true, SpriteEffects.None, 26, 39, playerSpriteSheet["playerFloatScissorsSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("float_Scissors_Animation_Right", float_Scissors_Animation_Right);
             
 
 
             //Floating Animation
-            floatingAnimation_Right = new Animation(true, SpriteEffects.None, 79, 93, PlayerSpriteSheet["playerFloatSpriteSheet"], 25f);
+            floatingAnimation_Right = new Animation(true, SpriteEffects.None, 79, 93, playerSpriteSheet["playerFloatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Float_Animation_Right", floatingAnimation_Right);
-            floatingAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, PlayerSpriteSheet["playerFloatSpriteSheet"], 25f);
+            floatingAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, playerSpriteSheet["playerFloatSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Float_Animation_Left", floatingAnimation_Left);
-            floatingGoldenAnimation_Right = new Animation(true, SpriteEffects.None, 79, 93, PlayerSpriteSheet["playerFloatGoldenSpriteSheet"], 25f);
+            floatingGoldenAnimation_Right = new Animation(true, SpriteEffects.None, 79, 93, playerSpriteSheet["playerFloatGoldenSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Float_Golden_Animation_Right", floatingGoldenAnimation_Right);
-            floatingGoldenAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, PlayerSpriteSheet["playerFloatGoldenSpriteSheet"], 25f);
+            floatingGoldenAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, playerSpriteSheet["playerFloatGoldenSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Float_Golden_Animation_Left", floatingGoldenAnimation_Left);
         }
 

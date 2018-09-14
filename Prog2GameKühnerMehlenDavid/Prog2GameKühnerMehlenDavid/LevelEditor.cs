@@ -57,7 +57,7 @@ namespace Reggie {
             
             if (ButtonState.Pressed == mouseState.LeftButton)
             {
-                foreach(GameObject gameObject in gameObjects)
+                foreach(GameObject gameObject in gameObjects.Reverse<GameObject>())
                 {
                     Vector2 mouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(transformatinMatrix));
                     if (gameObject.gameObjectRectangle.Intersects(new Rectangle((int)mouseWorldPosition.X, (int)mouseWorldPosition.Y, 0, 0)))

@@ -20,6 +20,7 @@ namespace Reggie.Animations
             Reggie_Move_Left,
             Reggie_Move_Right,
             Reggie_Jump,
+            Reggie_Float,
             None
         }
 
@@ -29,6 +30,8 @@ namespace Reggie.Animations
         Animation walk_Animation_Left = null;
         Animation walk_Animation_Right = null;
         Animation jump_Animation_Left = null;
+        Animation jump_Animation_Left_Float = null;
+        Animation floatingAnimation_Left = null;
 
         public UIAnimations(Dictionary<string, Texture2D> texturesDictionary, Dictionary<string, Texture2D> playerSpriteSheet)
         {
@@ -37,6 +40,8 @@ namespace Reggie.Animations
             walk_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5, playerSpriteSheet["playerMoveSpriteSheet"], 25f);
             walk_Animation_Right = new Animation(true, SpriteEffects.None, SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5, playerSpriteSheet["playerMoveSpriteSheet"], 25f);
             jump_Animation_Left = new Animation(true, SpriteEffects.FlipHorizontally,54, 132, playerSpriteSheet["playerJumpSpriteSheet"], 25f);
+            jump_Animation_Left_Float = new Animation(true, SpriteEffects.FlipHorizontally, 54, 132, playerSpriteSheet["playerJumpSpriteSheet"], 25f);
+            floatingAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, playerSpriteSheet["playerFloatSpriteSheet"], 25f);
         }
 
         public void Animation(GameTime gameTime, SpriteBatch spriteBatch, Matrix transformationMatrix)
@@ -81,6 +86,12 @@ namespace Reggie.Animations
                 case uiAnimations.Reggie_Jump:
                     tempRec = jump_Animation_Left.Update(gameTime);
                     spriteBatch.Draw(jump_Animation_Left.texture, new Vector2(13230, 1510), tempRec, Color.White, 0, Vector2.Zero, new Vector2(.6f,.6f), SpriteEffects.FlipHorizontally, 0);
+                    break;
+                case uiAnimations.Reggie_Float:
+                    tempRec = jump_Animation_Left_Float.Update(gameTime);
+                    spriteBatch.Draw(jump_Animation_Left_Float.texture, new Vector2(12200, 500), tempRec, Color.White, 0, Vector2.Zero, new Vector2(.6f, .6f), SpriteEffects.FlipHorizontally, 0);
+                    tempRec = floatingAnimation_Left.Update(gameTime);
+                    spriteBatch.Draw(floatingAnimation_Left.texture, new Vector2(12178, 472), tempRec, Color.White, 0, Vector2.Zero, new Vector2(.6f, .6f), SpriteEffects.FlipHorizontally, 0);
                     break;
             }
         }

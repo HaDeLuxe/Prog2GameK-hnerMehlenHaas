@@ -73,7 +73,7 @@ namespace Reggie
                         platformList[i].enemySpawnCheck = true;
                         Random rand = new Random();
                         int randomizedNumber = rand.Next(0, 100);
-                        if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
+                        if (randomizedNumber % 5 == 0 && platformList[i].canSpawnEnemy)
                         {
                             if (currentLevel == Enums.Level.TUTORIAL) ;
                             enemyList.Add(new Ladybug(enemySkinTexture, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));

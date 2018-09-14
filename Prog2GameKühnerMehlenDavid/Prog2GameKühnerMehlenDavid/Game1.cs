@@ -159,16 +159,16 @@ namespace Reggie
             
             LoadGameObjects();
 
-            allGameObjectList.Add(new Item(texturesDictionary["SnailShell"], new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
-            allGameObjectList.Add(new Item(texturesDictionary["Armor_64x64"], new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
-            allGameObjectList.Add(new Item(texturesDictionary["Shovel_64x64"], new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
-            allGameObjectList.Add(new Item(texturesDictionary["Scissors_64x64"], new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
-            allGameObjectList.Add(new Item(texturesDictionary["HealthItem"], new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
-            allGameObjectList.Add(new Item(texturesDictionary["PowerPotion"], new Vector2(64, 64), new Vector2(12200, 1600), (int)Enums.ObjectsID.POWERPOTION));
-            allGameObjectList.Add(new Item(texturesDictionary["JumpPotion"], new Vector2(64, 64), new Vector2(12100, 1600), (int)Enums.ObjectsID.JUMPPOTION));
-            allGameObjectList.Add(new Item(texturesDictionary["GoldenUmbrella"], new Vector2(100, 29), new Vector2(11900, 1600), (int)Enums.ObjectsID.GOLDENUMBRELLA));
-            allGameObjectList.Add(new Platform(texturesDictionary["VineDoor"], new Vector2(64, 64), new Vector2(11800, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
-            allGameObjectList.Add(new Platform(texturesDictionary["Spiderweb_64x64"], new Vector2(64, 64), new Vector2(11700, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            //allGameObjectList.Add(new Item(texturesDictionary["SnailShell"], new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
+            //allGameObjectList.Add(new Item(texturesDictionary["Armor_64x64"], new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
+            //allGameObjectList.Add(new Item(texturesDictionary["Shovel_64x64"], new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
+            //allGameObjectList.Add(new Item(texturesDictionary["Scissors_64x64"], new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
+            //allGameObjectList.Add(new Item(texturesDictionary["HealthItem"], new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
+            //allGameObjectList.Add(new Item(texturesDictionary["PowerPotion"], new Vector2(64, 64), new Vector2(12200, 1600), (int)Enums.ObjectsID.POWERPOTION));
+            //allGameObjectList.Add(new Item(texturesDictionary["JumpPotion"], new Vector2(64, 64), new Vector2(12100, 1600), (int)Enums.ObjectsID.JUMPPOTION));
+            //allGameObjectList.Add(new Item(texturesDictionary["GoldenUmbrella"], new Vector2(100, 29), new Vector2(11900, 1600), (int)Enums.ObjectsID.GOLDENUMBRELLA));
+            //allGameObjectList.Add(new Platform(texturesDictionary["VineDoor"], new Vector2(64, 64), new Vector2(11800, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
+            //allGameObjectList.Add(new Platform(texturesDictionary["Spiderweb_64x64"], new Vector2(64, 64), new Vector2(11700, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
 
 
             levelObjectList = new List<GameObject>();
@@ -452,6 +452,28 @@ namespace Reggie
                 {
                     allGameObjectList.Add(new Item(texturesDictionary["Apple"], new Vector2(128, 128), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.APPLE));
                 }
+                if (dataSeperated[i] == Enums.ObjectsID.ARMOR.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["Armor_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.ARMOR));
+                if (dataSeperated[i] == Enums.ObjectsID.SNAILSHELL.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["SnailShell"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.SNAILSHELL));
+                if (dataSeperated[i] == Enums.ObjectsID.HEALTHPOTION.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["HealthItem"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.HEALTHPOTION));
+                if (dataSeperated[i] == Enums.ObjectsID.POWERPOTION.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["PowerPotion"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.POWERPOTION));
+                if (dataSeperated[i] == Enums.ObjectsID.JUMPPOTION.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["JumpPotion"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.JUMPPOTION));
+                if (dataSeperated[i] == Enums.ObjectsID.SHOVEL.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["Shovel_64x64"], new Vector2(64,64),new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.SHOVEL));
+                if (dataSeperated[i] == Enums.ObjectsID.SCISSORS.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["Scissors_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.SCISSORS));
+                if (dataSeperated[i] == Enums.ObjectsID.GOLDENUMBRELLA.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["GoldenUmbrella"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.GOLDENUMBRELLA));
+                if (dataSeperated[i] == Enums.ObjectsID.VINEDOOR.ToString())
+                    allGameObjectList.Add(new Platform(texturesDictionary["VineDoor"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
+                if (dataSeperated[i] == Enums.ObjectsID.SPIDERWEB.ToString())
+                    allGameObjectList.Add(new Platform(texturesDictionary["Spiderweb_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+
+
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
                     allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_02.ToString())
@@ -673,14 +695,14 @@ namespace Reggie
                     wormPlayer.gameObjectPosition.X = float.Parse(dataSeperated[i + 1]);
                     wormPlayer.gameObjectPosition.Y = float.Parse(dataSeperated[i + 2]);
                 }
-                if (dataSeperated[i] == "Armor") ItemUIManager.armorPickedUp = bool.Parse(dataSeperated[i + 1]);
-                if (dataSeperated[i] == "Helmet") ItemUIManager.snailShellPickedUp = bool.Parse(dataSeperated[i + 1]);
-                if (dataSeperated[i] == "HealthPotion") ItemUIManager.healthPickedUp = bool.Parse(dataSeperated[i + 1]);
-                if (dataSeperated[i] == "JumpPotion") ItemUIManager.jumpPickedUp = bool.Parse(dataSeperated[i + 1]);
-                if (dataSeperated[i] == "PowerPotion") ItemUIManager.powerPickedUp = bool.Parse(dataSeperated[i + 1]);
-                if (dataSeperated[i] == "Scissors") ItemUIManager.scissorsPickedUp = bool.Parse(dataSeperated[i + 1]);
-                if (dataSeperated[i] == "Shovel") ItemUIManager.shovelPickedUp = bool.Parse(dataSeperated[i + 1]);
-                if (dataSeperated[i] == "GoldenUmbrella") ItemUIManager.goldenUmbrellaPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "ArmorBOOL") ItemUIManager.armorPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "HelmetBOOL") ItemUIManager.snailShellPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "HealthPotionBOOL") ItemUIManager.healthPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "JumpPotionBOOL") ItemUIManager.jumpPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "PowerPotionBOOL") ItemUIManager.powerPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "ScissorsBOOL") ItemUIManager.scissorsPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "ShovelBOOL") ItemUIManager.shovelPickedUp = bool.Parse(dataSeperated[i + 1]);
+                if (dataSeperated[i] == "GoldenUmbrellaBOOL") ItemUIManager.goldenUmbrellaPickedUp = bool.Parse(dataSeperated[i + 1]);
             }
         }
 
