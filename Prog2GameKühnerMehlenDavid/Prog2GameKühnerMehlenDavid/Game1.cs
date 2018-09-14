@@ -173,15 +173,15 @@ namespace Reggie
 
             levelObjectList = new List<GameObject>();
             foreach (GameObject gameObject in allGameObjectList) levelObjectList.Add(gameObject);
-            levelManager = new Levels(wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
+            levelManager = new Levels(ref wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
             levelManager.sortGameObjects();
 
            
             FillLists();
-
             
+
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
-            ingameMenus = new IngameMenus(spriteBatch, texturesDictionary);
+            ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, playerSpriteSheets);
             // MONO: use this.Content to load your game content here
         }
 
@@ -233,15 +233,14 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus);
                     break;
 
                 case GameState.GAMELOOP:
                     this.IsMouseVisible = false;
                     //switch to LevelEditor
-                    levelManager.ManageLevels();
+                    levelManager.ManageLevels(wormPlayer.gameObjectPosition);
                     gameManager.ManageItems(ref wormPlayer, ref levelObjectList);
-
                     if (currentGameState == GameState.GAMELOOP)
                     {
                         //cameraOffset = new Vector2(0, 0);
@@ -265,7 +264,7 @@ namespace Reggie
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -330,7 +329,8 @@ namespace Reggie
                         //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
                     case GameState.GAMELOOP:
 
-                        if(lastGameState == currentGameState)
+
+                        if (lastGameState == currentGameState)
                         {
                             levelManager.drawLevelsBackground(spriteBatch, texturesDictionary);
 
@@ -375,7 +375,8 @@ namespace Reggie
                             if(levelManager.currentLevel != Enums.Level.TUTORIAL)
                                 minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
-                        
+                        ingameMenus.drawUpdate(gameTime, transformationMatrix, ref wormPlayer);
+
                         break;
 
                     case GameState.LEVELEDITOR:

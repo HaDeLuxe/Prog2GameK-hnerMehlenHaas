@@ -233,6 +233,12 @@ namespace Reggie
             texturesDictionnary.Add("buttonR2", R2ButtonIcon);
             Texture2D SaveIcon = Content.Load<Texture2D>("Images\\UI\\Save Icon");
             texturesDictionnary.Add("SaveIcon", SaveIcon);
+            Texture2D saveAnimSpriteSheet = Content.Load<Texture2D>("Images\\UI\\SaveIconAnimation");
+            texturesDictionnary.Add("SaveAnimationSpriteSheet", saveAnimSpriteSheet);
+            Texture2D moveTutorialAnimSpriteSheet = Content.Load<Texture2D>("Images\\UI\\Move_Tutorial");
+            texturesDictionnary.Add("moveTutorial", moveTutorialAnimSpriteSheet);
+
+
 
             //Minimap loading thingis
             Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");

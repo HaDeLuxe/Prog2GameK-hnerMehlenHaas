@@ -58,9 +58,9 @@ namespace Reggie {
 
         public Enums.Level currentLevel = Enums.Level.TUTORIAL;
 
-        Vector2 PlayerPos;
+        public Vector2 PlayerPos;
 
-        public Levels(Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects, ref List<GameObject> allGameObjects) {
+        public Levels(ref Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects, ref List<GameObject> allGameObjects) {
             TutorialGameObjects = new List<GameObject>();
             DungHillGameObjects = new List<GameObject>();
             GreenHouseGameObjects = new List<GameObject>();
@@ -73,7 +73,7 @@ namespace Reggie {
             this.allGameObjects = allGameObjects;
         }
 
-        public void ManageLevels()
+        public void ManageLevels(Vector2 PlayerPos)
         {
             if (TutorialRectangle.Contains(PlayerPos))
                 currentLevel = Enums.Level.TUTORIAL;
@@ -231,7 +231,7 @@ namespace Reggie {
             else
             {
                 Camera.enableCameraMovement = true;
-                Game1.cameraOffset = new Vector2(0, 0);
+                //Game1.cameraOffset = new Vector2(0, 0);
                 Camera.zoom = 1f;
             }
 

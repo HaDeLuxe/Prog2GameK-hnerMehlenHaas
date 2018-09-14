@@ -121,7 +121,7 @@ namespace Reggie.Menus {
             ItemUIManager.powerPickedUp = false;
             ItemUIManager.jumpPickedUp = false;
             Game1.wormPlayer.gameObjectPosition = new Vector2(13444, 1700);
-            levelManager.ManageLevels();
+            levelManager.ManageLevels(Game1.wormPlayer.gameObjectPosition);
         }
 
         void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, Levels levelManager) {
