@@ -37,7 +37,7 @@ namespace Reggie
         List<GameObject> gameObjectsToRender;
         List<GameObject> interactiveObject;
 
-        Dictionary<string, Texture2D> texturesDictionnary;
+        Dictionary<string, Texture2D> texturesDictionary;
         public static Dictionary<string, Song> songDictionnary;
         Dictionary<string, SoundEffect> soundEffectDictionnary;
         Dictionary<String, Texture2D> playerSpriteSheets; 
@@ -58,6 +58,7 @@ namespace Reggie
         Levels levelManager;
         Minimap minimap;
         LoadAndSave loadAndSave;
+        IngameMenus ingameMenus;
 
 
         
@@ -106,7 +107,7 @@ namespace Reggie
             soundEffectDictionnary = new Dictionary<string, SoundEffect>();
             levelEditor = new LevelEditor();
             cameraOffset = new Vector2(0, 0);
-            texturesDictionnary = new Dictionary<string, Texture2D>();
+            texturesDictionary = new Dictionary<string, Texture2D>();
             enemyList = new List<Enemy>();
             Enums = new Enums();
             splashScreen = new SplashScreen();
@@ -114,7 +115,7 @@ namespace Reggie
             gameMenu = new GameMenu();
             gameManager = new ItemUIManager();
             minimap = new Minimap();
-            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionnary);
+            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
         }
 
         /// <summary>
@@ -142,9 +143,9 @@ namespace Reggie
             enemySkinTexture = Content.Load<Texture2D>("Images\\door");
 
             
-            LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionnary);
-            loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionnary, ref enemySpriteSheets, ref songDictionnary, ref soundEffectDictionnary);
-            levelEditor.loadTextures(Content, ref texturesDictionnary, graphics.GraphicsDevice);
+            LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionary);
+            loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionary, ref enemySpriteSheets, ref songDictionnary, ref soundEffectDictionnary);
+            levelEditor.loadTextures(Content, ref texturesDictionary, graphics.GraphicsDevice);
 
             animManager = new AnimationManager(playerSpriteSheets);
             wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int) Enums.ObjectsID.PLAYER);
@@ -158,16 +159,16 @@ namespace Reggie
             
             LoadGameObjects();
 
-            allGameObjectList.Add(new Item(texturesDictionnary["SnailShell"], new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
-            allGameObjectList.Add(new Item(texturesDictionnary["Armor_64x64"], new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
-            allGameObjectList.Add(new Item(texturesDictionnary["Shovel_64x64"], new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
-            allGameObjectList.Add(new Item(texturesDictionnary["Scissors_64x64"], new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
-            allGameObjectList.Add(new Item(texturesDictionnary["HealthItem"], new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
-            allGameObjectList.Add(new Item(texturesDictionnary["PowerPotion"], new Vector2(64, 64), new Vector2(12200, 1600), (int)Enums.ObjectsID.POWERPOTION));
-            allGameObjectList.Add(new Item(texturesDictionnary["JumpPotion"], new Vector2(64, 64), new Vector2(12100, 1600), (int)Enums.ObjectsID.JUMPPOTION));
-            allGameObjectList.Add(new Item(texturesDictionnary["GoldenUmbrella"], new Vector2(100, 29), new Vector2(11900, 1600), (int)Enums.ObjectsID.GOLDENUMBRELLA));
-            allGameObjectList.Add(new Platform(texturesDictionnary["VineDoor"], new Vector2(64, 64), new Vector2(11800, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
-            allGameObjectList.Add(new Platform(texturesDictionnary["Spiderweb_64x64"], new Vector2(64, 64), new Vector2(11700, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
+            allGameObjectList.Add(new Item(texturesDictionary["SnailShell"], new Vector2(64, 64), new Vector2(13000, 1600), (int)Enums.ObjectsID.SNAILSHELL));
+            allGameObjectList.Add(new Item(texturesDictionary["Armor_64x64"], new Vector2(64, 64), new Vector2(12800, 1600), (int)Enums.ObjectsID.ARMOR));
+            allGameObjectList.Add(new Item(texturesDictionary["Shovel_64x64"], new Vector2(64, 64), new Vector2(12500, 1600), (int)Enums.ObjectsID.SHOVEL));
+            allGameObjectList.Add(new Item(texturesDictionary["Scissors_64x64"], new Vector2(64, 64), new Vector2(12400, 1600), (int)Enums.ObjectsID.SCISSORS));
+            allGameObjectList.Add(new Item(texturesDictionary["HealthItem"], new Vector2(64, 64), new Vector2(12300, 1600), (int)Enums.ObjectsID.HEALTHPOTION));
+            allGameObjectList.Add(new Item(texturesDictionary["PowerPotion"], new Vector2(64, 64), new Vector2(12200, 1600), (int)Enums.ObjectsID.POWERPOTION));
+            allGameObjectList.Add(new Item(texturesDictionary["JumpPotion"], new Vector2(64, 64), new Vector2(12100, 1600), (int)Enums.ObjectsID.JUMPPOTION));
+            allGameObjectList.Add(new Item(texturesDictionary["GoldenUmbrella"], new Vector2(100, 29), new Vector2(11900, 1600), (int)Enums.ObjectsID.GOLDENUMBRELLA));
+            allGameObjectList.Add(new Platform(texturesDictionary["VineDoor"], new Vector2(64, 64), new Vector2(11800, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
+            allGameObjectList.Add(new Platform(texturesDictionary["Spiderweb_64x64"], new Vector2(64, 64), new Vector2(11700, 1600), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.SPIDERWEB, false));
 
 
             levelObjectList = new List<GameObject>();
@@ -177,8 +178,10 @@ namespace Reggie
 
            
             FillLists();
+
             
-            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionnary);
+            loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
+            ingameMenus = new IngameMenus(spriteBatch, texturesDictionary);
             // MONO: use this.Content to load your game content here
         }
 
@@ -230,7 +233,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave);
                     break;
 
                 case GameState.GAMELOOP:
@@ -262,7 +265,7 @@ namespace Reggie
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -321,7 +324,7 @@ namespace Reggie
 
                         break;
                     case GameState.MAINMENU:
-                        mainMenu.RenderMainMenu(texturesDictionnary, spriteBatch, font, levelManager);
+                        mainMenu.RenderMainMenu(texturesDictionary, spriteBatch, font, levelManager);
                         break;
                     case GameState.MINIMAP:
                         //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
@@ -329,7 +332,7 @@ namespace Reggie
 
                         if(lastGameState == currentGameState)
                         {
-                            levelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
+                            levelManager.drawLevelsBackground(spriteBatch, texturesDictionary);
 
 
                             //this draws the platforms visible in the viewport
@@ -360,18 +363,23 @@ namespace Reggie
                             //playertexture.SetData<Color>(playercolorData);
                             //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
                             //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
+                            if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
+                                animManager.animation(gameTime, ref wormPlayer, spriteBatch);
+                            else
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
+                            wormPlayer.drawUpdate(levelObjectList, ref ingameMenus);
+
                             //This draws the UI
-                            gameManager.drawUI(texturesDictionnary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
+                            gameManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
                             if(levelManager.currentLevel != Enums.Level.TUTORIAL)
-                                minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionnary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+                                minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
                         
                         break;
 
                     case GameState.LEVELEDITOR:
-                        levelManager.drawLevelsBackground(spriteBatch, texturesDictionnary);
+                        levelManager.drawLevelsBackground(spriteBatch, texturesDictionary);
                         
                         Vector2 mouse = Vector2.Transform(new Vector2(-Mouse.GetState().Position.X, -Mouse.GetState().Position.Y), transformationMatrix);
                         string mouseCoordinates = "(x: " + (-mouse.X) + ", y: " + (-mouse.Y) + ")";
@@ -380,7 +388,7 @@ namespace Reggie
                         //this draws all the platforms in the game
                         foreach (var platformSprite in allGameObjectList)
                             platformSprite.DrawSpriteBatch(spriteBatch);
-                        levelEditor.DrawLvlEditorUI(texturesDictionnary, spriteBatch, transformationMatrix, ref allGameObjectList,ref levelObjectList, GraphicsDevice, ref loadAndSave, ref levelManager);
+                        levelEditor.DrawLvlEditorUI(texturesDictionary, spriteBatch, transformationMatrix, ref allGameObjectList,ref levelObjectList, GraphicsDevice, ref loadAndSave, ref levelManager);
                         //This draws the player
                         animManager.animation(gameTime, ref wormPlayer, spriteBatch);
 
@@ -389,7 +397,7 @@ namespace Reggie
                         spriteBatch.DrawString(font, lvlEditorString, Vector2.Transform(new Vector2(10, 30), Matrix.Invert(transformationMatrix)), Color.DarkRed);
                         break;
                     case GameState.GAMEMENU:
-                        gameMenu.DrawGameMenu(texturesDictionnary, spriteBatch, font);
+                        gameMenu.DrawGameMenu(texturesDictionary, spriteBatch, font);
                         break;
                 }
 
@@ -422,243 +430,243 @@ namespace Reggie
                 
                 if (dataSeperated[i] == Enums.ObjectsID.INVISIBLE_WALL_500x50.ToString())
                 {
-                    allGameObjectList.Add(new Platform(texturesDictionnary["Transparent_500x50"], new Vector2(512, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["Transparent_500x50"], new Vector2(512, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM,(int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
                     allGameObjectList.Last().DontDrawThisObject();
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.INVSIBLE_WALL_1000x50.ToString())
                 {
-                    allGameObjectList.Add(new Platform(texturesDictionnary["Transparent_1000x50"], new Vector2(1024, 64),  new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["Transparent_1000x50"], new Vector2(1024, 64),  new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
                     allGameObjectList.Last().DontDrawThisObject();
                 }
                 if(dataSeperated[i] == Enums.ObjectsID.VINE.ToString())
                 {
-                    allGameObjectList.Add(new Platform(texturesDictionnary["Climbingplant_38x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["Climbingplant_38x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.VINE,(int)Enums.ObjectsID.VINE, false));
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.INVISIBLE_WALL_64x64.ToString())
                 {
-                    allGameObjectList.Add(new Platform(texturesDictionnary["Transparent_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_64x64, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["Transparent_64x64"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_64x64, false));
                     allGameObjectList.Last().DontDrawThisObject();
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.APPLE.ToString())
                 {
-                    allGameObjectList.Add(new Item(texturesDictionnary["Apple"], new Vector2(128, 128), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.APPLE));
+                    allGameObjectList.Add(new Item(texturesDictionary["Apple"], new Vector2(128, 128), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.APPLE));
                 }
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_01, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_02.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_02, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_02, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_03.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_03, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_03, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_04.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_04, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_04, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_05.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_05, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_05, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_06.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_06, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_06, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_07.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_07, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_07, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_08.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_08, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_08, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_09.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_09, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_09, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_10.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_10, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_10, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_11.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_11, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_11, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_12.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_12, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_12, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_13.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_13, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_13, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_14.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_14, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_14, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_15.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_15, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_15, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_16.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_16, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_16, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_17.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_17, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_17, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_18.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_18, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_18, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_19.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_19, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_19, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_20.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_20, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_20, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_21.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_21, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_21, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_22.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_22, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_22, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_23.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_23, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_23, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_24.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_24, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_24, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_25.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_25, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_25, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_26.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_26, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_26, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_27.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBrown_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_27, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBrown_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBrown_27, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_01.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_01, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_01, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_02.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_02, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_02, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_03.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_03, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_03, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_04.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_04, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_04, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_05.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_05, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_05, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_06.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_06, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_06, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_07.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_07, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_07, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_08.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_08, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_08, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_09.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_09, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_09, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_10.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_10, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_10, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_11.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_11, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_11, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_12.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_12, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_12, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_13.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_13, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_13, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_14.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_14, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_14, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_15.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_15, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_15, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_16.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_16, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_16, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_17.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_17, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_17, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_18.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_18, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_18, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_19.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_19, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_19, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_20.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_20, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_20, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_21.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_21, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_21, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_22.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_22, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_22, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_23.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_23, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_23, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_24.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_24, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_24, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_25.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_25, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_25, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_26.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_26, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_26, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileYellow_27.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileYellow_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_27, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileYellow_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileYellow_27, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_01.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_01, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_01, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_02.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_02, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_02, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_03.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_03, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_03, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_04.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_04, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_04, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_05.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_05, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_05, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_06.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_06, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_06, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_07.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_07, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_07, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_08.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_08, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_08, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_09.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_09, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_09, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_10.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_10, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_10, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_11.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_11, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_11, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_12.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_12, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_12, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_13.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_13, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_13, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_14.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_14, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_14, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_15.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_15, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_15, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_16.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_16, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_16, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_17.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_17, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_17, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_18.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_18, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_18, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_19.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_19, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_19, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_20.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_20, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_20, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_21.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_21, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_21, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_22.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_22, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_22, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_23.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_23, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_23, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_24.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_24, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_24, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_25.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_25, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_25, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_26.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_26, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_26, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileBlue_27.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileBlue_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_27, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileBlue_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileBlue_27, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_01.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_01, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_01"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_01, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_02.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_02, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_02"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_02, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_03.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_03, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_03"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_03, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_04.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_04, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_04"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_04, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_05.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_05, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_05"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_05, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_06.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_06, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_06"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_06, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_07.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_07, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_07"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_07, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_08.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_08, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_08"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_08, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_09.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_09, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_09"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_09, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_10.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_10, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_10"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_10, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_11.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_11, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_11"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_11, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_12.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_12, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_12"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_12, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_13.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_13, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_13"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_13, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_14.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_14, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_14"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_14, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_15.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_15, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_15"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_15, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_16.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_16, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_16"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_16, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_17.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_17, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_17"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_17, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_18.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_18, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_18"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_18, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_19.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_19, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_19"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_19, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_20.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_20, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_20"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_20, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_21.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_21, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_21"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_21, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_22.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_22, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_22"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_22, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_23.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_23, false));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_23"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_23, false));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_24.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_24, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_24"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_24, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_25.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_25, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_25"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_25, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_26.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_26, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_26"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_26, true));
                 if (dataSeperated[i] == Enums.ObjectsID.tileGreen_27.ToString())
-                    allGameObjectList.Add(new Platform(texturesDictionnary["tileGreen_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_27, true));
+                    allGameObjectList.Add(new Platform(texturesDictionary["tileGreen_27"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.tileGreen_27, true));
                 if(dataSeperated[i] == "Playerposition")
                 {
                     wormPlayer.gameObjectPosition.X = float.Parse(dataSeperated[i + 1]);

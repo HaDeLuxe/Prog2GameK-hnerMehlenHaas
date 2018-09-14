@@ -66,7 +66,7 @@ namespace Reggie.Menus {
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
                         break;
                     case Enums.GameMenuButtons.SAVE:
-                        loadAndSave.SavePlatforms();
+                        loadAndSave.Save();
                         break;
                     case Enums.GameMenuButtons.OPTIONS:
                         break;

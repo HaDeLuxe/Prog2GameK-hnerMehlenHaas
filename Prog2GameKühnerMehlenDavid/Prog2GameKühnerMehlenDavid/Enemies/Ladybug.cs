@@ -25,9 +25,9 @@ namespace Reggie.Enemies
 
         public override void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (facingLeft)
+            if (!facingDirectionRight)
                 animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
-            else if (!facingLeft)
+            else if (facingDirectionRight)
                 animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
             animationManager.Animation(gameTime, this, spriteBatch);
         }
@@ -53,7 +53,7 @@ namespace Reggie.Enemies
         private void CalculationCooldown(GameTime gameTime)
         {
             attackCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(attackCooldown >2f)
+            if(attackCooldown >1f)
             {
                 attackCooldown = 0;
                 attackExecuted = false;
@@ -64,19 +64,19 @@ namespace Reggie.Enemies
         {
             attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
             //if (!calculateCharge)
-            if(attackTimer<2f)
+            if(attackTimer<1f)
                 CalculationChargingVector();
-            if (velocity.X < 0 || chargingVector.X <0)
-                facingLeft = true;
-            else if (velocity.X > 0 || chargingVector.X >0)
-                facingLeft = false;
-            if (attackTimer <2f)
+            if (chargingVector.X < 0)
+                facingDirectionRight = false;
+            else if (chargingVector.X > 0)
+                facingDirectionRight = true;
+            if (attackTimer <1f)
             {
-                velocity.Y = -4f;
+                velocity.Y = -6f;
                 velocity.X = 0f;
                 isStanding = false;
             }
-            else if (attackTimer > 2f && attackTimer < 4f)
+            else if (attackTimer > 1f && attackTimer < 3f)
             {
                 if (!calculateCharge)
                     CalculationChargingVector();
@@ -85,6 +85,7 @@ namespace Reggie.Enemies
                 {
                     worm.invincibilityFrames = true;
                     worm.ReducePlayerHP();
+                    //worm.KnockBackPosition(facingDirectionRight, 35);
                 }
             }
             else
