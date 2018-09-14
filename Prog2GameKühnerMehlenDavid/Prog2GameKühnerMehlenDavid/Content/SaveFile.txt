@@ -752,12 +752,12 @@ APPLE,12608,1664
 ,11900,1600
 ,11800,1600
 ,11700,1600
-Playerposition, 12604,1711
+Playerposition, 12664,1711
 Armor,True
 Helmet, True
-HealthPotion,False
-JumpPotion, False
-PowerPotion, False
-Scissors, False
-Shovel,False
+HealthPotion,True
+JumpPotion, True
+PowerPotion, True
+Scissors, True
+Shovel,True
 GoldenUmbrella,False

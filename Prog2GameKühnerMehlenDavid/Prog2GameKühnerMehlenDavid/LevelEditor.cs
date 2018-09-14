@@ -304,7 +304,6 @@ namespace Reggie {
 
                     levelManager.sortGameObjects();
                     loadAndSave.Save();
-
                 }
                 else
                 {
