@@ -61,7 +61,7 @@ namespace Reggie
         public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList,Texture2D enemySkinTexture, Dictionary<string, Texture2D> enemySpriteSheets, Enums.Level currentLevel)
         {
            
-            for (int i = 870; i < platformList.Count; i++)
+            for (int i = 0; i < platformList.Count; i++)
             {
                 if (!platformList[i].enemySpawnCheck)
                 {
