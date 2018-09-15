@@ -47,6 +47,7 @@
     <Compile Include="Animations\Animation.cs" />
     <Compile Include="Animations\AnimationManagerEnemy.cs" />
     <Compile Include="Animations\AnimationManagerPlayer.cs" />
+    <Compile Include="Animations\UIAnimations.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enums.cs" />

@@ -70,11 +70,12 @@ namespace Reggie {
             spriteBatch.Draw(gameObjectTexture, gameObjectPosition, color);
         }
 
-        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects,Vector2 offset, Color color) {
-            spriteBatch.Draw(gameObjectTexture, gameObjectPosition + offset, sourceRectangle, color, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects,Vector2 offset, Color color, Vector2 scale) {
+            spriteBatch.Draw(gameObjectTexture, gameObjectPosition + offset, sourceRectangle, color, 0, Vector2.Zero, scale, spriteEffects, 0);
         }
 
-        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch,Rectangle sourceRectangle) {
+        public virtual void DrawSpriteBatch(SpriteBatch spriteBatch, Rectangle sourceRectangle)
+        {
             if (!facingDirectionRight)
             {
                 spriteBatch.Draw(gameObjectTexture, gameObjectPosition, sourceRectangle, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.FlipHorizontally, 0);

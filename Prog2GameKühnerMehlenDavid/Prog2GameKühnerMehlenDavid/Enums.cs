@@ -140,6 +140,7 @@ namespace Reggie {
             GOLDENUMBRELLA,
             VINEDOOR,
             APPLE,
+            ENEMYSPAWNPOINT,
             NONE,
             ///ADD NEW ITEM HERE
 

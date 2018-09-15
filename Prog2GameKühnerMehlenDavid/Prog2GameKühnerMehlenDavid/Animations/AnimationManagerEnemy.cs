@@ -11,6 +11,7 @@ namespace Reggie.Animations {
     class AnimationManagerEnemy {
 
         protected Color color = Color.White;
+        protected Vector2 scale = new Vector2(1, 1);
         public Enums.EnemyAnimations currentAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
         public Enums.EnemyAnimations nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
         public Enums.EnemyAnimations previousAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
@@ -69,24 +70,24 @@ namespace Reggie.Animations {
                 case Enums.EnemyAnimations.LADYBUG_FLY_LEFT:
                     enemy.changeTexture(ladybug_Fly_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Ladybug_Fly_Left"].Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Fly_Left.getSpriteEffects(), new Vector2(0, -30),color);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Fly_Left.getSpriteEffects(), new Vector2(0, -30),color, scale);
                     previousAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
                     break;
                 case Enums.EnemyAnimations.LADYBUG_FLY_RIGHT:
                     enemy.changeTexture(ladybug_Fly_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Ladybug_Fly_Right"].Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Fly_Right.getSpriteEffects(), new Vector2(0, -30), color);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Fly_Right.getSpriteEffects(), new Vector2(0, -30), color,scale);
                     previousAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
                     break;
                 case Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT:
                     enemy.changeTexture(ladybug_Attack_Left.texture);
                     tempRec = ladybug_Attack_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Left.getSpriteEffects(), new Vector2(0, -30), color);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Left.getSpriteEffects(), new Vector2(0, -30), color,scale);
                     break;
                 case Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT:
                     enemy.changeTexture(ladybug_Attack_Right.texture);
                     tempRec = ladybug_Attack_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color,scale);
                     break;
 
             }

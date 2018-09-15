@@ -34,8 +34,7 @@ namespace Reggie
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
-
-        IngameMenus ingameMenus;
+        
         
 
 
@@ -80,13 +79,13 @@ namespace Reggie
             invincibilityTimer = 0;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave)
+        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
-            PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects, loadAndSave);
+            PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
 
@@ -265,7 +264,7 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus)
         {
 
             mouseState = Mouse.GetState();
@@ -489,6 +488,7 @@ namespace Reggie
                     {
                         if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
                         {
+                            ingameMenus.saveAnimStart();
                             loadAndSave.Save();
                             Console.WriteLine("Game Saved");
                             break;
@@ -590,7 +590,6 @@ namespace Reggie
                     if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
                     {
                         ingameMenus.drawSaveIcon(this.gameObjectPosition);
-                        Console.WriteLine("Apple Collision");
                         break;
                     }
                 }
