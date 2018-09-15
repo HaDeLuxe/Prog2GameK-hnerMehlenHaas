@@ -61,25 +61,25 @@ namespace Reggie
         public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList,Texture2D enemySkinTexture, Dictionary<string, Texture2D> enemySpriteSheets, Enums.Level currentLevel)
         {
            
-            for (int i = 0; i < platformList.Count; i++)
+            for (int i = 870; i < platformList.Count; i++)
             {
                 if (!platformList[i].enemySpawnCheck)
                 {
                     if (platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750)
                         platformList[i].enemySpawnCheck = true;
                     if ((platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectPosition.X > wormPlayer.gameObjectPosition.X + 950) || (platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectRectangle.Right < wormPlayer.gameObjectPosition.X - 950)
-                        || (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
+                        && (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 1000 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 1000 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
                     {
-                        platformList[i].enemySpawnCheck = true;
+                         platformList[i].enemySpawnCheck = true;
                         Random rand = new Random();
                         int randomizedNumber = rand.Next(0, 100);
                         if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
                         {
                             if (currentLevel == Enums.Level.TUTORIAL)
-                            {
+                            
                                 enemyList.Add(new Ladybug(enemySkinTexture, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
                                 enemyList.Last().SetPlayer(wormPlayer);
-                            }
+                           
                             
                         }
 
