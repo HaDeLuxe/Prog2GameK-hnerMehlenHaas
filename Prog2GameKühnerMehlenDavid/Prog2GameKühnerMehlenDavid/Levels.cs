@@ -60,7 +60,7 @@ namespace Reggie {
 
         Vector2 PlayerPos;
 
-        public Levels(Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects, ref List<GameObject> allGameObjects) {
+        public Levels(ref Vector2 PlayerPos, ref List<GameObject> currentLevelGameObjects, ref List<GameObject> allGameObjects) {
             TutorialGameObjects = new List<GameObject>();
             DungHillGameObjects = new List<GameObject>();
             GreenHouseGameObjects = new List<GameObject>();
