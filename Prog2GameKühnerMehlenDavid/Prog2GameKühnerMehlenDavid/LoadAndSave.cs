@@ -208,7 +208,9 @@ namespace Reggie
             texturesDictionnary.Add("Transparent_1000x50", Transparent_Wall_1024x64);
             Texture2D ClimbinPlant_38_64 = Content.Load<Texture2D>("Images\\WorldObjects\\plantLeaves_1");
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
-        }
+            Texture2D EnemySpawnPoint = Content.Load<Texture2D>("Images\\WorldObjects\\EnemySpawnPoint");
+            texturesDictionary.Add("EnemySpawnPoint", EnemySpawnPoint);
+         }
 
 
         /// <summary>
@@ -411,6 +413,7 @@ namespace Reggie
                 if (GameObject.getTexture() == texturesDictionary["GoldenUmbrella"]) Output = Enums.ObjectsID.GOLDENUMBRELLA.ToString();
                 if (GameObject.getTexture() == texturesDictionary["VineDoor"]) Output = Enums.ObjectsID.VINEDOOR.ToString();
                 if (GameObject.getTexture() == texturesDictionary["Spiderweb_64x64"]) Output = Enums.ObjectsID.SPIDERWEB.ToString();
+                if (GameObject.getTexture() == texturesDictionary["EnemySpawnPoint"]) Output = Enums.ObjectsID.ENEMYSPAWNPOINT.ToString();
 
 
                 Output += "," + GameObject.gameObjectPosition.X + "," + GameObject.gameObjectPosition.Y;
