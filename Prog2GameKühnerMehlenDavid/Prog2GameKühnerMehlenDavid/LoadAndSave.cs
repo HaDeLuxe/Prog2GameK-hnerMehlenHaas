@@ -211,7 +211,14 @@ namespace Reggie
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
             Texture2D EnemySpawnPoint = Content.Load<Texture2D>("Images\\WorldObjects\\EnemySpawnPoint");
             texturesDictionary.Add("EnemySpawnPoint", EnemySpawnPoint);
-         }
+
+            //Load Shop Assets
+            
+            Texture2D IdleShopkeeper = Content.Load<Texture2D>("Images\\Shop\\IdleShopkeeper");
+            texturesDictionary.Add("Shopkeeper_SpriteSheet_Idle", IdleShopkeeper);
+            Texture2D ShopkeeperWaving = Content.Load<Texture2D>("Images\\Shop\\WavingShopkeeper");
+            texturesDictionary.Add("Shopkeeper_SpriteSheet_Waving", ShopkeeperWaving);
+        }
 
 
         /// <summary>
@@ -243,8 +250,7 @@ namespace Reggie
             Texture2D glideTutorial = Content.Load<Texture2D>("Images\\UI\\GlideTut");
             texturesDictionary.Add("glideTutorial", glideTutorial);
 
-
-
+            
             //Minimap loading thingis
             Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");
             texturesDictionnary.Add("Minimap", Minimap);
@@ -262,6 +268,8 @@ namespace Reggie
             texturesDictionnary.Add("MainMenu4", MainMenu4);
             Texture2D MainMenu5 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-5");
             texturesDictionnary.Add("MainMenu5", MainMenu5);
+
+            
         }
 
 
