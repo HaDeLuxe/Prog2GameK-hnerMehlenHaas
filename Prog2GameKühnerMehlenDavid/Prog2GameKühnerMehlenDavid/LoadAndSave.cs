@@ -270,17 +270,18 @@ namespace Reggie
             Song temp = Content.Load<Song>("Audio\\Reggie_UNI");
             songDictionnary.Add("IngameMusic", temp);
 
-            //MediaPlayer.Play(testSong);
+            //MediaPlayer.Play(Game1.songDictionnary["IngameMusic"]);
             //MediaPlayer.IsRepeating = true;
         }
 
         private void loadSoundEffects(ContentManager Content, ref Dictionary<string, SoundEffect> soundEffectDictionnary)
         {
+            //fail super mario sound
             SoundEffect temp = Content.Load<SoundEffect>("Audio\\houseChord");
             soundEffectDictionnary.Add("houseChord", temp);
 
             //// Fire and forget play
-            //soundEffects[0].Play();
+            //Game1.soundEffectDictionnary["houseChord"].Play();
 
             //// Play that can be manipulated after the fact
             //var instance = soundEffects[0].CreateInstance();

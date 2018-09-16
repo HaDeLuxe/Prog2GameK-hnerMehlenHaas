@@ -416,9 +416,9 @@ namespace Reggie
                     jumpSpeed = -20f;
                 PlayerJump();
 
-                //SOUNDS
-                Game1.soundEffectDictionnary["houseChord"].Play();
-                //MediaPlayer.Play(Game1.songDictionnary["IngameMusic"]);
+                //MUSIC
+                //Game1.soundEffectDictionnary["houseChord"].Play();
+      
             }
 
             //Player Attack Input

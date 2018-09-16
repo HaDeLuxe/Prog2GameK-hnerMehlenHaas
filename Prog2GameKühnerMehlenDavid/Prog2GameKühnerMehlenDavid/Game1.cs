@@ -87,6 +87,8 @@ namespace Reggie
         public Texture2D playertexture;
         public Vector2 playeraggroposition;
 
+        public bool turnOnMusic;
+
 
 
 
@@ -116,6 +118,7 @@ namespace Reggie
             gameManager = new ItemUIManager();
             minimap = new Minimap();
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
+            turnOnMusic = true;
         }
 
         /// <summary>
@@ -221,6 +224,11 @@ namespace Reggie
                     splashScreen.ClickedButton();
                    break;
                 case GameState.MAINMENU:
+                    if (MediaPlayer.State != 0)
+                    {
+                        MediaPlayer.Stop();
+                        turnOnMusic = true;
+                    }
                     mainMenu.Update(this);
                     this.IsMouseVisible = true;
                     break;
@@ -237,7 +245,18 @@ namespace Reggie
                     break;
 
                 case GameState.GAMELOOP:
+
                     this.IsMouseVisible = false;
+
+                    if (turnOnMusic)
+                    {
+                        
+                        //MUSIC
+                        //MediaPlayer.Play(songDictionnary["IngameMusic"]);
+                        //MediaPlayer.IsRepeating = true;
+                        turnOnMusic = false;
+                    }
+                   
                     //switch to LevelEditor
                     levelManager.ManageLevels(wormPlayer.gameObjectPosition);
                     gameManager.ManageItems(ref wormPlayer, ref levelObjectList);
@@ -251,6 +270,7 @@ namespace Reggie
                             currentGameState = GameState.MINIMAP;
                         if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                             currentGameState = GameState.GAMEMENU;
+                           
                         previousState = Keyboard.GetState();
                     }
 
