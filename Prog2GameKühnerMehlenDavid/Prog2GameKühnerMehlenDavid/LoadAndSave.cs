@@ -180,6 +180,8 @@ namespace Reggie
             texturesDictionary.Add("GoldenUmbrella", goldenUmbrella);
             Texture2D apple = Content.Load<Texture2D>("Images\\Items\\Apple");
             texturesDictionary.Add("Apple", apple);
+            Texture2D currency = Content.Load<Texture2D>("Images\\Items\\Corn_Currency");
+            texturesDictionary.Add("cornnency", currency);
         }
 
         /// <summary>
