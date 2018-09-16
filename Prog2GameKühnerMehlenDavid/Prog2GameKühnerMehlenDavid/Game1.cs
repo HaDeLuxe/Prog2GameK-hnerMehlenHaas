@@ -39,7 +39,7 @@ namespace Reggie
 
         Dictionary<string, Texture2D> texturesDictionary;
         public static Dictionary<string, Song> songDictionnary;
-        Dictionary<string, SoundEffect> soundEffectDictionnary;
+        public static Dictionary<string, SoundEffect> soundEffectDictionnary;
         Dictionary<String, Texture2D> playerSpriteSheets; 
         Dictionary<String, Texture2D> enemySpriteSheets;
         

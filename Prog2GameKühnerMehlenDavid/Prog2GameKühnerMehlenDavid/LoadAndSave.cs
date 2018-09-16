@@ -30,6 +30,7 @@ namespace Reggie
 
             //Markus
             loadSongs(Content, ref songDictionary);
+            loadSoundEffects(Content, ref soundEffectDictionnary);
         }
 
         /// <summary>
@@ -266,8 +267,8 @@ namespace Reggie
 
         private void loadSongs(ContentManager Content, ref Dictionary<string, Song> songDictionnary)
         {
-            Song temp = Content.Load<Song>("Audio\\houseChord");
-            songDictionnary.Add("houseChord", temp);
+            Song temp = Content.Load<Song>("Audio\\Reggie_UNI");
+            songDictionnary.Add("IngameMusic", temp);
 
             //MediaPlayer.Play(testSong);
             //MediaPlayer.IsRepeating = true;
@@ -277,6 +278,14 @@ namespace Reggie
         {
             SoundEffect temp = Content.Load<SoundEffect>("Audio\\houseChord");
             soundEffectDictionnary.Add("houseChord", temp);
+
+            //// Fire and forget play
+            //soundEffects[0].Play();
+
+            //// Play that can be manipulated after the fact
+            //var instance = soundEffects[0].CreateInstance();
+            //instance.IsLooped = true;
+            //instance.Play();
         }
 
         public void Save()
