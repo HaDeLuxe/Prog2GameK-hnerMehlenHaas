@@ -202,7 +202,9 @@ namespace Reggie {
             j++;
             spriteBatch.Draw(texturesDictionary["EnemySpawnPoint"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
             j++;
-            
+            spriteBatch.Draw(texturesDictionary["cornnency"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+
 
             if (ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
             {
@@ -295,6 +297,10 @@ namespace Reggie {
                     gameObjectList.Add(new Platform(texturesDictionary["EnemySpawnPoint"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.ENEMYSPAWNPOINT, true));
                     gameObjectList.Last().DontDrawThisObject();
                 }
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 17) * 100) - yoffset, 128, 128);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(texturesDictionary["cornnency"], new Vector2(128, 128), transformedPos, (int)Enums.ObjectsID.CORNNENCY));
             }
 
 

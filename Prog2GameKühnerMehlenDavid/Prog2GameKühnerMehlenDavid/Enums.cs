@@ -141,6 +141,7 @@ namespace Reggie {
             VINEDOOR,
             APPLE,
             ENEMYSPAWNPOINT,
+            CORNNENCY,
             NONE,
             ///ADD NEW ITEM HERE
 

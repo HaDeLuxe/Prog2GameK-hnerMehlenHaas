@@ -88,10 +88,18 @@ namespace Reggie
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
-            PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus);
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
-            PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
+            PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
+            ItemCollisionManage(interactiveObject);
+            if (invincibilityFrames)
+                InvincibleFrameState(gameTime);
 
+
+        }
+
+        private void ItemCollisionManage(List<GameObject> interactiveObject)
+        {
             for (int i = 0; i < interactiveObject.Count(); i++)
             {
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
@@ -104,17 +112,17 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.scissorsPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.armorPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.shovelPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.healthPickedUp = true;
@@ -134,13 +142,14 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.goldenUmbrellaPickedUp = true;
                 }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                        ItemUIManager.cornnencyQuantity++;
+                    //TODO:delete funktion mit übergabe
+                }
             }
-            if (invincibilityFrames)
-                InvincibleFrameState(gameTime);
-
-
         }
-
 
         public void changeTexture(Texture2D texture)
         {

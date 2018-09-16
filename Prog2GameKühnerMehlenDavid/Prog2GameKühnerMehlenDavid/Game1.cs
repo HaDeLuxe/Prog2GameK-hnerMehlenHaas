@@ -175,7 +175,8 @@ namespace Reggie
 
 
             levelObjectList = new List<GameObject>();
-            foreach (GameObject gameObject in allGameObjectList) levelObjectList.Add(gameObject);
+            foreach (GameObject gameObject in allGameObjectList)
+                levelObjectList.Add(gameObject);
             levelManager = new Levels(ref wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
             levelManager.sortGameObjects();
 
@@ -395,7 +396,7 @@ namespace Reggie
                             wormPlayer.drawUpdate(levelObjectList, ref ingameMenus);
 
                             //This draws the UI
-                            gameManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
+                            gameManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP(), font);
                             if(levelManager.currentLevel != Enums.Level.TUTORIAL)
                                 minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
@@ -501,6 +502,8 @@ namespace Reggie
                     allGameObjectList.Add(new Platform(texturesDictionary["EnemySpawnPoint"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.ENEMYSPAWNPOINT, true));
                     allGameObjectList.Last().DontDrawThisObject();
                 }
+                if (dataSeperated[i] == Enums.ObjectsID.CORNNENCY.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["cornnency"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.CORNNENCY));
 
 
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
@@ -745,16 +748,25 @@ namespace Reggie
                     platformList.Add((Platform)allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
                     interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL) interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                    interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                     interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION) interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
 
+                    interactiveObject.Add(allGameObjectList[i]);
 
                 foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
                 {

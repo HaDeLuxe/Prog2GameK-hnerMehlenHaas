@@ -434,6 +434,7 @@ namespace Reggie
                 if (GameObject.getTexture() == texturesDictionary["VineDoor"]) Output = Enums.ObjectsID.VINEDOOR.ToString();
                 if (GameObject.getTexture() == texturesDictionary["Spiderweb_64x64"]) Output = Enums.ObjectsID.SPIDERWEB.ToString();
                 if (GameObject.getTexture() == texturesDictionary["EnemySpawnPoint"]) Output = Enums.ObjectsID.ENEMYSPAWNPOINT.ToString();
+                if (GameObject.getTexture() == texturesDictionary["cornnency"]) Output = Enums.ObjectsID.CORNNENCY.ToString();
 
 
                 Output += "," + GameObject.gameObjectPosition.X + "," + GameObject.gameObjectPosition.Y;
