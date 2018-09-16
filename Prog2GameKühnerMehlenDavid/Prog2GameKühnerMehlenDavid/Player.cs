@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Media;
 using Reggie.Animations;
 using Reggie.Enemies;
 using Reggie.Menus;
+//SOUNDEFFECTS
+using Microsoft.Xna.Framework.Audio;
+
 
 namespace Reggie
 {
@@ -413,8 +416,9 @@ namespace Reggie
                     jumpSpeed = -20f;
                 PlayerJump();
 
-                //SOUNDS
-                //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
+                //MUSIC
+                //Game1.soundEffectDictionnary["houseChord"].Play();
+      
             }
 
             //Player Attack Input
