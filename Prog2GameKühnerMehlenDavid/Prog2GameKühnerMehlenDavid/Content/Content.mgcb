@@ -1277,12 +1277,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/WorldObjects/EnemySpawnPoint.png
 
-#begin Audio/houseChord.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/houseChord.wav
-
 #begin Audio/Reggie_UNI.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
