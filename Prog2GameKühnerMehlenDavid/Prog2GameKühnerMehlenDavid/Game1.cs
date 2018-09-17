@@ -39,7 +39,7 @@ namespace Reggie
 
         Dictionary<string, Texture2D> texturesDictionary;
         public static Dictionary<string, Song> songDictionnary;
-        Dictionary<string, SoundEffect> soundEffectDictionnary;
+        public static Dictionary<string, SoundEffect> soundEffectDictionnary;
         Dictionary<String, Texture2D> playerSpriteSheets; 
         Dictionary<String, Texture2D> enemySpriteSheets;
         
@@ -87,6 +87,8 @@ namespace Reggie
         public Texture2D playertexture;
         public Vector2 playeraggroposition;
 
+        public bool turnOnMusic;
+
 
 
 
@@ -116,6 +118,7 @@ namespace Reggie
             gameManager = new ItemUIManager();
             minimap = new Minimap();
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
+            turnOnMusic = true;
         }
 
         /// <summary>
@@ -140,7 +143,6 @@ namespace Reggie
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("Fonts/LuckiestGuy");
-            enemySkinTexture = Content.Load<Texture2D>("Images\\door");
 
             
             LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionary);
@@ -172,16 +174,16 @@ namespace Reggie
 
 
             levelObjectList = new List<GameObject>();
-            foreach (GameObject gameObject in allGameObjectList) levelObjectList.Add(gameObject);
+            //foreach (GameObject gameObject in allGameObjectList)
+            //    levelObjectList.Add(gameObject);
             levelManager = new Levels(ref wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
+
             levelManager.sortGameObjects();
-
-           
-            FillLists();
             
-
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
             ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, playerSpriteSheets);
+            FillLists();
+
             // MONO: use this.Content to load your game content here
         }
 
@@ -221,6 +223,11 @@ namespace Reggie
                     splashScreen.ClickedButton();
                    break;
                 case GameState.MAINMENU:
+                    if (MediaPlayer.State != 0)
+                    {
+                        MediaPlayer.Stop();
+                        turnOnMusic = true;
+                    }
                     mainMenu.Update(this);
                     this.IsMouseVisible = true;
                     break;
@@ -237,7 +244,18 @@ namespace Reggie
                     break;
 
                 case GameState.GAMELOOP:
+
                     this.IsMouseVisible = false;
+
+                    if (turnOnMusic)
+                    {
+                        
+                        //MUSIC
+                        //MediaPlayer.Play(songDictionnary["IngameMusic"]);
+                        //MediaPlayer.IsRepeating = true;
+                        turnOnMusic = false;
+                    }
+                   
                     //switch to LevelEditor
                     levelManager.ManageLevels(wormPlayer.gameObjectPosition);
                     gameManager.ManageItems(ref wormPlayer, ref levelObjectList);
@@ -251,6 +269,7 @@ namespace Reggie
                             currentGameState = GameState.MINIMAP;
                         if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
                             currentGameState = GameState.GAMEMENU;
+                           
                         previousState = Keyboard.GetState();
                     }
 
@@ -262,7 +281,7 @@ namespace Reggie
 
                     }
 
-                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, enemySpriteSheets, levelManager.PlayerLevelLocation());
+                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus);
 
@@ -285,9 +304,6 @@ namespace Reggie
                     break;
                 case GameState.GAMEMENU:
                     gameMenu.Update(this, loadAndSave);
-                    //if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
-                    //    currentGameState = GameState.GAMELOOP;
-                    //previousState = Keyboard.GetState();
                     break;
             }
         }
@@ -375,7 +391,7 @@ namespace Reggie
                             wormPlayer.drawUpdate(levelObjectList, ref ingameMenus);
 
                             //This draws the UI
-                            gameManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP());
+                            gameManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP(), font);
                             if(levelManager.currentLevel != Enums.Level.TUTORIAL)
                                 minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
@@ -481,6 +497,8 @@ namespace Reggie
                     allGameObjectList.Add(new Platform(texturesDictionary["EnemySpawnPoint"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.ENEMYSPAWNPOINT, true));
                     allGameObjectList.Last().DontDrawThisObject();
                 }
+                if (dataSeperated[i] == Enums.ObjectsID.CORNNENCY.ToString())
+                    allGameObjectList.Add(new Item(texturesDictionary["cornnency"], new Vector2(64, 64), new Vector2(Int32.Parse(dataSeperated[i + 1]), Int32.Parse(dataSeperated[i + 2])), (int)Enums.ObjectsID.CORNNENCY));
 
 
                 if (dataSeperated[i] == Enums.ObjectsID.tileBrown_01.ToString())
@@ -725,16 +743,30 @@ namespace Reggie
                     platformList.Add((Platform)allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
                     interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL) interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SCISSORS)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ARMOR)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                    interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                     interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION) interactiveObject.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION) interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
+                    interactiveObject.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
+                    interactiveObject.Add(allGameObjectList[i]);
 
+                foreach (Item item in allGameObjectList.Cast<GameObject>().OfType<Item>())
+                {
+                    if (item.objectID == (int)Enums.ObjectsID.CORNNENCY)
+                        interactiveObject.Add(item);
+                }
 
                 foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
                 {
@@ -743,7 +775,6 @@ namespace Reggie
                 }
             }
         }
-
 
     }
 }

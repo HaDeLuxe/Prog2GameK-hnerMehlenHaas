@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Media;
 using Reggie.Animations;
 using Reggie.Enemies;
 using Reggie.Menus;
+//SOUNDEFFECTS
+using Microsoft.Xna.Framework.Audio;
+
 
 namespace Reggie
 {
@@ -85,10 +88,18 @@ namespace Reggie
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
-            PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus);
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
-            PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
+            PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
+            ItemCollisionManage(ref interactiveObject, ref gameObjects);
+            if (invincibilityFrames)
+                InvincibleFrameState(gameTime);
 
+
+        }
+
+        private void ItemCollisionManage(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectsToRender)
+        {
             for (int i = 0; i < interactiveObject.Count(); i++)
             {
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
@@ -101,17 +112,17 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.scissorsPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.armorPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.shovelPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.healthPickedUp = true;
@@ -131,13 +142,27 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.goldenUmbrellaPickedUp = true;
                 }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                    {
+                        GameObject temp = null;
+                        for (int j = 0; j < gameObjectsToRender.Count(); j++)
+                        {
+                            if (gameObjectsToRender[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                            {
+                                temp = gameObjectsToRender[j];
+                            }
+                        }
+
+                        gameObjectsToRender.Remove(temp);
+                        ItemUIManager.cornnencyQuantity++;
+
+                    }
+                    //TODO:delete funktion mit übergabe
+                }
             }
-            if (invincibilityFrames)
-                InvincibleFrameState(gameTime);
-
-
         }
-
 
         public void changeTexture(Texture2D texture)
         {
@@ -271,7 +296,7 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects)
         {
 
             mouseState = Mouse.GetState();
@@ -420,8 +445,9 @@ namespace Reggie
                     jumpSpeed = -20f;
                 PlayerJump();
 
-                //SOUNDS
-                //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
+                //MUSIC
+                //Game1.soundEffectDictionnary["houseChord"].Play();
+      
             }
 
             //Player Attack Input
@@ -463,12 +489,12 @@ namespace Reggie
                 if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     //Platform temp = null;
-                    foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
+                    foreach (Platform platform in levelGameObjects.Cast<GameObject>().OfType<Platform>().ToList())
                     {
                         if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
                         {
                             //temp = platform;
-                            GameObjectsList.Remove(platform);
+                            levelGameObjects.Remove(platform);
                             break;
                         }
                     }
@@ -477,11 +503,11 @@ namespace Reggie
 
                 //TODO:Destroyable? temp
                 // Platform temp = null;
-                foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
+                foreach (Platform platform in levelGameObjects.Cast<GameObject>().OfType<Platform>().ToList())
                 {
                     if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.VINEDOOR)
                     {
-                        GameObjectsList.Remove(platform);
+                        levelGameObjects.Remove(platform);
                         break;
                     }
                 }
@@ -489,7 +515,7 @@ namespace Reggie
 
 
 
-                foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+                foreach (Item item in levelGameObjects.Cast<GameObject>().OfType<Item>().ToList())
                 {
                     if (item.objectID == (int)Enums.ObjectsID.APPLE)
                     {

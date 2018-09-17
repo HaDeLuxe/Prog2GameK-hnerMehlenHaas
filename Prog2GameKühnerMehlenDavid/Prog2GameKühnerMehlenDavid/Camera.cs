@@ -41,7 +41,7 @@ namespace Reggie
                     && gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                 {
                         objectsToRender.Add(gameObjectsList[i]);
-                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE 
+                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
@@ -49,16 +49,16 @@ namespace Reggie
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION
                         || gameObjectsList[i].objectID == (int)Enums.ObjectsID.POWERPOTION
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA
+                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
                         interactiveObjectsList.Add(gameObjectsList[i]);
                 }
             }
-            //foreach (GameObject gameObject in interactiveObjectsList) interactiveObject.Add(gameObject);
-            interactiveObject = interactiveObjectsList;
+            foreach (GameObject gameObject in interactiveObjectsList) interactiveObject.Add(gameObject);
             return objectsToRender;
         }
 
-        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList,Texture2D enemySkinTexture, Dictionary<string, Texture2D> enemySpriteSheets, Enums.Level currentLevel)
+        public void SpawnEnemyOffScreen(Player wormPlayer, List<Platform> platformList, ref List<Enemy> enemyList, Dictionary<string, Texture2D> enemySpriteSheets, Enums.Level currentLevel)
         {
            
             for (int i = 0; i < platformList.Count; i++)
@@ -77,16 +77,12 @@ namespace Reggie
                         {
                             if (currentLevel == Enums.Level.TUTORIAL)
                             
-                                enemyList.Add(new Ladybug(enemySkinTexture, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
+                                enemyList.Add(new Ladybug(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
                                 enemyList.Last().SetPlayer(wormPlayer);
-                           
-                            
                         }
-
                     }
                 }
             }
-        
         }
 
        

@@ -30,6 +30,7 @@ namespace Reggie
 
             //Markus
             loadSongs(Content, ref songDictionary);
+            loadSoundEffects(Content, ref soundEffectDictionnary);
         }
 
         /// <summary>
@@ -179,6 +180,8 @@ namespace Reggie
             texturesDictionary.Add("GoldenUmbrella", goldenUmbrella);
             Texture2D apple = Content.Load<Texture2D>("Images\\Items\\Apple");
             texturesDictionary.Add("Apple", apple);
+            Texture2D currency = Content.Load<Texture2D>("Images\\Items\\Corn_Currency");
+            texturesDictionary.Add("cornnency", currency);
         }
 
         /// <summary>
@@ -210,7 +213,14 @@ namespace Reggie
             texturesDictionnary.Add("Climbingplant_38x64", ClimbinPlant_38_64);
             Texture2D EnemySpawnPoint = Content.Load<Texture2D>("Images\\WorldObjects\\EnemySpawnPoint");
             texturesDictionary.Add("EnemySpawnPoint", EnemySpawnPoint);
-         }
+
+            //Load Shop Assets
+            
+            Texture2D IdleShopkeeper = Content.Load<Texture2D>("Images\\Shop\\IdleShopkeeper");
+            texturesDictionary.Add("Shopkeeper_SpriteSheet_Idle", IdleShopkeeper);
+            Texture2D ShopkeeperWaving = Content.Load<Texture2D>("Images\\Shop\\WavingShopkeeper");
+            texturesDictionary.Add("Shopkeeper_SpriteSheet_Waving", ShopkeeperWaving);
+        }
 
 
         /// <summary>
@@ -242,8 +252,7 @@ namespace Reggie
             Texture2D glideTutorial = Content.Load<Texture2D>("Images\\UI\\GlideTut");
             texturesDictionary.Add("glideTutorial", glideTutorial);
 
-
-
+            
             //Minimap loading thingis
             Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");
             texturesDictionnary.Add("Minimap", Minimap);
@@ -261,22 +270,33 @@ namespace Reggie
             texturesDictionnary.Add("MainMenu4", MainMenu4);
             Texture2D MainMenu5 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-5");
             texturesDictionnary.Add("MainMenu5", MainMenu5);
+
+            
         }
 
 
         private void loadSongs(ContentManager Content, ref Dictionary<string, Song> songDictionnary)
         {
-            Song temp = Content.Load<Song>("Audio\\houseChord");
-            songDictionnary.Add("houseChord", temp);
+            Song temp = Content.Load<Song>("Audio\\Reggie_UNI");
+            songDictionnary.Add("IngameMusic", temp);
 
-            //MediaPlayer.Play(testSong);
+            //MediaPlayer.Play(Game1.songDictionnary["IngameMusic"]);
             //MediaPlayer.IsRepeating = true;
         }
 
         private void loadSoundEffects(ContentManager Content, ref Dictionary<string, SoundEffect> soundEffectDictionnary)
         {
+            //fail super mario sound
             SoundEffect temp = Content.Load<SoundEffect>("Audio\\houseChord");
             soundEffectDictionnary.Add("houseChord", temp);
+
+            //// Fire and forget play
+            //Game1.soundEffectDictionnary["houseChord"].Play();
+
+            //// Play that can be manipulated after the fact
+            //var instance = soundEffects[0].CreateInstance();
+            //instance.IsLooped = true;
+            //instance.Play();
         }
 
         public void Save()
@@ -414,6 +434,7 @@ namespace Reggie
                 if (GameObject.getTexture() == texturesDictionary["VineDoor"]) Output = Enums.ObjectsID.VINEDOOR.ToString();
                 if (GameObject.getTexture() == texturesDictionary["Spiderweb_64x64"]) Output = Enums.ObjectsID.SPIDERWEB.ToString();
                 if (GameObject.getTexture() == texturesDictionary["EnemySpawnPoint"]) Output = Enums.ObjectsID.ENEMYSPAWNPOINT.ToString();
+                if (GameObject.getTexture() == texturesDictionary["cornnency"]) Output = Enums.ObjectsID.CORNNENCY.ToString();
 
 
                 Output += "," + GameObject.gameObjectPosition.X + "," + GameObject.gameObjectPosition.Y;
