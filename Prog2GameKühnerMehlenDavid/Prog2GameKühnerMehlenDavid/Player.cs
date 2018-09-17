@@ -186,16 +186,23 @@ namespace Reggie
 
             foreach (var platform in gameObjectsToRender)
             {
-                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
-                {
+                //if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
+                //{
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
-                    if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
-                       (velocity.X < 0 && IsTouchingRightSide(platform)))
+                    if (velocity.X > 0 && IsTouchingLeftSide(platform))
                     {
                         velocity.X = 0;
-                        pressedLeftKey = false;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
+                    pressedLeftKey = false;
                         pressedRightKey = false;
                     }
+                    else if(velocity.X < 0 && IsTouchingRightSide(platform))
+                    {
+                    velocity.X = 0;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
+                    pressedLeftKey = false;
+                    pressedRightKey = false;
+                }
                     //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                     //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
                     else if (IsTouchingBottomSide(platform, gravity))
@@ -249,7 +256,7 @@ namespace Reggie
                         }
                         
                     }
-                }
+                //}
             }
           
 

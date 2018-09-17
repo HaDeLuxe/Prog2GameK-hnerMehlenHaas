@@ -374,13 +374,13 @@ namespace Reggie
                             //This draws the player
 
                             //----Draw Hitbox----//
-                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                            //    playercolorData[i] = Color.Black;
-                            //playertexture.SetData<Color>(playercolorData);
-                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                            //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
+                            playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
+                            playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
+                            for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
+                                playercolorData[i] = Color.Black;
+                            playertexture.SetData<Color>(playercolorData);
+                            playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
+                            spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
