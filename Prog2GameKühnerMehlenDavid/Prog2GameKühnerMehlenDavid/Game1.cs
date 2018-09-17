@@ -240,7 +240,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager);
                     break;
 
                 case GameState.GAMELOOP:
@@ -283,7 +283,7 @@ namespace Reggie
 
                     camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager);
 
                     if(timeUntilNextFrame2 <= 0)
                     {

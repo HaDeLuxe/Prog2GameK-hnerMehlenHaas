@@ -82,7 +82,7 @@ namespace Reggie
             invincibilityTimer = 0;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
@@ -91,14 +91,14 @@ namespace Reggie
             PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
-            ItemCollisionManager(ref interactiveObject, ref gameObjects);
+            ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager);
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
 
 
         }
 
-        private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList)
+        private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList, Levels levelManager)
         {
             for (int i = 0; i < interactiveObject.Count(); i++)
             {
@@ -147,16 +147,35 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                     {
                         GameObject temp = null;
-                        //if(levelManager.currentLevel == Enums.Level.TUTORIAL)
-                        for (int j = 0; j < gameObjectList.Count(); j++)
+                        if(levelManager.currentLevel == Enums.Level.TUTORIAL)
                         {
-                            if (gameObjectList[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                            //for (int j = 0; j < levelManager.TutorialGameObjects.Count(); j++)
+                            //{
+                            //    if (levelManager.TutorialGameObjects[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                            //    {
+                            //        levelManager.TutorialGameObjects.Remove(temp);
+
+                            //    }
+                            //}
+                            for (int j = 0; j < levelManager.currentLevelGameObjects.Count(); j++)
                             {
-                                temp = gameObjectList[j];
+                                if (levelManager.currentLevelGameObjects[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                                {
+                                    levelManager.currentLevelGameObjects.Remove(temp);
+
+                                }
                             }
                         }
 
-                        gameObjectList.Remove(temp);
+                        //for (int j = 0; j < gameObjectList.Count(); j++)
+                        //{
+                        //    if (gameObjectList[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                        //    {
+                        //        temp = gameObjectList[j];
+                        //    }
+                        ////}
+
+                        //levelManager.TutorialGameObjects.Remove(temp);
                         ItemUIManager.cornnencyQuantity++;
 
                     }
