@@ -143,7 +143,6 @@ namespace Reggie
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("Fonts/LuckiestGuy");
-            enemySkinTexture = Content.Load<Texture2D>("Images\\door");
 
             
             LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionary);
@@ -175,17 +174,16 @@ namespace Reggie
 
 
             levelObjectList = new List<GameObject>();
-            foreach (GameObject gameObject in allGameObjectList)
-                levelObjectList.Add(gameObject);
+            //foreach (GameObject gameObject in allGameObjectList)
+            //    levelObjectList.Add(gameObject);
             levelManager = new Levels(ref wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
+
             levelManager.sortGameObjects();
-
-           
-            FillLists();
             
-
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
             ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, playerSpriteSheets);
+            FillLists();
+
             // MONO: use this.Content to load your game content here
         }
 
@@ -283,7 +281,7 @@ namespace Reggie
 
                     }
 
-                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySkinTexture, enemySpriteSheets, levelManager.PlayerLevelLocation());
+                    camera.SpawnEnemyOffScreen(wormPlayer, platformList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus);
 
@@ -306,9 +304,6 @@ namespace Reggie
                     break;
                 case GameState.GAMEMENU:
                     gameMenu.Update(this, loadAndSave);
-                    //if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
-                    //    currentGameState = GameState.GAMELOOP;
-                    //previousState = Keyboard.GetState();
                     break;
             }
         }
@@ -764,9 +759,14 @@ namespace Reggie
                     interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
                     interactiveObject.Add(allGameObjectList[i]);
-                if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
-
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
                     interactiveObject.Add(allGameObjectList[i]);
+
+                foreach (Item item in allGameObjectList.Cast<GameObject>().OfType<Item>())
+                {
+                    if (item.objectID == (int)Enums.ObjectsID.CORNNENCY)
+                        interactiveObject.Add(item);
+                }
 
                 foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
                 {
@@ -775,7 +775,6 @@ namespace Reggie
                 }
             }
         }
-
 
     }
 }

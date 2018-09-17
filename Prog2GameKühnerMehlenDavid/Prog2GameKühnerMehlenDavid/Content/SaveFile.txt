@@ -1055,12 +1055,28 @@ CORNNENCY,10304,704
 CORNNENCY,10560,640
 CORNNENCY,10816,576
 CORNNENCY,11072,512
-Playerposition, 12344,1519
+HEALTHPOTION,12608,1664
+JUMPPOTION,12736,1664
+GOLDENUMBRELLA,12864,1664
+SHOVEL,13056,1664
+tileBrown_01,-7104,1408
+tileBrown_01,-6912,1408
+tileBrown_01,-7488,1408
+tileBrown_01,-7296,1408
+tileBrown_01,-7872,1408
+tileBrown_01,-7680,1408
+tileBrown_01,-8256,1408
+tileBrown_01,-8064,1408
+tileBrown_01,-8640,1408
+tileBrown_01,-8448,1408
+tileBrown_01,-9024,1408
+tileBrown_01,-8832,1408
+Playerposition, 3522,4399
 ArmorBOOL, False
 HelmetBOOL, False
-HealthPotionBOOL,False
-JumpPotionBOOL, False
+HealthPotionBOOL,True
+JumpPotionBOOL, True
 PowerPotionBOOL, False
 ScissorsBOOL, False
-ShovelBOOL, False
-GoldenUmbrellaBOOL, False
+ShovelBOOL, True
+GoldenUmbrellaBOOL, True

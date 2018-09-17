@@ -256,7 +256,35 @@ namespace Reggie {
             TreeGameObjects.Clear();
             InterLevelGameObjects.Clear();
 
-            foreach(GameObject GameObject in allGameObjects)
+
+            //for (int i = 0; i < currentLevelGameObjects.Count(); i++)
+            //{
+            //    if (TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+            //        TutorialGameObjects.Add(currentLevelGameObjects[i]);
+            //    if (DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+            //        DungHillGameObjects.Add(currentLevelGameObjects[i]);
+            //    if (HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+            //        HubGameObjects.Add(currentLevelGameObjects[i]);
+            //    if (AntToHubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+            //        AntGameObjects.Add(currentLevelGameObjects[i]);
+            //    if (GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+            //        GreenHouseGameObjects.Add(currentLevelGameObjects[i]);
+            //    if (TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition) || CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+            //        TreeGameObjects.Add(currentLevelGameObjects[i]);
+            //    if (!TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+            //        || !DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+            //        || !HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+            //        || !AntRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+            //        || !GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+            //        || !TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+            //        || !CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+            //        InterLevelGameObjects.Add(currentLevelGameObjects[i]);
+            //}
+
+
+
+
+            foreach (GameObject GameObject in currentLevelGameObjects)
             {
                 if (DetectCollision(GameObject, TutorialRectangle))
                     TutorialGameObjects.Add(GameObject);
