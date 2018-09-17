@@ -91,14 +91,14 @@ namespace Reggie
             PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
-            ItemCollisionManage(ref interactiveObject, ref gameObjects);
+            ItemCollisionManager(ref interactiveObject, ref gameObjects);
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
 
 
         }
 
-        private void ItemCollisionManage(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectsToRender)
+        private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList)
         {
             for (int i = 0; i < interactiveObject.Count(); i++)
             {
@@ -147,15 +147,16 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                     {
                         GameObject temp = null;
-                        for (int j = 0; j < gameObjectsToRender.Count(); j++)
+                        //if(levelManager.currentLevel == Enums.Level.TUTORIAL)
+                        for (int j = 0; j < gameObjectList.Count(); j++)
                         {
-                            if (gameObjectsToRender[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                            if (gameObjectList[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
                             {
-                                temp = gameObjectsToRender[j];
+                                temp = gameObjectList[j];
                             }
                         }
 
-                        gameObjectsToRender.Remove(temp);
+                        gameObjectList.Remove(temp);
                         ItemUIManager.cornnencyQuantity++;
 
                     }
