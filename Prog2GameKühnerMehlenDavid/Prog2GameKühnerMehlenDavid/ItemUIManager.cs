@@ -18,6 +18,7 @@ namespace Reggie {
         public static bool jumpPickedUp { get; set; } = false;
         public static bool powerPickedUp { get; set; } = false;
         public static bool goldenUmbrellaPickedUp { get; set; } = false;
+        public static int cornnencyQuantity { get; set; }
         GameObject scissors;
         GameObject shovel;
         public static GameObject currentItemEquipped;
@@ -38,6 +39,8 @@ namespace Reggie {
             ItemsFound = new List<GameObject>();
             PotionsFound = new List<GameObject>();
             currentItemEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
+            //MUSS EIGENTLICH AUS SAVE GELADEN WERDEN?! UND DELETET WENN
+            cornnencyQuantity = 333;
         }
 
         //public int getCurrentEquipped() {
@@ -243,7 +246,7 @@ namespace Reggie {
 
         }
 
-        public void drawUI(Dictionary<string, Texture2D> TexturesDictionnary, SpriteBatch spriteBatch, Matrix transformationMatrix, GraphicsDevice graphics, float playerHPRatio) 
+        public void drawUI(Dictionary<string, Texture2D> TexturesDictionnary, SpriteBatch spriteBatch, Matrix transformationMatrix, GraphicsDevice graphics, float playerHPRatio, SpriteFont font) 
         {
             spriteBatch.Draw(TexturesDictionnary["Healthbar"], Vector2.Transform(new Vector2(10, 150+(1-playerHPRatio)*770), Matrix.Invert(transformationMatrix)), null, Color.White , 0, Vector2.One, new Vector2(1f,playerHPRatio),SpriteEffects.None,0);
             spriteBatch.Draw(TexturesDictionnary["UI"], Vector2.Transform(new Vector2(-751, 90), Matrix.Invert(transformationMatrix)), Color.White);
@@ -270,11 +273,17 @@ namespace Reggie {
             }
 
 
+            var temp = string.Format("Coins: {0}", cornnencyQuantity);
+            spriteBatch.DrawString(font, temp, Vector2.Transform(new Vector2(500, 900), Matrix.Invert(transformationMatrix)), Color.Black);
+           
+
             spriteBatch.Draw(TexturesDictionnary["buttonL1"], Vector2.Transform(new Vector2(97, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
             spriteBatch.Draw(TexturesDictionnary["buttonR1"], Vector2.Transform(new Vector2(208, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
             spriteBatch.Draw(TexturesDictionnary["buttonL2"], Vector2.Transform(new Vector2(297, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
             spriteBatch.Draw(TexturesDictionnary["buttonR2"], Vector2.Transform(new Vector2(413, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
         }
+
+        
 
     }
 }

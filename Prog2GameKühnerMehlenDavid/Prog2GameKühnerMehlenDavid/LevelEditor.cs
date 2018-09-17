@@ -57,7 +57,7 @@ namespace Reggie {
             
             if (ButtonState.Pressed == mouseState.LeftButton)
             {
-                foreach(GameObject gameObject in gameObjects)
+                foreach(GameObject gameObject in gameObjects.Reverse<GameObject>())
                 {
                     Vector2 mouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(transformatinMatrix));
                     if (gameObject.gameObjectRectangle.Intersects(new Rectangle((int)mouseWorldPosition.X, (int)mouseWorldPosition.Y, 0, 0)))
@@ -199,6 +199,12 @@ namespace Reggie {
             j++;
             spriteBatch.Draw(texturesDictionary["Apple"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
             j++;
+            j++;
+            spriteBatch.Draw(texturesDictionary["EnemySpawnPoint"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+            spriteBatch.Draw(texturesDictionary["cornnency"], transformedPos_firstPosition + j * new Vector2(0, 100) - new Vector2(0, yoffset), Color.White);
+            j++;
+
 
             if (ButtonState.Pressed == mouseState.LeftButton && !button1Pushed)
             {
@@ -219,14 +225,14 @@ namespace Reggie {
                 checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 0 * 100 - yoffset, 500, 50);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                 {
-                    gameObjectList.Add(new Platform(texturesDictionary["Transparent_500x50"], new Vector2(512, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_500x50, true));
+                    gameObjectList.Add(new Platform(texturesDictionary["Transparent_500x50"], new Vector2(512, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVISIBLE_WALL_500x50, false));
                     gameObjectList.Last().DontDrawThisObject();
                 }
                 
                     checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + 1 * 100 - yoffset, 1000, 50);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                 {
-                    gameObjectList.Add(new Platform(texturesDictionary["Transparent_1000x50"], new Vector2(1024, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, true));
+                    gameObjectList.Add(new Platform(texturesDictionary["Transparent_1000x50"], new Vector2(1024, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.INVSIBLE_WALL_1000x50, false));
                     gameObjectList.Last().DontDrawThisObject();
                 }
 
@@ -281,10 +287,23 @@ namespace Reggie {
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     gameObjectList.Add(new Platform(texturesDictionary["VineDoor"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.VINEDOOR, false));
 
-                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 14) * 100) - yoffset, 128, 120);
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 14) * 100) - yoffset, 128, 128);
                 if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
                     gameObjectList.Add(new Item(texturesDictionary["Apple"], new Vector2(128,128), transformedPos, (int)Enums.ObjectsID.APPLE));
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 16) * 100) - yoffset, 64, 64);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                {
+                    gameObjectList.Add(new Platform(texturesDictionary["EnemySpawnPoint"], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)Enums.ObjectsID.ENEMYSPAWNPOINT, true));
+                    gameObjectList.Last().DontDrawThisObject();
+                }
+
+                checkRectangle = new Rectangle((int)firstPosition.X, (int)firstPosition.Y + ((PlatformsDic.Count() + 17) * 100) - yoffset, 128, 128);
+                if (checkRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y)))
+                    gameObjectList.Add(new Item(texturesDictionary["cornnency"], new Vector2(128, 128), transformedPos, (int)Enums.ObjectsID.CORNNENCY));
             }
+
+
             
             if (ButtonState.Released == mouseState.LeftButton)
             button1Pushed = false;
@@ -356,13 +375,9 @@ namespace Reggie {
                     if (textureName == "tileBrown_01" || textureName == "tileYellow_01" || textureName == "tileBlue_01" || textureName == "tileGreen_01")
                         gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, false));
 
-                    gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, true));
+                    gameObjectList.Add(new Platform(platformTextures[textureName], new Vector2(64, 64), transformedPos, (int)Enums.ObjectsID.PLATFORM, (int)tempObjectID, false));
                 }
             }
-
-            
-
-           
         }
 
 

@@ -10,8 +10,8 @@ namespace Reggie.Enemies
 {
     public class Enemy : GameObject
     {
-        protected Rectangle enemyAggroArea;
-        protected Vector4 enemyAggroAreaSize;
+        public Rectangle enemyAggroArea;
+        public Vector4 enemyAggroAreaSize;
         protected float attackRange;
         protected Player worm;
         protected int enemyHP;
@@ -234,7 +234,7 @@ namespace Reggie.Enemies
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (worm.collisionRectangle.Right - enemyAggroArea.Left <  collisionBoxSize.X)
+                if (worm.collisionRectangle.Right - collisionRectangle.Left <  collisionBoxSize.X)
                 {
                     resetBasicValues();
                     velocity.X = 0;

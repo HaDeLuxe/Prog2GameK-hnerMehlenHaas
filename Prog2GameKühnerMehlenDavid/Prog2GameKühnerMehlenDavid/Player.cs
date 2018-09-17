@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Media;
 using Reggie.Animations;
 using Reggie.Enemies;
 using Reggie.Menus;
+//SOUNDEFFECTS
+using Microsoft.Xna.Framework.Audio;
+
 
 namespace Reggie
 {
@@ -34,8 +37,7 @@ namespace Reggie
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
-
-        IngameMenus ingameMenus;
+        
         
 
 
@@ -80,16 +82,24 @@ namespace Reggie
             invincibilityTimer = 0;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave)
+        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
-            PlayerControls(gameTime,enemyList, interactiveObject, ref gameObjects, loadAndSave);
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
-            PlayerPositionCalculation(gameTime, gameObjectsToRender,interactiveObject);
+            PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
+            ItemCollisionManager(ref interactiveObject, ref gameObjects);
+            if (invincibilityFrames)
+                InvincibleFrameState(gameTime);
 
+
+        }
+
+        private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList)
+        {
             for (int i = 0; i < interactiveObject.Count(); i++)
             {
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
@@ -102,17 +112,17 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.scissorsPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.armorPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.shovelPickedUp = true;
                 }
-                if(interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.healthPickedUp = true;
@@ -132,13 +142,28 @@ namespace Reggie
                     if (DetectCollision(interactiveObject[i]))
                         ItemUIManager.goldenUmbrellaPickedUp = true;
                 }
+                if (interactiveObject[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
+                {
+                    if (DetectCollision(interactiveObject[i]))
+                    {
+                        GameObject temp = null;
+                        //if(levelManager.currentLevel == Enums.Level.TUTORIAL)
+                        for (int j = 0; j < gameObjectList.Count(); j++)
+                        {
+                            if (gameObjectList[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                            {
+                                temp = gameObjectList[j];
+                            }
+                        }
+
+                        gameObjectList.Remove(temp);
+                        ItemUIManager.cornnencyQuantity++;
+
+                    }
+                    //TODO:delete funktion mit übergabe
+                }
             }
-            if (invincibilityFrames)
-                InvincibleFrameState(gameTime);
-
-
         }
-
 
         public void changeTexture(Texture2D texture)
         {
@@ -161,16 +186,23 @@ namespace Reggie
 
             foreach (var platform in gameObjectsToRender)
             {
-                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
-                {
+                //if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
+                //{
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
-                    if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
-                       (velocity.X < 0 && IsTouchingRightSide(platform)))
+                    if (velocity.X > 0 && IsTouchingLeftSide(platform))
                     {
                         velocity.X = 0;
-                        pressedLeftKey = false;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
+                    pressedLeftKey = false;
                         pressedRightKey = false;
                     }
+                    else if(velocity.X < 0 && IsTouchingRightSide(platform))
+                    {
+                    velocity.X = 0;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
+                    pressedLeftKey = false;
+                    pressedRightKey = false;
+                }
                     //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                     //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
                     else if (IsTouchingBottomSide(platform, gravity))
@@ -224,7 +256,7 @@ namespace Reggie
                         }
                         
                     }
-                }
+                //}
             }
           
 
@@ -265,7 +297,7 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects)
         {
 
             mouseState = Mouse.GetState();
@@ -414,8 +446,9 @@ namespace Reggie
                     jumpSpeed = -20f;
                 PlayerJump();
 
-                //SOUNDS
-                //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
+                //MUSIC
+                //Game1.soundEffectDictionnary["houseChord"].Play();
+      
             }
 
             //Player Attack Input
@@ -457,12 +490,12 @@ namespace Reggie
                 if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     //Platform temp = null;
-                    foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
+                    foreach (Platform platform in levelGameObjects.Cast<GameObject>().OfType<Platform>().ToList())
                     {
                         if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
                         {
                             //temp = platform;
-                            GameObjectsList.Remove(platform);
+                            levelGameObjects.Remove(platform);
                             break;
                         }
                     }
@@ -471,11 +504,11 @@ namespace Reggie
 
                 //TODO:Destroyable? temp
                 // Platform temp = null;
-                foreach (Platform platform in GameObjectsList.Cast<GameObject>().OfType<Platform>().ToList())
+                foreach (Platform platform in levelGameObjects.Cast<GameObject>().OfType<Platform>().ToList())
                 {
                     if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.VINEDOOR)
                     {
-                        GameObjectsList.Remove(platform);
+                        levelGameObjects.Remove(platform);
                         break;
                     }
                 }
@@ -483,12 +516,13 @@ namespace Reggie
 
 
 
-                foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+                foreach (Item item in levelGameObjects.Cast<GameObject>().OfType<Item>().ToList())
                 {
                     if (item.objectID == (int)Enums.ObjectsID.APPLE)
                     {
                         if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
                         {
+                            ingameMenus.saveAnimStart();
                             loadAndSave.Save();
                             Console.WriteLine("Game Saved");
                             break;
@@ -590,7 +624,6 @@ namespace Reggie
                     if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
                     {
                         ingameMenus.drawSaveIcon(this.gameObjectPosition);
-                        Console.WriteLine("Apple Collision");
                         break;
                     }
                 }

@@ -10,7 +10,8 @@ namespace Reggie
 {
     public class Item : GameObject {
 
-        public Item(Texture2D gameObjectTexture, Vector2 gameObjectSize, Vector2 gameObjectPosition, int gameObjectID) : base(gameObjectTexture, gameObjectSize, gameObjectPosition, gameObjectID) {
+        public Item(Texture2D gameObjectTexture, Vector2 gameObjectSize, Vector2 gameObjectPosition, int gameObjectID) : base(gameObjectTexture, gameObjectSize, gameObjectPosition, gameObjectID)
+        {
 
         }
 
