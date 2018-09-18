@@ -29,7 +29,7 @@ namespace Reggie.Menus {
             
         }
 
-        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font, Levels levelManager) {
+        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font, Levels levelManager, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player) {
 
             if (!controlWindowOpen)
             {
@@ -63,7 +63,7 @@ namespace Reggie.Menus {
 
             if (controlWindowOpen)
             {
-                newGameControlScreen(Font, SpriteBatch, texturesDictionary, levelManager);
+                newGameControlScreen(Font, SpriteBatch, texturesDictionary, loadAndSave, ref allGameObjects, ref player);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Reggie.Menus {
 
 
 
-        private void LoadNewGame(Levels levelManager) {
+        private void LoadNewGame(LoadAndSave loadAndSave) {
             ItemUIManager.armorPickedUp = false;
             ItemUIManager.snailShellPickedUp = false;
             ItemUIManager.shovelPickedUp = false;
@@ -122,10 +122,9 @@ namespace Reggie.Menus {
             ItemUIManager.jumpPickedUp = false;
             ItemUIManager.cornnencyQuantity = 0;
             Game1.wormPlayer.gameObjectPosition = new Vector2(13444, 1700);
-            //levelManager.ManageLevels(Game1.wormPlayer.gameObjectPosition);
         }
 
-        void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, Levels levelManager) {
+        void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player) {
             controlWindowOpen = true;
 
             if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp)) && !controlButtonPressed && controlWindowOpen)
@@ -155,7 +154,8 @@ namespace Reggie.Menus {
                 switch (currentControlButton)
                 {
                     case Enums.MainMenuButtons.CONTROLYES:
-                        LoadNewGame(levelManager);
+                        LoadNewGame(loadAndSave);
+                        loadAndSave.LoadGameObjectsNewGame(ref allGameObjects, ref player, );
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
                         controlWindowOpen = false;
                         break;

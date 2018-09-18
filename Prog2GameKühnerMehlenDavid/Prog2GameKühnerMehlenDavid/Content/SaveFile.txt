@@ -1067,7 +1067,7 @@ tileBrown_01,-8640,1408
 tileBrown_01,-8448,1408
 tileBrown_01,-9024,1408
 tileBrown_01,-8832,1408
-Playerposition, 3588,4399
+Playerposition, 10100,943
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,False
