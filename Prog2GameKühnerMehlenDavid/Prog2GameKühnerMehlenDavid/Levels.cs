@@ -42,6 +42,7 @@ namespace Reggie {
         public List<GameObject> InterLevelGameObjects;
         public List<GameObject> allGameObjects;
         public List<GameObject> currentLevelGameObjects;
+        public List<GameObject> currentLevelCornnency;
 
         bool TutToHub = false;
         bool HubToDung = false;

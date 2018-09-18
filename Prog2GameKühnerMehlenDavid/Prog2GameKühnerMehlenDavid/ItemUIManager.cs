@@ -40,7 +40,7 @@ namespace Reggie {
             PotionsFound = new List<GameObject>();
             currentItemEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
             //MUSS EIGENTLICH AUS SAVE GELADEN WERDEN?! UND DELETET WENN
-            cornnencyQuantity = 333;
+            cornnencyQuantity = 0;
         }
 
         //public int getCurrentEquipped() {
