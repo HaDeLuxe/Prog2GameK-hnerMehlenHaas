@@ -327,7 +327,7 @@ namespace Reggie
 
                         break;
                     case GameState.MAINMENU:
-                        mainMenu.RenderMainMenu(texturesDictionary, spriteBatch, font, levelManager, loadAndSave, ref allGameObjectList, ref wormPlayer);
+                        mainMenu.RenderMainMenu(texturesDictionary, spriteBatch, font, levelManager, loadAndSave, ref allGameObjectList, ref wormPlayer, this);
                         break;
                     case GameState.MINIMAP:
                         //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
@@ -462,6 +462,13 @@ namespace Reggie
                         interactiveObject.Add(platform);
                 }
             }
+        }
+
+        public void NewGame()
+        {
+            loadAndSave.LoadGameObjectsNewGame(ref allGameObjectList, ref wormPlayer);
+            levelManager.sortGameObjects();
+            FillLists();
         }
 
     }

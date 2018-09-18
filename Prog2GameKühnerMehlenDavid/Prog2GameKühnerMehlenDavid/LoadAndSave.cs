@@ -253,6 +253,8 @@ namespace Reggie
             texturesDictionnary.Add("moveTutorial", moveTutorialAnimSpriteSheet);
             Texture2D glideTutorial = Content.Load<Texture2D>("Images\\UI\\GlideTut");
             texturesDictionary.Add("glideTutorial", glideTutorial);
+            Texture2D attackTutorial = Content.Load<Texture2D>("Images\\UI\\Attack_Tut");
+            texturesDictionary.Add("attackTutorial", attackTutorial);
 
             
             //Minimap loading thingis
