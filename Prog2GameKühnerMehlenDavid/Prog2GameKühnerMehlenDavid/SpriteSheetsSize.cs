@@ -107,11 +107,11 @@ namespace Reggie {
                 }
             }
 
-            for(int i = 0; i < spritesSizes.Count; i++)
-            {
-                String s = "" + spritesSizes.ElementAt(i);
-                System.Console.WriteLine(s);
-            }
+            //for(int i = 0; i < spritesSizes.Count; i++)
+            //{
+            //    String s = "" + spritesSizes.ElementAt(i);
+            //    System.Console.WriteLine(s);
+            //}
         }
     }
 }

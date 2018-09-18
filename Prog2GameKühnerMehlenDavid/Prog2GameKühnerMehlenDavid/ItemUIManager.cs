@@ -40,7 +40,7 @@ namespace Reggie {
             PotionsFound = new List<GameObject>();
             currentItemEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
             //MUSS EIGENTLICH AUS SAVE GELADEN WERDEN?! UND DELETET WENN
-            cornnencyQuantity = 333;
+            cornnencyQuantity = 0;
         }
 
         //public int getCurrentEquipped() {
@@ -282,6 +282,8 @@ namespace Reggie {
             spriteBatch.Draw(TexturesDictionnary["buttonL2"], Vector2.Transform(new Vector2(297, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
             spriteBatch.Draw(TexturesDictionnary["buttonR2"], Vector2.Transform(new Vector2(413, 785), Matrix.Invert(transformationMatrix)), null, Color.Gray, 0, Vector2.One, new Vector2(0.7f, 0.7f), SpriteEffects.None, 0);
         }
+
+        
 
     }
 }

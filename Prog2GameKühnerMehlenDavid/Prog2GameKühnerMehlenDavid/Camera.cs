@@ -31,27 +31,28 @@ namespace Reggie
              return cameraMatrix;
         }
 
-        public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsList, ref List<GameObject> interactiveObject)
+        public List<GameObject> GameObjectsToRender(Vector2 playerPosition, List<GameObject> gameObjectsToRender, ref List<GameObject> interactiveObject)
         {
             List<GameObject> objectsToRender = new List<GameObject>();
             List<GameObject> interactiveObjectsList = new List<GameObject>();
-            for(int i = 0; i < gameObjectsList.Count; i++)
+            interactiveObject.Clear();
+            for(int i = 0; i < gameObjectsToRender.Count; i++)
             {
-                if (gameObjectsList[i].gameObjectPosition.X < playerPosition.X + 1350 && gameObjectsList[i].gameObjectRectangle.Right > playerPosition.X - 1350
-                    && gameObjectsList[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsList[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
+                if (gameObjectsToRender[i].gameObjectPosition.X < playerPosition.X + 1350 && gameObjectsToRender[i].gameObjectRectangle.Right > playerPosition.X - 1350
+                    && gameObjectsToRender[i].gameObjectPosition.Y < playerPosition.Y + 750 && gameObjectsToRender[i].gameObjectRectangle.Bottom > playerPosition.Y - 750)
                 {
-                        objectsToRender.Add(gameObjectsList[i]);
-                    if (gameObjectsList[i].objectID == (int)Enums.ObjectsID.VINE
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SCISSORS
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.ARMOR
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.SHOVEL
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.JUMPPOTION
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.POWERPOTION
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA
-                        || gameObjectsList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
-                        interactiveObjectsList.Add(gameObjectsList[i]);
+                        objectsToRender.Add(gameObjectsToRender[i]);
+                    if (gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.VINE
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.SNAILSHELL
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.SCISSORS
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.ARMOR
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.SHOVEL
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.JUMPPOTION
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.POWERPOTION
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA
+                        || gameObjectsToRender[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
+                        interactiveObjectsList.Add(gameObjectsToRender[i]);
                 }
             }
             foreach (GameObject gameObject in interactiveObjectsList) interactiveObject.Add(gameObject);

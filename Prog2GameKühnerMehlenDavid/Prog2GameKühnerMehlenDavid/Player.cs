@@ -82,7 +82,7 @@ namespace Reggie
             invincibilityTimer = 0;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
@@ -91,14 +91,14 @@ namespace Reggie
             PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
-            ItemCollisionManage(ref interactiveObject, ref gameObjects);
+            ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager, ref allGameObjects);
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
 
 
         }
 
-        private void ItemCollisionManage(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectsToRender)
+        private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList, Levels levelManager, ref List<GameObject> allGameObjectsList)
         {
             for (int i = 0; i < interactiveObject.Count(); i++)
             {
@@ -146,20 +146,20 @@ namespace Reggie
                 {
                     if (DetectCollision(interactiveObject[i]))
                     {
-                        GameObject temp = null;
-                        for (int j = 0; j < gameObjectsToRender.Count(); j++)
+                        for(int k = 0; k < allGameObjectsList.Count(); k++)
                         {
-                            if (gameObjectsToRender[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                            if(allGameObjectsList[k].objectID == (int)Enums.ObjectsID.CORNNENCY)
                             {
-                                temp = gameObjectsToRender[j];
+
+                                if (allGameObjectsList[k].gameObjectPosition == interactiveObject[i].gameObjectPosition)
+                                {
+                                    gameObjectList.Remove(allGameObjectsList[k]);
+                                }
                             }
                         }
-
-                        gameObjectsToRender.Remove(temp);
                         ItemUIManager.cornnencyQuantity++;
-
+                        break;
                     }
-                    //TODO:delete funktion mit übergabe
                 }
             }
         }
@@ -188,13 +188,20 @@ namespace Reggie
                 if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
                 {
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
-                    if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
-                       (velocity.X < 0 && IsTouchingRightSide(platform)))
+                    if (velocity.X > 0 && IsTouchingLeftSide(platform))
                     {
                         velocity.X = 0;
-                        pressedLeftKey = false;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
+                    pressedLeftKey = false;
                         pressedRightKey = false;
                     }
+                    else if(velocity.X < 0 && IsTouchingRightSide(platform))
+                    {
+                    velocity.X = 0;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
+                    pressedLeftKey = false;
+                    pressedRightKey = false;
+                }
                     //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                     //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
                     else if (IsTouchingBottomSide(platform, gravity))
