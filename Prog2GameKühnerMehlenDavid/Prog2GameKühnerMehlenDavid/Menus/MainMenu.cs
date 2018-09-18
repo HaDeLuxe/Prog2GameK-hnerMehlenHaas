@@ -29,7 +29,7 @@ namespace Reggie.Menus {
             
         }
 
-        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font, Levels levelManager, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player) {
+        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font, Levels levelManager, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player, Game1 game) {
 
             if (!controlWindowOpen)
             {
@@ -63,7 +63,7 @@ namespace Reggie.Menus {
 
             if (controlWindowOpen)
             {
-                newGameControlScreen(Font, SpriteBatch, texturesDictionary, loadAndSave, ref allGameObjects, ref player);
+                newGameControlScreen(Font, SpriteBatch, texturesDictionary, loadAndSave, ref allGameObjects, ref player, game);
             }
         }
 
@@ -124,7 +124,7 @@ namespace Reggie.Menus {
             Game1.wormPlayer.gameObjectPosition = new Vector2(13444, 1700);
         }
 
-        void newGameControlScreen( SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player) {
+        void newGameControlScreen(SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player, Game1 game1) {
             controlWindowOpen = true;
 
             if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp)) && !controlButtonPressed && controlWindowOpen)
@@ -155,7 +155,8 @@ namespace Reggie.Menus {
                 {
                     case Enums.MainMenuButtons.CONTROLYES:
                         LoadNewGame(loadAndSave);
-                        loadAndSave.LoadGameObjectsNewGame(ref allGameObjects, ref player);
+                        //loadAndSave.LoadGameObjectsNewGame(ref allGameObjects, ref player);
+                        game1.NewGame();
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
                         controlWindowOpen = false;
                         break;

@@ -29,7 +29,10 @@ namespace Reggie {
         GameObject goldenUmbrella;
         bool shoulderButtonPushed = false;
         bool triggerButtonPushed = false;
-
+        public static int healthPotionsCount { get; set; } = 0;
+        public static int powerPotionsCount { get; set; } = 0;
+        public static int jumpPotionsCount { get; set; } = 0;
+ 
 
         List<GameObject> ItemsFound;
         List<GameObject> PotionsFound;
