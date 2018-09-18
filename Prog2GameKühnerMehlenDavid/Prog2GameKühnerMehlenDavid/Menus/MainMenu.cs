@@ -154,9 +154,8 @@ namespace Reggie.Menus {
                 switch (currentControlButton)
                 {
                     case Enums.MainMenuButtons.CONTROLYES:
-                        LoadNewGame(loadAndSave);
-                        //loadAndSave.LoadGameObjectsNewGame(ref allGameObjects, ref player);
                         game1.NewGame();
+                        LoadNewGame(loadAndSave);
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
                         controlWindowOpen = false;
                         break;
