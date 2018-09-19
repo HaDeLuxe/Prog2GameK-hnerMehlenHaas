@@ -125,17 +125,26 @@ namespace Reggie
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
                         ItemUIManager.healthPickedUp = true;
+                        ItemUIManager.healthPotionsCount++;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.JUMPPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
                         ItemUIManager.jumpPickedUp = true;
+                        ItemUIManager.jumpPotionsCount++;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
                         ItemUIManager.powerPickedUp = true;
+                        ItemUIManager.powerPotionsCount++;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
