@@ -15,7 +15,7 @@ namespace Reggie.Enemies
         private AnimationManagerEnemy animationManager;
         public Ladybug(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 3;
+            enemyHP = 100;
             movementSpeed = 5f;
             knockBackValue = 20f;
             attackRange = 10f;
@@ -25,31 +25,38 @@ namespace Reggie.Enemies
 
         public override void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (!facingDirectionRight)
+            if (!facingDirectionRight && !attackAction)
                 animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
-            else if (facingDirectionRight)
+            else if (facingDirectionRight && !attackAction)
                 animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+            else if (!facingDirectionRight && attackAction)
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT;
+            else if (facingDirectionRight && attackAction)
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT;
             animationManager.Animation(gameTime, this, spriteBatch);
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjectList)
         {
-            ResizeEnemyAggroArea(gameObjectList);
-            if (!attackAction && attackCooldown == 0)
-            {
-                if (DetectPlayer() && !knockedBack)
-                    EnemyMovement();
-            }
-            if (attackAction)
-                EnemyAttack(gameTime);
-            if (attackExecuted)
-                CalculationCooldown(gameTime);
-            EnemyCheckCollision(gameTime, gameObjectList);
-            EnemyPositionCalculation(gameTime);
+            //ResizeEnemyAggroArea(gameObjectList);
+            //if (!attackAction && attackCooldown == 0)
+            //{
+            //    if (DetectPlayer() && !knockedBack)
+            //        EnemyMovement();
+            //    if (!DetectPlayer())
+            //        EnemyNeutralBehaviour(gameObjectList);
+
+            //}
+            //if (attackAction)
+            //    EnemyAttack(gameTime);
+            //if (attackExecuted)
+            //    CalculationCooldown(gameTime);
+            //EnemyCheckCollision(gameTime, gameObjectList);
+            //EnemyPositionCalculation(gameTime);
 
 
-            if (invincibilityFrames)
-                InvincibleFrameState(gameTime);
+            //if (invincibilityFrames)
+            //    InvincibleFrameState(gameTime);
 
 
         }
@@ -66,30 +73,44 @@ namespace Reggie.Enemies
 
         public override void EnemyAttack(GameTime gameTime)
         {
-            attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            //if (!calculateCharge)
-            if(attackTimer<1f)
-                CalculationChargingVector();
-            if (chargingVector.X < 0)
-                facingDirectionRight = false;
-            else if (chargingVector.X > 0)
-                facingDirectionRight = true;
-            if (attackTimer <1f)
+            if (!knockedBack)
             {
-                velocity.Y = -6f;
-                velocity.X = 0f;
-                isStanding = false;
-            }
-            else if (attackTimer > 1f && attackTimer < 3f)
-            {
-                if (!calculateCharge)
+                attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+               //if (!calculateCharge)
+                if (attackTimer < 1f)
                     CalculationChargingVector();
-                velocity =  chargingVector * 3f;
-                if (HitPlayer() && !worm.invincibilityFrames)
+                if (chargingVector.X < 0)
+                    facingDirectionRight = false;
+                else if (chargingVector.X > 0)
+                    facingDirectionRight = true;
+                if (attackTimer < 1f)
                 {
-                    worm.invincibilityFrames = true;
-                    worm.ReducePlayerHP();
-                    //worm.KnockBackPosition(facingDirectionRight, 35);
+                    velocity.Y = -6f;
+                    velocity.X = 0f;
+                    isStanding = false;
+                }
+                else if (attackTimer > 1f && attackTimer < 2f)
+                {
+                    if (!calculateCharge)
+                        CalculationChargingVector();
+                    velocity = chargingVector * 3f;
+                    if (HitPlayer() && !worm.invincibilityFrames)
+                    {
+                        worm.invincibilityFrames = true;
+                        worm.ReducePlayerHP();
+                        //worm.KnockBackPosition(facingDirectionRight, 35);
+                    }
+                }
+                else
+                {
+                    attackTimer = 0;
+                    attackAction = false;
+                    calculateCharge = false;
+                    velocity = Vector2.Zero;
+                    attackExecuted = true;
+                    gravityActive = true;
+                    isStanding = false;
+                    chargingVector = Vector2.Zero;
                 }
             }
             else
@@ -99,15 +120,43 @@ namespace Reggie.Enemies
                 calculateCharge = false;
                 velocity = Vector2.Zero;
                 attackExecuted = true;
+                gravityActive = true;
+                isStanding = false;
                 chargingVector = Vector2.Zero;
             }
         }
 
         private void CalculationChargingVector()
         {
-            chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
-            chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
-            
+            if (chargingVector == Vector2.Zero)
+            {
+                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) == 0)
+                    chargingVector.X = 0;
+                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) == 0)
+                    chargingVector.Y = 0;
+            }
+            if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 !=0)
+            {
+                chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) != 0)
+                    chargingVector.X = chargingVector.X / Math.Abs(chargingVector.Y) * 8;
+                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) > 0)
+                    chargingVector.Y = 8;
+                else
+                    chargingVector.Y = -8;
+            }
+            else if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) >= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.X / 60 - collisionRectangle.X / 60 != 0)
+            {
+                chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) != 0)
+                    chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 8;
+                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) > 0)
+                    chargingVector.X = 8;
+                else
+                    chargingVector.X = -8;
+            }
             calculateCharge = true;
         }
     }

@@ -28,10 +28,21 @@ namespace Reggie.Enemies
         protected float attackCooldown;
         public bool invincibilityFrames;
         public float invincibilityTimer;
+        public float ratioCharge;
+        protected float movementDirectionGone;
+        protected bool leftFootAir;
+        protected bool rightFootAir;
+        
 
 
-
-        //   protected bool facingLeft = true;
+        protected Rectangle leftFootRect
+        {
+            get { return new Rectangle((int)collisionBoxPosition.X, (int)(collisionBoxPosition.Y + collisionBoxSize.Y), 1, 1); }
+        }
+        protected Rectangle rightFootRect
+        {
+            get { return new Rectangle((int)(collisionBoxPosition.X+collisionBoxSize.X-1), (int)(collisionBoxPosition.Y + collisionBoxSize.Y), 1, 1); }
+        }
 
         public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
@@ -44,15 +55,19 @@ namespace Reggie.Enemies
             calculateCharge = false;
             attackExecuted = false;
             attackCooldown = 0;
+            ratioCharge = 1f;
             invincibilityFrames = false;
             invincibilityTimer = 0;
+            leftFootAir = false;
+            rightFootAir = false;
             // objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
-            enemyAggroAreaSize = new Vector4(400, 300, 900, 650);
+            enemyAggroAreaSize = new Vector4(500, 500, 1100, 1050);
             collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
             enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.Z), (int)(enemyAggroAreaSize.W));
             collisionBoxSize = new Vector2(enemySize.X, enemySize.Y);
+            movementDirectionGone = 0;
        
         }
 
@@ -107,10 +122,22 @@ namespace Reggie.Enemies
         {
             foreach (var platform in platformList)
             {
-
-                if (velocity.X > 0 && IsTouchingLeftSide(platform) ||
-                   (velocity.X < 0 && IsTouchingRightSide(platform)))
+                if (velocity.X > 0 && IsTouchingLeftSide(platform))
+                {
                     velocity.X = 0;
+                    movementDirectionGone = 1000;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
+                    pressedLeftKey = false;
+                    pressedRightKey = false;
+                }
+                else if (velocity.X < 0 && IsTouchingRightSide(platform))
+                {
+                    velocity.X = 0;
+                    movementDirectionGone = 0;
+                    collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
+                    pressedLeftKey = false;
+                    pressedRightKey = false;
+                }
                 else if (IsTouchingBottomSide(platform, gravity))
                 {
                     velocity.Y = 0;
@@ -221,10 +248,11 @@ namespace Reggie.Enemies
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (worm.collisionRectangle.Left - collisionRectangle.Right < collisionBoxSize.X)
+                if (Math.Abs(worm.collisionRectangle.Left - collisionRectangle.Right) < collisionBoxSize.X)
                 {
                     resetBasicValues();
                     velocity.X = 0;
+                    facingDirectionRight = false;
                     attackAction = true;
                 }
                 return true;
@@ -234,10 +262,11 @@ namespace Reggie.Enemies
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (worm.collisionRectangle.Right - collisionRectangle.Left <  collisionBoxSize.X)
+                if (Math.Abs(worm.collisionRectangle.Right - collisionRectangle.Left) <  collisionBoxSize.X)
                 {
                     resetBasicValues();
                     velocity.X = 0;
+                    facingDirectionRight = true;
                     attackAction = true;
                 }
                 return true;
@@ -349,6 +378,48 @@ namespace Reggie.Enemies
                 invincibilityTimer = 0;
                 invincibilityFrames = false;
             }
+        }
+        protected void EnemyNeutralBehaviour(List<GameObject> gameObjectList)
+        {
+            if (movementDirectionGone == 1000)
+            {
+               // velocity.X = -movementSpeed;
+                facingDirectionRight = false;
+            }
+            if (movementDirectionGone == 0)
+            {
+               // velocity.X = movementSpeed;
+                facingDirectionRight = true;
+            }
+            if (facingDirectionRight)
+                velocity.X = movementSpeed;
+            else
+                velocity.X = -movementSpeed;
+            movementDirectionGone += velocity.X;
+
+            foreach (var platform in gameObjectList)
+            {
+                //if (!leftFootRect.Intersects(platform.gameObjectRectangle)&& IsTouchingTopSide(platform,gravity) && rightFootRect.Intersects(platform.gameObjectRectangle))
+                //    movementDirectionGone = 0;
+                //else if (!rightFootRect.Intersects(platform.gameObjectRectangle) && IsTouchingTopSide(platform, gravity) && leftFootRect.Intersects(platform.gameObjectRectangle))
+                //    movementDirectionGone = 100;
+                if(IsTouchingTopSide(platform, gravity))
+                {
+                    if (!leftFootRect.Intersects(platform.gameObjectRectangle))
+                        leftFootAir = true;
+                    if (!rightFootRect.Intersects(platform.gameObjectRectangle))
+                        rightFootAir = true;
+                }
+            }
+            if(leftFootAir && rightFootAir)
+            {
+                leftFootAir = false;
+                rightFootAir = false;
+            }
+            if (leftFootAir)
+                movementDirectionGone = 0;
+            if (rightFootAir)
+                movementDirectionGone = 1000;
         }
     }
 }

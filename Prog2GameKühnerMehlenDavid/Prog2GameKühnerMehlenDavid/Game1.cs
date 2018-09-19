@@ -360,12 +360,12 @@ namespace Reggie
                             {
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
-                                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].enemyAggroAreaSize.Z), (int)(enemyList[i].enemyAggroAreaSize.W));
-                                    //colordata = new Color[(int)((enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z))];
-                                    //for (int j = 0; j < (enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z); j++)
+                                    //enemytexture = new Texture2D(this.GraphicsDevice,1 , 1);
+                                    //colordata = new Color[(int)(1 * 1)];
+                                    //for (int j = 0; j < ((1 * 1)); j++)
                                     //    colordata[j] = Color.White;
                                     //enemytexture.SetData<Color>(colordata);
-                                    //enemyaggroposition = new Vector2(enemyList[i].enemyAggroArea.X, enemyList[i].enemyAggroArea.Y);
+                                    //enemyaggroposition = new Vector2(enemyList[i].rightFootRect.Left, enemyList[i].rightFootRect.Top);
                                     //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                                     enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                 }
@@ -374,13 +374,19 @@ namespace Reggie
                             //This draws the player
 
                             //----Draw Hitbox----//
-                            playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                                playercolorData[i] = Color.Black;
-                            playertexture.SetData<Color>(playercolorData);
-                            playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                            spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
+                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
+                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
+                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
+                            //    playercolorData[i] = Color.Black;
+                            //playertexture.SetData<Color>(playercolorData);
+                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
+                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X + 40), (int)(wormPlayer.collisionBoxSize.Y + 60));
+                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X + 40) * (wormPlayer.collisionBoxSize.Y + 60))];
+                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X + 40) * (wormPlayer.collisionBoxSize.Y + 60); i++)
+                            //    playercolorData[i] = Color.Black;
+                            //playertexture.SetData<Color>(playercolorData);
+                            //playeraggroposition = new Vector2(wormPlayer.attackRectangle.Left, wormPlayer.attackRectangle.Top);
+                            //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
