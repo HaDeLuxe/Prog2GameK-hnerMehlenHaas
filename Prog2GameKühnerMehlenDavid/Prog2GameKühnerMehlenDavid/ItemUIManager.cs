@@ -29,7 +29,10 @@ namespace Reggie {
         GameObject goldenUmbrella;
         bool shoulderButtonPushed = false;
         bool triggerButtonPushed = false;
-
+        public static int healthPotionsCount { get; set; } = 0;
+        public static int powerPotionsCount { get; set; } = 0;
+        public static int jumpPotionsCount { get; set; } = 0;
+ 
 
         List<GameObject> ItemsFound;
         List<GameObject> PotionsFound;
@@ -40,7 +43,7 @@ namespace Reggie {
             PotionsFound = new List<GameObject>();
             currentItemEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
             //MUSS EIGENTLICH AUS SAVE GELADEN WERDEN?! UND DELETET WENN
-            cornnencyQuantity = 333;
+            cornnencyQuantity = 0;
         }
 
         //public int getCurrentEquipped() {
@@ -63,6 +66,7 @@ namespace Reggie {
           
             if (snailShellPickedUp)
             {
+               
                DestroyGameItem(Enums.ObjectsID.SNAILSHELL, ref GameObjectList);
             }
            
@@ -265,11 +269,45 @@ namespace Reggie {
                     spriteBatch.Draw(currentItemEquipped.getTexture(), Vector2.Transform(new Vector2(145, 960), Matrix.Invert(transformationMatrix)), null, Color.White, -45, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
                 else
                     spriteBatch.Draw(currentItemEquipped.getTexture(), Vector2.Transform(new Vector2(145, 860), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                if(currentItemEquipped.objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
+                {
+                    spriteBatch.DrawString(font, "Gold Umbrella", Vector2.Transform(new Vector2(112, 990), Matrix.Invert(transformationMatrix)), Color.Black, 0, Vector2.Zero, 0.4f, SpriteEffects.None, 0);
+                }
+                if(currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                    spriteBatch.DrawString(font, "Shovel", Vector2.Transform(new Vector2(150, 990), Matrix.Invert(transformationMatrix)), Color.Black, 0, Vector2.Zero, 0.4f, SpriteEffects.None, 0);
+                if(currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
+                    spriteBatch.DrawString(font, "Scissors", Vector2.Transform(new Vector2(145, 990), Matrix.Invert(transformationMatrix)), Color.Black, 0, Vector2.Zero, 0.4f, SpriteEffects.None, 0);
+
             }
 
             if (PotionsFound.Count() > 0)
             {
                 spriteBatch.Draw(currentPotionEquipped.getTexture(), Vector2.Transform(new Vector2(345, 865), Matrix.Invert(transformationMatrix)), null, Color.White, 0, Vector2.One, new Vector2(1.4f, 1.4f), SpriteEffects.None, 0);
+                if(currentPotionEquipped.objectID == (int)Enums.ObjectsID.HEALTHPOTION)
+                {
+                    if(healthPotionsCount < 10)
+                        spriteBatch.DrawString(font, healthPotionsCount.ToString(), Vector2.Transform(new Vector2(380, 820), Matrix.Invert(transformationMatrix)), Color.DarkRed, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
+                    else
+                        spriteBatch.DrawString(font, healthPotionsCount.ToString(), Vector2.Transform(new Vector2(365, 820), Matrix.Invert(transformationMatrix)), Color.DarkRed, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(font, "Health Potion", Vector2.Transform(new Vector2(315, 990), Matrix.Invert(transformationMatrix)), Color.Black, 0,Vector2.Zero, 0.4f,SpriteEffects.None, 0);
+                }
+                if (currentPotionEquipped.objectID == (int)Enums.ObjectsID.JUMPPOTION)
+                {
+                    if(jumpPotionsCount < 10)
+                        spriteBatch.DrawString(font, jumpPotionsCount.ToString(), Vector2.Transform(new Vector2(380, 820), Matrix.Invert(transformationMatrix)), Color.DarkRed, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
+                    else
+                        spriteBatch.DrawString(font, jumpPotionsCount.ToString(), Vector2.Transform(new Vector2(365, 820), Matrix.Invert(transformationMatrix)), Color.DarkRed, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
+
+                    spriteBatch.DrawString(font, "Jump Potion", Vector2.Transform(new Vector2(320, 990), Matrix.Invert(transformationMatrix)), Color.Black, 0, Vector2.Zero, 0.4f, SpriteEffects.None, 0);
+                }
+                if (currentPotionEquipped.objectID == (int)Enums.ObjectsID.POWERPOTION)
+                {
+                    if(powerPotionsCount < 10)
+                        spriteBatch.DrawString(font, powerPotionsCount.ToString(), Vector2.Transform(new Vector2(380, 820), Matrix.Invert(transformationMatrix)), Color.DarkRed, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
+                    else
+                        spriteBatch.DrawString(font, powerPotionsCount.ToString(), Vector2.Transform(new Vector2(365, 820), Matrix.Invert(transformationMatrix)), Color.DarkRed, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(font, "Power Potion", Vector2.Transform(new Vector2(315, 990), Matrix.Invert(transformationMatrix)), Color.Black, 0, Vector2.Zero, 0.4f, SpriteEffects.None, 0);
+                }
             }
 
 

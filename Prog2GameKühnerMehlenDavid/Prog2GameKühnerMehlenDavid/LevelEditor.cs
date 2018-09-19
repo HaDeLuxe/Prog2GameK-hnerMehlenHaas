@@ -60,7 +60,7 @@ namespace Reggie {
                 foreach(GameObject gameObject in gameObjects.Reverse<GameObject>())
                 {
                     Vector2 mouseWorldPosition = Vector2.Transform(mousePosition, Matrix.Invert(transformatinMatrix));
-                    if (gameObject.gameObjectRectangle.Intersects(new Rectangle((int)mouseWorldPosition.X, (int)mouseWorldPosition.Y, 0, 0)))
+                    if (gameObject.gameObjectRectangle.Intersects(new Rectangle((int)mouseWorldPosition.X, (int)mouseWorldPosition.Y, 0, 0))&& mousePosition.X < 1700)
                     {
                         if (!alreadyDragged)
                         {

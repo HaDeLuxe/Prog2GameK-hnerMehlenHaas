@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
-    class Levels {
+    internal class Levels {
 
         Rectangle TutorialRectangle = new Rectangle(5120, 0, 10240, 2048);
         Rectangle DunghillRectangle = new Rectangle(0, -2048, 4096, 4096);
@@ -33,15 +33,16 @@ namespace Reggie {
         Rectangle TreeToAntBottomRectangle = new Rectangle(-8600, 2200, 400, 400);
 
 
-        List<GameObject> TutorialGameObjects;
-        List<GameObject> DungHillGameObjects;
-        List<GameObject> GreenHouseGameObjects;
-        List<GameObject> AntGameObjects;
-        List<GameObject> TreeGameObjects;
-        List<GameObject> HubGameObjects;
-        List<GameObject> InterLevelGameObjects;
-        List<GameObject> allGameObjects;
-        List<GameObject> currentLevelGameObjects;
+        public List<GameObject> TutorialGameObjects;
+        public List<GameObject> DungHillGameObjects;
+        public List<GameObject> GreenHouseGameObjects;
+        public List<GameObject> AntGameObjects;
+        public List<GameObject> TreeGameObjects;
+        public List<GameObject> HubGameObjects;
+        public List<GameObject> InterLevelGameObjects;
+        public List<GameObject> allGameObjects;
+        public List<GameObject> currentLevelGameObjects;
+        public List<GameObject> currentLevelCornnency;
 
         bool TutToHub = false;
         bool HubToDung = false;

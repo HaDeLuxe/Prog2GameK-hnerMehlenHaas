@@ -84,7 +84,7 @@ namespace Reggie
             attackTimer = 0;
         }
 
-        public void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
@@ -93,14 +93,14 @@ namespace Reggie
             PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
-            ItemCollisionManager(ref interactiveObject, ref gameObjects);
+            ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager, ref allGameObjects);
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
 
 
         }
 
-        private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList)
+        private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList, Levels levelManager, ref List<GameObject> allGameObjectsList)
         {
             for (int i = 0; i < interactiveObject.Count(); i++)
             {
@@ -127,17 +127,26 @@ namespace Reggie
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
                         ItemUIManager.healthPickedUp = true;
+                        ItemUIManager.healthPotionsCount++;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.JUMPPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
                         ItemUIManager.jumpPickedUp = true;
+                        ItemUIManager.jumpPotionsCount++;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.POWERPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
                         ItemUIManager.powerPickedUp = true;
+                        ItemUIManager.powerPotionsCount++;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
@@ -148,21 +157,20 @@ namespace Reggie
                 {
                     if (DetectCollision(interactiveObject[i]))
                     {
-                        GameObject temp = null;
-                        //if(levelManager.currentLevel == Enums.Level.TUTORIAL)
-                        for (int j = 0; j < gameObjectList.Count(); j++)
+                        for(int k = 0; k < allGameObjectsList.Count(); k++)
                         {
-                            if (gameObjectList[j].gameObjectPosition == interactiveObject[j].gameObjectPosition)
+                            if(allGameObjectsList[k].objectID == (int)Enums.ObjectsID.CORNNENCY)
                             {
-                                temp = gameObjectList[j];
+
+                                if (allGameObjectsList[k].gameObjectPosition == interactiveObject[i].gameObjectPosition)
+                                {
+                                    gameObjectList.Remove(allGameObjectsList[k]);
+                                }
                             }
                         }
-
-                        gameObjectList.Remove(temp);
                         ItemUIManager.cornnencyQuantity++;
-
+                        break;
                     }
-                    //TODO:delete funktion mit übergabe
                 }
             }
         }

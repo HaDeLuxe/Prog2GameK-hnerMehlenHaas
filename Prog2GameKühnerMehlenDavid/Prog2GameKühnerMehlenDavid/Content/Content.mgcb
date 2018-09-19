@@ -1057,18 +1057,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/UI.png
 
-#begin Audio/houseChord.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/houseChord.mp3
-
-#begin Audio/SuperMarioCoinSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/SuperMarioCoinSound.mp3
-
 #begin Arial.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -1277,12 +1265,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/WorldObjects/EnemySpawnPoint.png
 
-#begin Audio/Reggie_UNI.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Reggie_UNI.mp3
-
 #begin Images/UI/Attack_Tut.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1330,4 +1312,130 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Items/Corn_Currency.png
+
+#begin Audio/Announcer110_Get_Rekt.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Announcer110_Get_Rekt.mp3
+
+#begin Audio/Announcer110_Victory.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Announcer110_Victory.mp3
+
+#begin Audio/Announcer_Denied.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Announcer_Denied.mp3
+
+#begin Audio/Announcer_Mom_Get_The_Camera.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Announcer_Mom_Get_The_Camera.mp3
+
+#begin Audio/Announcer_Your_Grandma_Plays_Better.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Announcer_Your_Grandma_Plays_Better.mp3
+
+#begin Audio/Reggie_Attacks.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Attacks.mp3
+
+#begin Audio/Reggie_Attack_Groaning_1_HUU.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Attack_Groaning_1_HUU.mp3
+
+#begin Audio/Reggie_Attack_Groaning_2_HAA.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Attack_Groaning_2_HAA.mp3
+
+#begin Audio/Reggie_Attack_Groaning_3_HEE.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Attack_Groaning_3_HEE.mp3
+
+#begin Audio/Reggie_Attack_Groaning_4_HOO.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Attack_Groaning_4_HOO.mp3
+
+#begin Audio/Reggie_Attack_Hits.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Attack_Hits.mp3
+
+#begin Audio/Reggie_Equiped_Something.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Equiped_Something.mp3
+
+#begin Audio/Reggie_Fell_On_The_Ground.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Fell_On_The_Ground.mp3
+
+#begin Audio/Reggie_Hurt_1_AU.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Hurt_1_AU.mp3
+
+#begin Audio/Reggie_Hurt_2_AHHH.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Hurt_2_AHHH.mp3
+
+#begin Audio/Reggie_Ingame_Music.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Ingame_Music.mp3
+
+#begin Audio/Reggie_Jump.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Jump.mp3
+
+#begin Audio/Reggie_Moves.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Moves.mp3
+
+#begin Audio/Reggie_Opens_Schirm.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Opens_Schirm.mp3
+
+#begin Audio/Reggie_Pickup_Any_Item.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Pickup_Any_Item.mp3
+
+#begin Audio/Shopkeeper_Reggie_Bought_Something.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Shopkeeper_Reggie_Bought_Something.mp3
 
