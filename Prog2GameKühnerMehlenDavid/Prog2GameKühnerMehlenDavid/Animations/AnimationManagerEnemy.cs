@@ -54,13 +54,13 @@ namespace Reggie.Animations {
                 {
                     if(nextAnimation == Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT
                         || nextAnimation == Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT)
-                    {
+                    
                         nextAnimation = previousAnimation;
                         currentAnimation = nextAnimation;
 
                         ladybug_Attack_Left.resetPlayedOnce();
                         ladybug_Attack_Right.resetPlayedOnce();
-                    }
+                    
                 }
             }
 
