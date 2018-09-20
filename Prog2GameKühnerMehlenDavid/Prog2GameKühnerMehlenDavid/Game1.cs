@@ -87,7 +87,11 @@ namespace Reggie
         public Texture2D playertexture;
         public Vector2 playeraggroposition;
 
+
+
+        //MUSIC
         public bool turnOnMusic;
+        AudioManager audioManager;
 
 
 
@@ -118,7 +122,12 @@ namespace Reggie
             gameManager = new ItemUIManager();
             minimap = new Minimap();
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
+
+            //MUSIC
             turnOnMusic = true;
+            //must be the first instance!
+            audioManager = AudioManager.AudioManagerInstance();
+            
         }
 
         /// <summary>
@@ -144,9 +153,12 @@ namespace Reggie
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("Fonts/LuckiestGuy");
 
-            
+
             LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionary);
-            loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionary, ref enemySpriteSheets, ref songDictionnary, ref soundEffectDictionnary);
+            //MUSIC
+            audioManager.LoadSongsAndSound(this.Content);
+            loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionary, ref enemySpriteSheets);
+
             levelEditor.loadTextures(Content, ref texturesDictionary, graphics.GraphicsDevice);
 
             animManager = new AnimationManager(playerSpriteSheets);
@@ -198,6 +210,9 @@ namespace Reggie
 
             lastGameState = currentGameState;
 
+            //MUSIC Updating Timer
+            audioManager.UpdateAudioManagerTimer(gameTime);
+
             //Update Timer
             float animationFrameTime = 0.02f;
 
@@ -235,12 +250,10 @@ namespace Reggie
 
                     this.IsMouseVisible = false;
 
+                    //MUSIC
                     if (turnOnMusic)
                     {
-                        
-                        //MUSIC
-                        //MediaPlayer.Play(songDictionnary["IngameMusic"]);
-                        //MediaPlayer.IsRepeating = true;
+                        audioManager.Play("Ingame_Music");
                         turnOnMusic = false;
                     }
                    

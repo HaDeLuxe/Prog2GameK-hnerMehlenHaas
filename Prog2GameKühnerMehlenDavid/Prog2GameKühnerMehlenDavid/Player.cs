@@ -37,8 +37,11 @@ namespace Reggie
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
-        
-        
+        //MUSIC
+        float attackMusicTimer;
+        AudioManager audioManager;
+
+
 
 
         MouseState mouseState;
@@ -80,6 +83,11 @@ namespace Reggie
             movementSpeed = 10f;
             jumpSpeed = -20f;
             invincibilityTimer = 0;
+
+            //MUSIC
+            //Timer steht auf Zeit die für die ersten Sound um getriggert zu werden gebraucht wird
+            attackMusicTimer = 3;
+            audioManager = AudioManager.AudioManagerInstance();
         }
 
         internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects)
@@ -191,6 +199,8 @@ namespace Reggie
 
         private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender,List <GameObject> interactiveObject)
         {
+            //MUSIC
+            attackMusicTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (var platform in gameObjectsToRender)
             {
@@ -455,8 +465,12 @@ namespace Reggie
                 PlayerJump();
 
                 //MUSIC
-                //Game1.soundEffectDictionnary["houseChord"].Play();
-      
+                if (secondJump == false)
+                {
+                    audioManager.Play("Jump");
+                }
+                
+
             }
 
             //Player Attack Input
@@ -539,7 +553,15 @@ namespace Reggie
                 }
 
                 //playerAttackPressed = true;
-            
+
+
+                //MUSIC
+                //if (attackMusicTimer > 0.5f)
+                //{
+                    audioManager.Play("Attack");
+                    //attackMusicTimer = 0;
+                //}
+
             }
 
             

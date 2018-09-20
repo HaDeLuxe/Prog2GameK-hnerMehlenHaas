@@ -453,7 +453,7 @@ namespace Reggie.Animations {
                 case Animations.Attack_Left:
                     player.changeTexture(attack_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Animation_Left.getSpriteEffects(), new Vector2(-15, 0), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Animation_Left.getSpriteEffects(), new Vector2(-15, 0), color, scale);
                     break;
                 case Animations.Attack_Right:
                     player.changeTexture(attack_Animation_Right.texture);
