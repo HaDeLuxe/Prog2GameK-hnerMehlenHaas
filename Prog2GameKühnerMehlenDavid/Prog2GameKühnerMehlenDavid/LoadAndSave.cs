@@ -150,6 +150,35 @@ namespace Reggie
             EnemySpriteSheets.Add("Ladybug_Fly_Spritesheet", Ladybug_Fly);
             Texture2D Ladybug_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Ladybug_Attack_Small");
             EnemySpriteSheets.Add("Ladybug_Attack_Spritesheet", Ladybug_Attack);
+
+            //Hawk
+            Texture2D hawk_Flight = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\StaticFlightLeft");
+            EnemySpriteSheets.Add("hawkFlightSpriteSheet", hawk_Flight);
+            Texture2D hawk_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\AttackLeft");
+            EnemySpriteSheets.Add("hawkAttackSpriteSheet", hawk_Attack);
+
+            //Snail
+            Texture2D snail_Moving = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Walking");
+            EnemySpriteSheets.Add("snailMoveSpriteSheet", snail_Moving);
+            Texture2D snail_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Attack");
+            EnemySpriteSheets.Add("snailAttackSpriteSheet", snail_Attack);
+            Texture2D snail_Transf = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Trans");
+            EnemySpriteSheets.Add("snailTransfSpriteSheet", snail_Transf);
+            Texture2D snail_Aggressive = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Aggressive");
+            EnemySpriteSheets.Add("snailAggressiveSpriteSheet", snail_Transf);
+
+            //Ant
+            Texture2D antMoving = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\AntWalkAnimation_Small");
+            EnemySpriteSheets.Add("antMovingSpriteSheet", antMoving);
+            Texture2D antAttack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\AntAttackAnimation_Small");
+            EnemySpriteSheets.Add("antAttackSpriteSheet", antAttack);
+
+            //Spider
+            Texture2D spiderMoving = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Spider_Move");
+            EnemySpriteSheets.Add("spiderMovingSpriteSheet", spiderMoving);
+            Texture2D spiderAttack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Spider_Attack");
+            EnemySpriteSheets.Add("spiderAttackSpriteSheet", spiderAttack);
+
         }
 
         /// <summary>
@@ -250,6 +279,7 @@ namespace Reggie
             texturesDictionary.Add("glideTutorial", glideTutorial);
             Texture2D attackTutorial = Content.Load<Texture2D>("Images\\UI\\Attack_Tut");
             texturesDictionary.Add("attackTutorial", attackTutorial);
+            
 
             
             //Minimap loading thingis
@@ -270,7 +300,11 @@ namespace Reggie
             Texture2D MainMenu5 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-5");
             texturesDictionnary.Add("MainMenu5", MainMenu5);
 
-            
+            //Load Shop
+            Texture2D idleShop = Content.Load<Texture2D>("Images\\Shop\\IdleShopkeeper");
+            texturesDictionary.Add("idleShop", idleShop);
+            Texture2D wavingShop = Content.Load<Texture2D>("Images\\Shop\\WavingShopkeeper");
+            texturesDictionary.Add("wavingShop", wavingShop);
         }
 
 
