@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r11">
+    <folder id="0">
+        <file id="0" name="SpiderBody.png" width="448" height="272" pivot_x="0.5" pivot_y="0.529412"/>
+        <file id="1" name="SpiderAss.png" width="382" height="348" pivot_x="0.15445" pivot_y="0.367816"/>
+        <file id="2" name="SpiderHead.png" width="328" height="271" pivot_x="0.868902" pivot_y="0.520295"/>
+        <file id="3" name="SpiderToothSmall1.png" width="111" height="92" pivot_x="0.774775" pivot_y="0.804348"/>
+        <file id="4" name="SpiderToothBig2.png" width="135" height="142" pivot_x="0.740741" pivot_y="0.823944"/>
+        <file id="5" name="EyesOfSpider.png" width="138" height="60" pivot_x="0.449275" pivot_y="0.45"/>
+        <file id="6" name="SpiderUpperLegAndShin.png" width="94" height="125" pivot_x="0.234043" pivot_y="0.832"/>
+        <file id="7" name="SpiderLeg.png" width="199" height="256" pivot_x="0.879397" pivot_y="0.914062"/>
+        <file id="8" name="SpiderFoot.png" width="143" height="98" pivot_x="0.881119" pivot_y="0.77551"/>
+        <file id="9" name="SpiderWebSKATCH.png" width="111" height="93" pivot_x="0.531532" pivot_y="0.430108"/>
+    </folder>
+    <entity id="0" name="Spider">
+        <obj_info name="bone_000" type="bone" w="342.502" h="10"/>
+        <obj_info name="bone_001" type="bone" w="344.852" h="10"/>
+        <obj_info name="bone_002" type="bone" w="248.604" h="10"/>
+        <obj_info name="bone_003" type="bone" w="130.27" h="10"/>
+        <obj_info name="bone_004" type="bone" w="119.215" h="10"/>
+        <obj_info name="bone_005" type="bone" w="98.6403" h="10"/>
+        <animation id="0" name="SpiderIdle" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <bone_ref id="0" timeline="4" key="0"/>
+                    <bone_ref id="1" parent="0" timeline="5" key="0"/>
+                    <bone_ref id="2" parent="0" timeline="6" key="0"/>
+                    <bone_ref id="3" parent="2" timeline="7" key="0"/>
+                    <bone_ref id="4" parent="2" timeline="8" key="0"/>
+                    <bone_ref id="5" parent="2" timeline="9" key="0"/>
+                    <object_ref id="0" parent="1" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" parent="2" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" parent="3" timeline="3" key="0" z_index="2"/>
+                    <object_ref id="3" parent="0" timeline="0" key="0" z_index="3"/>
+                </key>
+                <key id="1" time="807">
+                    <bone_ref id="0" timeline="4" key="0"/>
+                    <bone_ref id="1" parent="0" timeline="5" key="1"/>
+                    <bone_ref id="2" parent="0" timeline="6" key="0"/>
+                    <bone_ref id="3" parent="2" timeline="7" key="0"/>
+                    <bone_ref id="4" parent="2" timeline="8" key="0"/>
+                    <bone_ref id="5" parent="2" timeline="9" key="0"/>
+                    <object_ref id="0" parent="1" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" parent="2" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" parent="3" timeline="3" key="0" z_index="2"/>
+                    <object_ref id="3" parent="0" timeline="0" key="0" z_index="3"/>
+                    <object_ref id="4" parent="1" timeline="10" key="0" z_index="4"/>
+                    <object_ref id="5" timeline="11" key="0" z_index="5"/>
+                    <object_ref id="6" timeline="12" key="0" z_index="6"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="SpiderBody">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="184.214742" y="-11.781555" angle="354.267505"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="SpiderAss">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="32.935742" y="26.374022" angle="328.37399"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="SpiderHead">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-7.319724" y="-24.467615" angle="185.291863"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="EyesOfSpider">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="83.022124" y="-0.806298" angle="269.421274"/>
+                </key>
+            </timeline>
+            <timeline id="4" obj="0" name="bone_000" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="-175.432564" y="91.653738" angle="5.732495"/>
+                </key>
+            </timeline>
+            <timeline id="5" obj="1" name="bone_001" object_type="bone">
+                <key id="0">
+                    <bone x="370.652828" y="3.786092" angle="17.408685"/>
+                </key>
+                <key id="1" time="807" spin="-1">
+                    <bone x="370.652828" y="3.786092" angle="23.18634"/>
+                </key>
+            </timeline>
+            <timeline id="6" obj="2" name="bone_002" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="-29.196884" y="-1.036247" angle="156.796577"/>
+                </key>
+            </timeline>
+            <timeline id="7" obj="3" name="bone_003" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="160.181067" y="53.365833" angle="284.982716"/>
+                </key>
+            </timeline>
+            <timeline id="8" obj="4" name="bone_004" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="111.905985" y="66.778673" angle="44.864146"/>
+                </key>
+            </timeline>
+            <timeline id="9" obj="5" name="bone_005" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="200.927966" y="69.264854" angle="68.168041"/>
+                </key>
+            </timeline>
+            <timeline id="10" name="SpiderLeg">
+                <key id="0" time="807" spin="0">
+                    <object folder="0" file="7" x="-291.661627" y="101.216817" angle="199.447625"/>
+                </key>
+            </timeline>
+            <timeline id="11" name="SpiderLeg_007">
+                <key id="0" time="807" spin="0">
+                    <object folder="0" file="7" x="-170" y="338.75"/>
+                </key>
+            </timeline>
+            <timeline id="12" name="SpiderFoot_007">
+                <key id="0" time="807" spin="0">
+                    <object folder="0" file="8" x="-311.111111" y="140.40404" angle="38.659808" scale_x="1" scale_y="1"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="SpiderWalking" length="1000" interval="100">
+            <mainline>
+                <key id="0"/>
+            </mainline>
+        </animation>
+        <animation id="2" name="SpiderWebAttack" length="1000" interval="100">
+            <mainline>
+                <key id="0"/>
+            </mainline>
+        </animation>
+        <animation id="3" name="SpiderBiteAttack" length="1000" interval="100">
+            <mainline>
+                <key id="0"/>
+            </mainline>
+        </animation>
+    </entity>
+</spriter_data>
