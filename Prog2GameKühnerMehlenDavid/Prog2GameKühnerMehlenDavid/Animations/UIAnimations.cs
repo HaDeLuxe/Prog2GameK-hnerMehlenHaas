@@ -54,7 +54,7 @@ namespace Reggie.Animations
             attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, playerSpriteSheet["playerAttackSpriteSheet"], 50f);
             attack_Umbrella_Empty_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 147, playerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
             idleShopkeeper = new Animation(true, SpriteEffects.None, 334, 407, texturesDictionary["idleShop"], 25f);
-            wavingShopkeeper = new Animation(false, SpriteEffects.None, 114, 407, texturesDictionary["wavingShop"], 25f);
+            wavingShopkeeper = new Animation(false, SpriteEffects.None, 334, 407, texturesDictionary["wavingShop"], 25f);
 
         }
 

@@ -93,6 +93,9 @@ namespace Reggie
         public bool turnOnMusic;
         AudioManager audioManager;
 
+        //SHOP
+        ShopKeeper shopKeeper = null;
+
 
 
 
@@ -127,9 +130,7 @@ namespace Reggie
             turnOnMusic = true;
             //must be the first instance!
             audioManager = AudioManager.AudioManagerInstance();
-
-            //SHOP
-           
+            
 
         }
 
@@ -166,7 +167,9 @@ namespace Reggie
 
             animManager = new AnimationManager(playerSpriteSheets);
             wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int)Enums.ObjectsID.PLAYER);
-            //shopKeeper = new ShopKeeper();
+
+            //SHOP
+            shopKeeper = new ShopKeeper(null, new Vector2(334,407), new Vector2(13444, 1500), (int)Enums.ObjectsID.SHOPKEEPER);
 
 
             enemySpawnList = new List<Platform>();
