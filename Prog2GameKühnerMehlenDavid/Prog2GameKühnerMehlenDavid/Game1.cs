@@ -102,7 +102,7 @@ namespace Reggie
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 1080-40-20;
+            graphics.PreferredBackBufferHeight = 1080 - 40 - 20;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.ApplyChanges();
             Window.AllowUserResizing = true;
@@ -127,7 +127,10 @@ namespace Reggie
             turnOnMusic = true;
             //must be the first instance!
             audioManager = AudioManager.AudioManagerInstance();
-            
+
+            //SHOP
+           
+
         }
 
         /// <summary>
@@ -162,10 +165,10 @@ namespace Reggie
             levelEditor.loadTextures(Content, ref texturesDictionary, graphics.GraphicsDevice);
 
             animManager = new AnimationManager(playerSpriteSheets);
-            wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int) Enums.ObjectsID.PLAYER);
+            wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int)Enums.ObjectsID.PLAYER);
+            //shopKeeper = new ShopKeeper();
 
-           
-           
+
             enemySpawnList = new List<Platform>();
             allGameObjectList = new List<GameObject>();
             interactiveObject = new List<GameObject>();

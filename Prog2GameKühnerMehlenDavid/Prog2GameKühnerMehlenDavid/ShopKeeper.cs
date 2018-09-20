@@ -12,6 +12,7 @@ namespace Reggie
     {
         public ShopKeeper(Texture2D gameObjectTexture, Vector2 gameObejctSize, Vector2 position, int gameObjectID) : base(gameObjectTexture, gameObejctSize, position, gameObjectID)
         {
+
         }
     }
 }
