@@ -11,16 +11,18 @@ namespace Reggie
 {
     public class ShopKeeper : GameObject
     {
-        UIAnimations uIAnimations;
+        NPC_Animations nPC_Animations;
 
         public ShopKeeper(Texture2D gameObjectTexture, Vector2 gameObejctSize, Vector2 position, int gameObjectID, Dictionary<string, Texture2D> texturesDictionary) : base(gameObjectTexture, gameObejctSize, position, gameObjectID)
         {
-            //uIAnimations = new UIAnimations()
+            nPC_Animations = new NPC_Animations(texturesDictionary);
+            nPC_Animations.currentAnimation = NPC_Animations.NPCAnimations.IdleShopkeeper;
+            nPC_Animations.nextAnimation = NPC_Animations.NPCAnimations.IdleShopkeeper;
         }
 
-        public void drawShopKeeper(SpriteBatch spriteBatch, GameTime gameTime, Dictionary<string, Texture2D>texturesDictionary)
+        public void drawShopKeeper(SpriteBatch spriteBatch, GameTime gameTime)
         {
-
+            nPC_Animations.Animation(gameTime, spriteBatch, this);
         }
     }
 }

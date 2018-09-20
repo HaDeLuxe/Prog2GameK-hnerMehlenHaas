@@ -169,7 +169,7 @@ namespace Reggie
             wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int)Enums.ObjectsID.PLAYER);
 
             //SHOP
-            shopKeeper = new ShopKeeper(null, new Vector2(334,407), new Vector2(13444, 1500), (int)Enums.ObjectsID.SHOPKEEPER);
+            shopKeeper = new ShopKeeper(null, new Vector2(334,407), new Vector2(13494, 1500), (int)Enums.ObjectsID.SHOPKEEPER,texturesDictionary);
 
 
             enemySpawnList = new List<Platform>();
@@ -389,12 +389,12 @@ namespace Reggie
                             //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
                             //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
+                            shopKeeper.drawShopKeeper(spriteBatch, gameTime);
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
                                 animManager.animation(gameTime, ref wormPlayer, spriteBatch);
                             else
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
-
                             wormPlayer.drawUpdate(levelObjectList, ref ingameMenus);
 
                             //This draws the UI

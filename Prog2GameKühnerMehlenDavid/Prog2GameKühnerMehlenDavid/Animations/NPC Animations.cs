@@ -27,8 +27,8 @@ namespace Reggie.Animations
 
         public NPC_Animations(Dictionary<string, Texture2D> texturesDictionary)
         {
-            idleShopkeeper = new Animation(true, SpriteEffects.None, 334, 407, texturesDictionary["idleShop"], 25f);
-            wavingShopkeeper = new Animation(false, SpriteEffects.None, 114, 407, texturesDictionary["wavingShop"], 25f);
+            idleShopkeeper = new Animation(true, SpriteEffects.None, 334, 407, texturesDictionary["idleShop"], 25f); //334, 407
+            wavingShopkeeper = new Animation(false, SpriteEffects.None, 114, 407, texturesDictionary["wavingShop"], 25f); //114, 407
         }
 
         public void Animation(GameTime gameTime, SpriteBatch spriteBatch, GameObject gameObject)
