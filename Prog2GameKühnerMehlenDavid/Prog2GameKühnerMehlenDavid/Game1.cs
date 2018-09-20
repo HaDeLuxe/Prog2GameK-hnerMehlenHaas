@@ -253,7 +253,7 @@ namespace Reggie
                     //MUSIC
                     if (turnOnMusic)
                     {
-                        audioManager.Play("Ingame_Music");
+                        audioManager.Play("IngameMusic");
                         turnOnMusic = false;
                     }
                    
