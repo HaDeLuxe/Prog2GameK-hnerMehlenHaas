@@ -81,7 +81,7 @@ namespace Reggie
                             
                                 enemyList.Add(new Ladybug(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
 
-
+                            if(enemyList.Count() != 0)
                             enemyList.Last().SetPlayer(wormPlayer);
                         }
                     }

@@ -22,6 +22,8 @@ namespace Reggie.Animations
             Reggie_Jump,
             Reggie_Float,
             Reggie_Attack,
+            IdleShopkeeper,
+            WavingShopkeeper,
             None
         }
 
@@ -36,6 +38,9 @@ namespace Reggie.Animations
         Animation attack_Animation_Left = null;
         Animation attack_Umbrella_Empty_Animation_Left = null;
 
+        Animation idleShopkeeper = null;
+        Animation wavingShopkeeper = null;
+
 
         public UIAnimations(Dictionary<string, Texture2D> texturesDictionary, Dictionary<string, Texture2D> playerSpriteSheet)
         {
@@ -48,6 +53,8 @@ namespace Reggie.Animations
             floatingAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, playerSpriteSheet["playerFloatSpriteSheet"], 25f);
             attack_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, SpriteSheetSizes.spritesSizes["Reggie_Attack_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Attack_Y"] / 5, playerSpriteSheet["playerAttackSpriteSheet"], 50f);
             attack_Umbrella_Empty_Animation_Left = new Animation(false, SpriteEffects.FlipHorizontally, 115, 147, playerSpriteSheet["playerAttackUmbrellaEmptySpriteSheet"], 50f);
+            idleShopkeeper = new Animation(true, SpriteEffects.None, 334, 407, texturesDictionary["idleShop"], 25f);
+            wavingShopkeeper = new Animation(false, SpriteEffects.None, 114, 407, texturesDictionary["wavingShop"], 25f);
 
         }
 
@@ -57,20 +64,25 @@ namespace Reggie.Animations
                 currentAnimation == uiAnimations.Reggie_Move_Left||
                 currentAnimation == uiAnimations.Reggie_Move_Right ||
                 currentAnimation == uiAnimations.Reggie_Jump ||
-                currentAnimation == uiAnimations.Reggie_Attack)
+                currentAnimation == uiAnimations.Reggie_Attack ||
+                currentAnimation == uiAnimations.IdleShopkeeper)
             {
                 currentAnimation = nextAnimation;
             }
-            if (currentAnimation == uiAnimations.Save)
+            if (currentAnimation == uiAnimations.Save
+                || currentAnimation == uiAnimations.WavingShopkeeper)
             {
-                if (save_Animation.getPlayedOnce())
+                if (save_Animation.getPlayedOnce()
+                    || wavingShopkeeper.getPlayedOnce())
                 {
-                    if(nextAnimation == uiAnimations.Save)
+                    if(nextAnimation == uiAnimations.Save
+                        || nextAnimation == uiAnimations.WavingShopkeeper)
 
                     nextAnimation = previousAnimation;
                     currentAnimation = nextAnimation;
 
                     save_Animation.resetPlayedOnce();
+                    wavingShopkeeper.resetPlayedOnce();
                 }
             }
 
