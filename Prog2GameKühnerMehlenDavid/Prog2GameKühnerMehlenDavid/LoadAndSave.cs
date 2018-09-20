@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Media; 
-using Microsoft.Xna.Framework.Audio;
+
 using System.Linq;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -21,7 +20,7 @@ namespace Reggie
             this.texturesDictionary = platformTextures;
         }
 
-        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionary, ref Dictionary<string, Texture2D> EnemySpriteSheets, ref Dictionary<string, Song> songDictionary, ref Dictionary<string, SoundEffect> soundEffectDictionnary) {
+        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionary, ref Dictionary<string, Texture2D> EnemySpriteSheets) {
             loadPlayerSprites(Content, ref PlayerSpriteSheets);
             loadWorldSprites(Content, ref texturesDictionary);
             loadEnemySprites(Content, ref EnemySpriteSheets);
@@ -29,10 +28,6 @@ namespace Reggie
             loadWorldObjects(Content, ref texturesDictionary);
             loadUIElements(Content, ref texturesDictionary);
             loadInteractivePlatforms(Content, ref texturesDictionary);
-
-            //Markus
-            loadSongs(Content, ref songDictionary);
-            loadSoundEffects(Content, ref soundEffectDictionnary);
         }
 
         /// <summary>
@@ -278,30 +273,6 @@ namespace Reggie
             
         }
 
-
-        private void loadSongs(ContentManager Content, ref Dictionary<string, Song> songDictionnary)
-        {
-            //Song temp = Content.Load<Song>("Audio\\Reggie_UNI");
-            //songDictionnary.Add("IngameMusic", temp);
-
-            //MediaPlayer.Play(Game1.songDictionnary["IngameMusic"]);
-            //MediaPlayer.IsRepeating = true;
-        }
-
-        private void loadSoundEffects(ContentManager Content, ref Dictionary<string, SoundEffect> soundEffectDictionnary)
-        {
-            //fail super mario sound
-            //SoundEffect temp = Content.Load<SoundEffect>("Audio\\houseChord");
-            //soundEffectDictionnary.Add("houseChord", temp);
-
-            //// Fire and forget play
-            //Game1.soundEffectDictionnary["houseChord"].Play();
-
-            //// Play that can be manipulated after the fact
-            //var instance = soundEffects[0].CreateInstance();
-            //instance.IsLooped = true;
-            //instance.Play();
-        }
 
         public void Save()
         {
