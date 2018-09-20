@@ -39,24 +39,24 @@ namespace Reggie.Enemies
         public override void Update(GameTime gameTime, List<GameObject> gameObjectList)
         {
             //ResizeEnemyAggroArea(gameObjectList);
-            //if (!attackAction && attackCooldown == 0)
-            //{
-            //    if (DetectPlayer() && !knockedBack)
-            //        EnemyMovement();
-            //    if (!DetectPlayer())
-            //        EnemyNeutralBehaviour(gameObjectList);
+            if (!attackAction && attackCooldown == 0)
+            {
+                if (DetectPlayer() && !knockedBack)
+                    EnemyMovement();
+                if (!DetectPlayer())
+                    EnemyNeutralBehaviour(gameObjectList);
 
-            //}
-            //if (attackAction)
-            //    EnemyAttack(gameTime);
-            //if (attackExecuted)
-            //    CalculationCooldown(gameTime);
-            //EnemyCheckCollision(gameTime, gameObjectList);
-            //EnemyPositionCalculation(gameTime);
+            }
+            if (attackAction)
+                EnemyAttack(gameTime);
+            if (attackExecuted)
+                CalculationCooldown(gameTime);
+            EnemyCheckCollision(gameTime, gameObjectList);
+            EnemyPositionCalculation(gameTime);
 
 
-            //if (invincibilityFrames)
-            //    InvincibleFrameState(gameTime);
+            if (invincibilityFrames)
+                InvincibleFrameState(gameTime);
 
 
         }

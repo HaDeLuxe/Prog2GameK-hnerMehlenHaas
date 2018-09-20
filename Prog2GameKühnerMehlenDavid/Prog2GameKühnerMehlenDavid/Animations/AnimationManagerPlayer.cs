@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Reggie.Animations {
    public class AnimationManager {
-       
+
         public enum Animations{
             None,
             Walk_Left,
@@ -49,8 +49,7 @@ namespace Reggie.Animations {
             Attack_Golden,
             Float_Shovel,
             Float_Scissors,
-            Float_Golden};
-
+            Float_Golden2};
 
 
         public static Animations currentAnimation = Animations.Walk_Right;
@@ -128,7 +127,8 @@ namespace Reggie.Animations {
         Animation float_Scissors_Animation_Left = null;
         Animation float_Scissors_Animation_Right = null;
 
-        
+        //MUSIC
+        AudioManager audioManager;
 
 
         public AnimationManager(Dictionary<string, Texture2D> playerSpriteSheet) 
@@ -262,6 +262,10 @@ namespace Reggie.Animations {
             divAnimationDestRectanglesDic.Add("Float_Golden_Animation_Right", floatingGoldenAnimation_Right);
             floatingGoldenAnimation_Left = new Animation(true, SpriteEffects.FlipHorizontally, 79, 93, playerSpriteSheet["playerFloatGoldenSpriteSheet"], 25f);
             divAnimationDestRectanglesDic.Add("Float_Golden_Animation_Left", floatingGoldenAnimation_Left);
+
+
+          
+            audioManager = AudioManager.AudioManagerInstance();
         }
 
         
@@ -458,37 +462,37 @@ namespace Reggie.Animations {
                 case Animations.Attack_Right:
                     player.changeTexture(attack_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Animation_Right.getSpriteEffects(), new Vector2(32, 0), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Animation_Right.getSpriteEffects(), new Vector2(32, 0), color, scale);
                     break;
                 case Animations.Attack_Hat_Left:
                     player.changeTexture(attack_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Left.getSpriteEffects(), new Vector2(-25, -20), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Left.getSpriteEffects(), new Vector2(-25, -20), color, scale);
                     break;
                 case Animations.Attack_Hat_Right:
                     player.changeTexture(attack_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Right.getSpriteEffects(), new Vector2(32,-20), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, -20), color, scale);
                     break;
                 case Animations.Attack_Armor_Left:
                     player.changeTexture(attack_Armor_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Animation_Left.getSpriteEffects(), new Vector2(-25, 0), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Animation_Left.getSpriteEffects(), new Vector2(-25, 0), color, scale);
                     break;
                 case Animations.Attack_Armor_Right:
                     player.changeTexture(attack_Armor_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Animation_Right.getSpriteEffects(), new Vector2(32, 0), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Animation_Right.getSpriteEffects(), new Vector2(32, 0), color, scale);
                     break;
                 case Animations.Attack_Armor_Hat_Left:
                     player.changeTexture(attack_Armor_Hat_Animation_Left.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Hat_Animation_Left"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(-15, -20), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Hat_Animation_Left.getSpriteEffects(), new Vector2(-15, -20), color, scale);
                     break;
                 case Animations.Attack_Armor_Hat_Right:
                     player.changeTexture(attack_Armor_Hat_Animation_Right.texture);
                     tempRec = divAnimationDestRectanglesDic["Attack_Armor_Hat_Animation_Right"].Update(gameTime);
-                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, -20), color,scale);
+                    player.DrawSpriteBatch(spriteBatch, tempRec, attack_Armor_Hat_Animation_Right.getSpriteEffects(), new Vector2(32, -20), color, scale);
                     break;
 
             }
