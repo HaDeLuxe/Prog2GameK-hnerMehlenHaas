@@ -34,14 +34,12 @@ namespace Reggie
         bool climbAllowed;
         protected bool knockedBack;
         protected float knockBackValue;
+        protected float attackTimer;
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
-        //MUSIC
-        float attackMusicTimer;
-        AudioManager audioManager;
-
-
+        
+        
 
 
         MouseState mouseState;
@@ -53,9 +51,9 @@ namespace Reggie
             get
             {
                 if(facingDirectionRight)
-                    return new Rectangle((int)(collisionBoxPosition.X+ collisionBoxSize.X), (int)(collisionBoxPosition.Y-100), (int)collisionBoxSize.X+100, (int)collisionBoxSize.Y+100);
+                    return new Rectangle((int)(collisionBoxPosition.X+ collisionBoxSize.X/2+5), (int)(collisionBoxPosition.Y-30), (int)collisionBoxSize.X+40, (int)collisionBoxSize.Y+60);
                 else
-                    return new Rectangle((int)(collisionBoxPosition.X - collisionBoxSize.X-100), (int)(collisionBoxPosition.Y - 100), (int)collisionBoxSize.X + 100, (int)collisionBoxSize.Y + 100);
+                    return new Rectangle((int)(collisionBoxPosition.X - collisionBoxSize.X*3/2+15), (int)(collisionBoxPosition.Y - 30), (int)collisionBoxSize.X + 40, (int)collisionBoxSize.Y + 60);
             }
         }
 
@@ -83,11 +81,7 @@ namespace Reggie
             movementSpeed = 10f;
             jumpSpeed = -20f;
             invincibilityTimer = 0;
-
-            //MUSIC
-            //Timer steht auf Zeit die für die ersten Sound um getriggert zu werden gebraucht wird
-            attackMusicTimer = 3;
-            audioManager = AudioManager.AudioManagerInstance();
+            attackTimer = 0;
         }
 
         internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects)
@@ -199,8 +193,6 @@ namespace Reggie
 
         private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender,List <GameObject> interactiveObject)
         {
-            //MUSIC
-            attackMusicTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (var platform in gameObjectsToRender)
             {
@@ -220,7 +212,7 @@ namespace Reggie
                     collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
                     pressedLeftKey = false;
                     pressedRightKey = false;
-                }
+                    }
                     //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                     //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
                     else if (IsTouchingBottomSide(platform, gravity))
@@ -242,6 +234,7 @@ namespace Reggie
                         isStanding = true;
                         pressedLeftKey = false;
                         pressedRightKey = false;
+                        jumpButtonPressed = false;
                         collisionBoxPosition.Y = platform.gameObjectPosition.Y - collisionBoxSize.Y;
                     }
 
@@ -465,12 +458,8 @@ namespace Reggie
                 PlayerJump();
 
                 //MUSIC
-                if (secondJump == false)
-                {
-                    audioManager.Play("Jump");
-                }
-                
-
+                //Game1.soundEffectDictionnary["houseChord"].Play();
+      
             }
 
             //Player Attack Input
@@ -499,15 +488,15 @@ namespace Reggie
 
                 }
                 // TODO: Step1 activate enemyknockback at the specific currentframe, Step2 depending on the size of an enemy (how tall)
-                foreach (var enemy in enemyList)
-                {
-                    if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true && !enemy.invincibilityFrames)
-                    {
-                        enemy.invincibilityFrames = true;
-                        //worm.KnockBackPosition(facingDirectionRight, 35);
-                        enemy.KnockBackPosition(facingDirectionRight);
-                    }
-                }
+                //foreach (var enemy in enemyList)
+                //{
+                //    if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true && !enemy.invincibilityFrames)
+                //    {
+                //        enemy.invincibilityFrames = true;
+                //        //worm.KnockBackPosition(facingDirectionRight, 35);
+                //        enemy.KnockBackPosition(facingDirectionRight);
+                //    }
+                //}
 
                 if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
@@ -552,23 +541,31 @@ namespace Reggie
                     }
                 }
 
-                //playerAttackPressed = true;
-
-
-                //MUSIC
-                //if (attackMusicTimer > 0.5f)
-                //{
-                    audioManager.Play("Attack");
-                    //attackMusicTimer = 0;
-                //}
-
+                playerAttackPressed = true;
+            
             }
 
-            
-
             if (playerAttackPressed)
+            {
+                attackTimer += (float)gameTime.ElapsedGameTime.Milliseconds / 100;
+                if (attackTimer != 0 && attackTimer <= 0.5f)
+                {
+                    foreach (var enemy in enemyList)
+                    {
+                        if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true && !enemy.invincibilityFrames)
+                        {
+                            enemy.invincibilityFrames = true;
+                            //worm.KnockBackPosition(facingDirectionRight, 35);
+                            enemy.KnockBackPosition(facingDirectionRight);
+                        }
+                    }
+                }
+                else
+                    attackTimer = 0;
+
                 cooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(cooldown>=.75)
+            }
+            if (cooldown>=.75)
             {
                 cooldown = 0;
                 playerAttackPressed = false;
