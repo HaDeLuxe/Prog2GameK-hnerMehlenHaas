@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Media; 
-using Microsoft.Xna.Framework.Audio;
+
 using System.Linq;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -21,7 +20,7 @@ namespace Reggie
             this.texturesDictionary = platformTextures;
         }
 
-        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionary, ref Dictionary<string, Texture2D> EnemySpriteSheets, ref Dictionary<string, Song> songDictionary, ref Dictionary<string, SoundEffect> soundEffectDictionnary) {
+        public void loadEverything(ContentManager Content, ref Dictionary<string, Texture2D> PlayerSpriteSheets, ref Dictionary<string, Texture2D> texturesDictionary, ref Dictionary<string, Texture2D> EnemySpriteSheets) {
             loadPlayerSprites(Content, ref PlayerSpriteSheets);
             loadWorldSprites(Content, ref texturesDictionary);
             loadEnemySprites(Content, ref EnemySpriteSheets);
@@ -29,10 +28,6 @@ namespace Reggie
             loadWorldObjects(Content, ref texturesDictionary);
             loadUIElements(Content, ref texturesDictionary);
             loadInteractivePlatforms(Content, ref texturesDictionary);
-
-            //Markus
-            loadSongs(Content, ref songDictionary);
-            loadSoundEffects(Content, ref soundEffectDictionnary);
         }
 
         /// <summary>
@@ -155,6 +150,35 @@ namespace Reggie
             EnemySpriteSheets.Add("Ladybug_Fly_Spritesheet", Ladybug_Fly);
             Texture2D Ladybug_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Ladybug_Attack_Small");
             EnemySpriteSheets.Add("Ladybug_Attack_Spritesheet", Ladybug_Attack);
+
+            //Hawk
+            Texture2D hawk_Flight = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\StaticFlightLeft");
+            EnemySpriteSheets.Add("hawkFlightSpriteSheet", hawk_Flight);
+            Texture2D hawk_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\AttackLeft");
+            EnemySpriteSheets.Add("hawkAttackSpriteSheet", hawk_Attack);
+
+            //Snail
+            Texture2D snail_Moving = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Walking");
+            EnemySpriteSheets.Add("snailMoveSpriteSheet", snail_Moving);
+            Texture2D snail_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Attack");
+            EnemySpriteSheets.Add("snailAttackSpriteSheet", snail_Attack);
+            Texture2D snail_Transf = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Trans");
+            EnemySpriteSheets.Add("snailTransfSpriteSheet", snail_Transf);
+            Texture2D snail_Aggressive = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Aggressive");
+            EnemySpriteSheets.Add("snailAggressiveSpriteSheet", snail_Transf);
+
+            //Ant
+            Texture2D antMoving = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\AntWalkAnimation_Small");
+            EnemySpriteSheets.Add("antMovingSpriteSheet", antMoving);
+            Texture2D antAttack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\AntAttackAnimation_Small");
+            EnemySpriteSheets.Add("antAttackSpriteSheet", antAttack);
+
+            //Spider
+            Texture2D spiderMoving = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Spider_Move");
+            EnemySpriteSheets.Add("spiderMovingSpriteSheet", spiderMoving);
+            Texture2D spiderAttack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Spider_Attack");
+            EnemySpriteSheets.Add("spiderAttackSpriteSheet", spiderAttack);
+
         }
 
         /// <summary>
@@ -230,7 +254,8 @@ namespace Reggie
         /// </summary>
         /// <param name="Content"></param>
         /// <param name="texturesDictionnary"></param>
-        private void loadUIElements(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionnary) {
+        private void loadUIElements(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionnary)
+        {
             Texture2D levelEditorUIBackButton = Content.Load<Texture2D>("Images\\UI\\LvlEdtorSaveButton");
             texturesDictionnary.Add("LevelEditorUIBackButton", levelEditorUIBackButton);
             Texture2D UserInterface = Content.Load<Texture2D>("Images\\UI\\UI");
@@ -255,8 +280,13 @@ namespace Reggie
             texturesDictionary.Add("glideTutorial", glideTutorial);
             Texture2D attackTutorial = Content.Load<Texture2D>("Images\\UI\\Attack_Tut");
             texturesDictionary.Add("attackTutorial", attackTutorial);
+            Texture2D sliderbar = Content.Load<Texture2D>("Images\\UI\\Sliderbar");
+            texturesDictionary.Add("sliderbar", sliderbar);
+            Texture2D sliderknob = Content.Load<Texture2D>("Images\\UI\\Sliderknob");
+            texturesDictionary.Add("sliderknob", sliderknob);
 
-            
+
+
             //Minimap loading thingis
             Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");
             texturesDictionnary.Add("Minimap", Minimap);
@@ -275,6 +305,29 @@ namespace Reggie
             Texture2D MainMenu5 = Content.Load<Texture2D>("Images\\MainMenu\\HauptMenu-5");
             texturesDictionnary.Add("MainMenu5", MainMenu5);
 
+            //Load Shop
+            Texture2D idleShop = Content.Load<Texture2D>("Images\\Shop\\IdleShopkeeper");
+            texturesDictionary.Add("idleShop", idleShop);
+            Texture2D wavingShop = Content.Load<Texture2D>("Images\\Shop\\WavingShopkeeper");
+            texturesDictionary.Add("wavingShop", wavingShop);
+            //ShopInterface
+            Texture2D ShopKeeperInterface_Background = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_Background");
+            texturesDictionary.Add("ShopKeeperInterface_Background", ShopKeeperInterface_Background);
+            Texture2D ShopInterface_AllPotions = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_AllPotions");
+            texturesDictionary.Add("ShopKeeperInterface_AllPotions", ShopInterface_AllPotions);
+            //Texture2D ShopInterface_AllPotions = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_AllPotions");
+            //texturesDictionary.Add("ShopKeeperInterface_AllPotions", ShopInterface_AllPotions);
+            //woaw
+
+            Texture2D ShopKeeperInterface_StrengthPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedStrengthPotion");
+            texturesDictionary.Add("ShopKeeperInterface_StrengthPotion_Highlighted", ShopKeeperInterface_StrengthPotion_Highlighted);
+           
+            Texture2D ShopKeeperInterface_JumpPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedJumpPotion");
+            texturesDictionary.Add("ShopKeeperInterface_JumpPotion_Highlighted", ShopKeeperInterface_JumpPotion_Highlighted);
+            
+            Texture2D ShopKeeperInterface_HealtPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedHealthPotion");
+            texturesDictionary.Add("ShopKeeperInterface_HealtPotion_Highlighted", ShopKeeperInterface_HealtPotion_Highlighted);
+           
             
         }
 
