@@ -10,8 +10,27 @@ namespace Reggie.Menus
 {
     class Slider : GameObject
     {
-        public Slider(Texture2D gameObjectTexture, Vector2 gameObejctSize, Vector2 position, int gameObjectID) : base(gameObjectTexture, gameObejctSize, position, gameObjectID)
+
+        Texture2D sliderKnobTexture = null;
+        Texture2D sliderBarTexture = null;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="gameObjectTexture"></param>
+        /// <param name="gameObejctSize"></param>
+        /// <param name="position"></param>
+        /// <param name="gameObjectID"></param>
+        /// <param name=""></param>
+        public Slider(Texture2D gameObjectTexture, Vector2 gameObejctSize, Vector2 position, int gameObjectID, Texture2D sliderKnobTexture ) : base(gameObjectTexture, gameObejctSize, position, gameObjectID)
         {
+            this.sliderBarTexture = gameObjectTexture;
+            this.sliderKnobTexture = sliderKnobTexture;
         }
+
+        //public drawSlider()
+        //{
+
+        //}
     }
 }
