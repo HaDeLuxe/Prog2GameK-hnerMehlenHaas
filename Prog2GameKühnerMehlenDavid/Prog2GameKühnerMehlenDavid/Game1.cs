@@ -87,7 +87,14 @@ namespace Reggie
         public Texture2D playertexture;
         public Vector2 playeraggroposition;
 
+
+
+        //MUSIC
         public bool turnOnMusic;
+        AudioManager audioManager;
+
+        //SHOP
+        ShopKeeper shopKeeper = null;
 
 
 
@@ -98,7 +105,7 @@ namespace Reggie
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 1080-40-20;
+            graphics.PreferredBackBufferHeight = 1080 - 40 - 20;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.ApplyChanges();
             Window.AllowUserResizing = true;
@@ -118,7 +125,11 @@ namespace Reggie
             gameManager = new ItemUIManager();
             minimap = new Minimap();
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
+
+            //MUSIC
             turnOnMusic = true;
+            //must be the first instance!
+            audioManager = AudioManager.AudioManagerInstance();
         }
 
         /// <summary>
@@ -144,16 +155,21 @@ namespace Reggie
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("Fonts/LuckiestGuy");
 
-            
+
             LoadAndSave loading = new LoadAndSave(allGameObjectList, texturesDictionary);
-            loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionary, ref enemySpriteSheets, ref songDictionnary, ref soundEffectDictionnary);
+            //MUSIC
+            audioManager.LoadSongsAndSound(this.Content);
+            loading.loadEverything(this.Content, ref playerSpriteSheets, ref texturesDictionary, ref enemySpriteSheets);
+
             levelEditor.loadTextures(Content, ref texturesDictionary, graphics.GraphicsDevice);
 
             animManager = new AnimationManager(playerSpriteSheets);
-            wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"]/5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int) Enums.ObjectsID.PLAYER);
+            wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int)Enums.ObjectsID.PLAYER);
 
-           
-           
+            //SHOP
+            shopKeeper = new ShopKeeper(texturesDictionary["cornnency"], new Vector2(334,407), new Vector2(2600, 4225), (int)Enums.ObjectsID.SHOPKEEPER,texturesDictionary); //13494
+
+
             enemySpawnList = new List<Platform>();
             allGameObjectList = new List<GameObject>();
             interactiveObject = new List<GameObject>();
@@ -163,7 +179,7 @@ namespace Reggie
 
 
             loadAndSave.LoadGameObjects(ref allGameObjectList, ref wormPlayer);
-
+            //allGameObjectList.Add(shopKeeper);
             
             levelManager = new Levels(ref wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
             levelManager.sortGameObjects();
@@ -199,6 +215,9 @@ namespace Reggie
 
             lastGameState = currentGameState;
 
+            //MUSIC Updating Timer
+            audioManager.UpdateAudioManagerTimer(gameTime);
+
             //Update Timer
             float animationFrameTime = 0.02f;
 
@@ -229,19 +248,17 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper);
                     break;
 
                 case GameState.GAMELOOP:
 
                     this.IsMouseVisible = false;
 
+                    //MUSIC
                     if (turnOnMusic)
                     {
-                        
-                        //MUSIC
-                        //MediaPlayer.Play(songDictionnary["IngameMusic"]);
-                        //MediaPlayer.IsRepeating = true;
+                        audioManager.Play("IngameMusic");
                         turnOnMusic = false;
                     }
                    
@@ -262,6 +279,9 @@ namespace Reggie
                         previousState = Keyboard.GetState();
                     }
 
+                    if (shopKeeper.shopOpen == true)
+                        shopKeeper.handleShopKeeperEvents();
+
 
                     if(timeUntilNextFrame1 <= 0)
                     {
@@ -272,7 +292,7 @@ namespace Reggie
 
                     camera.SpawnEnemyOffScreen(wormPlayer, enemySpawnList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -328,7 +348,7 @@ namespace Reggie
 
                         break;
                     case GameState.MAINMENU:
-                        mainMenu.RenderMainMenu(texturesDictionary, spriteBatch, font, levelManager, loadAndSave, ref allGameObjectList, ref wormPlayer, this);
+                        mainMenu.RenderMainMenu(texturesDictionary, spriteBatch, font, levelManager, loadAndSave, ref allGameObjectList, ref wormPlayer, this, transformationMatrix);
                         break;
                     case GameState.MINIMAP:
                         //it is intended that the break is missing, so that while the minimap is opened, the background of the gameloop is still drawn but no gameplay updates are done.
@@ -373,12 +393,12 @@ namespace Reggie
                             //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
                             //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
+                            shopKeeper.drawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix);
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
                                 animManager.animation(gameTime, ref wormPlayer, spriteBatch);
                             else
                             animManager.animation(gameTime, ref wormPlayer, spriteBatch);
-
                             wormPlayer.drawUpdate(levelObjectList, ref ingameMenus);
 
                             //This draws the UI
@@ -470,6 +490,7 @@ namespace Reggie
         public void NewGame()
         {
             loadAndSave.LoadGameObjectsNewGame(ref allGameObjectList, ref wormPlayer);
+            allGameObjectList.Add(shopKeeper);
             levelManager.sortGameObjects();
             FillLists();
         }

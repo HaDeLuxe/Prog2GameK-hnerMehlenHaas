@@ -23,17 +23,60 @@ namespace Reggie.Animations {
         Animation ladybug_Attack_Left = null;
         Animation ladybug_Attack_Right = null;
 
+        Animation ant_Move_Left = null;
+        Animation ant_Move_Right = null;
+        Animation ant_Attack_Left = null;
+        Animation ant_Attack_Right = null;
+
+        Animation hawk_Fly_Left = null;
+        Animation hawk_Fly_Right = null;
+        Animation hawk_Attack_Left = null;
+        Animation hawk_Attack_Right = null;
+
+        Animation spider_Move_Left = null;
+        Animation spider_Move_Right = null;
+        Animation spider_Attack_Left = null;
+        Animation spider_Attack_Right = null;
+
+        Animation snail_Move_Left = null;
+        Animation snail_Move_Right = null;
+        Animation snail_Attack_Left = null;
+        Animation snail_Attack_Right = null;
+        Animation snail_Transf_Left = null;
+        Animation snail_Transf_Right = null;
+        Animation snail_Aggro_Left = null;
+        Animation snail_Aggro_Right = null;
+
 
         public AnimationManagerEnemy(Dictionary<string, Texture2D> EnemySpriteSheetsDic) 
         {
             divAnimationDestRectanglesDic = new Dictionary<string, Animation>();
-            //Ladybug
             ladybug_Fly_Left = new Animation(true, SpriteEffects.None, 99,65,EnemySpriteSheetsDic["Ladybug_Fly_Spritesheet"],25);
             divAnimationDestRectanglesDic.Add("Ladybug_Fly_Left", ladybug_Fly_Left);
             ladybug_Fly_Right = new Animation(true, SpriteEffects.FlipHorizontally, 99, 65, EnemySpriteSheetsDic["Ladybug_Fly_Spritesheet"], 25);
             divAnimationDestRectanglesDic.Add("Ladybug_Fly_Right", ladybug_Fly_Right);
             ladybug_Attack_Left = new Animation(false, SpriteEffects.None, 99, 65, EnemySpriteSheetsDic["Ladybug_Attack_Spritesheet"], 50);
             ladybug_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 99, 65, EnemySpriteSheetsDic["Ladybug_Attack_Spritesheet"], 50);
+            ant_Move_Left = new Animation(true, SpriteEffects.None, 37, 64, EnemySpriteSheetsDic["antMovingSpriteSheet"], 25);
+            ant_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 37, 64, EnemySpriteSheetsDic["antMovingSpriteSheet"], 25);
+            ant_Attack_Left = new Animation(false, SpriteEffects.None, 44, 64, EnemySpriteSheetsDic["antAttackSpriteSheet"], 50f);
+            ant_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 44, 64, EnemySpriteSheetsDic["antAttackSpriteSheet"], 50f);
+            hawk_Fly_Left = new Animation(true, SpriteEffects.None, 400, 392, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
+            hawk_Fly_Right = new Animation(true, SpriteEffects.FlipHorizontally, 400, 392, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
+            hawk_Attack_Left = new Animation(false, SpriteEffects.None, 400, 422, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
+            hawk_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 400, 422, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
+            spider_Move_Left = new Animation(true, SpriteEffects.None, 100, 50, EnemySpriteSheetsDic["spiderMovingSpriteSheet"], 25f);
+            spider_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 100, 50, EnemySpriteSheetsDic["spiderMovingSpriteSheet"], 25f);
+            spider_Attack_Left = new Animation(false, SpriteEffects.None, 100, 64, EnemySpriteSheetsDic["spiderAttackSpriteSheet"], 50f);
+            spider_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 100, 64, EnemySpriteSheetsDic["spiderAttackSpriteSheet"], 50f);
+            snail_Move_Left = new Animation(true, SpriteEffects.None, 100, 52, EnemySpriteSheetsDic["snailMoveSpriteSheet"], 25f);
+            snail_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 100, 25, EnemySpriteSheetsDic["snailMoveSpriteSheet"], 25f);
+            snail_Aggro_Left = new Animation(true, SpriteEffects.None, 100, 79, EnemySpriteSheetsDic["snailAggressiveSpriteSheet"], 25f);
+            snail_Aggro_Right = new Animation(true, SpriteEffects.FlipHorizontally, 100, 79, EnemySpriteSheetsDic["snailAggressiveSpriteSheet"], 25f);
+            snail_Attack_Left = new Animation(false, SpriteEffects.None, 100, 60, EnemySpriteSheetsDic["snailAttackSpriteSheet"], 50f);
+            snail_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 100, 60, EnemySpriteSheetsDic["snailAttackSpriteSheet"], 50f);
+            snail_Transf_Left = new Animation(false, SpriteEffects.None, 100, 73, EnemySpriteSheetsDic["snailTransfSpriteSheet"], 25f);
+            snail_Transf_Right = new Animation(false, SpriteEffects.FlipHorizontally, 100, 73, EnemySpriteSheetsDic["snailTransfSpriteSheet"], 25f);
         }
 
         
@@ -41,16 +84,46 @@ namespace Reggie.Animations {
         public void Animation(GameTime gameTime, Enemy enemy, SpriteBatch spriteBatch) 
         {
             if(currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_LEFT
-                || currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_RIGHT)
+                || currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.ANT_MOVE_LEFT
+                || currentAnimation == Enums.EnemyAnimations.ANT_MOVE_RIGHT
+                ||currentAnimation == Enums.EnemyAnimations.HAWK_FLY_LEFT
+                || currentAnimation == Enums.EnemyAnimations.HAWK_FLY_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.SPIDER_MOVE_LEFT
+                || currentAnimation == Enums.EnemyAnimations.SPIDER_MOVE_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_MOVE_LEFT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_MOVE_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_AGGRO_LEFT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_AGGRO_RIGHT)
             {
                 currentAnimation = nextAnimation;
             }
 
             if(currentAnimation == Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT
-                || currentAnimation == Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT)
+                || currentAnimation == Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.ANT_ATTACK_LEFT
+                || currentAnimation ==Enums.EnemyAnimations.ANT_ATTACK_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.HAWK_ATTACK_LEFT
+                || currentAnimation == Enums.EnemyAnimations.HAWK_ATTACK_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.SPIDER_ATTACK_LEFT
+                || currentAnimation == Enums.EnemyAnimations.SPIDER_ATTACK_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_TRANSF_LEFT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_TRANSF_RIGHT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_ATTACK_LEFT
+                || currentAnimation == Enums.EnemyAnimations.SNAIL_ATTACK_RIGHT)
             {
                 if(ladybug_Attack_Left.getPlayedOnce()
-                    || ladybug_Attack_Right.getPlayedOnce())
+                    || ladybug_Attack_Right.getPlayedOnce()
+                    || ant_Attack_Left.getPlayedOnce()
+                    || ant_Attack_Right.getPlayedOnce()
+                    || hawk_Attack_Left.getPlayedOnce()
+                    || hawk_Attack_Right.getPlayedOnce()
+                    || spider_Attack_Left.getPlayedOnce()
+                    || spider_Attack_Right.getPlayedOnce()
+                    || snail_Transf_Left.getPlayedOnce()
+                    || snail_Transf_Right.getPlayedOnce()
+                    || snail_Attack_Left.getPlayedOnce()
+                    || snail_Attack_Right.getPlayedOnce())
                 {
                     if(nextAnimation == Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT
                         || nextAnimation == Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT)
@@ -58,9 +131,18 @@ namespace Reggie.Animations {
                         nextAnimation = previousAnimation;
                         currentAnimation = nextAnimation;
 
-                        ladybug_Attack_Left.resetPlayedOnce();
-                        ladybug_Attack_Right.resetPlayedOnce();
-                    
+                    ladybug_Attack_Left.resetPlayedOnce();
+                    ladybug_Attack_Right.resetPlayedOnce();
+                    ant_Attack_Left.resetPlayedOnce();
+                    ant_Attack_Right.resetPlayedOnce();
+                    hawk_Attack_Left.resetPlayedOnce();
+                    hawk_Attack_Right.resetPlayedOnce();
+                    spider_Attack_Left.resetPlayedOnce();
+                    spider_Attack_Right.resetPlayedOnce();
+                    snail_Transf_Left.resetPlayedOnce();
+                    snail_Transf_Right.resetPlayedOnce();
+                    snail_Attack_Left.resetPlayedOnce();
+                    snail_Attack_Right.resetPlayedOnce();                    
                 }
             }
 

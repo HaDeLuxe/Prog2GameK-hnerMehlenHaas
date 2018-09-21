@@ -18,7 +18,7 @@ namespace Reggie
 {
     public class Player : GameObject
     {
-        KeyboardState previousState;
+        private KeyboardState previousState;
         GamePadState previousGamepadState;
         Texture2D UmbrellaTexture = null;
         Texture2D itemPlayerTexture = null;
@@ -38,8 +38,11 @@ namespace Reggie
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
-        
-        
+
+        //MUSIC
+        AudioManager audioManager;
+        bool justTouchedBottom;
+
 
 
         MouseState mouseState;
@@ -82,15 +85,20 @@ namespace Reggie
             jumpSpeed = -20f;
             invincibilityTimer = 0;
             attackTimer = 0;
+
+            //MUSIC
+            audioManager = AudioManager.AudioManagerInstance();
+            justTouchedBottom = true;
         }
 
-        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
-            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
+            if(!shopKeeper.shopOpen)
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
             ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager, ref allGameObjects);
@@ -107,27 +115,41 @@ namespace Reggie
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SNAILSHELL)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
+                        audioManager.Play("ReggieEquipedSomething");
                         ItemUIManager.snailShellPickedUp = true;
+                    }
+
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
+                        audioManager.Play("ReggiePickupAnyItem");
                         ItemUIManager.scissorsPickedUp = true;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.ARMOR)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
+                        audioManager.Play("ReggieEquipedSomething");
                         ItemUIManager.armorPickedUp = true;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.SHOVEL)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
+                        audioManager.Play("ReggiePickupAnyItem");
                         ItemUIManager.shovelPickedUp = true;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.HEALTHPOTION)
                 {
                     if (DetectCollision(interactiveObject[i]))
                     {
+                        audioManager.Play("ReggiePickupAnyItem");
                         ItemUIManager.healthPickedUp = true;
                         ItemUIManager.healthPotionsCount++;
                     }
@@ -136,6 +158,7 @@ namespace Reggie
                 {
                     if (DetectCollision(interactiveObject[i]))
                     {
+                        audioManager.Play("ReggiePickupAnyItem");
                         ItemUIManager.jumpPickedUp = true;
                         ItemUIManager.jumpPotionsCount++;
                     }
@@ -144,6 +167,7 @@ namespace Reggie
                 {
                     if (DetectCollision(interactiveObject[i]))
                     {
+                        audioManager.Play("ReggiePickupAnyItem");
                         ItemUIManager.powerPickedUp = true;
                         ItemUIManager.powerPotionsCount++;
                     }
@@ -151,21 +175,23 @@ namespace Reggie
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.GOLDENUMBRELLA)
                 {
                     if (DetectCollision(interactiveObject[i]))
+                    {
+                        audioManager.Play("ReggiePickupAnyItem");
                         ItemUIManager.goldenUmbrellaPickedUp = true;
+                    }
                 }
                 if (interactiveObject[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
                 {
                     if (DetectCollision(interactiveObject[i]))
                     {
+                        audioManager.Play("ReggiePickupAnyItem");
                         for(int k = 0; k < allGameObjectsList.Count(); k++)
                         {
                             if(allGameObjectsList[k].objectID == (int)Enums.ObjectsID.CORNNENCY)
                             {
 
                                 if (allGameObjectsList[k].gameObjectPosition == interactiveObject[i].gameObjectPosition)
-                                {
                                     gameObjectList.Remove(allGameObjectsList[k]);
-                                }
                             }
                         }
                         ItemUIManager.cornnencyQuantity++;
@@ -198,6 +224,8 @@ namespace Reggie
             {
                 if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
                 {
+                    if(velocity.X !=0 && isStanding)
+                            audioManager.Play("ReggieMoves");
                     //Checks collision on the left side and right side of each sprite when player is on the ground/air
                     if (velocity.X > 0 && IsTouchingLeftSide(platform))
                     {
@@ -229,6 +257,11 @@ namespace Reggie
                         velocity.Y = 0;
                         gravity = Vector2.Zero;
                         gravityActive = false;
+                        if (!justTouchedBottom && gravityActive == false)
+                        {
+                            audioManager.Play("ReggieHitsGround");
+                            justTouchedBottom = true;
+                        }
                         firstJump = false;
                         secondJump = false;
                         isStanding = true;
@@ -275,9 +308,12 @@ namespace Reggie
                 PlayerJump();
             if (gravityActive && isStanding == false)
             {
+                justTouchedBottom = false;
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 51;
                 if (gravity.Y > 20 && (previousState.IsKeyDown(Keys.Space) || previousGamepadState.IsButtonDown(Buttons.A)))
                 {
+                    if(!isFloating)
+                    audioManager.Play("ReggieOpensSchirm");
                     gravity.Y = 23f;
                     isFloating = true;
                 }
@@ -290,11 +326,15 @@ namespace Reggie
             else
                 gravity = Vector2.Zero;
             collisionBoxPosition += velocity;
-            if(gameObjectPosition != collisionBoxPosition -changeCollisionBox)
+            if ((velocity.X == 0 && velocity.Y == 0) || (!isStanding && velocity.Y !=0) ||(gravityActive))
+                audioManager.Break("ReggieMoves");
+            if (gameObjectPosition != collisionBoxPosition -changeCollisionBox)
             {
                 gameObjectPosition = collisionBoxPosition - changeCollisionBox;
                 isStanding = false;
             }
+           
+                //Stop MovementSound, -->kein temp sondern variable(move) in klasse
             velocity = Vector2.Zero;
         }
 
@@ -308,7 +348,7 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper)
         {
 
             mouseState = Mouse.GetState();
@@ -458,14 +498,17 @@ namespace Reggie
                 PlayerJump();
 
                 //MUSIC
-                //Game1.soundEffectDictionnary["houseChord"].Play();
-      
+                if (secondJump != true)
+                    audioManager.Play("ReggieJump");
             }
 
             //Player Attack Input
             if ((ButtonState.Pressed == mouseState.LeftButton && cooldown == 0 && !playerGameElementInteraction)
                 || GamePad.GetState(0).IsButtonDown(Buttons.X) && cooldown == 0 && !playerGameElementInteraction)
             {
+                audioManager.Play("ReggieAttack");
+                audioManager.Play("ReggieGroaning");
+
                 if (facingDirectionRight)
                 {
                     if (ItemUIManager.armorPickedUp && ItemUIManager.snailShellPickedUp)
@@ -539,6 +582,18 @@ namespace Reggie
                             break;
                         }
                     }
+                }
+
+                foreach (ShopKeeper shopkeeper in levelGameObjects.Cast<GameObject>().OfType<ShopKeeper>().ToList())
+                {
+                    if (shopkeeper.objectID == (int)Enums.ObjectsID.SHOPKEEPER)
+                    {
+                        if (shopkeeper.gameObjectRectangle.Contains(this.gameObjectPosition))
+                            shopKeeper.shopOpen = true;
+                        else
+                            shopKeeper.shopOpen = false;
+                    }
+                    
                 }
 
                 playerAttackPressed = true;
@@ -715,9 +770,15 @@ namespace Reggie
         public void ReducePlayerHP(float damage)
         { 
             if (playerHP > 0)
-                playerHP -= damage;
+            {
+                playerHP -= 0.05f;
+                audioManager.Play("ReggieHurt");
+            }
             else
+            {
                 stillAlive = false;
+                audioManager.Play("AnnouncerInsult");
+            }
         }
 
         public float PlayersCurrentHP()

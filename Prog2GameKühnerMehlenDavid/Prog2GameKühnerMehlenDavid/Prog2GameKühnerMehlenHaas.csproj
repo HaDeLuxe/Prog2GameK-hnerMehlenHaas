@@ -47,10 +47,11 @@
     <Compile Include="Animations\Animation.cs" />
     <Compile Include="Animations\AnimationManagerEnemy.cs" />
     <Compile Include="Animations\AnimationManagerPlayer.cs" />
+    <Compile Include="Animations\NPC Animations.cs" />
     <Compile Include="Animations\UIAnimations.cs" />
+    <Compile Include="AudioManager.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Enemies\Snail.cs" />
-    <Compile Include="Projectile.cs" />
+    <Compile Include="Menus\Slider.cs" />
     <Compile Include="ShopKeeper.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enums.cs" />
