@@ -254,7 +254,8 @@ namespace Reggie
         /// </summary>
         /// <param name="Content"></param>
         /// <param name="texturesDictionnary"></param>
-        private void loadUIElements(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionnary) {
+        private void loadUIElements(ContentManager Content, ref Dictionary<string, Texture2D> texturesDictionnary)
+        {
             Texture2D levelEditorUIBackButton = Content.Load<Texture2D>("Images\\UI\\LvlEdtorSaveButton");
             texturesDictionnary.Add("LevelEditorUIBackButton", levelEditorUIBackButton);
             Texture2D UserInterface = Content.Load<Texture2D>("Images\\UI\\UI");
@@ -279,9 +280,9 @@ namespace Reggie
             texturesDictionary.Add("glideTutorial", glideTutorial);
             Texture2D attackTutorial = Content.Load<Texture2D>("Images\\UI\\Attack_Tut");
             texturesDictionary.Add("attackTutorial", attackTutorial);
-            
 
-            
+
+
             //Minimap loading thingis
             Texture2D Minimap = Content.Load<Texture2D>("Images\\Minimap\\MiniMap");
             texturesDictionnary.Add("Minimap", Minimap);
@@ -306,8 +307,22 @@ namespace Reggie
             Texture2D wavingShop = Content.Load<Texture2D>("Images\\Shop\\WavingShopkeeper");
             texturesDictionary.Add("wavingShop", wavingShop);
             //ShopInterface
-            //Texture2D idleShop = Content.Load<Texture2D>("Images\\Shop\\IdleShopkeeper");
-            //texturesDictionary.Add("idleShop", idleShop);
+            Texture2D ShopKeeperInterface_Background = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_Background");
+            texturesDictionary.Add("ShopKeeperInterface_Background", ShopKeeperInterface_Background);
+            Texture2D ShopInterface_AllPotions = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_AllPotions");
+            texturesDictionary.Add("ShopKeeperInterface_AllPotions", ShopInterface_AllPotions);
+            //Texture2D ShopInterface_AllPotions = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_AllPotions");
+            //texturesDictionary.Add("ShopKeeperInterface_AllPotions", ShopInterface_AllPotions);
+
+            Texture2D ShopKeeperInterface_StrengthPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedStrengthPotion");
+            texturesDictionary.Add("ShopKeeperInterface_StrengthPotion_Highlighted", ShopKeeperInterface_StrengthPotion_Highlighted);
+           
+            Texture2D ShopKeeperInterface_JumpPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedJumpPotion");
+            texturesDictionary.Add("ShopKeeperInterface_JumpPotion_Highlighted", ShopKeeperInterface_JumpPotion_Highlighted);
+            
+            Texture2D ShopKeeperInterface_HealtPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedHealthPotion");
+            texturesDictionary.Add("ShopKeeperInterface_HealtPotion_Highlighted", ShopKeeperInterface_HealtPotion_Highlighted);
+           
         }
 
 
