@@ -14,6 +14,7 @@ namespace Reggie.Enemies
         private AnimationManagerEnemy animationManager;
         private List<Projectile> projectileList;
         private bool alreadyShot;
+        
         public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
             enemyHP = 200;
