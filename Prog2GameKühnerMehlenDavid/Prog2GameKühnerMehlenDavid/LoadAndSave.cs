@@ -280,6 +280,10 @@ namespace Reggie
             texturesDictionary.Add("glideTutorial", glideTutorial);
             Texture2D attackTutorial = Content.Load<Texture2D>("Images\\UI\\Attack_Tut");
             texturesDictionary.Add("attackTutorial", attackTutorial);
+            Texture2D sliderbar = Content.Load<Texture2D>("Images\\UI\\Sliderbar");
+            texturesDictionary.Add("sliderbar", sliderbar);
+            Texture2D sliderknob = Content.Load<Texture2D>("Images\\UI\\Sliderknob");
+            texturesDictionary.Add("sliderknob", sliderknob);
 
 
 
