@@ -17,7 +17,7 @@ namespace Reggie
         protected bool snailSlime;
         public Texture2D enemytexture;
         private Vector2 chargingVector;
-        public Vector2 hi;
+
         public Projectile(Texture2D projectileTexture, Vector2 projectileSize, Vector2 projectilePosition, int gameObjectID) : base(projectileTexture, projectileSize, projectilePosition, gameObjectID)
         {
             stillExist = true;

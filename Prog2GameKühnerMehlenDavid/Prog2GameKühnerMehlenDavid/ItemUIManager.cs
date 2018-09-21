@@ -37,13 +37,18 @@ namespace Reggie {
         List<GameObject> ItemsFound;
         List<GameObject> PotionsFound;
 
-        public ItemUIManager() 
+        AudioManager audioManager;
+
+        public ItemUIManager()
         {
             ItemsFound = new List<GameObject>();
             PotionsFound = new List<GameObject>();
             currentItemEquipped = new Item(null, new Vector2(0, 0), new Vector2(0, 0), (int)Enums.ObjectsID.NONE);
-            //MUSS EIGENTLICH AUS SAVE GELADEN WERDEN?! UND DELETET WENN
+            //eigener Save?
             cornnencyQuantity = 0;
+
+            //MUSIC
+            audioManager = AudioManager.AudioManagerInstance();
         }
 
         //public int getCurrentEquipped() {
@@ -184,7 +189,8 @@ namespace Reggie {
 
             if (GamePad.GetState(0).IsButtonDown(Buttons.LeftShoulder) && !shoulderButtonPushed)
             {
-                if(ItemsFound.Count() > 0)
+                audioManager.Play("ReggieEquipedSomething");
+                if (ItemsFound.Count() > 0)
                 {
                     int currentIndex = 0;
                     for (int i = 0; i < ItemsFound.Count(); i++)
@@ -200,6 +206,7 @@ namespace Reggie {
 
             if (GamePad.GetState(0).IsButtonDown(Buttons.RightShoulder) && !shoulderButtonPushed)
             {
+                audioManager.Play("ReggieEquipedSomething");
                 if (ItemsFound.Count() > 0)
                 {
                     int currentIndex = 0;
