@@ -12,11 +12,13 @@ namespace Reggie.Menus
     {
         
         //position between 0-100
-        int state = 200;
+        int state = 1000;
+        Vector2 position = Vector2.Zero;
 
-        public Slider(int state)
+        public Slider(int state, Vector2 position)
         {
             this.state = state;
+            this.position = position;
         }
 
 
@@ -25,10 +27,10 @@ namespace Reggie.Menus
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="position"></param>
-        public void drawSlider(SpriteBatch spriteBatch, Vector2 position, Dictionary<string, Texture2D> texturesDictionary)
+        public void drawSlider(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary, Matrix transformationMatrix)
         {
             spriteBatch.Draw(texturesDictionary["sliderbar"], position, Color.White);
-            spriteBatch.Draw(texturesDictionary["sliderknob"], position + new Vector2(state, 0), Color.White);
+            spriteBatch.Draw(texturesDictionary["sliderknob"], position + new Vector2(state, -5), Color.White);
         }
     }
 }

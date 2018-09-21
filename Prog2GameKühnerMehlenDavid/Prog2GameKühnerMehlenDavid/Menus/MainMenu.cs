@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace Reggie.Menus {
     class MainMenu {
 
-        
 
+        Enums.MainMenuStates currentState;
         Enums.MainMenuButtons currentButton;
         Enums.MainMenuButtons currentControlButton;
         Options options = null;
@@ -21,52 +21,61 @@ namespace Reggie.Menus {
         bool controlButtonPressed;
         bool controlWindowOpen;
 
-        public MainMenu() { 
+        public MainMenu() {
+            currentState = Enums.MainMenuStates.MAIN;
             currentButton = Enums.MainMenuButtons.START;
             currentControlButton = Enums.MainMenuButtons.CONTROLNO;
             buttonPressed = true;
             controlWindowOpen = false;
             controlButtonPressed = true;
-            //options = new Options();
+            options = new Options();
             
         }
 
-        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch SpriteBatch, SpriteFont Font, Levels levelManager, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player, Game1 game) {
-
-            if (!controlWindowOpen)
+        public void RenderMainMenu(Dictionary<string, Texture2D> texturesDictionary, SpriteBatch spriteBatch, SpriteFont Font, Levels levelManager, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player, Game1 game, Matrix transformationMatrix) {
+            switch (currentState)
             {
-                switch (currentButton)
-                {
-                    case Enums.MainMenuButtons.START:
-                        SpriteBatch.Draw(texturesDictionary["MainMenu1"], new Rectangle(0, 0, 1920, 1080), Color.White);
-                        break;
-                    case Enums.MainMenuButtons.RESUME:
-                        SpriteBatch.Draw(texturesDictionary["MainMenu2"], new Rectangle(0, 0, 1920, 1080), Color.White);
-                        break;
-                    case Enums.MainMenuButtons.OPTIONS:
-                        SpriteBatch.Draw(texturesDictionary["MainMenu3"], new Rectangle(0, 0, 1920, 1080), Color.White);
-                        break;
-                    case Enums.MainMenuButtons.CREDITS:
-                        SpriteBatch.Draw(texturesDictionary["MainMenu4"], new Rectangle(0, 0, 1920, 1080), Color.White);
-                        break;
-                    case Enums.MainMenuButtons.EXIT:
-                        SpriteBatch.Draw(texturesDictionary["MainMenu5"], new Rectangle(0, 0, 1920, 1080), Color.White);
+                case Enums.MainMenuStates.MAIN:
+                    if (!controlWindowOpen)
+                    {
+                        switch (currentButton)
+                        {
+                            case Enums.MainMenuButtons.START:
+                                spriteBatch.Draw(texturesDictionary["MainMenu1"], new Rectangle(0, 0, 1920, 1080), Color.White);
+                                break;
+                            case Enums.MainMenuButtons.RESUME:
+                                spriteBatch.Draw(texturesDictionary["MainMenu2"], new Rectangle(0, 0, 1920, 1080), Color.White);
+                                break;
+                            case Enums.MainMenuButtons.OPTIONS:
+                                spriteBatch.Draw(texturesDictionary["MainMenu3"], new Rectangle(0, 0, 1920, 1080), Color.White);
+                                break;
+                            case Enums.MainMenuButtons.CREDITS:
+                                spriteBatch.Draw(texturesDictionary["MainMenu4"], new Rectangle(0, 0, 1920, 1080), Color.White);
+                                break;
+                            case Enums.MainMenuButtons.EXIT:
+                                spriteBatch.Draw(texturesDictionary["MainMenu5"], new Rectangle(0, 0, 1920, 1080), Color.White);
 
-                        break;
-                }
+                                break;
+                        }
 
-                SpriteBatch.DrawString(Font, "Neues Spiel", new Vector2(1400, 200), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
-                SpriteBatch.DrawString(Font, "Fortfahren", new Vector2(1400, 360), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
-                SpriteBatch.DrawString(Font, "Optionen", new Vector2(1400, 510), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
-                SpriteBatch.DrawString(Font, "Credits", new Vector2(1400, 670), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
-                SpriteBatch.DrawString(Font, "Verlassen", new Vector2(1400, 820), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(Font, "Neues Spiel", new Vector2(1400, 200), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(Font, "Fortfahren", new Vector2(1400, 360), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(Font, "Optionen", new Vector2(1400, 510), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(Font, "Credits", new Vector2(1400, 670), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(Font, "Verlassen", new Vector2(1400, 820), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+                    }
+
+
+                    if (controlWindowOpen)
+                    {
+                        newGameControlScreen(Font, spriteBatch, texturesDictionary, loadAndSave, ref allGameObjects, ref player, game);
+                    }
+                    break;
+                case Enums.MainMenuStates.OPTION:
+                    options.drawOptions(spriteBatch, texturesDictionary, transformationMatrix);
+                    break;
             }
             
-
-            if (controlWindowOpen)
-            {
-                newGameControlScreen(Font, SpriteBatch, texturesDictionary, loadAndSave, ref allGameObjects, ref player, game);
-            }
         }
 
         public void Update(Game1 Game)
@@ -89,15 +98,17 @@ namespace Reggie.Menus {
                 switch (currentButton)
                 {
                     case Enums.MainMenuButtons.START:
-
+                        
                         controlWindowOpen = true;
                         break;
                     case Enums.MainMenuButtons.RESUME:
                         Game1.currentGameState = Game1.GameState.GAMELOOP; 
                         break;
                     case Enums.MainMenuButtons.OPTIONS:
+                        currentState = Enums.MainMenuStates.OPTION;
                         break;
                     case Enums.MainMenuButtons.CREDITS:
+                        currentState = Enums.MainMenuStates.OPTION;
                         break;
                     case Enums.MainMenuButtons.EXIT:
                         Game.Exit();

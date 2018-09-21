@@ -178,6 +178,7 @@ namespace Reggie {
             SPIDER_ATTACK_RIGHT
         }
         public enum GameMenuButtons { RESUME, SAVE, OPTIONS, MAINMENU }
+        public enum MainMenuStates { MAIN, OPTION, CREDITS}
         public enum ShopKeeperItemButtons { STRENGTHPOTION, JUMPPOTION, HEALTHPOTION}
     }
 }
