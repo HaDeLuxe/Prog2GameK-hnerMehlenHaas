@@ -313,6 +313,7 @@ namespace Reggie
             texturesDictionary.Add("ShopKeeperInterface_AllPotions", ShopInterface_AllPotions);
             //Texture2D ShopInterface_AllPotions = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_AllPotions");
             //texturesDictionary.Add("ShopKeeperInterface_AllPotions", ShopInterface_AllPotions);
+            //woaw
 
             Texture2D ShopKeeperInterface_StrengthPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedStrengthPotion");
             texturesDictionary.Add("ShopKeeperInterface_StrengthPotion_Highlighted", ShopKeeperInterface_StrengthPotion_Highlighted);
