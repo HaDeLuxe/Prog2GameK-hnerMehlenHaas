@@ -258,51 +258,74 @@ namespace Reggie {
             InterLevelGameObjects.Clear();
 
 
-            //for (int i = 0; i < currentLevelGameObjects.Count(); i++)
-            //{
-            //    if (TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
-            //        TutorialGameObjects.Add(currentLevelGameObjects[i]);
-            //    if (DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
-            //        DungHillGameObjects.Add(currentLevelGameObjects[i]);
-            //    if (HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
-            //        HubGameObjects.Add(currentLevelGameObjects[i]);
-            //    if (AntToHubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
-            //        AntGameObjects.Add(currentLevelGameObjects[i]);
-            //    if (GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
-            //        GreenHouseGameObjects.Add(currentLevelGameObjects[i]);
-            //    if (TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition) || CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
-            //        TreeGameObjects.Add(currentLevelGameObjects[i]);
-            //    if (!TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
-            //        || !DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
-            //        || !HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
-            //        || !AntRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
-            //        || !GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
-            //        || !TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
-            //        || !CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
-            //        InterLevelGameObjects.Add(currentLevelGameObjects[i]);
-            //}
-
-
-
-
-            foreach (GameObject GameObject in currentLevelGameObjects)
+            for (int i = 0; i < currentLevelGameObjects.Count(); i++)
             {
-                if (DetectCollision(GameObject, TutorialRectangle))
-                    TutorialGameObjects.Add(GameObject);
-                if (DetectCollision(GameObject, DunghillRectangle)) DungHillGameObjects.Add(GameObject);
-                if (DetectCollision(GameObject, HubRectangle)) HubGameObjects.Add(GameObject);
-                if (DetectCollision(GameObject, AntRectangle)) AntGameObjects.Add(GameObject);
-                if (DetectCollision(GameObject, GreenhouseRectangle)) GreenHouseGameObjects.Add(GameObject);
-                if (DetectCollision(GameObject, TreeRectangle) || DetectCollision(GameObject, CrownRectangle)) TreeGameObjects.Add(GameObject);
-                if (!DetectCollision(GameObject, TutorialRectangle)
-                    && !DetectCollision(GameObject, DunghillRectangle)
-                    && !DetectCollision(GameObject, HubRectangle)
-                    && !DetectCollision(GameObject, AntRectangle)
-                    && !DetectCollision(GameObject, GreenhouseRectangle)
-                    && !DetectCollision(GameObject, TreeRectangle)
-                    && !DetectCollision(GameObject, CrownRectangle))
-                    InterLevelGameObjects.Add(GameObject);
+                if (TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                    TutorialGameObjects.Add(currentLevelGameObjects[i]);
+                if (DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                    DungHillGameObjects.Add(currentLevelGameObjects[i]);
+                if (HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                    HubGameObjects.Add(currentLevelGameObjects[i]);
+                if (AntToHubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                    AntGameObjects.Add(currentLevelGameObjects[i]);
+                if (GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                    GreenHouseGameObjects.Add(currentLevelGameObjects[i]);
+                if (TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition) || CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                    TreeGameObjects.Add(currentLevelGameObjects[i]);
+                if (!TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                    || !DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                    || !HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                    || !AntRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                    || !GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                    || !TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                    || !CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                    InterLevelGameObjects.Add(currentLevelGameObjects[i]);
+                //if(currentLevelGameObjects[i].objectID == (int)Enums.ObjectsID.SHOPKEEPER)
+                //{
+                //    if (TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                //        TutorialGameObjects.Add(currentLevelGameObjects[i]);
+                //    if (DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                //        DungHillGameObjects.Add(currentLevelGameObjects[i]);
+                //    if (HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                //        HubGameObjects.Add(currentLevelGameObjects[i]);
+                //    if (AntToHubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                //        AntGameObjects.Add(currentLevelGameObjects[i]);
+                //    if (GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                //        GreenHouseGameObjects.Add(currentLevelGameObjects[i]);
+                //    if (TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition) || CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                //        TreeGameObjects.Add(currentLevelGameObjects[i]);
+                //    if (!TutorialRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                //        || !DunghillRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                //        || !HubRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                //        || !AntRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                //        || !GreenhouseRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                //        || !TreeRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition)
+                //        || !CrownRectangle.Contains(currentLevelGameObjects[i].gameObjectPosition))
+                //        InterLevelGameObjects.Add(currentLevelGameObjects[i]);
+                //}
             }
+
+
+
+
+            //foreach (GameObject GameObject in currentLevelGameObjects)
+            //{
+            //    if (DetectCollision(GameObject, TutorialRectangle))
+            //        TutorialGameObjects.Add(GameObject);
+            //    if (DetectCollision(GameObject, DunghillRectangle)) DungHillGameObjects.Add(GameObject);
+            //    if (DetectCollision(GameObject, HubRectangle)) HubGameObjects.Add(GameObject);
+            //    if (DetectCollision(GameObject, AntRectangle)) AntGameObjects.Add(GameObject);
+            //    if (DetectCollision(GameObject, GreenhouseRectangle)) GreenHouseGameObjects.Add(GameObject);
+            //    if (DetectCollision(GameObject, TreeRectangle) || DetectCollision(GameObject, CrownRectangle)) TreeGameObjects.Add(GameObject);
+            //    if (!DetectCollision(GameObject, TutorialRectangle)
+            //        && !DetectCollision(GameObject, DunghillRectangle)
+            //        && !DetectCollision(GameObject, HubRectangle)
+            //        && !DetectCollision(GameObject, AntRectangle)
+            //        && !DetectCollision(GameObject, GreenhouseRectangle)
+            //        && !DetectCollision(GameObject, TreeRectangle)
+            //        && !DetectCollision(GameObject, CrownRectangle))
+            //        InterLevelGameObjects.Add(GameObject);
+            //}
         }
 
         public Enums.Level PlayerLevelLocation()

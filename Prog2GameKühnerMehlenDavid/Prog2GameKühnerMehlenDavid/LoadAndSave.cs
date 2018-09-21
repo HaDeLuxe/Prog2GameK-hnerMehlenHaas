@@ -305,6 +305,9 @@ namespace Reggie
             texturesDictionary.Add("idleShop", idleShop);
             Texture2D wavingShop = Content.Load<Texture2D>("Images\\Shop\\WavingShopkeeper");
             texturesDictionary.Add("wavingShop", wavingShop);
+            //ShopInterface
+            //Texture2D idleShop = Content.Load<Texture2D>("Images\\Shop\\IdleShopkeeper");
+            //texturesDictionary.Add("idleShop", idleShop);
         }
 
 

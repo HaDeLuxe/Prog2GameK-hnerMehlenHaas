@@ -18,7 +18,7 @@ namespace Reggie
 {
     public class Player : GameObject
     {
-        KeyboardState previousState;
+        private KeyboardState previousState;
         GamePadState previousGamepadState;
         Texture2D UmbrellaTexture = null;
         Texture2D itemPlayerTexture = null;
@@ -92,13 +92,14 @@ namespace Reggie
             justTouchedBottom = true;
         }
 
-        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
-            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects);
+            if(!shopKeeper.shopOpen)
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
             ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager, ref allGameObjects);
@@ -348,7 +349,7 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper)
         {
 
             mouseState = Mouse.GetState();
@@ -582,6 +583,18 @@ namespace Reggie
                             break;
                         }
                     }
+                }
+
+                foreach (ShopKeeper shopkeeper in levelGameObjects.Cast<GameObject>().OfType<ShopKeeper>().ToList())
+                {
+                    if (shopkeeper.objectID == (int)Enums.ObjectsID.SHOPKEEPER)
+                    {
+                        if (shopkeeper.gameObjectRectangle.Contains(this.gameObjectPosition))
+                            shopKeeper.shopOpen = true;
+                        else
+                            shopKeeper.shopOpen = false;
+                    }
+                    
                 }
 
                 playerAttackPressed = true;

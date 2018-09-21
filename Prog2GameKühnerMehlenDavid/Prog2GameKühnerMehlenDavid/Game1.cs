@@ -130,8 +130,6 @@ namespace Reggie
             turnOnMusic = true;
             //must be the first instance!
             audioManager = AudioManager.AudioManagerInstance();
-            
-
         }
 
         /// <summary>
@@ -169,7 +167,7 @@ namespace Reggie
             wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int)Enums.ObjectsID.PLAYER);
 
             //SHOP
-            shopKeeper = new ShopKeeper(null, new Vector2(334,407), new Vector2(13494, 1500), (int)Enums.ObjectsID.SHOPKEEPER,texturesDictionary);
+            shopKeeper = new ShopKeeper(texturesDictionary["cornnency"], new Vector2(334,407), new Vector2(2600, 4225), (int)Enums.ObjectsID.SHOPKEEPER,texturesDictionary); //13494
 
 
             enemySpawnList = new List<Platform>();
@@ -181,7 +179,7 @@ namespace Reggie
 
 
             loadAndSave.LoadGameObjects(ref allGameObjectList, ref wormPlayer);
-
+            //allGameObjectList.Add(shopKeeper);
             
             levelManager = new Levels(ref wormPlayer.gameObjectPosition, ref levelObjectList, ref allGameObjectList);
             levelManager.sortGameObjects();
@@ -249,7 +247,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper);
                     break;
 
                 case GameState.GAMELOOP:
@@ -280,6 +278,9 @@ namespace Reggie
                         previousState = Keyboard.GetState();
                     }
 
+                    if (shopKeeper.shopOpen == true)
+                        shopKeeper.handleShopKeeperEvents();
+
 
                     if(timeUntilNextFrame1 <= 0)
                     {
@@ -290,7 +291,7 @@ namespace Reggie
 
                     camera.SpawnEnemyOffScreen(wormPlayer, enemySpawnList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -389,7 +390,7 @@ namespace Reggie
                             //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
                             //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
-                            shopKeeper.drawShopKeeper(spriteBatch, gameTime);
+                            shopKeeper.drawShopKeeper(spriteBatch, gameTime, texturesDictionary);
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
                                 animManager.animation(gameTime, ref wormPlayer, spriteBatch);
@@ -486,6 +487,7 @@ namespace Reggie
         public void NewGame()
         {
             loadAndSave.LoadGameObjectsNewGame(ref allGameObjectList, ref wormPlayer);
+            allGameObjectList.Add(shopKeeper);
             levelManager.sortGameObjects();
             FillLists();
         }
