@@ -15,6 +15,7 @@ namespace Reggie.Menus {
 
         Enums.MainMenuButtons currentButton;
         Enums.MainMenuButtons currentControlButton;
+        Options options = null;
 
         bool buttonPressed;
         bool controlButtonPressed;
@@ -26,6 +27,7 @@ namespace Reggie.Menus {
             buttonPressed = true;
             controlWindowOpen = false;
             controlButtonPressed = true;
+            //options = new Options();
             
         }
 

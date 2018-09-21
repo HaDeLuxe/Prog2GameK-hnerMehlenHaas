@@ -312,7 +312,6 @@ tileBrown_01,-320,1408
 tileBrown_01,-640,1408
 INVISIBLE_WALL_500x50,-1024,1792
 INVISIBLE_WALL_500x50,-512,1792
-tileBrown_01,3328,3456
 tileBrown_01,-992,1411
 tileBrown_01,-992,1411
 tileBrown_01,-7296,-7104
@@ -1364,22 +1363,17 @@ tileBrown_01,3008,4736
 tileBrown_01,2944,4736
 tileBrown_01,2880,4736
 tileBrown_01,2880,4800
-tileBrown_01,3264,4608
 tileBrown_01,3264,4672
 tileBrown_01,3200,4672
 tileBrown_01,3136,4672
-tileBrown_01,3392,4608
-tileBrown_01,3328,4608
 tileBrown_01,3776,4544
 tileBrown_01,3776,4480
 tileBrown_01,3840,4480
 tileBrown_01,3904,4480
 tileBrown_01,3968,4480
-tileBrown_01,3456,4608
 tileBrown_01,3968,4416
 tileBrown_01,4096,4416
 tileBrown_01,4032,4416
-tileBrown_01,3520,4608
 tileBrown_01,3520,4544
 tileBrown_01,3584,4544
 tileBrown_01,3648,4544
@@ -1446,7 +1440,21 @@ tileBrown_01,-576,4672
 tileBrown_01,-384,4864
 tileBrown_01,-448,4800
 tileBrown_01,-320,4928
-Playerposition, 13444,1711
+tileBrown_03,3456,4608
+tileBrown_03,3264,4608
+tileBrown_03,3328,4608
+tileBrown_03,3392,4608
+tileBrown_03,3136,4608
+tileBrown_03,3200,4608
+tileBrown_03,2944,4608
+tileBrown_03,3008,4608
+tileBrown_03,3072,4608
+tileBrown_03,2880,4608
+tileBrown_03,2816,4608
+tileBrown_03,2624,4608
+tileBrown_03,2688,4608
+tileBrown_03,2752,4608
+Playerposition, 3560,4463
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,False

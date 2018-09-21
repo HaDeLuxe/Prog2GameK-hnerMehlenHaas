@@ -8,29 +8,27 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Reggie.Menus
 {
-    class Slider : GameObject
+    class Slider
     {
+        
+        //position between 0-100
+        int state = 200;
 
-        Texture2D sliderKnobTexture = null;
-        Texture2D sliderBarTexture = null;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="gameObjectTexture"></param>
-        /// <param name="gameObejctSize"></param>
-        /// <param name="position"></param>
-        /// <param name="gameObjectID"></param>
-        /// <param name=""></param>
-        public Slider(Texture2D gameObjectTexture, Vector2 gameObejctSize, Vector2 position, int gameObjectID, Texture2D sliderKnobTexture ) : base(gameObjectTexture, gameObejctSize, position, gameObjectID)
+        public Slider(int state)
         {
-            this.sliderBarTexture = gameObjectTexture;
-            this.sliderKnobTexture = sliderKnobTexture;
+            this.state = state;
         }
 
-        //public drawSlider()
-        //{
 
-        //}
+        /// <summary>
+        /// Draws the Slider
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="position"></param>
+        public void drawSlider(SpriteBatch spriteBatch, Vector2 position, Dictionary<string, Texture2D> texturesDictionary)
+        {
+            spriteBatch.Draw(texturesDictionary["sliderbar"], position, Color.White);
+            spriteBatch.Draw(texturesDictionary["sliderknob"], position + new Vector2(state, 0), Color.White);
+        }
     }
 }
