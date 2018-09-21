@@ -8,19 +8,28 @@ using Microsoft.Xna.Framework.Graphics;
 using Reggie.Animations;
 
 namespace Reggie.Enemies
-{
-    public class Ladybug : Enemy
+{ 
+    public class Snail : Enemy
     {
-
         private AnimationManagerEnemy animationManager;
-        public Ladybug(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
+        private List<Projectile> projectileList;
+        private bool alreadyShot;
+        public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 100;
-            movementSpeed = 5f;
-            knockBackValue = 15f;
-            attackDamage = 0.04f;
-            attackRange = 70f;
+            enemyHP = 200;
+            movementSpeed = 3f;
+            knockBackValue = 10f;
+            attackDamage = 0.09f;
+            attackRange = 400f;
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
+            projectileList = new List<Projectile>();
+            alreadyShot = false;
+            //enemyAggroAreaSize = new Vector4(500, 500, 1100, 1050);
+            //changeCollisionBox = new Vector2(0, 0);
+            //enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.Z), (int)(enemyAggroAreaSize.W));
+            //collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
+            //collisionBoxSize = new Vector2(enemySize.X, enemySize.Y);
+            //movementDirectionGone = 0;
         }
 
 
@@ -46,10 +55,18 @@ namespace Reggie.Enemies
                     EnemyMovement();
                 if (!DetectPlayer())
                     EnemyNeutralBehaviour(gameObjectList);
-
             }
             if (attackAction)
-                EnemyAttack(gameTime);
+                EnemyAttack(gameTime, gameObjectList);
+            //CalculationChargingVector();
+            if(projectileList.Count() !=0)
+            foreach (var projectile in projectileList.ToList())
+            {
+                projectile.TracedPlayerLocation();
+                projectile.Update(gameTime, gameObjectList);
+                if (!projectile.ProjectileState())
+                    projectileList.RemoveAt(projectileList.IndexOf(projectile));
+            }
             if (attackExecuted)
                 CalculationCooldown(gameTime);
             EnemyCheckCollision(gameTime, gameObjectList);
@@ -59,54 +76,66 @@ namespace Reggie.Enemies
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
 
-
         }
 
         private void CalculationCooldown(GameTime gameTime)
         {
             attackCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(attackCooldown >1f)
+            if (attackCooldown > 2f)
             {
                 attackCooldown = 0;
                 attackExecuted = false;
+                alreadyShot = false;
             }
         }
 
-        public override void EnemyAttack(GameTime gameTime)
+        public override void EnemyAttack(GameTime gameTime, List<GameObject> gameObjectList)
         {
             if (!knockedBack)
             {
-                attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-               //if (!calculateCharge)
+                attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //if (!calculateCharge)
                 if (attackTimer < 1f)
                     CalculationChargingVector();
                 if (chargingVector.X < 0)
                     facingDirectionRight = false;
                 else if (chargingVector.X > 0)
                     facingDirectionRight = true;
-                if (attackTimer < 1f)
+                if (facingDirectionRight && !alreadyShot)
                 {
-                    velocity.Y = -6f;
+                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
-                    isStanding = false;
+                    alreadyShot = true;
                 }
-                else if (attackTimer > 1f && attackTimer < 2f)
+                else if (!facingDirectionRight && !alreadyShot)
                 {
-                    if (!calculateCharge)
-                        CalculationChargingVector();
-                    velocity = chargingVector * 3f;
-                    if (HitPlayer() && !worm.invincibilityFrames)
-                    {
-                        worm.invincibilityFrames = true;
-                        worm.ReducePlayerHP(attackDamage);
-                        //worm.KnockBackPosition(facingDirectionRight, 35);
-                    }
+                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X - collisionBoxSize.X, collisionBoxPosition.Y), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Last().SetPlayer(worm);
+                    velocity.X = 0f;
+                    alreadyShot = true;
+                }
+                else if (attackTimer < 2f)
+                {
+                    //if (!calculateCharge)
+                    //CalculationChargingVector();
+                    //foreach (var projectile in projectileList.ToList())
+                    //{
+                    //    projectile.TracedPlayerLocation();
+                    //    projectile.Update(gameTime, gameObjectList);
+                    //    if (!projectile.ProjectileState())
+                    //        projectileList.RemoveAt(projectileList.IndexOf(projectile));
+                    //}
+                    if (facingDirectionRight)
+                        velocity.X = -1f;
+                    else
+                        velocity.X = 1f;
                 }
                 else
                 {
                     attackTimer = 0;
                     attackAction = false;
-                    calculateCharge = false;
+                    // calculateCharge = false;
                     velocity = Vector2.Zero;
                     attackExecuted = true;
                     gravityActive = true;
@@ -136,7 +165,7 @@ namespace Reggie.Enemies
                 if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) == 0)
                     chargingVector.Y = 0;
             }
-            if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 !=0)
+            if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 != 0)
             {
                 chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
                 chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
@@ -158,7 +187,14 @@ namespace Reggie.Enemies
                 else
                     chargingVector.X = -8;
             }
-            calculateCharge = true;
+           // calculateCharge = true;
+        }
+        public override void DrawProjectile(SpriteBatch spriteBatch, Color color, Texture2D enemyTexture)
+        {
+            foreach(var projectile in projectileList)
+            {
+                spriteBatch.Draw(enemyTexture,new Vector2(projectile.collisionRectangle.Left,projectile.collisionRectangle.Top), color);
+            }
         }
     }
 }

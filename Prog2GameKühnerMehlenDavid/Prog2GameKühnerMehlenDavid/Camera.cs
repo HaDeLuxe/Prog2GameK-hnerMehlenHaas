@@ -78,8 +78,8 @@ namespace Reggie
                         if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
                         {
                             if (currentLevel == Enums.Level.TUTORIAL)
-                            
-                               // enemyList.Add(new Ladybug(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.ENEMY, enemySpriteSheets));
+
+                                enemyList.Add(new Snail(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.SNAIL, enemySpriteSheets));
 
 
                             enemyList.Last().SetPlayer(wormPlayer);

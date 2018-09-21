@@ -143,6 +143,11 @@ namespace Reggie {
             ENEMYSPAWNPOINT,
             CORNNENCY,
             NONE,
+            SHOPKEEPER,
+            SNAIL,
+            SPIDER,
+            ANT,
+            LADYBUG,
             ///ADD NEW ITEM HERE
 
         }

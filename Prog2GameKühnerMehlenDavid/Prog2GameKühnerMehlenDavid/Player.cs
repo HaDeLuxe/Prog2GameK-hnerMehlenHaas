@@ -343,8 +343,8 @@ namespace Reggie
             }
             if (!playerGameElementInteraction)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.P))
-                    ReducePlayerHP();
+                //if (Keyboard.GetState().IsKeyDown(Keys.P))
+                //    ReducePlayerHP();
                 if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
                 {
 
@@ -712,10 +712,10 @@ namespace Reggie
         }
 
         //Reduces player's hp if he is hit by the enemy
-        public void ReducePlayerHP()
+        public void ReducePlayerHP(float damage)
         { 
             if (playerHP > 0)
-                playerHP -=0.05f;
+                playerHP -= damage;
             else
                 stillAlive = false;
         }
@@ -740,27 +740,27 @@ namespace Reggie
             }
         }
 
-        public void KnockBackPosition(bool knockBackDirectionRight, float knockvalue)
-        {
-            knockBackValue = knockvalue;
-            knockedBack = true;
-            isStanding = false;
-            velocity.Y = -knockBackValue;
-            if (knockBackDirectionRight)
-            {
-                velocity.X = knockBackValue;
-                pressedRightKey = true;
-                pressedLeftKey = false;
-            }
-            else
-            {
-                velocity.X = -knockBackValue;
-                pressedRightKey = false;
-                pressedLeftKey = true;
-            }
-            ReducePlayerHP();
-            knockBackValue = 0;
-        }
+        //public void KnockBackPosition(bool knockBackDirectionRight, float knockvalue)
+        //{
+        //    knockBackValue = knockvalue;
+        //    knockedBack = true;
+        //    isStanding = false;
+        //    velocity.Y = -knockBackValue;
+        //    if (knockBackDirectionRight)
+        //    {
+        //        velocity.X = knockBackValue;
+        //        pressedRightKey = true;
+        //        pressedLeftKey = false;
+        //    }
+        //    else
+        //    {
+        //        velocity.X = -knockBackValue;
+        //        pressedRightKey = false;
+        //        pressedLeftKey = true;
+        //    }
+        //    ReducePlayerHP();
+        //    knockBackValue = 0;
+        //}
 
         public void drawSecondTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset, Color color) 
         {
