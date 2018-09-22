@@ -188,6 +188,7 @@ namespace Reggie
             ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, playerSpriteSheets);
             FillLists();
 
+            enemytexture = Content.Load<Texture2D>("Images\\Schere");
             // MONO: use this.Content to load your game content here
         }
 
@@ -376,19 +377,21 @@ namespace Reggie
                                     //enemyaggroposition = new Vector2(enemyList[i].enemyAggroArea.X, enemyList[i].enemyAggroArea.Y);
                                     //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                                     enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
+                                    if (enemyList[i].objectID == (int)Enums.ObjectsID.SNAIL)
+                                        enemyList[i].DrawProjectile(spriteBatch, Color.White,enemytexture);
                                 }
                             }
 
                             //This draws the player
 
                             //----Draw Hitbox----//
-                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                            //    playercolorData[i] = Color.Black;
-                            //playertexture.SetData<Color>(playercolorData);
-                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                            //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
+                            playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
+                            playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
+                            for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
+                                playercolorData[i] = Color.Black;
+                            playertexture.SetData<Color>(playercolorData);
+                            playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
+                            spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
                             shopKeeper.drawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix);
 

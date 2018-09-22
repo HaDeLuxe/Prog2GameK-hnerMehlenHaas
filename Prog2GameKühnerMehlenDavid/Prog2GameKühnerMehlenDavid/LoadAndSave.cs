@@ -6,6 +6,8 @@ using System.Linq;
 using System.IO;
 using Microsoft.Xna.Framework;
 using System;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Reggie
 {
@@ -328,8 +330,33 @@ namespace Reggie
             Texture2D ShopKeeperInterface_HealtPotion_Highlighted = Content.Load<Texture2D>("Images\\Shop\\ShopInterface\\ShopInterface_HighlightedHealthPotion");
             texturesDictionary.Add("ShopKeeperInterface_HealtPotion_Highlighted", ShopKeeperInterface_HealtPotion_Highlighted);
            
+            
         }
 
+
+        private void loadSongs(ContentManager Content, ref Dictionary<string, Song> songDictionnary)
+        {
+           // Song temp = Content.Load<Song>("Audio\\Reggie_UNI");
+            //songDictionnary.Add("IngameMusic", temp);
+
+            //MediaPlayer.Play(Game1.songDictionnary["IngameMusic"]);
+            //MediaPlayer.IsRepeating = true;
+        }
+
+        private void loadSoundEffects(ContentManager Content, ref Dictionary<string, SoundEffect> soundEffectDictionnary)
+        {
+            //fail super mario sound
+            //SoundEffect temp = Content.Load<SoundEffect>("Audio\\houseChord");
+            //soundEffectDictionnary.Add("houseChord", temp);
+
+            //// Fire and forget play
+            //Game1.soundEffectDictionnary["houseChord"].Play();
+
+            //// Play that can be manipulated after the fact
+            //var instance = soundEffects[0].CreateInstance();
+            //instance.IsLooped = true;
+            //instance.Play();
+        }
 
         public void Save()
         {

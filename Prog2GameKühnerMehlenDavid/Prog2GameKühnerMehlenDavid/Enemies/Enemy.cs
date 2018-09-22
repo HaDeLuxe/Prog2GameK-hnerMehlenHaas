@@ -10,6 +10,7 @@ namespace Reggie.Enemies
 {
     public class Enemy : GameObject
     {
+        #region Field
         public Rectangle enemyAggroArea;
         public Vector4 enemyAggroAreaSize;
         protected float attackRange;
@@ -37,6 +38,9 @@ namespace Reggie.Enemies
         AudioManager audioManager;
         
 
+
+        protected float attackDamage;
+        #endregion
 
         protected Rectangle leftFootRect
         {
@@ -246,7 +250,7 @@ namespace Reggie.Enemies
         }
 
         public virtual void EnemyAttack(GameTime gameTime) { }
-
+        public virtual void EnemyAttack(GameTime gameTime, List<GameObject> gameObjectList) { }
         public bool DetectPlayer()
         {
             if (enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
@@ -254,7 +258,7 @@ namespace Reggie.Enemies
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (Math.Abs(worm.collisionRectangle.Left - collisionRectangle.Right) < collisionBoxSize.X)
+                if (Math.Abs(worm.collisionRectangle.Left - collisionRectangle.Right) < attackRange)
                 {
                     resetBasicValues();
                     velocity.X = 0;
@@ -268,7 +272,7 @@ namespace Reggie.Enemies
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (Math.Abs(worm.collisionRectangle.Right - collisionRectangle.Left) <  collisionBoxSize.X)
+                if (Math.Abs(worm.collisionRectangle.Right - collisionRectangle.Left) <  attackRange)
                 {
                     resetBasicValues();
                     velocity.X = 0;
@@ -393,7 +397,7 @@ namespace Reggie.Enemies
                // velocity.X = -movementSpeed;
                 facingDirectionRight = false;
             }
-            if (movementDirectionGone == 0)
+                  if (movementDirectionGone == 0)
             {
                // velocity.X = movementSpeed;
                 facingDirectionRight = true;
@@ -427,6 +431,11 @@ namespace Reggie.Enemies
                 movementDirectionGone = 0;
             if (rightFootAir)
                 movementDirectionGone = 1000;
+        }
+        public virtual void DrawProjectile(SpriteBatch spriteBatch, Color color,Texture2D enemyTexture)
+        {
+            
+           // spriteBatch.Draw(gameObjectTexture, Vector2.Zero, color);
         }
     }
 }

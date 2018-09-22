@@ -45,7 +45,6 @@ namespace Reggie
 
 
 
-
         MouseState mouseState;
 
         Camera camera = new Camera();
@@ -62,7 +61,7 @@ namespace Reggie
         }
 
 
-        public Player(Texture2D playerTexture, Vector2 playerSize, Vector2 playerPosition, int gameObjectID) : base(playerTexture, playerSize, playerPosition, gameObjectID)
+        public Player(Texture2D playerTexture,Vector2 playerSize, Vector2 playerPosition, int gameObjectID) : base(playerTexture,playerSize, playerPosition, gameObjectID)
         {
             gravityActive = true;
             firstJump = false;
@@ -240,7 +239,7 @@ namespace Reggie
                     velocity.X = 0;
                     collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
                     pressedLeftKey = false;
-                        pressedRightKey = false;
+                    pressedRightKey = false;
                     }
                     //checks collision on the bottom side of each sprite and makes a smoother contact between player/sprite if the player should hit the sprite
                     //Activate Gravity boolean and stops translation in UP direction if the bottom side of a sprite was hit
@@ -384,8 +383,8 @@ namespace Reggie
             }
             if (!playerGameElementInteraction)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.P))
-                    ReducePlayerHP();
+                //if (Keyboard.GetState().IsKeyDown(Keys.P))
+                //    ReducePlayerHP();
                 if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
                 {
 
@@ -645,6 +644,7 @@ namespace Reggie
                         pressedLeftKey = false;
                         pressedRightKey = false;
                         collisionBoxPosition.X = vine.gameObjectRectangle.X;
+
                         if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
                         {
                             gameObjectPosition = collisionBoxPosition - changeCollisionBox;
@@ -656,11 +656,18 @@ namespace Reggie
             if(Keyboard.GetState().IsKeyDown(Keys.W) && playerGameElementInteraction)
             {
                 climbAllowed = false;
+
                 velocity.Y = -movementSpeed - 2;
                 foreach (var vine in interactiveObject)
                 {
+                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
                     if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top+30)
                         climbAllowed = true;
+                }
+                if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
+                {
+                    gameObjectPosition = collisionBoxPosition - changeCollisionBox;
+
                 }
                 if (climbAllowed)
                     velocity.Y = -movementSpeed - 2;
@@ -669,12 +676,18 @@ namespace Reggie
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.S) && playerGameElementInteraction)
             {
-                bool climbAllowed = false;
+                climbAllowed = false;
                 velocity.Y = movementSpeed + 2;
                 foreach (var vine in interactiveObject)
                 {
+                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
                     if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom-80)
                         climbAllowed = true;
+                }
+                if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
+                {
+                    gameObjectPosition = collisionBoxPosition - changeCollisionBox;
+
                 }
                 if (climbAllowed)
                     velocity.Y = movementSpeed + 2;
@@ -768,11 +781,11 @@ namespace Reggie
         }
 
         //Reduces player's hp if he is hit by the enemy
-        public void ReducePlayerHP()
-        {
+        public void ReducePlayerHP(float damage)
+        { 
             if (playerHP > 0)
             {
-                playerHP -= 0.05f;
+                playerHP -= damage;
                 audioManager.Play("ReggieHurt");
             }
             else
@@ -802,27 +815,27 @@ namespace Reggie
             }
         }
 
-        public void KnockBackPosition(bool knockBackDirectionRight, float knockvalue)
-        {
-            knockBackValue = knockvalue;
-            knockedBack = true;
-            isStanding = false;
-            velocity.Y = -knockBackValue;
-            if (knockBackDirectionRight)
-            {
-                velocity.X = knockBackValue;
-                pressedRightKey = true;
-                pressedLeftKey = false;
-            }
-            else
-            {
-                velocity.X = -knockBackValue;
-                pressedRightKey = false;
-                pressedLeftKey = true;
-            }
-            ReducePlayerHP();
-            knockBackValue = 0;
-        }
+        //public void KnockBackPosition(bool knockBackDirectionRight, float knockvalue)
+        //{
+        //    knockBackValue = knockvalue;
+        //    knockedBack = true;
+        //    isStanding = false;
+        //    velocity.Y = -knockBackValue;
+        //    if (knockBackDirectionRight)
+        //    {
+        //        velocity.X = knockBackValue;
+        //        pressedRightKey = true;
+        //        pressedLeftKey = false;
+        //    }
+        //    else
+        //    {
+        //        velocity.X = -knockBackValue;
+        //        pressedRightKey = false;
+        //        pressedLeftKey = true;
+        //    }
+        //    ReducePlayerHP();
+        //    knockBackValue = 0;
+        //}
 
         public void drawSecondTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset, Color color) 
         {
