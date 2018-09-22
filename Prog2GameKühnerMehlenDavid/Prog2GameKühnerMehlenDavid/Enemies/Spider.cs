@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Reggie.Animations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Reggie.Animations;
 
 namespace Reggie.Enemies
-{ 
-    public class Snail : Enemy
+{
+    class Spider : Enemy
     {
         private AnimationManagerEnemy animationManager;
         private List<Projectile> projectileList;
         private bool alreadyShot;
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
-        public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
+        public Spider(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 200;
-            movementSpeed = 3f;
+            enemyHP = 150;
+            movementSpeed = 6f;
             knockBackValue = 10f;
             attackDamage = 0.09f;
             attackRange = 400f;
@@ -38,13 +38,13 @@ namespace Reggie.Enemies
         public override void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!facingDirectionRight && !attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_MOVE_LEFT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
             else if (facingDirectionRight && !attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_MOVE_RIGHT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
             else if (!facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_ATTACK_LEFT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT;
             else if (facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_ATTACK_RIGHT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT;
             animationManager.Animation(gameTime, this, spriteBatch);
         }
 
@@ -57,20 +57,20 @@ namespace Reggie.Enemies
                     attackAction = true;
                 else
                     attackAction = false;
-             
-                    EnemyNeutralBehaviour(gameObjectList);
+
+                EnemyNeutralBehaviour(gameObjectList);
             }
             if (attackAction)
                 EnemyAttack(gameTime, gameObjectList);
             //CalculationChargingVector();
-            if(projectileList.Count() !=0)
-            foreach (var projectile in projectileList.ToList())
-            {
-                //projectile.TracedPlayerLocation();
-                projectile.Update(gameTime, gameObjectList);
-                if (!projectile.ProjectileState())
-                    projectileList.RemoveAt(projectileList.IndexOf(projectile));
-            }
+            if (projectileList.Count() != 0)
+                foreach (var projectile in projectileList.ToList())
+                {
+                    //projectile.TracedPlayerLocation();
+                    projectile.Update(gameTime, gameObjectList);
+                    if (!projectile.ProjectileState())
+                        projectileList.RemoveAt(projectileList.IndexOf(projectile));
+                }
             if (attackExecuted)
                 CalculationCooldown(gameTime);
             EnemyCheckCollision(gameTime, gameObjectList);
@@ -107,14 +107,14 @@ namespace Reggie.Enemies
                     facingDirectionRight = true;
                 if (facingDirectionRight && !alreadyShot)
                 {
-                    projectileList.Add(new Projectile(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y - 10), (int)Enums.ObjectsID.SNAIL));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;
                 }
                 else if (!facingDirectionRight && !alreadyShot)
                 {
-                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X - collisionBoxSize.X/2, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X - collisionBoxSize.X / 2, collisionBoxPosition.Y - 10), (int)Enums.ObjectsID.SNAIL));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;
@@ -193,13 +193,13 @@ namespace Reggie.Enemies
                 else
                     chargingVector.X = -8;
             }
-           // calculateCharge = true;
+            // calculateCharge = true;
         }
         public override void DrawProjectile(SpriteBatch spriteBatch, Color color)
         {
-            foreach(var projectile in projectileList)
+            foreach (var projectile in projectileList)
             {
-                spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left,projectile.collisionRectangle.Top), color);
+                spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
         }
     }
