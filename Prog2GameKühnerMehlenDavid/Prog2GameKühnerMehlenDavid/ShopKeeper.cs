@@ -19,6 +19,7 @@ namespace Reggie
         public bool shopOpen;
 
         bool buttonPressed;
+        GamePadState lastPadInput;
 
         //randomise wich line of text gets printed
         float randomTimer;
@@ -105,6 +106,7 @@ namespace Reggie
                     alreadydrawn_0 = true;
                     boxPopUpCooldown = 3;
                     currentDrawnTextBoxesCount++;
+                    nPC_Animations.nextAnimation = NPC_Animations.NPCAnimations.IdleShopkeeper;
                 }
                 else if ((int)randomTimer % totalTextBoxesCount == 1 && alreadydrawn_1 == false)
                 {
@@ -112,6 +114,7 @@ namespace Reggie
                     alreadydrawn_1 = true;
                     boxPopUpCooldown = 3.5f;
                     currentDrawnTextBoxesCount++;
+                    nPC_Animations.nextAnimation = NPC_Animations.NPCAnimations.IdleShopkeeper;
                 }
                 else if ((int)randomTimer % totalTextBoxesCount == 2 && alreadydrawn_2 == false)
                 {
@@ -217,19 +220,19 @@ namespace Reggie
         {
 
             //Background
-            spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_Background"], Vector2.Transform(new Vector2(500, 0), Matrix.Invert(transformationMatrix)), Color.White);
-            spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_AllPotions"], Vector2.Transform(new Vector2(500, 0), Matrix.Invert(transformationMatrix)), Color.White); 
-            spriteBatch.Draw(texturesDictionary["ShopkeeperInterface_Help"], Vector2.Transform(new Vector2(500, 0), Matrix.Invert(transformationMatrix)), Color.White);
+            spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_Background"], Vector2.Transform(new Vector2(500, 200), Matrix.Invert(transformationMatrix)), Color.White);
+            spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_AllPotions"], Vector2.Transform(new Vector2(500, 200), Matrix.Invert(transformationMatrix)), Color.White); 
+            spriteBatch.Draw(texturesDictionary["ShopkeeperInterface_Help"], Vector2.Transform(new Vector2(500, 200), Matrix.Invert(transformationMatrix)), Color.White);
 
             //ButtonStuff
             if (lastButton == Enums.ShopKeeperItemButtons.STRENGTHPOTION)
-                spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_StrengthPotion_Highlighted"], Vector2.Transform(new Vector2(500,0),Matrix.Invert(transformationMatrix)), Color.White);
+                spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_StrengthPotion_Highlighted"], Vector2.Transform(new Vector2(500,200),Matrix.Invert(transformationMatrix)), Color.White);
 
             if (lastButton == Enums.ShopKeeperItemButtons.JUMPPOTION)
-                spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_JumpPotion_Highlighted"], Vector2.Transform(new Vector2(500, 0), Matrix.Invert(transformationMatrix)), Color.White);
+                spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_JumpPotion_Highlighted"], Vector2.Transform(new Vector2(500, 200), Matrix.Invert(transformationMatrix)), Color.White);
             
             if (lastButton == Enums.ShopKeeperItemButtons.HEALTHPOTION)
-                spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_HealtPotion_Highlighted"], Vector2.Transform(new Vector2(500, 0), Matrix.Invert(transformationMatrix)), Color.White);
+                spriteBatch.Draw(texturesDictionary["ShopKeeperInterface_HealtPotion_Highlighted"], Vector2.Transform(new Vector2(500, 200), Matrix.Invert(transformationMatrix)), Color.White);
 
 
         }
@@ -244,10 +247,11 @@ namespace Reggie
                 if (currentButton < 0)
                 currentButton = Enums.ShopKeeperItemButtons.STRENGTHPOTION;
 
+                lastPadInput = GamePad.GetState(0);
                 buttonPressed = true;
             }
 
-            if ((Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(0).ThumbSticks.Left.Y > +0.5f) && !buttonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(0).ThumbSticks.Left.Y > +0.5f) && !buttonPressed && lastPadInput != GamePad.GetState(0))
             {
                 currentButton++;
                 if (currentButton <= Enums.ShopKeeperItemButtons.STRENGTHPOTION)
@@ -255,31 +259,42 @@ namespace Reggie
                 if (currentButton > Enums.ShopKeeperItemButtons.JUMPPOTION)
                     currentButton = Enums.ShopKeeperItemButtons.HEALTHPOTION;
 
-
+                lastPadInput = GamePad.GetState(0);
                 buttonPressed = true;
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed &&lastPadInput!=GamePad.GetState(0))
             {
                 buttonPressed = true;
 
                 if (lastButton == Enums.ShopKeeperItemButtons.STRENGTHPOTION)
+                {
                     Buy("StrengthPotion");
+                    nPC_Animations.nextAnimation = NPC_Animations.NPCAnimations.IdleShopkeeper;
+                }
+
 
                 if (lastButton == Enums.ShopKeeperItemButtons.JUMPPOTION)
+                {
                     Buy("JumpPotion");
+                    nPC_Animations.nextAnimation = NPC_Animations.NPCAnimations.IdleShopkeeper;
+                }
 
                 if (lastButton == Enums.ShopKeeperItemButtons.HEALTHPOTION)
+                {
                     Buy("HealthPotion");
+                    nPC_Animations.nextAnimation = NPC_Animations.NPCAnimations.IdleShopkeeper;
+                }
             }
             //(MouseState.Equals(Mouse) //mit linker Moustaste schließbar?
             if ((Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(0).IsButtonDown(Buttons.B)) && !buttonPressed)
             {
                 shopOpen = false;
             }
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0 || GamePad.GetState(0).Equals(0)) //TEST NEEDED EQUALS?!?! 
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 || GamePad.GetState(0).ThumbSticks.Left.Y == 0 && GamePad.GetState(0).ThumbSticks.Left.X == 0)
             {
                 buttonPressed = false;
             }
+            lastPadInput = GamePad.GetState(0);
         }
 
         //MUSS DA NOCH NEN UPDATE GETRIGGERT WERDEN ODER NICHT?
