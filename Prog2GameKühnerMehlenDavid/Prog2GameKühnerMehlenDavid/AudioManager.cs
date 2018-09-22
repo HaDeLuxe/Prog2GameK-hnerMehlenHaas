@@ -46,7 +46,9 @@ namespace Reggie
         float kRerollCooldownTimer;
         float jTempCooldown;
 
-
+        public float globalVolume;
+        float musicVolume;
+        float soundEffectsVolume;
         //Songs
         private Song reggie_Ingame_Music;
 
@@ -72,15 +74,18 @@ namespace Reggie
         SoundEffect reggie_Pickup_Any_Item;
         SoundEffect shopkeeper_Reggie_Bought_Something;
         SoundEffect reggie_Attacks;
+        SoundEffect reggie_Ingame_Music_Soundeffect_Fix;
 
         //Not a temp variable makes Move Sound Breakable
         SoundEffectInstance reggieMovesSound;
+        SoundEffectInstance reggie_Ingame_Music_Soundeffect_Fix_2;
 
         //Konstruktor
         private AudioManager()
         {
             kRerollCooldownTimer = 0;
             jTempCooldown = 0;
+            globalVolume = 1;
         }
 
         //Singleton Pattern
@@ -97,16 +102,17 @@ namespace Reggie
         //Plays The Song or Sound you call him with a Keyword
         public void Play(string s)
         {
+            //SoundEffect.MasterVolume = 1 * globalVolume;
             if (s.Equals("IngameMusic"))
             {
                 MediaPlayer.Play(reggie_Ingame_Music);
                 MediaPlayer.IsRepeating = true;
-                MediaPlayer.Volume = 0.1f;
+                MediaPlayer.Volume = 0.5f /** globalVolume*/;
             }
             if (s.Equals("ReggieJump")&& reggie_Jump_Timer>0.1f)
             {
                 var temp = reggie_Jump.CreateInstance();
-                temp.Volume = 0.03f;
+                temp.Volume = 0.10f;
                 temp.Play();
                 reggie_Jump_Timer = 0;
             }
@@ -244,6 +250,11 @@ namespace Reggie
                 reggieMovesSound.Play();
                 reggie_Moves_Timer = 0;
             }
+            if (s.Equals("Reggie_Music_Soundeffect"))
+            {
+                //PAUSEABLE
+                reggie_Ingame_Music_Soundeffect_Fix_2.Play();
+            }
 
             //so dass nicht zwei mal die gleichen sounds hintereinander kommen? --> lastSound = blabla; in bedingung --> if (... && lastsound !=...)
             if (s.Equals("AnnouncerInsult")&& AnnouncerInsult_Timer>3.0f) //VOLUME ANNOUNCER
@@ -292,12 +303,16 @@ namespace Reggie
         {
             if (s.Equals("ReggieMoves"))
                 reggieMovesSound.Stop();
+            if (s.Equals("Reggie_Music_Soundeffect"))
+                reggie_Ingame_Music_Soundeffect_Fix_2.Stop();
         }
 
         public void PrepareSoundEffectInstancesAfterLoadingFilesFunction()
         {
             reggieMovesSound = reggie_Moves.CreateInstance();
             reggieMovesSound.Volume = 0.06f;
+            reggie_Ingame_Music_Soundeffect_Fix_2 = reggie_Ingame_Music_Soundeffect_Fix.CreateInstance();
+            reggie_Ingame_Music_Soundeffect_Fix_2.Volume = 0.06f;
         }
 
         //Gets updated via update function in Game1
@@ -361,6 +376,8 @@ namespace Reggie
             reggie_Pickup_Any_Item = Content.Load<SoundEffect>("Audio\\Reggie_Pickup_Any_Item");
             shopkeeper_Reggie_Bought_Something = Content.Load<SoundEffect>("Audio\\Shopkeeper_Reggie_Bought_Something");
             reggie_Attacks = Content.Load<SoundEffect>("Audio\\Reggie_Attacks");
+            reggie_Ingame_Music_Soundeffect_Fix = Content.Load<SoundEffect>("Audio\\Reggie_Ingame_Music as SoundEffect");
+
 
             //// Fire and forget play
             //Game1.soundEffectDictionnary["houseChord"].Play();

@@ -1625,7 +1625,7 @@ tileBrown_01,3200,4032
 CORNNENCY,2600,4225
 tileBrown_03,9536,1408
 ENEMYSPAWNPOINT,9536,1408
-Playerposition, 7798,1392
+Playerposition, 3668,4400
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,False
