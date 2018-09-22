@@ -11,15 +11,20 @@ namespace Reggie.Menus {
 
         Slider slider = null;
 
-        public Options(Dictionary<string, Texture2D> texturesDictionary, Matrix transformationMatrix)
+        public Options()
         {
-            slider = new Slider(100);
+            slider = new Slider(100, new Vector2(500,500));
         }
 
-        //public void drawOptions()
-        //{
-        //    slider.drawSlider();
-        //}
-        
+        public void drawOptions(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary, Matrix transformationMatrix)
+        {
+            slider.drawSlider(spriteBatch, texturesDictionary, transformationMatrix);
+        }
+
+        public void Update()
+        {
+            slider.moveSlider();
+        }
+
     }
 }
