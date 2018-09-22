@@ -1667,3 +1667,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/Enemies Sprite Sheets/SpiderWebSKATCH.png
 
+#begin Audio/Reggie_Ingame_Music as SoundEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Reggie_Ingame_Music as SoundEffect.mp3
+

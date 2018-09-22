@@ -72,7 +72,7 @@ namespace Reggie.Menus {
                     }
                     break;
                 case Enums.MainMenuStates.OPTION:
-                    options.drawOptions(spriteBatch, texturesDictionary, transformationMatrix);
+                    options.drawOptions(spriteBatch, texturesDictionary, transformationMatrix, Font);
                     break;
             }
             
@@ -83,19 +83,19 @@ namespace Reggie.Menus {
             switch (currentState)
             {
                 case Enums.MainMenuStates.MAIN:
-                    if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed && !controlWindowOpen)
+                    if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp) || GamePad.GetState(0).ThumbSticks.Left.Y > 0.5f) && !buttonPressed && !controlWindowOpen)
                     {
                         currentButton--;
                         if (currentButton < 0) currentButton = Enums.MainMenuButtons.EXIT;
                         buttonPressed = true;
                     }
-                    if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !buttonPressed && !controlWindowOpen)
+                    if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down) || GamePad.GetState(0).IsButtonDown(Buttons.DPadDown) || GamePad.GetState(0).ThumbSticks.Left.Y < -0.5f) && !buttonPressed && !controlWindowOpen)
                     {
                         currentButton++;
                         if (currentButton > Enums.MainMenuButtons.EXIT) currentButton = Enums.MainMenuButtons.START;
                         buttonPressed = true;
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !buttonPressed)
+                    if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed)
                     {
                         buttonPressed = true;
                         switch (currentButton)
@@ -118,20 +118,28 @@ namespace Reggie.Menus {
                                 break;
                         }
                     }
-                    if (Keyboard.GetState().GetPressedKeys().Count() == 0)
+                    if (Keyboard.GetState().GetPressedKeys().Count() == 0 && 
+                        GamePad.GetState(0).IsButtonUp(Buttons.DPadUp) && 
+                        GamePad.GetState(0).IsButtonUp(Buttons.A) && 
+                        GamePad.GetState(0).IsButtonUp(Buttons.DPadDown) && 
+                        GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && 
+                        GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f)
                     {
                         buttonPressed = false;
                     }
                     break;
                 case Enums.MainMenuStates.OPTION:
-                    options.Update();
+                    options.Update(this);
                 break;
             }
             
         }
 
 
-
+        public void getBackToMainMenu()
+        {
+            currentState = Enums.MainMenuStates.MAIN;
+        }
 
         private void LoadNewGame(LoadAndSave loadAndSave) {
             ItemUIManager.armorPickedUp = false;
