@@ -107,7 +107,7 @@ namespace Reggie.Enemies
                     facingDirectionRight = true;
                 if (facingDirectionRight && !alreadyShot)
                 {
-                    projectileList.Add(new Projectile(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(111, 93), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;
