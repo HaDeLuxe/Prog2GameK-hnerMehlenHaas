@@ -69,14 +69,14 @@ namespace Reggie.Animations {
             spider_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 100, 50, EnemySpriteSheetsDic["spiderMovingSpriteSheet"], 25f);
             spider_Attack_Left = new Animation(false, SpriteEffects.None, 100, 64, EnemySpriteSheetsDic["spiderAttackSpriteSheet"], 50f);
             spider_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 100, 64, EnemySpriteSheetsDic["spiderAttackSpriteSheet"], 50f);
-            snail_Move_Left = new Animation(true, SpriteEffects.None, 100, 52, EnemySpriteSheetsDic["snailMoveSpriteSheet"], 25f);
-            snail_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 100, 25, EnemySpriteSheetsDic["snailMoveSpriteSheet"], 25f);
-            snail_Aggro_Left = new Animation(true, SpriteEffects.None, 100, 79, EnemySpriteSheetsDic["snailAggressiveSpriteSheet"], 25f);
-            snail_Aggro_Right = new Animation(true, SpriteEffects.FlipHorizontally, 100, 79, EnemySpriteSheetsDic["snailAggressiveSpriteSheet"], 25f);
-            snail_Attack_Left = new Animation(false, SpriteEffects.None, 100, 60, EnemySpriteSheetsDic["snailAttackSpriteSheet"], 50f);
-            snail_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 100, 60, EnemySpriteSheetsDic["snailAttackSpriteSheet"], 50f);
-            snail_Transf_Left = new Animation(false, SpriteEffects.None, 100, 73, EnemySpriteSheetsDic["snailTransfSpriteSheet"], 25f);
-            snail_Transf_Right = new Animation(false, SpriteEffects.FlipHorizontally, 100, 73, EnemySpriteSheetsDic["snailTransfSpriteSheet"], 25f);
+            snail_Move_Left = new Animation(true, SpriteEffects.None, 123, 75, EnemySpriteSheetsDic["snailMoveSpriteSheet"], 25f);
+            snail_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 123, 75, EnemySpriteSheetsDic["snailMoveSpriteSheet"], 25f);
+            snail_Aggro_Left = new Animation(true, SpriteEffects.None, 123, 79, EnemySpriteSheetsDic["snailAggressiveSpriteSheet"], 25f);
+            snail_Aggro_Right = new Animation(true, SpriteEffects.FlipHorizontally, 123, 75, EnemySpriteSheetsDic["snailAggressiveSpriteSheet"], 25f);
+            snail_Attack_Left = new Animation(false, SpriteEffects.None, 123, 75, EnemySpriteSheetsDic["snailAttackSpriteSheet"], 50f);
+            snail_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 123, 75, EnemySpriteSheetsDic["snailAttackSpriteSheet"], 50f);
+            snail_Transf_Left = new Animation(false, SpriteEffects.None, 123, 75, EnemySpriteSheetsDic["snailTransfSpriteSheet"], 25f);
+            snail_Transf_Right = new Animation(false, SpriteEffects.FlipHorizontally, 123, 75, EnemySpriteSheetsDic["snailTransfSpriteSheet"], 25f);
         }
 
         
@@ -164,32 +164,32 @@ namespace Reggie.Animations {
                 case Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT:
                     enemy.changeTexture(ladybug_Attack_Left.texture);
                     tempRec = ladybug_Attack_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Left.getSpriteEffects(), new Vector2(0, -30), color,scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Left.getSpriteEffects(), new Vector2(0, -15), color,scale);
                     break;
                 case Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT:
                     enemy.changeTexture(ladybug_Attack_Right.texture);
                     tempRec = ladybug_Attack_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color,scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Right.getSpriteEffects(), new Vector2(0, -15), color,scale);
                     break;
                 case Enums.EnemyAnimations.SNAIL_ATTACK_RIGHT:
                     enemy.changeTexture(snail_Attack_Right.texture);
                     tempRec = snail_Attack_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Attack_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
                     break;
                 case Enums.EnemyAnimations.SNAIL_ATTACK_LEFT:
                     enemy.changeTexture(snail_Attack_Left.texture);
                     tempRec = snail_Attack_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Attack_Left.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Attack_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
                     break;
                 case Enums.EnemyAnimations.SNAIL_MOVE_LEFT:
                     enemy.changeTexture(snail_Move_Left.texture);
                     tempRec = snail_Move_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Move_Left.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Move_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
                     break;
                 case Enums.EnemyAnimations.SNAIL_MOVE_RIGHT:
                     enemy.changeTexture(snail_Move_Right.texture);
                     tempRec = snail_Move_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Move_Right.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Move_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
                     break;
             }
         }

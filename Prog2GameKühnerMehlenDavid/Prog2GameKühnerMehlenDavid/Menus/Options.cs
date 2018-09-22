@@ -133,7 +133,7 @@ namespace Reggie.Menus {
             }
 
             globalVolumeSlider.moveSlider();
-            AudioManager.AudioManagerInstance().globalVolume = globalVolumeSlider.getCurrentState();
+            //AudioManager.AudioManagerInstance().globalVolume = globalVolumeSlider.getCurrentState();
             musicVolumeSlider.moveSlider();
             soundEffectsVolumeSlider.moveSlider();
         }
