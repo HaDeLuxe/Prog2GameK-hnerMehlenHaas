@@ -180,6 +180,9 @@ namespace Reggie
             EnemySpriteSheets.Add("spiderMovingSpriteSheet", spiderMoving);
             Texture2D spiderAttack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Spider_Attack");
             EnemySpriteSheets.Add("spiderAttackSpriteSheet", spiderAttack);
+            Texture2D spiderWeb = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\SpiderWebSKATCH");
+            EnemySpriteSheets.Add("spiderWebProjectile", spiderWeb);
+
 
         }
 

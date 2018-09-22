@@ -189,7 +189,7 @@ namespace Reggie.Enemies
         public void EnemyPositionCalculation(GameTime gameTime)
         {
            
-            if (gravityActive && isStanding == false && !attackAction)
+            if (gravityActive && isStanding == false /*&& !attackAction*/)
             {
                 fallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
                 gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
@@ -432,10 +432,6 @@ namespace Reggie.Enemies
             if (rightFootAir)
                 movementDirectionGone = 1000;
         }
-        public virtual void DrawProjectile(SpriteBatch spriteBatch, Color color,Texture2D enemyTexture)
-        {
-            
-           // spriteBatch.Draw(gameObjectTexture, Vector2.Zero, color);
-        }
+        public virtual void DrawProjectile(SpriteBatch spriteBatch, Color color){ }
     }
 }

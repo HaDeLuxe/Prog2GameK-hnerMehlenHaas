@@ -34,6 +34,7 @@ namespace Reggie
         }
         public void TracedPlayerLocation()
         {
+
             if (chargingVector == Vector2.Zero)
             {
                 if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) == 0)
@@ -41,30 +42,60 @@ namespace Reggie
                 if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) == 0)
                     chargingVector.Y = 0;
             }
-            if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 != 0)
+            if (objectID == (int)Enums.ObjectsID.SNAIL)
             {
-                chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
-                chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
-                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) != 0)
-                    chargingVector.X = chargingVector.X / Math.Abs(chargingVector.Y) * 8;
-                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) > 0)
-                    chargingVector.Y = 8;
-                else
-                    chargingVector.Y = -8;
+                if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 != 0)
+                {
+                    chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                    chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                    if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) != 0)
+                        chargingVector.X = chargingVector.X / Math.Abs(chargingVector.Y) * 7;
+                    if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) > 0)
+                        chargingVector.Y = 7;
+                    else
+                        chargingVector.Y = -7;
+                }
+                else if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) >= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.X / 60 - collisionRectangle.X / 60 != 0)
+                {
+                    chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                    chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                    if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) != 0)
+                        chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 6;
+                    if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) > 0)
+                        chargingVector.X = 6;
+                    else
+                        chargingVector.X = -6;
+                }
+                // calculateCharge = true;
+                velocity = chargingVector;
             }
-            else if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) >= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.X / 60 - collisionRectangle.X / 60 != 0)
+            if (objectID == (int)Enums.ObjectsID.SPIDER)
             {
-                chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
-                chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
-                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) != 0)
-                    chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 8;
-                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) > 0)
-                    chargingVector.X = 8;
-                else
-                    chargingVector.X = -8;
+                if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 != 0)
+                {
+                    chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                    chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                    if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) != 0)
+                        chargingVector.X = chargingVector.X / Math.Abs(chargingVector.Y) * 6;
+                    if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) > 0)
+                        chargingVector.Y = 6;
+                    else
+                        chargingVector.Y = -6;
+                }
+                else if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) >= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.X / 60 - collisionRectangle.X / 60 != 0)
+                {
+                    chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                    chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                    if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) != 0)
+                        chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 6;
+                    if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) > 0)
+                        chargingVector.X = 6;
+                    else
+                        chargingVector.X = -6;
+                }
+                // calculateCharge = true;
+                velocity = chargingVector;
             }
-            // calculateCharge = true;
-            velocity = chargingVector;
         }
 
         public void SetPlayer(Player wormPlayer)
@@ -85,6 +116,7 @@ namespace Reggie
                 stillExist = false;
             }
             if(stillExist)
+                if(objectID == (int)Enums.ObjectsID.SPIDER)
             foreach (var platform in platformList)
             {
                     if (velocity.X > 0 && IsTouchingLeftSide(platform))
@@ -173,7 +205,12 @@ namespace Reggie
         private void CalculationCooldown(GameTime gameTime)
         {
             traveltimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (traveltimer > 3f)
+            if (traveltimer > 4f && objectID == (int)Enums.ObjectsID.SNAIL)
+            {
+                traveltimer = 0;
+                stillExist = false;
+            }
+            if (traveltimer > 3f && objectID == (int)Enums.ObjectsID.SPIDER)
             {
                 traveltimer = 0;
                 stillExist = false;

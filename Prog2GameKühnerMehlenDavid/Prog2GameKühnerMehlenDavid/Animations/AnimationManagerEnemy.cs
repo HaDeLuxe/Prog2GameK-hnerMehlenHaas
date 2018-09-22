@@ -171,7 +171,26 @@ namespace Reggie.Animations {
                     tempRec = ladybug_Attack_Right.Update(gameTime);
                     enemy.DrawSpriteBatch(spriteBatch, tempRec, ladybug_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color,scale);
                     break;
-
+                case Enums.EnemyAnimations.SNAIL_ATTACK_RIGHT:
+                    enemy.changeTexture(snail_Attack_Right.texture);
+                    tempRec = snail_Attack_Right.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    break;
+                case Enums.EnemyAnimations.SNAIL_ATTACK_LEFT:
+                    enemy.changeTexture(snail_Attack_Left.texture);
+                    tempRec = snail_Attack_Left.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Attack_Left.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    break;
+                case Enums.EnemyAnimations.SNAIL_MOVE_LEFT:
+                    enemy.changeTexture(snail_Move_Left.texture);
+                    tempRec = snail_Move_Left.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Move_Left.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    break;
+                case Enums.EnemyAnimations.SNAIL_MOVE_RIGHT:
+                    enemy.changeTexture(snail_Move_Right.texture);
+                    tempRec = snail_Move_Right.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, snail_Move_Right.getSpriteEffects(), new Vector2(0, -30), color, scale);
+                    break;
             }
         }
 
