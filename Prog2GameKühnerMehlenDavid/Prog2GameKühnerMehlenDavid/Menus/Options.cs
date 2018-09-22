@@ -21,5 +21,10 @@ namespace Reggie.Menus {
             slider.drawSlider(spriteBatch, texturesDictionary, transformationMatrix);
         }
 
+        public void Update()
+        {
+            slider.moveSlider();
+        }
+
     }
 }

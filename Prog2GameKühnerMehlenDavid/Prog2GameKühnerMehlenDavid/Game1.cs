@@ -391,7 +391,7 @@ namespace Reggie
                             playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
                             spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
-                            shopKeeper.drawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix);
+                            shopKeeper.DrawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix, font, levelManager);
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
                                 animManager.animation(gameTime, ref wormPlayer, spriteBatch);

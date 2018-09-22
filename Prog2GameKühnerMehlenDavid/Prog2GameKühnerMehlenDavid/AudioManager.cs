@@ -10,29 +10,22 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Reggie
 {
+    //Alles für Kopfhörer optimiert, ansonsten viel zu leise!
     public class AudioManager
     {
         private static AudioManager singletonInstance = null;
 
 
         //Timer
-        //float announcer_Denied_Timer;
-        //float announcer_Your_Grandma_Plays_Better_Timer;
-        //float announcer110_Get_Rekt_Timer;
         float AnnouncerInsult_Timer;
+        float reggie_Hurt_Timer;
+        float reggie_Attack_Groaning_Timer;
+
         float announcer_Mom_Get_The_Camera_Timer;
         float announcer110_Victory_Timer;
-        //float reggie_Attack_Groaning_1_HUU_Timer;
-        //float reggie_Attack_Groaning_2_HAA_Timer;
-        //float reggie_Attack_Groaning_3_HEE_Timer;
-        //float reggie_Attack_Groaning_4_HOO_Timer;
-        float reggie_Attack_Groaning_Timer;
         float reggie_Attack_Hits_Timer;
         float reggie_Equiped_Something_Timer;
-        float reggie_Fell_On_The_Ground_Timer; //not really needed?
-        //float reggie_Hurt_1_AU_Timer;
-        //float reggie_Hurt_2_AHHH_Timer;
-        float reggie_Hurt_Timer;
+        float reggie_Fell_On_The_Ground_Timer;
         float reggie_Jump_Timer;
         float reggie_Moves_Timer;
         float reggie_Opens_Schirm_Timer;
@@ -361,9 +354,6 @@ namespace Reggie
             reggie_Pickup_Any_Item = Content.Load<SoundEffect>("Audio\\Reggie_Pickup_Any_Item");
             shopkeeper_Reggie_Bought_Something = Content.Load<SoundEffect>("Audio\\Shopkeeper_Reggie_Bought_Something");
             reggie_Attacks = Content.Load<SoundEffect>("Audio\\Reggie_Attacks");
-
-            //// Fire and forget play
-            //Game1.soundEffectDictionnary["houseChord"].Play();
         }
 
     }

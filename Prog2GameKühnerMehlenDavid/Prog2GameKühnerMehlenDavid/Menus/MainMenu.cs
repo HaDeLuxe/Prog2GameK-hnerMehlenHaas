@@ -80,45 +80,54 @@ namespace Reggie.Menus {
 
         public void Update(Game1 Game)
         {
-            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed && !controlWindowOpen)
+            switch (currentState)
             {
-                currentButton--;
-                if (currentButton < 0) currentButton = Enums.MainMenuButtons.EXIT;
-                buttonPressed = true;
+                case Enums.MainMenuStates.MAIN:
+                    if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed && !controlWindowOpen)
+                    {
+                        currentButton--;
+                        if (currentButton < 0) currentButton = Enums.MainMenuButtons.EXIT;
+                        buttonPressed = true;
+                    }
+                    if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !buttonPressed && !controlWindowOpen)
+                    {
+                        currentButton++;
+                        if (currentButton > Enums.MainMenuButtons.EXIT) currentButton = Enums.MainMenuButtons.START;
+                        buttonPressed = true;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !buttonPressed)
+                    {
+                        buttonPressed = true;
+                        switch (currentButton)
+                        {
+                            case Enums.MainMenuButtons.START:
+
+                                controlWindowOpen = true;
+                                break;
+                            case Enums.MainMenuButtons.RESUME:
+                                Game1.currentGameState = Game1.GameState.GAMELOOP;
+                                break;
+                            case Enums.MainMenuButtons.OPTIONS:
+                                currentState = Enums.MainMenuStates.OPTION;
+                                break;
+                            case Enums.MainMenuButtons.CREDITS:
+                                currentState = Enums.MainMenuStates.OPTION;
+                                break;
+                            case Enums.MainMenuButtons.EXIT:
+                                Game.Exit();
+                                break;
+                        }
+                    }
+                    if (Keyboard.GetState().GetPressedKeys().Count() == 0)
+                    {
+                        buttonPressed = false;
+                    }
+                    break;
+                case Enums.MainMenuStates.OPTION:
+                    options.Update();
+                break;
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !buttonPressed && !controlWindowOpen)
-            {
-                currentButton++;
-                if (currentButton > Enums.MainMenuButtons.EXIT) currentButton = Enums.MainMenuButtons.START;
-                buttonPressed = true;
-            }
-            if(Keyboard.GetState().IsKeyDown(Keys.Enter) && !buttonPressed)
-            {
-                buttonPressed = true;
-                switch (currentButton)
-                {
-                    case Enums.MainMenuButtons.START:
-                        
-                        controlWindowOpen = true;
-                        break;
-                    case Enums.MainMenuButtons.RESUME:
-                        Game1.currentGameState = Game1.GameState.GAMELOOP; 
-                        break;
-                    case Enums.MainMenuButtons.OPTIONS:
-                        currentState = Enums.MainMenuStates.OPTION;
-                        break;
-                    case Enums.MainMenuButtons.CREDITS:
-                        currentState = Enums.MainMenuStates.OPTION;
-                        break;
-                    case Enums.MainMenuButtons.EXIT:
-                        Game.Exit();
-                        break;
-                }
-            }
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0)
-            {
-                buttonPressed = false;
-            }
+            
         }
 
 
