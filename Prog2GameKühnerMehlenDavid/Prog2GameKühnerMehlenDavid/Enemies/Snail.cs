@@ -63,7 +63,7 @@ namespace Reggie.Enemies
             if(projectileList.Count() !=0)
             foreach (var projectile in projectileList.ToList())
             {
-                projectile.TracedPlayerLocation();
+                //projectile.TracedPlayerLocation();
                 projectile.Update(gameTime, gameObjectList);
                 if (!projectile.ProjectileState())
                     projectileList.RemoveAt(projectileList.IndexOf(projectile));

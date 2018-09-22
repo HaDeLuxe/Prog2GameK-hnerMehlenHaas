@@ -644,6 +644,7 @@ namespace Reggie
                         pressedLeftKey = false;
                         pressedRightKey = false;
                         collisionBoxPosition.X = vine.gameObjectRectangle.X;
+
                         if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
                         {
                             gameObjectPosition = collisionBoxPosition - changeCollisionBox;
@@ -655,11 +656,18 @@ namespace Reggie
             if(Keyboard.GetState().IsKeyDown(Keys.W) && playerGameElementInteraction)
             {
                 climbAllowed = false;
+
                 velocity.Y = -movementSpeed - 2;
                 foreach (var vine in interactiveObject)
                 {
+                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
                     if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top+30)
                         climbAllowed = true;
+                }
+                if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
+                {
+                    gameObjectPosition = collisionBoxPosition - changeCollisionBox;
+
                 }
                 if (climbAllowed)
                     velocity.Y = -movementSpeed - 2;
@@ -668,12 +676,18 @@ namespace Reggie
             }
             else if(Keyboard.GetState().IsKeyDown(Keys.S) && playerGameElementInteraction)
             {
-                bool climbAllowed = false;
+                climbAllowed = false;
                 velocity.Y = movementSpeed + 2;
                 foreach (var vine in interactiveObject)
                 {
+                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
                     if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom-80)
                         climbAllowed = true;
+                }
+                if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
+                {
+                    gameObjectPosition = collisionBoxPosition - changeCollisionBox;
+
                 }
                 if (climbAllowed)
                     velocity.Y = movementSpeed + 2;

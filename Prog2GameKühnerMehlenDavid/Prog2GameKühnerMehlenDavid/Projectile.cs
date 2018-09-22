@@ -17,7 +17,7 @@ namespace Reggie
         protected bool snailSlime;
         public Texture2D enemytexture;
         private Vector2 chargingVector;
-
+        private bool tracedPlayerPosition;
         public Projectile(Texture2D projectileTexture, Vector2 projectileSize, Vector2 projectilePosition, int gameObjectID) : base(projectileTexture, projectileSize, projectilePosition, gameObjectID)
         {
             stillExist = true;
@@ -25,6 +25,7 @@ namespace Reggie
             traveltimer = 0f;
             movementSpeed = 10f;
             snailSlime = false;
+            tracedPlayerPosition = false;
             collisionBoxPosition = new Vector2(projectilePosition.X, projectilePosition.Y);
             collisionBoxSize = new Vector2(projectileSize.X, projectileSize.Y-40);
             damage = 0f;
@@ -156,7 +157,11 @@ namespace Reggie
         {
             if (stillExist)
             {
-                TracedPlayerLocation();
+                if (objectID == (int)Enums.ObjectsID.SNAIL && !tracedPlayerPosition)
+                {
+                    TracedPlayerLocation();
+                    tracedPlayerPosition = true;
+                }
                 ProjectileMovement(gameTime);
                 ProjectileCollisionCheck(gameObjectList);
                 CalculationCooldown(gameTime);
