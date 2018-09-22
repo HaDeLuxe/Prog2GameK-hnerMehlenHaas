@@ -771,7 +771,7 @@ namespace Reggie
         { 
             if (playerHP > 0)
             {
-                playerHP -= 0.05f;
+                playerHP -= damage;
                 audioManager.Play("ReggieHurt");
             }
             else

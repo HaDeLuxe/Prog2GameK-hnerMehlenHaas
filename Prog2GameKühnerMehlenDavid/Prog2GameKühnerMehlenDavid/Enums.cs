@@ -144,7 +144,6 @@ namespace Reggie {
             CORNNENCY,
             NONE,
             SHOPKEEPER,
-            SHOPKEEPER,
             SNAIL,
             SPIDER,
             ANT,

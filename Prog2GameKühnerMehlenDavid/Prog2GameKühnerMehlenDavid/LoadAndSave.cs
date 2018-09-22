@@ -6,6 +6,8 @@ using System.Linq;
 using System.IO;
 using Microsoft.Xna.Framework;
 using System;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Reggie
 {
