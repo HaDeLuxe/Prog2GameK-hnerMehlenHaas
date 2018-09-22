@@ -41,10 +41,27 @@ namespace Reggie.Menus
             mousePosition.X = mouseState.X - position.X;
             mousePosition.Y = mouseState.Y;
 
-            if (ButtonState.Pressed == mouseState.LeftButton)
+            if (ButtonState.Pressed == mouseState.LeftButton && mousePosition.Y > position.Y-50 && mousePosition.Y < position.Y +50)
             {
                 state = (int)mousePosition.X;
             }
+            if (state > 370) state = 370;
+            if (state < 0) state = 0;
         }
+
+        public float getCurrentState()
+        {
+            float temp = state / 370f;
+            return temp;
+        }
+
+        public void changeCurrentState(int change)
+        {
+            state += change;
+            if (state > 370) state = 370;
+            if (state < 0) state = 0;
+        }
+
+        
     }
 }

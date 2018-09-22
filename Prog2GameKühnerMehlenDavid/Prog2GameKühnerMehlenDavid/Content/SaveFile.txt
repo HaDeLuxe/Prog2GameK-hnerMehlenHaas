@@ -1625,7 +1625,7 @@ tileBrown_01,3840,4032
 tileBrown_01,3520,4032
 tileBrown_01,3200,4032
 CORNNENCY,2600,4225
-Playerposition, 3730,4400
+Playerposition, 3738,4400
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,False

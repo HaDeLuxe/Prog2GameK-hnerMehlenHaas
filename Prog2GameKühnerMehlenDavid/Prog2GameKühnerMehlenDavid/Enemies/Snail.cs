@@ -14,7 +14,7 @@ namespace Reggie.Enemies
         private AnimationManagerEnemy animationManager;
         private List<Projectile> projectileList;
         private bool alreadyShot;
-        
+        Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
             enemyHP = 200;
@@ -25,6 +25,7 @@ namespace Reggie.Enemies
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
             projectileList = new List<Projectile>();
             alreadyShot = false;
+            this.EnemySpriteSheetsDic = EnemySpriteSheetsDic;
             //enemyAggroAreaSize = new Vector4(500, 500, 1100, 1050);
             //changeCollisionBox = new Vector2(0, 0);
             //enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.Z), (int)(enemyAggroAreaSize.W));
@@ -37,13 +38,13 @@ namespace Reggie.Enemies
         public override void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!facingDirectionRight && !attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_MOVE_LEFT;
             else if (facingDirectionRight && !attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_MOVE_RIGHT;
             else if (!facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_ATTACK_LEFT;
             else if (facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SNAIL_ATTACK_RIGHT;
             animationManager.Animation(gameTime, this, spriteBatch);
         }
 
@@ -53,8 +54,10 @@ namespace Reggie.Enemies
             if (!attackAction && attackCooldown == 0)
             {
                 if (DetectPlayer() && !knockedBack)
-                    EnemyMovement();
-                if (!DetectPlayer())
+                    attackAction = true;
+                else
+                    attackAction = false;
+             
                     EnemyNeutralBehaviour(gameObjectList);
             }
             if (attackAction)
@@ -82,7 +85,7 @@ namespace Reggie.Enemies
         private void CalculationCooldown(GameTime gameTime)
         {
             attackCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if (attackCooldown > 2f)
+            if (attackCooldown > 1f)
             {
                 attackCooldown = 0;
                 attackExecuted = false;
@@ -104,14 +107,14 @@ namespace Reggie.Enemies
                     facingDirectionRight = true;
                 if (facingDirectionRight && !alreadyShot)
                 {
-                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;
                 }
                 else if (!facingDirectionRight && !alreadyShot)
                 {
-                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X - collisionBoxSize.X, collisionBoxPosition.Y), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X - collisionBoxSize.X/2, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;
@@ -131,6 +134,8 @@ namespace Reggie.Enemies
                         velocity.X = -1f;
                     else
                         velocity.X = 1f;
+                    gravityActive = true;
+                    isStanding = false;
                 }
                 else
                 {
@@ -190,11 +195,11 @@ namespace Reggie.Enemies
             }
            // calculateCharge = true;
         }
-        public override void DrawProjectile(SpriteBatch spriteBatch, Color color, Texture2D enemyTexture)
+        public override void DrawProjectile(SpriteBatch spriteBatch, Color color)
         {
             foreach(var projectile in projectileList)
             {
-                spriteBatch.Draw(enemyTexture,new Vector2(projectile.collisionRectangle.Left,projectile.collisionRectangle.Top), color);
+                spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left,projectile.collisionRectangle.Top), color);
             }
         }
     }
