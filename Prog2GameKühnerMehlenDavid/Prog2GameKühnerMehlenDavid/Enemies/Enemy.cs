@@ -33,6 +33,12 @@ namespace Reggie.Enemies
         protected float movementDirectionGone;
         protected bool leftFootAir;
         protected bool rightFootAir;
+
+        //MUSIC
+        AudioManager audioManager;
+        
+
+
         protected float attackDamage;
         #endregion
 
@@ -69,7 +75,10 @@ namespace Reggie.Enemies
             enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.Z), (int)(enemyAggroAreaSize.W));
             collisionBoxSize = new Vector2(enemySize.X, enemySize.Y);
             movementDirectionGone = 0;
-       
+
+            //MUSIC
+            audioManager = AudioManager.AudioManagerInstance();
+
         }
 
         public virtual void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
@@ -360,6 +369,7 @@ namespace Reggie.Enemies
                 pressedRightKey = false;
                 pressedLeftKey = true;
             }
+            audioManager.Play("ReggieAttackHits");
             ReduceEnemyHP();
         }
 
