@@ -24,9 +24,9 @@ namespace Reggie.Menus {
 
         public Options()
         {
-            globalVolumeSlider = new Slider(100, new Vector2(1300,250));
-            musicVolumeSlider = new Slider(100, new Vector2(1300, 410));
-            soundEffectsVolumeSlider = new Slider(100, new Vector2(1300, 560));
+            globalVolumeSlider = new Slider(370, new Vector2(1300,250));
+            musicVolumeSlider = new Slider(370, new Vector2(1300, 410));
+            soundEffectsVolumeSlider = new Slider(370, new Vector2(1300, 560));
             buttonPressed = false;
             musicPlaying = false;
             audioManager = AudioManager.AudioManagerInstance();
@@ -76,10 +76,11 @@ namespace Reggie.Menus {
                 buttonPressed = true;
             }
 
+
             switch (currentState)
             {
                 case OptionsStates.GLOBAL:
-                    audioManager.Break("Reggie_Music_Soundeffect");
+                    //audioManager.Break("Reggie_Music_Soundeffect");
                     if (GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
                     {
                         globalVolumeSlider.changeCurrentState(-5);
@@ -90,6 +91,7 @@ namespace Reggie.Menus {
                     }
                     break;
                 case OptionsStates.MUSIC:
+                    audioManager.Play("Reggie_Music_Soundeffect");
                     if (!musicPlaying)
                     {
                         audioManager.Play("Reggie_Music_Soundeffect");
@@ -106,7 +108,7 @@ namespace Reggie.Menus {
                     }
                     break;
                 case OptionsStates.SOUND:
-                    audioManager.Break("Reggie_Music_Soundeffect");
+                    //audioManager.Break("Reggie_Music_Soundeffect");
                     if (GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
                     {
                         soundEffectsVolumeSlider.changeCurrentState(-5);
@@ -121,21 +123,25 @@ namespace Reggie.Menus {
                 case OptionsStates.BACK:
                     if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed)
                     {
+                        buttonPressed = true;
                         mainMenu.getBackToMainMenu();
 
                     }
                     break;
-                    
             }
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f)
+
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f && GamePad.GetState(0).IsButtonUp(Buttons.A))
             {
                 buttonPressed = false;
             }
 
+
             globalVolumeSlider.moveSlider();
-            //AudioManager.AudioManagerInstance().globalVolume = globalVolumeSlider.getCurrentState();
+            audioManager.globalVolume = globalVolumeSlider.getCurrentState();
             musicVolumeSlider.moveSlider();
+            audioManager.musicVolume = musicVolumeSlider.getCurrentState();
             soundEffectsVolumeSlider.moveSlider();
+            audioManager.soundVolume = soundEffectsVolumeSlider.getCurrentState();
         }
     }
 }

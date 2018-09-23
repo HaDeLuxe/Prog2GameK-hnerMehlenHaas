@@ -31,7 +31,7 @@ namespace Reggie.Menus
         {
             //keyboardState = Keyboard.GetState().GetPressedKeys();
 
-            if (Keyboard.GetState().GetPressedKeys().Count() > 0)
+            if (Keyboard.GetState().GetPressedKeys().Count() > 0||GamePad.GetState(0).IsButtonDown(Buttons.A) || GamePad.GetState(0).IsButtonDown(Buttons.B) || GamePad.GetState(0).IsButtonDown(Buttons.X) || GamePad.GetState(0).IsButtonDown(Buttons.Y))
                 Game1.currentGameState = Game1.GameState.MAINMENU;
            
         }

@@ -15,7 +15,7 @@ namespace Reggie.Enemies
         public Vector4 enemyAggroAreaSize;
         protected float attackRange;
         protected Player worm;
-        protected int enemyHP;
+        protected float enemyHP;
         protected bool stillAlive;
         protected bool knockedBack;
         protected float knockBackValue;
@@ -385,10 +385,10 @@ namespace Reggie.Enemies
 
 
 
-        public void ReduceEnemyHP()
+        public void ReduceEnemyHP(float playerDamage)
         {
             if (stillAlive)
-                enemyHP--;
+                enemyHP -= playerDamage;
             if(enemyHP < 1)
                 stillAlive = false;  
         }
@@ -398,7 +398,7 @@ namespace Reggie.Enemies
             return stillAlive;
         }
 
-        public void KnockBackPosition(bool knockBackDirectionRight)
+        public void KnockBackPosition(bool knockBackDirectionRight, float playerDamage)
         {
             knockedBack = true;
             isStanding = false;
@@ -416,7 +416,7 @@ namespace Reggie.Enemies
                 pressedLeftKey = true;
             }
             audioManager.Play("ReggieAttackHits");
-            ReduceEnemyHP();
+            ReduceEnemyHP(playerDamage);
         }
 
         public void resetBasicValues()

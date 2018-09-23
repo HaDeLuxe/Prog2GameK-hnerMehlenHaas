@@ -54,7 +54,7 @@ namespace Reggie
         FrameCounter frameCounter = new FrameCounter();
         SpriteFont font;
         Camera camera = new Camera();
-        ItemUIManager gameManager;
+        ItemUIManager itemUIManager;
         Levels levelManager;
         Minimap minimap;
         LoadAndSave loadAndSave;
@@ -65,6 +65,7 @@ namespace Reggie
 
         //for switching LevelEditor
         public static KeyboardState previousState;
+        public GamePadState previousGamePadState;
 
         SplashScreen splashScreen;
         MainMenu mainMenu;
@@ -122,7 +123,7 @@ namespace Reggie
             splashScreen = new SplashScreen();
             mainMenu = new MainMenu();
             gameMenu = new GameMenu();
-            gameManager = new ItemUIManager();
+            itemUIManager = new ItemUIManager();
             minimap = new Minimap();
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
 
@@ -246,7 +247,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
                     break;
 
                 case GameState.GAMELOOP:
@@ -262,7 +263,7 @@ namespace Reggie
                    
                     //switch to LevelEditor
                     levelManager.ManageLevels(wormPlayer.gameObjectPosition);
-                    gameManager.ManageItems(ref wormPlayer, ref levelObjectList);
+                    itemUIManager.ManageItems(ref wormPlayer, ref levelObjectList);
                     if (currentGameState == GameState.GAMELOOP)
                     {
                         //cameraOffset = new Vector2(0, 0);
@@ -271,10 +272,11 @@ namespace Reggie
                         //previousState = Keyboard.GetState();
                         if (Keyboard.GetState().IsKeyDown(Keys.M) && !previousState.IsKeyDown(Keys.M) && levelManager.currentLevel != Enums.Level.TUTORIAL)
                             currentGameState = GameState.MINIMAP;
-                        if (Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P))
+                        if ((Keyboard.GetState().IsKeyDown(Keys.P) && !previousState.IsKeyDown(Keys.P)) || (GamePad.GetState(0).IsButtonDown(Buttons.Start) && !previousGamePadState.IsButtonDown(Buttons.Start)))
                             currentGameState = GameState.GAMEMENU;
                            
                         previousState = Keyboard.GetState();
+                        previousGamePadState = GamePad.GetState(0);
                     }
 
                     if (shopKeeper.shopOpen == true)
@@ -288,9 +290,10 @@ namespace Reggie
 
                     }
 
+
                     camera.SpawnEnemyOffScreen(wormPlayer, enemySpawnList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -363,8 +366,8 @@ namespace Reggie
                                 if (platformSprite.IsThisAVisibleObject())
                                     platformSprite.DrawSpriteBatch(spriteBatch);
 
-                            if (levelManager.currentLevel == Enums.Level.TUTORIAL)
-                            {
+                            //if (levelManager.currentLevel == Enums.Level.TUTORIAL)
+                            //{
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
                                     enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].collisionBoxSize.X), (int)(enemyList[i].collisionBoxSize.Y));
@@ -377,7 +380,7 @@ namespace Reggie
                                     enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                     if (enemyList[i].objectID == (int)Enums.ObjectsID.SPIDER)
                                         enemyList[i].DrawProjectile(spriteBatch, Color.White);
-                                }
+                               // }
                             }
 
                             //This draws the player
@@ -400,7 +403,7 @@ namespace Reggie
                             wormPlayer.drawUpdate(levelObjectList, ref ingameMenus);
 
                             //This draws the UI
-                            gameManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP(), font);
+                            itemUIManager.drawUI(texturesDictionary,spriteBatch,transformationMatrix,GraphicsDevice, wormPlayer.PlayersCurrentHP(), font);
                             if(levelManager.currentLevel != Enums.Level.TUTORIAL)
                                 minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
@@ -472,16 +475,19 @@ namespace Reggie
                     interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
                     cornnencyList.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
+                    enemySpawnList.Add(allGameObjectList[i] as Platform);
+                //if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.SPIDERWEB)
+                //    interactiveObject.Add(allGameObjectList[i]);
+                
+            }
 
-
-
-                foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
-                {
-                    if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
-                        enemySpawnList.Add(platform);
-                    if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
-                        interactiveObject.Add(platform);
-                }
+            foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
+            {
+                if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
+                    enemySpawnList.Add(platform);
+                if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
+                    interactiveObject.Add(platform);
             }
         }
 

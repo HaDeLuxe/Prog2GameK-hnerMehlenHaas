@@ -68,23 +68,26 @@ namespace Reggie
                 {
                     if (platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750)
                         platformList[i].enemySpawnCheck = true;
-                    if ((platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1250 && platformList[i].gameObjectPosition.X > wormPlayer.gameObjectPosition.X + 950) || (platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1250 && platformList[i].gameObjectRectangle.Right < wormPlayer.gameObjectPosition.X - 950)
-                        && (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 1000 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 1000 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
+                    if ((platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1000 && platformList[i].gameObjectPosition.X > wormPlayer.gameObjectPosition.X + 950) || (platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1000 && platformList[i].gameObjectRectangle.Right < wormPlayer.gameObjectPosition.X - 950)
+                        && (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 600 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 600 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
                     {
-                         platformList[i].enemySpawnCheck = true;
-                        Random rand = new Random();
-
-                        int randomizedNumber = rand.Next(0, 100);
-                        //if (randomizedNumber % 2 == 0 && platformList[i].canSpawnEnemy)
-                        if(enemyList.Count ==0)
+                        if(enemyList.Count() < 10)
                         {
-                            if (currentLevel == Enums.Level.TUTORIAL)
-                            
-                                enemyList.Add(new Spider(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.SPIDER, enemySpriteSheets));
+                            platformList[i].enemySpawnCheck = true;
+                            Random rand = new Random();
 
-                            if(enemyList.Count() != 0) 
-                            enemyList.Last().SetPlayer(wormPlayer);
+                            int randomizedNumber = rand.Next(0, 100);
+                            if (randomizedNumber % 5 == 0 && platformList[i].canSpawnEnemy)
+                            {
+                                //if (currentLevel == Enums.Level.TUTORIAL)
+                                enemyList.Add(new Snail(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.SNAIL, enemySpriteSheets));
+
+                                if (enemyList.Count() != 0)
+                                    enemyList.Last().SetPlayer(wormPlayer);
+
+                            }
                         }
+                        
                     }
                 }
             }
