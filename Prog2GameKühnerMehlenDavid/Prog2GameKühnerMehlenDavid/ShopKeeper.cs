@@ -73,6 +73,7 @@ namespace Reggie
             currentDrawnTextBoxesCount = 0;
             boxPopUpCooldown = 5;
             everySecondTime = 0;
+            temp = "";
         }
 
         internal void DrawShopKeeper(SpriteBatch spriteBatch, GameTime gameTime, Dictionary<string, Texture2D> texturesDictionary, Matrix transformationMatrix, SpriteFont font, Levels levelManager)
