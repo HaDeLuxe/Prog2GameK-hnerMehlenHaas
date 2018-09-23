@@ -2050,7 +2050,7 @@ tileBlue_01,-4992,7552
 tileBlue_01,-4992,7616
 tileBlue_01,-4992,7488
 tileBlue_17,-5056,7424
-tileBlue_18,-4928,7423,898
+tileBlue_18,-4928,7423
 tileBlue_03,-4992,7424
 tileBlue_02,-5312,7744
 tileBlue_15,-5312,7808
@@ -3044,7 +3044,8 @@ tileBlue_01,704,3712
 tileBlue_01,640,3840
 tileBlue_01,460,3435
 tileBlue_01,576,3520
-Playerposition, -5224,4784
+CORNNENCY,2600,4225
+Playerposition, 3690,4400
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,False
@@ -3052,4 +3053,4 @@ JumpPotionBOOL, False
 PowerPotionBOOL, False
 ScissorsBOOL, False
 ShovelBOOL, False
-GoldenUmbrellaBOOL, True
+GoldenUmbrellaBOOL, False

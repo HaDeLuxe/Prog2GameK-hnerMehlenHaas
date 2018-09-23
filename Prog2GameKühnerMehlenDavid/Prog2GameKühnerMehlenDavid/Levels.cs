@@ -369,6 +369,8 @@ namespace Reggie {
             spriteBatch.Draw(texturesDictionary["Interlevel_2"], new Vector2(2048,2048), null, Color.White, 0f,Vector2.Zero, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(texturesDictionary["Interlevel_3"], new Vector2(4096, 2048), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             spriteBatch.Draw(texturesDictionary["Interlevel_4"], new Vector2(4096, 4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+
+            spriteBatch.Draw(texturesDictionary["Interlevel_5"], new Vector2(0, 4096), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
