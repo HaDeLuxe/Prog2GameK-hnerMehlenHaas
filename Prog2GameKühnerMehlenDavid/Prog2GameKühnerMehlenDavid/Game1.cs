@@ -367,15 +367,15 @@ namespace Reggie
                             {
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
-                                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].enemyAggroAreaSize.Z), (int)(enemyList[i].enemyAggroAreaSize.W));
-                                    //colordata = new Color[(int)((enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z))];
-                                    //for (int j = 0; j < (enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z); j++)
-                                    //    colordata[j] = Color.White;
-                                    //enemytexture.SetData<Color>(colordata);
-                                    //enemyaggroposition = new Vector2(enemyList[i].enemyAggroArea.X, enemyList[i].enemyAggroArea.Y);
-                                    //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                                    enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].collisionBoxSize.X), (int)(enemyList[i].collisionBoxSize.Y));
+                                    colordata = new Color[(int)((enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y))];
+                                    for (int j = 0; j < (enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y); j++)
+                                        colordata[j] = Color.White;
+                                    enemytexture.SetData<Color>(colordata);
+                                    enemyaggroposition = new Vector2(enemyList[i].collisionRectangle.Left, enemyList[i].collisionRectangle.Top);
+                                    spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                                     enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
-                                    if (enemyList[i].objectID == (int)Enums.ObjectsID.SNAIL)
+                                    if (enemyList[i].objectID == (int)Enums.ObjectsID.SPIDER)
                                         enemyList[i].DrawProjectile(spriteBatch, Color.White);
                                 }
                             }

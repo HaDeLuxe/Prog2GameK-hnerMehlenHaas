@@ -38,7 +38,9 @@ namespace Reggie
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
-
+        public float invincibilityFixedTimer { get;  set; }
+        public bool playerSlowed { get; set; }
+        private float defaultJumpValue;
         //MUSIC
         AudioManager audioManager;
         bool justTouchedBottom;
@@ -76,6 +78,8 @@ namespace Reggie
             playerGameElementInteraction = false;
             invincibilityFrames = false;
             knockedBack = false;
+            playerSlowed = false;
+            invincibilityFixedTimer = 5f;
             //changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             changeCollisionBox = new Vector2(0, 0);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
@@ -83,6 +87,7 @@ namespace Reggie
             playerHP = 1f;
             movementSpeed = 10f;
             jumpSpeed = -20f;
+            defaultJumpValue = -20f;
             invincibilityTimer = 0;
             attackTimer = 0;
 
@@ -93,6 +98,8 @@ namespace Reggie
 
         internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper)
         {
+            if (!playerSlowed)
+                movementSpeed = 10f;
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
             else
@@ -494,7 +501,7 @@ namespace Reggie
                 isStanding = false;
                 gravityActive = true;
                 if (firstJump == false || secondJump == false)
-                    jumpSpeed = -20f;
+                    jumpSpeed = defaultJumpValue;
                 PlayerJump();
 
                 //MUSIC
@@ -794,6 +801,21 @@ namespace Reggie
                 audioManager.Play("AnnouncerInsult");
             }
         }
+        public void ReducePlayerHP(float damage, float decreaseSpeed)
+        {
+            if (playerHP > 0)
+            {
+                movementSpeed = decreaseSpeed;
+                playerSlowed = true;
+                playerHP -= damage;
+                audioManager.Play("ReggieHurt");
+            }
+            else
+            {
+                stillAlive = false;
+                audioManager.Play("AnnouncerInsult");
+            }
+        }
 
         public float PlayersCurrentHP()
         {
@@ -808,12 +830,15 @@ namespace Reggie
         public void InvincibleFrameState(GameTime gameTime)
         {
             invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(invincibilityTimer > 5f)
+            if(invincibilityTimer > invincibilityFixedTimer)
             {
                 invincibilityTimer = 0;
                 invincibilityFrames = false;
+                playerSlowed = false;
+                invincibilityFixedTimer = 5f;
             }
         }
+      
 
         //public void KnockBackPosition(bool knockBackDirectionRight, float knockvalue)
         //{

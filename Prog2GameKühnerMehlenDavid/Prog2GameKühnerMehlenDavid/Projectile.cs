@@ -60,11 +60,11 @@ namespace Reggie
                     chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
                     chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
                     if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) != 0)
-                        chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 6;
+                        chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 7;
                     if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) > 0)
-                        chargingVector.X = 6;
+                        chargingVector.X = 7;
                     else
-                        chargingVector.X = -6;
+                        chargingVector.X = -7;
                 }
                 // calculateCharge = true;
                 velocity = chargingVector;
@@ -111,7 +111,11 @@ namespace Reggie
                 if (!worm.invincibilityFrames)
                 {
                     worm.invincibilityFrames = true;
-                    worm.ReducePlayerHP(damage);
+                    worm.invincibilityFixedTimer = 3f;
+                    if (objectID == (int)Enums.ObjectsID.SPIDER)
+                        worm.ReducePlayerHP(damage, 6f);
+                    else
+                        worm.ReducePlayerHP(damage);
                 }
                 stillExist = false;
             }
