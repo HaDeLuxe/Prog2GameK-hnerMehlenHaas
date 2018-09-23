@@ -2044,7 +2044,7 @@ tileBlue_01,-4992,7552
 tileBlue_01,-4992,7616
 tileBlue_01,-4992,7488
 tileBlue_17,-5056,7424
-tileBlue_18,-4928,7423
+tileBlue_18,-4928,7424
 tileBlue_03,-4992,7424
 tileBlue_02,-5312,7744
 tileBlue_15,-5312,7808
@@ -2213,7 +2213,6 @@ tileBlue_03,-4352,4480
 tileBlue_03,-4160,4480
 tileBlue_03,-4288,4480
 tileBlue_03,-4224,4480
-tileBlue_03,-3846,5191
 tileBlue_03,-4160,5504
 tileBlue_03,-4096,5504
 tileBlue_03,-4032,5504
@@ -3222,7 +3221,7 @@ CORNNENCY,-1920,7360
 ENEMYSPAWNPOINT,-2112,7104
 ENEMYSPAWNPOINT,-2368,7104
 CORNNENCY,-3520,7232
-Playerposition, -2654,6576
+Playerposition, -4130,5424
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,True

@@ -364,8 +364,8 @@ namespace Reggie
                                 if (platformSprite.IsThisAVisibleObject())
                                     platformSprite.DrawSpriteBatch(spriteBatch);
 
-                            if (levelManager.currentLevel == Enums.Level.TUTORIAL)
-                            {
+                            //if (levelManager.currentLevel == Enums.Level.TUTORIAL)
+                            //{
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
                                     //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].enemyAggroAreaSize.Z), (int)(enemyList[i].enemyAggroAreaSize.W));
@@ -378,7 +378,7 @@ namespace Reggie
                                     enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                     if (enemyList[i].objectID == (int)Enums.ObjectsID.SNAIL)
                                         enemyList[i].DrawProjectile(spriteBatch, Color.White);
-                                }
+                               // }
                             }
 
                             //This draws the player
@@ -475,17 +475,17 @@ namespace Reggie
                     cornnencyList.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
                     enemySpawnList.Add(allGameObjectList[i] as Platform);
-                if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.SPIDERWEB)
-                    interactiveObject.Add(allGameObjectList[i]);
+                //if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.SPIDERWEB)
+                //    interactiveObject.Add(allGameObjectList[i]);
+                
+            }
 
-
-                //foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
-                //{
-                //    if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
-                //        enemySpawnList.Add(platform);
-                //    if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
-                //        interactiveObject.Add(platform);
-                //}
+            foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
+            {
+                if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
+                    enemySpawnList.Add(platform);
+                if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
+                    interactiveObject.Add(platform);
             }
         }
 

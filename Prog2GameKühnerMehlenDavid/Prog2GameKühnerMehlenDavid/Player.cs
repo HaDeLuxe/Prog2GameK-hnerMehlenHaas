@@ -632,7 +632,7 @@ namespace Reggie
             {
                 foreach(var vine in interactiveObject)
                 {
-                    if(DetectCollision(vine))
+                    if(DetectCollision(vine) )
                     {
                         jumpSpeed = 0;
                         gravityActive = false;
@@ -660,9 +660,13 @@ namespace Reggie
                 velocity.Y = -movementSpeed - 2;
                 foreach (var vine in interactiveObject)
                 {
-                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
-                    if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top+30)
-                        climbAllowed = true;
+                    if(Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 20)
+                    {
+                        collisionBoxPosition.X = vine.gameObjectRectangle.X;
+                        if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top + 30)
+                            climbAllowed = true;
+
+                    }
                 }
                 if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
                 {
@@ -680,9 +684,13 @@ namespace Reggie
                 velocity.Y = movementSpeed + 2;
                 foreach (var vine in interactiveObject)
                 {
-                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
-                    if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom-80)
-                        climbAllowed = true;
+                    if (Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 20)
+                    {
+                        collisionBoxPosition.X = vine.gameObjectRectangle.X;
+                        if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom - 80)
+                            climbAllowed = true;
+
+                    }
                 }
                 if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
                 {
