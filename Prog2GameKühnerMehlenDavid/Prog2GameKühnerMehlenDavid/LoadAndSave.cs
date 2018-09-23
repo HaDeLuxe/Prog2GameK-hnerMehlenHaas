@@ -67,6 +67,14 @@ namespace Reggie
 
             Texture2D InterLevel_1 = Content.Load<Texture2D>("Images\\World\\Inter\\Interlevel_1");
             texturesDictionnary.Add("Interlevel_1", InterLevel_1);
+            Texture2D interlevel_2 = Content.Load<Texture2D>("Images\\World\\Inter\\Interlevel_2");
+            texturesDictionary.Add("Interlevel_2", interlevel_2);
+            Texture2D interlevel_3 = Content.Load<Texture2D>("Images\\World\\Inter\\Interlevel_3");
+            texturesDictionary.Add("Interlevel_3", interlevel_3);
+            Texture2D interGround = Content.Load<Texture2D>("Images\\World\\Inter\\Inter_Ground");
+            texturesDictionary.Add("Inter_Ground", interGround);
+            Texture2D interlevel_4 = Content.Load<Texture2D>("Images\\World\\Inter\\Interlevel_4");
+            texturesDictionary.Add("Interlevel_4", interlevel_4);
         }
 
 
