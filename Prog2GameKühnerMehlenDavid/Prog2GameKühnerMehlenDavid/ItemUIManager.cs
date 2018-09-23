@@ -55,6 +55,37 @@ namespace Reggie {
         //    return currentItemEquipped.objectID;
         //}
 
+        public int RemoveObject()
+        {
+            if(currentPotionEquipped == healthPotion)
+            {
+                if (healthPotionsCount > 0)
+                {
+                    healthPotionsCount--;
+                    return healthPotion.objectID;
+                }
+                else healthPickedUp = false;
+            }
+            if(currentPotionEquipped == powerPotion)
+            {
+                if (powerPotionsCount > 0)
+                {
+                    powerPotionsCount--;
+                    return powerPotion.objectID;
+                }
+                else powerPickedUp = false;
+            }
+            if(currentPotionEquipped == jumpPotion)
+            {
+                if (jumpPotionsCount > 0)
+                {
+                    jumpPotionsCount--;
+                    return jumpPotion.objectID;
+                }
+                else jumpPickedUp = false;
+            }
+            return 0;
+        }
 
         private void DestroyGameItem(Enums.ObjectsID ObjectID, ref List<GameObject> GameObjectList) {
             for(int i = 0; i < GameObjectList.Count(); i++)

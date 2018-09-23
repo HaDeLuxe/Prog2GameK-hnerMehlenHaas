@@ -38,6 +38,7 @@ namespace Reggie
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
+        public float playerDamage;
 
         //MUSIC
         AudioManager audioManager;
@@ -76,6 +77,7 @@ namespace Reggie
             playerGameElementInteraction = false;
             invincibilityFrames = false;
             knockedBack = false;
+            playerDamage = 1;
             //changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             changeCollisionBox = new Vector2(0, 0);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
@@ -91,14 +93,14 @@ namespace Reggie
             justTouchedBottom = true;
         }
 
-        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
         {
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
             if(!shopKeeper.shopOpen)
-            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper);
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper, itemUIManager);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
             ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager, ref allGameObjects);
@@ -348,8 +350,28 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
         {
+
+            //using item:
+            if((Keyboard.GetState().IsKeyDown(Keys.F) || GamePad.GetState(0).IsButtonUp(Buttons.B)) && !previousState.IsKeyDown(Keys.B) && previousGamepadState.IsButtonDown(Buttons.B))
+            {
+                int temp = itemUIManager.RemoveObject();
+                if(temp == (int)Enums.ObjectsID.HEALTHPOTION)
+                {
+                    playerHP += 0.1f;
+                    if (playerHP >= 1f) playerHP = 1f;
+                }
+                if(temp == (int)Enums.ObjectsID.POWERPOTION)
+                {
+                    playerDamage *= 2;
+                }
+                if(temp == (int)Enums.ObjectsID.JUMPPOTION)
+                {
+                    jumpSpeed -= 100;
+                }
+            }
+
 
             mouseState = Mouse.GetState();
             if (!firstJump && !secondJump)
@@ -610,8 +632,8 @@ namespace Reggie
                         if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true && !enemy.invincibilityFrames)
                         {
                             enemy.invincibilityFrames = true;
-                            //worm.KnockBackPosition(facingDirectionRight, 35);
-                            enemy.KnockBackPosition(facingDirectionRight);
+                            enemy.KnockBackPosition(facingDirectionRight, playerDamage);
+                            //enemy.KnockBackPosition(facingDirectionRight);
                         }
                     }
                 }
