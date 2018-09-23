@@ -66,6 +66,10 @@ namespace Reggie
         SoundEffect shopkeeper_Reggie_Bought_Something;
         SoundEffect reggie_Attacks;
 
+        public float musicVolume { set; get; } = 1f;
+        public float soundVolume { set; get; } = 1f;
+        public float globalVolume { set; get; } = 1f;
+
         //Not a temp variable makes Move Sound Breakable
         SoundEffectInstance reggieMovesSound;
 
@@ -90,11 +94,12 @@ namespace Reggie
         //Plays The Song or Sound you call him with a Keyword
         public void Play(string s)
         {
+            SoundEffect.MasterVolume = 1.0f * globalVolume * soundVolume;
             if (s.Equals("IngameMusic"))
             {
                 MediaPlayer.Play(reggie_Ingame_Music);
                 MediaPlayer.IsRepeating = true;
-                MediaPlayer.Volume = 0.1f;
+                MediaPlayer.Volume = 10f * musicVolume * globalVolume;
             }
             if (s.Equals("ReggieJump")&& reggie_Jump_Timer>0.1f)
             {
@@ -296,6 +301,8 @@ namespace Reggie
         //Gets updated via update function in Game1
         public void UpdateAudioManagerTimer(GameTime gameTime)
         {
+
+           
             //float nextTimerValue = 0; //--> danach nurnoch wertzuweisungen?
 
             AnnouncerInsult_Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;

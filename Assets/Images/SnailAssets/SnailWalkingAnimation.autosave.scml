@@ -32,7 +32,7 @@
         <obj_info name="bone_012" type="bone" w="37.5783" h="10"/>
         <obj_info name="bone_013" type="bone" w="58.9194" h="10"/>
         <obj_info name="bone_010" type="bone" w="209.273" h="10"/>
-        <animation id="0" name="Normal Walking" length="1000" interval="100">
+        <animation id="0" name="Normal Walking" length="1000" interval="100" l="-238" t="-220" r="261" b="84">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>
@@ -204,7 +204,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="Attack_Aggressive" length="1000" interval="100">
+        <animation id="1" name="Attack_Aggressive" length="1000" interval="100" l="-238" t="-220" r="261" b="84">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>
@@ -492,7 +492,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="2" name="Aggressive Walking" length="1000" interval="100">
+        <animation id="2" name="Aggressive Walking" length="1000" interval="100" l="-238" t="-220" r="261" b="84">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="13" key="0"/>
@@ -712,7 +712,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="3" name="TransformFromNormalToSickNICE" length="1000" interval="100">
+        <animation id="3" name="TransformFromNormalToSickNICE" length="1000" interval="100" l="-238" t="-220" r="261" b="84">
             <mainline>
                 <key id="0">
                     <bone_ref id="0" timeline="0" key="0"/>

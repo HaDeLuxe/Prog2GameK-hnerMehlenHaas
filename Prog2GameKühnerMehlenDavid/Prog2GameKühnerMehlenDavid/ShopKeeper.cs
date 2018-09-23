@@ -27,7 +27,7 @@ namespace Reggie
         float timer;
         float boxPopUpCooldown;
 
-        string temp;
+        string temp = "";
 
         //ButtonStuff
         Enums.ShopKeeperItemButtons currentButton;
@@ -95,7 +95,7 @@ namespace Reggie
             if (timer > boxPopUpCooldown)
             {
                 everySecondTime++;
-
+                temp = "";
                 if (everySecondTime == 2)
                 {
                     temp = "";
