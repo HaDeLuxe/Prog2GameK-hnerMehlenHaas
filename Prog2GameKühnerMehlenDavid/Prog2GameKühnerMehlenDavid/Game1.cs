@@ -288,6 +288,7 @@ namespace Reggie
 
                     }
 
+
                     camera.SpawnEnemyOffScreen(wormPlayer, enemySpawnList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper);
@@ -472,16 +473,19 @@ namespace Reggie
                     interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
                     cornnencyList.Add(allGameObjectList[i]);
+                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
+                    enemySpawnList.Add(allGameObjectList[i] as Platform);
+                if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.SPIDERWEB)
+                    interactiveObject.Add(allGameObjectList[i]);
 
 
-
-                foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
-                {
-                    if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
-                        enemySpawnList.Add(platform);
-                    if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
-                        interactiveObject.Add(platform);
-                }
+                //foreach (Platform platform in allGameObjectList.Cast<GameObject>().OfType<Platform>())
+                //{
+                //    if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
+                //        enemySpawnList.Add(platform);
+                //    if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
+                //        interactiveObject.Add(platform);
+                //}
             }
         }
 

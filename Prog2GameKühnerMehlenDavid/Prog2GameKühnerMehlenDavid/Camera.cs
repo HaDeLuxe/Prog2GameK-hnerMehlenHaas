@@ -81,8 +81,9 @@ namespace Reggie
                             
                                 enemyList.Add(new Snail(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.SNAIL, enemySpriteSheets));
 
-                            if(enemyList.Count() != 0) 
-                            enemyList.Last().SetPlayer(wormPlayer);
+                                if (enemyList.Count() != 0)
+                                    enemyList.Last().SetPlayer(wormPlayer);
+                            
                         }
                     }
                 }
