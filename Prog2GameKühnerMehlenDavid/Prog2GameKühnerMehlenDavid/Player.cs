@@ -384,7 +384,7 @@ namespace Reggie
                 }
                 if(temp == (int)Enums.ObjectsID.JUMPPOTION)
                 {
-                    defaultJumpValue = -40f;
+                    defaultJumpValue = -22f;
                 }
             }
 
