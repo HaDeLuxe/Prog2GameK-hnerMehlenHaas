@@ -628,6 +628,7 @@ tileBrown_07,9920,1024
 tileBrown_07,9792,1024
 tileBrown_06,9728,1024
 tileBrown_03,9664,1408
+tileBrown_03,9536,1408
 tileBrown_03,9408,1408
 tileBrown_03,9280,1408
 tileBrown_03,9152,1408
@@ -641,6 +642,7 @@ tileBrown_02,9856,1280
 tileBrown_02,9920,1216
 tileBrown_15,9920,1280
 tileBrown_15,9984,1216
+ENEMYSPAWNPOINT,9536,1407
 ENEMYSPAWNPOINT,9664,1408
 ENEMYSPAWNPOINT,9152,1408
 ENEMYSPAWNPOINT,9280,1408
@@ -797,7 +799,7 @@ tileBrown_03,7872,1472
 VINE,7680,1408
 VINE,7680,1344
 VINE,7680,1280
-VINE,7552,1088
+VINE,7616,1152
 tileBrown_01,7872,1151
 tileBrown_01,7808,1087
 tileBrown_04,8064,1472
@@ -813,7 +815,7 @@ tileBrown_01,7872,1215
 tileBrown_16,8000,1151
 tileBrown_16,7936,1087
 tileBrown_04,8000,1087
-tileBrown_01,7552,1088
+tileBrown_01,8000,1215
 tileBrown_01,7936,1151
 tileBrown_04,7936,1023
 tileBrown_01,7808,959
@@ -828,9 +830,9 @@ tileBrown_01,7616,1472
 tileBrown_01,7616,1344
 tileBrown_01,7616,1408
 tileBrown_01,7616,1280
-tileBrown_01,7552,1152
+tileBrown_01,7616,1216
 tileBrown_01,7808,768
-tileBrown_01,7552,1152
+tileBrown_01,7616,1152
 VINE,7680,1216
 VINE,7680,1152
 VINE,7680,1088
@@ -841,8 +843,8 @@ VINE,7680,832
 tileBrown_01,7808,831
 tileBrown_01,7808,895
 tileBrown_01,7808,767
-tileBrown_01,7552,960
-tileBrown_01,7552,1088
+tileBrown_01,7616,1024
+tileBrown_01,7616,1088
 tileBrown_01,7616,831
 tileBrown_01,7616,896
 tileBrown_01,7616,960
@@ -2042,7 +2044,7 @@ tileBlue_01,-4992,7552
 tileBlue_01,-4992,7616
 tileBlue_01,-4992,7488
 tileBlue_17,-5056,7424
-tileBlue_18,-4928,7424
+tileBlue_18,-4928,7423
 tileBlue_03,-4992,7424
 tileBlue_02,-5312,7744
 tileBlue_15,-5312,7808
@@ -2125,6 +2127,7 @@ tileBlue_15,-3712,4928
 tileBlue_02,-3712,4864
 tileBlue_02,-3776,4928
 tileBlue_03,-3648,4864
+tileBlue_02,-3840,5184
 tileBlue_02,-3904,5376
 tileBlue_15,-3776,5184
 tileBlue_15,-3840,5376
@@ -2210,6 +2213,7 @@ tileBlue_03,-4352,4480
 tileBlue_03,-4160,4480
 tileBlue_03,-4288,4480
 tileBlue_03,-4224,4480
+tileBlue_03,-3846,5191
 tileBlue_03,-4160,5504
 tileBlue_03,-4096,5504
 tileBlue_03,-4032,5504
@@ -3219,29 +3223,11 @@ ENEMYSPAWNPOINT,-2112,7104
 ENEMYSPAWNPOINT,-2368,7104
 CORNNENCY,-3520,7232
 CORNNENCY,2600,4225
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7956,1119
-tileBrown_01,7552,1152
-tileBrown_01,7552,1152
-tileBrown_01,7616,1088
-tileBrown_01,7616,1024
-tileBrown_01,7616,1216
-tileBrown_01,7616,1152
-tileBlue_02,-3840,5184
-tileBrown_03,9536,1408
-ENEMYSPAWNPOINT,9536,1408
-Playerposition, 3728,4400
+APPLE,-3456,4672
+Playerposition, -3414,4720
 ArmorBOOL, False
 HelmetBOOL, False
-HealthPotionBOOL,False
+HealthPotionBOOL,True
 JumpPotionBOOL, False
 PowerPotionBOOL, False
 ScissorsBOOL, False
