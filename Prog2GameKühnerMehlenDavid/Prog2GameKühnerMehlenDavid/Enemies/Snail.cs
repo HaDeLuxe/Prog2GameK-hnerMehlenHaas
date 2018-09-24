@@ -14,12 +14,13 @@ namespace Reggie.Enemies
         private AnimationManagerEnemy animationManager;
         private List<Projectile> projectileList;
         private bool alreadyShot;
+        public Vector2 project;
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 200;
+            enemyHP = 5;
             movementSpeed = 3f;
-            knockBackValue = 10f;
+            knockBackValue = 30f;
             attackDamage = 0.09f;
             attackRange = 400f;
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
@@ -57,7 +58,7 @@ namespace Reggie.Enemies
                     attackAction = true;
                 else
                     attackAction = false;
-             
+               // if (!DetectPlayer())
                     EnemyNeutralBehaviour(gameObjectList);
             }
             if (attackAction)
@@ -107,7 +108,7 @@ namespace Reggie.Enemies
                     facingDirectionRight = true;
                 if (facingDirectionRight && !alreadyShot)
                 {
-                    projectileList.Add(new Projectile(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(111, 93), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y-10), (int)Enums.ObjectsID.SNAIL));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;

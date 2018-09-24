@@ -33,6 +33,7 @@ namespace Reggie.Enemies
         protected float movementDirectionGone;
         protected bool leftFootAir;
         protected bool rightFootAir;
+        protected bool meleeAttack;
 
         //MUSIC
         AudioManager audioManager;
@@ -67,6 +68,7 @@ namespace Reggie.Enemies
             invincibilityTimer = 0;
             leftFootAir = false;
             rightFootAir = false;
+            meleeAttack = false;
             // objectID = (int)Enums.ObjectsID.ENEMY;
             //Position = new Vector2(900, 200);
             changeCollisionBox = new Vector2(0, 0);
@@ -139,6 +141,8 @@ namespace Reggie.Enemies
                     collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
                     pressedLeftKey = false;
                     pressedRightKey = false;
+                    if (objectID == (int)Enums.ObjectsID.SPIDER && worm.playerSlowed)
+                        velocity.Y = -10f;
                 }
                 else if (velocity.X < 0 && IsTouchingRightSide(platform))
                 {
@@ -147,6 +151,8 @@ namespace Reggie.Enemies
                     collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
                     pressedLeftKey = false;
                     pressedRightKey = false;
+                    if (objectID == (int)Enums.ObjectsID.SPIDER && worm.playerSlowed)
+                        velocity.Y = -10f;
                 }
                 else if (IsTouchingBottomSide(platform, gravity))
                 {
@@ -229,6 +235,10 @@ namespace Reggie.Enemies
                 pressedRightKey = false;
                 pressedLeftKey = true;
                 velocity.X = -movementSpeed;
+                if (Math.Abs(collisionRectangle.Left - worm.collisionRectangle.Right) < worm.collisionBoxSize.X*2)
+                {
+                    meleeAttack = true;
+                }
             }
             else if (enemyAggroArea.Right + velocity.X - enemyAggroAreaSize.X < worm.collisionRectangle.Left &&
                 enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
@@ -239,6 +249,8 @@ namespace Reggie.Enemies
                 pressedLeftKey = false;
                 pressedRightKey = true;
                 velocity.X = movementSpeed;
+                if (Math.Abs(collisionRectangle.Right - worm.collisionRectangle.Left) < worm.collisionBoxSize.X*2)
+                    meleeAttack = true;
             }
             else
                 velocity.X = 0;
@@ -258,6 +270,7 @@ namespace Reggie.Enemies
                 enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
                 enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
+                if(objectID != (int)Enums.ObjectsID.SPIDER || (objectID == (int)Enums.ObjectsID.SPIDER && !worm.playerSlowed))
                 if (Math.Abs(worm.collisionRectangle.Left - collisionRectangle.Right) < attackRange)
                 {
                     resetBasicValues();
@@ -272,7 +285,8 @@ namespace Reggie.Enemies
               enemyAggroArea.Bottom > worm.collisionRectangle.Top &&
               enemyAggroArea.Top < worm.collisionRectangle.Bottom)
             {
-                if (Math.Abs(worm.collisionRectangle.Right - collisionRectangle.Left) <  attackRange)
+                if (objectID != (int)Enums.ObjectsID.SPIDER|| (objectID == (int)Enums.ObjectsID.SPIDER && !worm.playerSlowed))
+                    if (Math.Abs(worm.collisionRectangle.Right - collisionRectangle.Left) <  attackRange)
                 {
                     resetBasicValues();
                     velocity.X = 0;
@@ -310,6 +324,38 @@ namespace Reggie.Enemies
             else
                 return false;
         }
+
+        public void MeleePlayer()
+        {
+            if (collisionRectangle.Right + velocity.X +10 > worm.collisionRectangle.Left &&
+               collisionRectangle.Left < worm.collisionRectangle.Left &&
+               collisionRectangle.Bottom > worm.collisionRectangle.Top &&
+               collisionRectangle.Top < worm.collisionRectangle.Bottom)
+            {
+                resetBasicValues();
+                velocity.X = 0;
+                facingDirectionRight = true;
+                if (collisionRectangle.Right + velocity.X > worm.collisionRectangle.Left)
+                    meleeAttack = true;
+        
+            }
+            else if (collisionRectangle.Left + velocity.X +10 < worm.collisionRectangle.Right &&
+              collisionRectangle.Right > worm.collisionRectangle.Right &&
+              collisionRectangle.Bottom > worm.collisionRectangle.Top &&
+              collisionRectangle.Top < worm.collisionRectangle.Bottom)
+            {
+                resetBasicValues();
+                velocity.X = 0;
+                facingDirectionRight = false;
+                if (collisionRectangle.Left + velocity.X < worm.collisionRectangle.Right)
+                    meleeAttack = true;
+            }
+            
+            
+            else
+                meleeAttack=  false;
+        }
+
 
         public bool HitPlayer()
         {
@@ -355,6 +401,7 @@ namespace Reggie.Enemies
         public void KnockBackPosition(bool knockBackDirectionRight, float playerDamage)
         {
             knockedBack = true;
+
             isStanding = false;
             velocity.Y = -knockBackValue;
             if (knockBackDirectionRight)

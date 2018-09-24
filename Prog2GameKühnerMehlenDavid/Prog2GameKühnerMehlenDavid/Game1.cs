@@ -297,11 +297,11 @@ namespace Reggie
 
                     if(timeUntilNextFrame2 <= 0)
                     {
-                        for (int i = 0; i < enemyList.Count(); i++)
+                        foreach (var enemy in enemyList.ToList())
                         {
-                            enemyList[i].Update(gameTime, levelObjectList);
-                            if (enemyList[i].EnemyAliveState() == false || enemyList[i].fallOutOfMap)
-                                enemyList.RemoveAt(enemyList.IndexOf(enemyList[i]));
+                            enemy.Update(gameTime, levelObjectList);
+                            if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
+                                enemyList.RemoveAt(enemyList.IndexOf(enemy));
                         }
                         timeUntilNextFrame2 += animationFrameTime;
                     }
@@ -362,30 +362,27 @@ namespace Reggie
 
 
                             //this draws the platforms visible in the viewport
-                            for (int i = 0; i < gameObjectsToRender.Count(); i++)
-                            {
-                                if (gameObjectsToRender[i].IsThisAVisibleObject())
-                                    gameObjectsToRender[i].DrawSpriteBatch(spriteBatch);
-                            }
-                            
+                            foreach (var platformSprite in gameObjectsToRender)
+                                if (platformSprite.IsThisAVisibleObject())
+                                    platformSprite.DrawSpriteBatch(spriteBatch);
 
                             //if (levelManager.currentLevel == Enums.Level.TUTORIAL)
                             //{
                                 for (int i = 0; i < enemyList.Count(); i++)
                                 {
-                                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].enemyAggroAreaSize.Z), (int)(enemyList[i].enemyAggroAreaSize.W));
-                                    //colordata = new Color[(int)((enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z))];
-                                    //for (int j = 0; j < (enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z); j++)
+                                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].collisionBoxSize.X), (int)(enemyList[i].collisionBoxSize.Y));
+                                    //colordata = new Color[(int)((enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y))];
+                                    //for (int j = 0; j < (enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y); j++)
                                     //    colordata[j] = Color.White;
                                     //enemytexture.SetData<Color>(colordata);
-                                    //enemyaggroposition = new Vector2(enemyList[i].enemyAggroArea.X, enemyList[i].enemyAggroArea.Y);
+                                    //enemyaggroposition = new Vector2(enemyList[i].collisionRectangle.Left, enemyList[i].collisionRectangle.Top);
                                     //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                                     enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                     if (enemyList[i].objectID == (int)Enums.ObjectsID.SNAIL)
                                         enemyList[i].DrawProjectile(spriteBatch, Color.White);
                                // }
                             }
-
+                               
                             //This draws the player
 
                             //----Draw Hitbox----//
@@ -395,7 +392,7 @@ namespace Reggie
                             //    playercolorData[i] = Color.Black;
                             //playertexture.SetData<Color>(playercolorData);
                             //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                            //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
+                          //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
                             shopKeeper.DrawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix, font, levelManager);
 
@@ -456,9 +453,6 @@ namespace Reggie
 
         private void FillLists()
         {
-            enemySpawnList.Clear();
-            interactiveObject.Clear();
-
             for (int i = 0; i < allGameObjectList.Count(); i++)
             {
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
@@ -481,6 +475,10 @@ namespace Reggie
                     interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
                     cornnencyList.Add(allGameObjectList[i]);
+                //if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
+                //    enemySpawnList.Add(allGameObjectList[i] as Platform);
+                //if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.SPIDERWEB)
+                //    interactiveObject.Add(allGameObjectList[i]);
                 
             }
 
@@ -488,8 +486,8 @@ namespace Reggie
             {
                 if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
                     enemySpawnList.Add(platform);
-                if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
-                    interactiveObject.Add(platform);
+                //    if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
+                //        interactiveObject.Add(platform);
             }
         }
 

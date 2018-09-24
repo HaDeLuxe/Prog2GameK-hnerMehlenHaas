@@ -12,39 +12,33 @@ namespace Reggie.Enemies
     class Spider : Enemy
     {
         private AnimationManagerEnemy animationManager;
-        private List<Projectile> projectileList;
+        public List<Projectile> projectileList;
         private bool alreadyShot;
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Spider(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 150;
+            enemyHP = 3;
             movementSpeed = 6f;
-            knockBackValue = 10f;
-            attackDamage = 0.09f;
+            knockBackValue = 30f;
+            attackDamage = 0.07f;
             attackRange = 400f;
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
             projectileList = new List<Projectile>();
             alreadyShot = false;
             this.EnemySpriteSheetsDic = EnemySpriteSheetsDic;
-            //enemyAggroAreaSize = new Vector4(500, 500, 1100, 1050);
-            //changeCollisionBox = new Vector2(0, 0);
-            //enemyAggroArea = new Rectangle((int)(enemyPosition.X - enemyAggroAreaSize.X), (int)(enemyPosition.Y - enemyAggroAreaSize.Y), (int)(enemyAggroAreaSize.Z), (int)(enemyAggroAreaSize.W));
-            //collisionBoxPosition = new Vector2(enemyPosition.X + changeCollisionBox.X, enemyPosition.Y + changeCollisionBox.Y);
-            //collisionBoxSize = new Vector2(enemySize.X, enemySize.Y);
-            //movementDirectionGone = 0;
         }
 
 
         public override void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!facingDirectionRight && !attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_LEFT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SPIDER_MOVE_LEFT;
             else if (facingDirectionRight && !attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_FLY_RIGHT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SPIDER_MOVE_RIGHT;
             else if (!facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_LEFT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SPIDER_ATTACK_LEFT;
             else if (facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.LADYBUG_ATTACK_RIGHT;
+                animationManager.nextAnimation = Enums.EnemyAnimations.SPIDER_ATTACK_RIGHT;
             animationManager.Animation(gameTime, this, spriteBatch);
         }
 
@@ -53,10 +47,10 @@ namespace Reggie.Enemies
             //ResizeEnemyAggroArea(gameObjectList);
             if (!attackAction && attackCooldown == 0)
             {
-                if (DetectPlayer() && !knockedBack)
-                    attackAction = true;
-                else
-                    attackAction = false;
+                if (DetectPlayer() && !knockedBack )
+                    EnemyMovement();
+                //if (meleeAttack)
+                    MeleePlayer();
 
                 EnemyNeutralBehaviour(gameObjectList);
             }
@@ -66,13 +60,15 @@ namespace Reggie.Enemies
             if (projectileList.Count() != 0)
                 foreach (var projectile in projectileList.ToList())
                 {
-                    //projectile.TracedPlayerLocation();
+                    projectile.TracedPlayerLocation();
                     projectile.Update(gameTime, gameObjectList);
                     if (!projectile.ProjectileState())
                         projectileList.RemoveAt(projectileList.IndexOf(projectile));
                 }
             if (attackExecuted)
                 CalculationCooldown(gameTime);
+            //if (meleeAttack)
+            //    MeleePlayer();
             EnemyCheckCollision(gameTime, gameObjectList);
             EnemyPositionCalculation(gameTime);
 
@@ -105,35 +101,43 @@ namespace Reggie.Enemies
                     facingDirectionRight = false;
                 else if (chargingVector.X > 0)
                     facingDirectionRight = true;
-                if (facingDirectionRight && !alreadyShot)
+                if (facingDirectionRight && !alreadyShot && !meleeAttack)
                 {
-                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y - 10), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X + collisionBoxSize.X, collisionBoxPosition.Y - 10), (int)Enums.ObjectsID.SPIDER));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;
                 }
-                else if (!facingDirectionRight && !alreadyShot)
+                else if (!facingDirectionRight && !alreadyShot && !meleeAttack)
                 {
-                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X - collisionBoxSize.X / 2, collisionBoxPosition.Y - 10), (int)Enums.ObjectsID.SNAIL));
+                    projectileList.Add(new Projectile(null, new Vector2(100, 50), new Vector2(collisionBoxPosition.X - collisionBoxSize.X / 2, collisionBoxPosition.Y - 10), (int)Enums.ObjectsID.SPIDER));
                     projectileList.Last().SetPlayer(worm);
                     velocity.X = 0f;
                     alreadyShot = true;
                 }
                 else if (attackTimer < 2f)
                 {
-                    //if (!calculateCharge)
-                    //CalculationChargingVector();
-                    //foreach (var projectile in projectileList.ToList())
-                    //{
-                    //    projectile.TracedPlayerLocation();
-                    //    projectile.Update(gameTime, gameObjectList);
-                    //    if (!projectile.ProjectileState())
-                    //        projectileList.RemoveAt(projectileList.IndexOf(projectile));
-                    //}
-                    if (facingDirectionRight)
-                        velocity.X = -1f;
-                    else
-                        velocity.X = 1f;
+                    if (!worm.playerSlowed && facingDirectionRight)
+                        velocity.X = 1;
+                    else if (!worm.playerSlowed && !facingDirectionRight)
+                        velocity.X = -1;
+                    if (worm.playerSlowed)
+                    {
+                        CalculationChargingVector();
+                        if (chargingVector.X >= 0)
+                            velocity.X = 3f;
+                        else
+                            velocity.X = -3f;
+                    }
+                    //if (meleeAttack)
+                        MeleePlayer();
+
+                    if (HitPlayer() && !worm.invincibilityFrames && meleeAttack)
+                    {
+                        worm.invincibilityFrames = true;
+                        worm.ReducePlayerHP(attackDamage);
+                        meleeAttack = false;
+                    }
                     gravityActive = true;
                     isStanding = false;
                 }
