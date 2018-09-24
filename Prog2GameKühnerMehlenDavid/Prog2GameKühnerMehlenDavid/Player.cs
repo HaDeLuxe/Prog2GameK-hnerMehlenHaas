@@ -761,11 +761,11 @@ namespace Reggie
         
         public void drawUpdate(List<GameObject> GameObjectsList, ref IngameMenus ingameMenus)
         {
-            foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+            for (int i = 0; i < GameObjectsList.Count(); i++)
             {
-                if (item.objectID == (int)Enums.ObjectsID.APPLE)
+                if (GameObjectsList[i].objectID == (int)Enums.ObjectsID.APPLE)
                 {
-                    if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
+                    if (GameObjectsList[i].gameObjectRectangle.Contains(this.gameObjectPosition))
                     {
                         ingameMenus.drawSaveIcon(this.gameObjectPosition);
                         break;
