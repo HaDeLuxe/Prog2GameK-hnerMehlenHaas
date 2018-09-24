@@ -3222,7 +3222,9 @@ CORNNENCY,-1920,7360
 ENEMYSPAWNPOINT,-2112,7104
 ENEMYSPAWNPOINT,-2368,7104
 CORNNENCY,-3520,7232
-Playerposition, -2654,6576
+CORNNENCY,2600,4225
+APPLE,-3456,4672
+Playerposition, -3414,4720
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,True
@@ -3230,4 +3232,4 @@ JumpPotionBOOL, False
 PowerPotionBOOL, False
 ScissorsBOOL, False
 ShovelBOOL, False
-GoldenUmbrellaBOOL, True
+GoldenUmbrellaBOOL, False

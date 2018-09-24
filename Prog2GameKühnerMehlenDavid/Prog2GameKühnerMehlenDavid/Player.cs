@@ -38,7 +38,11 @@ namespace Reggie
         public bool invincibilityFrames;
         public bool isFloating;
         public float invincibilityTimer;
+        public float playerDamage;
 
+        public float invincibilityFixedTimer { get;  set; }
+        public bool playerSlowed { get; set; }
+        private float defaultJumpValue;
         //MUSIC
         AudioManager audioManager;
         bool justTouchedBottom;
@@ -76,6 +80,9 @@ namespace Reggie
             playerGameElementInteraction = false;
             invincibilityFrames = false;
             knockedBack = false;
+            playerDamage = 1;
+            playerSlowed = false;
+            invincibilityFixedTimer = 5f;
             //changeCollisionBox = new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_X"], SpriteSheetSizes.spritesSizes["Reggie_Move_Hitbox_Pos_Y"]);
             changeCollisionBox = new Vector2(0, 0);
             collisionBoxPosition = new Vector2(playerPosition.X + changeCollisionBox.X, playerPosition.Y + changeCollisionBox.Y);
@@ -83,6 +90,7 @@ namespace Reggie
             playerHP = 1f;
             movementSpeed = 10f;
             jumpSpeed = -20f;
+            defaultJumpValue = -20f;
             invincibilityTimer = 0;
             attackTimer = 0;
 
@@ -91,14 +99,16 @@ namespace Reggie
             justTouchedBottom = true;
         }
 
-        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
         {
+            if (!playerSlowed)
+                movementSpeed = 10f;
             if (!facingDirectionRight)
                 changeCollisionBox.X = 0;
             else
                 changeCollisionBox.X = 50;
             if(!shopKeeper.shopOpen)
-            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper);
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper, itemUIManager);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
             ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager, ref allGameObjects);
@@ -222,7 +232,7 @@ namespace Reggie
 
             foreach (var platform in gameObjectsToRender)
             {
-                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
+                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.W) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
                 {
                     if(velocity.X !=0 && isStanding)
                             audioManager.Play("ReggieMoves");
@@ -282,11 +292,19 @@ namespace Reggie
                             velocity.X = knockBackValue;
                         else if (pressedLeftKey && knockedBack)
                             velocity.X = -knockBackValue;
-                        if (IsTouchingLeftSide(platform) || IsTouchingRightSide(platform))
+                        if (IsTouchingLeftSide(platform))
                         {
                             velocity.X = 0;
                             pressedLeftKey = false;
                             pressedRightKey = false;
+                            collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
+                        }
+                        if ( IsTouchingRightSide(platform))
+                        {
+                            velocity.X = 0;
+                            pressedLeftKey = false;
+                            pressedRightKey = false;
+                            collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
                         }
                         if ((previousState.IsKeyDown(Keys.Space)||previousGamepadState.IsButtonDown(Buttons.A)) && jumpButtonPressed)
                         {
@@ -341,15 +359,35 @@ namespace Reggie
         private void PlayerJump()
         {
             velocity.Y = jumpSpeed;
-            if (previousState.IsKeyDown(Keys.S) || previousGamepadState.ThumbSticks.Left.Y < -0.5f)
+            if (previousState.IsKeyDown(Keys.S) || previousGamepadState.ThumbSticks.Left.Y < -0.5f || previousGamepadState.IsButtonDown(Buttons.DPadDown))
                 velocity.Y = movementSpeed;
 
             //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
         {
+
+            //using item:
+            if((Keyboard.GetState().IsKeyDown(Keys.F) || GamePad.GetState(0).IsButtonUp(Buttons.B)) && !previousState.IsKeyDown(Keys.B) && previousGamepadState.IsButtonDown(Buttons.B))
+            {
+                int temp = itemUIManager.RemoveObject();
+                if(temp == (int)Enums.ObjectsID.HEALTHPOTION)
+                {
+                    playerHP += 0.1f;
+                    if (playerHP >= 1f) playerHP = 1f;
+                }
+                if(temp == (int)Enums.ObjectsID.POWERPOTION)
+                {
+                    playerDamage *= 2;
+                }
+                if(temp == (int)Enums.ObjectsID.JUMPPOTION)
+                {
+                    defaultJumpValue = -40f;
+                }
+            }
+
 
             mouseState = Mouse.GetState();
             if (!firstJump && !secondJump)
@@ -385,7 +423,7 @@ namespace Reggie
             {
                 //if (Keyboard.GetState().IsKeyDown(Keys.P))
                 //    ReducePlayerHP();
-                if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
+                if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f || GamePad.GetState(0).IsButtonDown(Buttons.DPadLeft))
                 {
 
                     //Camera won't move after simple turning
@@ -418,13 +456,13 @@ namespace Reggie
                     }
                         
 
-
+                    if(!playerGameElementInteraction)
                     velocity.X = -movementSpeed;
                     pressedLeftKey = true;
                     facingDirectionRight = false;
                     pressedRightKey = false;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D) || GamePad.GetState(0).ThumbSticks.Left.X > 0.5f)
+                else if (Keyboard.GetState().IsKeyDown(Keys.D) || GamePad.GetState(0).ThumbSticks.Left.X > 0.5f || GamePad.GetState(0).IsButtonDown(Buttons.DPadRight))
                 {
                     //Camera won't move after simple turning
                     camera.IncreaseRightCounter();
@@ -454,7 +492,7 @@ namespace Reggie
                             AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
                         else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
                     }
-
+                     if(!playerGameElementInteraction)
                     velocity.X = movementSpeed;
                     facingDirectionRight = true;
                     pressedLeftKey = false;
@@ -494,7 +532,7 @@ namespace Reggie
                 isStanding = false;
                 gravityActive = true;
                 if (firstJump == false || secondJump == false)
-                    jumpSpeed = -20f;
+                    jumpSpeed = defaultJumpValue;
                 PlayerJump();
 
                 //MUSIC
@@ -610,8 +648,8 @@ namespace Reggie
                         if (PlayerAttackCollision(enemy) && enemy.EnemyAliveState() == true && !enemy.invincibilityFrames)
                         {
                             enemy.invincibilityFrames = true;
-                            //worm.KnockBackPosition(facingDirectionRight, 35);
-                            enemy.KnockBackPosition(facingDirectionRight);
+                            enemy.KnockBackPosition(facingDirectionRight, playerDamage);
+                            //enemy.KnockBackPosition(facingDirectionRight);
                         }
                     }
                 }
@@ -628,11 +666,11 @@ namespace Reggie
            
 
             //Player Gameelement Interactive Input
-            if((ButtonState.Pressed == mouseState.RightButton || Keyboard.GetState().IsKeyDown(Keys.W)) && !playerGameElementInteraction && !previousState.IsKeyDown(Keys.W))
+            if((ButtonState.Pressed == mouseState.RightButton || Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp) && !playerGameElementInteraction && !previousState.IsKeyDown(Keys.W) && !previousGamepadState.IsButtonDown(Buttons.DPadUp)))
             {
                 foreach(var vine in interactiveObject)
                 {
-                    if(DetectCollision(vine))
+                    if(DetectCollision(vine) )
                     {
                         jumpSpeed = 0;
                         gravityActive = false;
@@ -643,6 +681,7 @@ namespace Reggie
                         playerGameElementInteraction = true;
                         pressedLeftKey = false;
                         pressedRightKey = false;
+                        velocity.X = 0;
                         collisionBoxPosition.X = vine.gameObjectRectangle.X;
 
                         if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
@@ -653,16 +692,20 @@ namespace Reggie
                     }
                 }
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.W) && playerGameElementInteraction)
+            if((Keyboard.GetState().IsKeyDown(Keys.W)|| GamePad.GetState(0).IsButtonDown(Buttons.DPadUp)) && playerGameElementInteraction)
             {
                 climbAllowed = false;
-
+                velocity.X = 0;
                 velocity.Y = -movementSpeed - 2;
                 foreach (var vine in interactiveObject)
                 {
-                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
-                    if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top+30)
-                        climbAllowed = true;
+                    if(Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 5)
+                    {
+                        collisionBoxPosition.X = vine.gameObjectRectangle.X;
+                        if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top + 30)
+                            climbAllowed = true;
+
+                    }
                 }
                 if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
                 {
@@ -674,15 +717,20 @@ namespace Reggie
                 else
                     velocity.Y = 0;
             }
-            else if(Keyboard.GetState().IsKeyDown(Keys.S) && playerGameElementInteraction)
+            else if((Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(0).IsButtonDown(Buttons.DPadDown)) && playerGameElementInteraction)
             {
                 climbAllowed = false;
+                velocity.X = 0;
                 velocity.Y = movementSpeed + 2;
                 foreach (var vine in interactiveObject)
                 {
-                    collisionBoxPosition.X = vine.gameObjectRectangle.X;
-                    if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom-80)
-                        climbAllowed = true;
+                    if (Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 5)
+                    {
+                        collisionBoxPosition.X = vine.gameObjectRectangle.X;
+                        if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom - 80)
+                            climbAllowed = true;
+
+                    }
                 }
                 if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
                 {
@@ -713,11 +761,11 @@ namespace Reggie
         
         public void drawUpdate(List<GameObject> GameObjectsList, ref IngameMenus ingameMenus)
         {
-            foreach (Item item in GameObjectsList.Cast<GameObject>().OfType<Item>().ToList())
+            for (int i = 0; i < GameObjectsList.Count(); i++)
             {
-                if (item.objectID == (int)Enums.ObjectsID.APPLE)
+                if (GameObjectsList[i].objectID == (int)Enums.ObjectsID.APPLE)
                 {
-                    if (item.gameObjectRectangle.Contains(this.gameObjectPosition))
+                    if (GameObjectsList[i].gameObjectRectangle.Contains(this.gameObjectPosition))
                     {
                         ingameMenus.drawSaveIcon(this.gameObjectPosition);
                         break;
@@ -794,6 +842,21 @@ namespace Reggie
                 audioManager.Play("AnnouncerInsult");
             }
         }
+        public void ReducePlayerHP(float damage, float decreaseSpeed)
+        {
+            if (playerHP > 0)
+            {
+                movementSpeed = decreaseSpeed;
+                playerSlowed = true;
+                playerHP -= damage;
+                audioManager.Play("ReggieHurt");
+            }
+            else
+            {
+                stillAlive = false;
+                audioManager.Play("AnnouncerInsult");
+            }
+        }
 
         public float PlayersCurrentHP()
         {
@@ -808,12 +871,15 @@ namespace Reggie
         public void InvincibleFrameState(GameTime gameTime)
         {
             invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-            if(invincibilityTimer > 5f)
+            if(invincibilityTimer > invincibilityFixedTimer)
             {
                 invincibilityTimer = 0;
                 invincibilityFrames = false;
+                playerSlowed = false;
+                invincibilityFixedTimer = 5f;
             }
         }
+      
 
         //public void KnockBackPosition(bool knockBackDirectionRight, float knockvalue)
         //{

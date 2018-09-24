@@ -26,48 +26,41 @@ namespace Reggie.Menus {
                 case Enums.GameMenuButtons.RESUME:
                     SpriteBatch.Draw(texturesDictionary["MainMenu1"], new Rectangle(0, 0, 1920, 1080), Color.White);
                     break;
-                case Enums.GameMenuButtons.SAVE:
+                case Enums.GameMenuButtons.OPTIONS:
                     SpriteBatch.Draw(texturesDictionary["MainMenu2"], new Rectangle(0, 0, 1920, 1080), Color.White);
                     break;
-                case Enums.GameMenuButtons.OPTIONS:
-                    SpriteBatch.Draw(texturesDictionary["MainMenu3"], new Rectangle(0, 0, 1920, 1080), Color.White);
-                    break;
                 case Enums.GameMenuButtons.MAINMENU:
-                    SpriteBatch.Draw(texturesDictionary["MainMenu4"], new Rectangle(0, 0, 1920, 1080), Color.White);
+                    SpriteBatch.Draw(texturesDictionary["MainMenu3"], new Rectangle(0, 0, 1920, 1080), Color.White);
                     break;
             }
 
             SpriteBatch.DrawString(Font, "Weiter", new Vector2(1400, 200), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
-            SpriteBatch.DrawString(Font, "Speichern", new Vector2(1400, 360), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
-            SpriteBatch.DrawString(Font, "Optionen", new Vector2(1400, 510), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
-            SpriteBatch.DrawString(Font, "Hauptmenu", new Vector2(1400, 670), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+            SpriteBatch.DrawString(Font, "Optionen", new Vector2(1400, 370), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
+            SpriteBatch.DrawString(Font, "Hauptmenu", new Vector2(1400, 510), Color.Black, 0, new Vector2(0, 0), 1, SpriteEffects.None, 0);
 
         }
 
         public void Update(Game1 Game, LoadAndSave loadAndSave)
         {
-            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !buttonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp) || GamePad.GetState(0).ThumbSticks.Left.Y > 0.5f) && !buttonPressed)
             {
                 currentButton--;
                 if (currentButton < 0) currentButton = Enums.GameMenuButtons.MAINMENU;
                 buttonPressed = true;
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !buttonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down) || GamePad.GetState(0).IsButtonDown(Buttons.DPadDown) || GamePad.GetState(0).ThumbSticks.Left.Y < -0.5f) && !buttonPressed)
             {
                 currentButton++;
                 if (currentButton > Enums.GameMenuButtons.MAINMENU) currentButton = Enums.GameMenuButtons.RESUME;
                 buttonPressed = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !buttonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed)
             {
                 buttonPressed = true;
                 switch (currentButton)
                 {
                     case Enums.GameMenuButtons.RESUME:
                         Game1.currentGameState = Game1.GameState.GAMELOOP;
-                        break;
-                    case Enums.GameMenuButtons.SAVE:
-                        loadAndSave.Save();
                         break;
                     case Enums.GameMenuButtons.OPTIONS:
                         break;
@@ -76,7 +69,7 @@ namespace Reggie.Menus {
                         break;
                 }
             }
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0)
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f && GamePad.GetState(0).IsButtonUp(Buttons.DPadUp) && GamePad.GetState(0).IsButtonUp(Buttons.DPadDown) && GamePad.GetState(0).IsButtonUp(Buttons.A))
             {
                 buttonPressed = false;
             }

@@ -76,6 +76,7 @@ namespace Reggie.Menus {
                 buttonPressed = true;
             }
 
+
             switch (currentState)
             {
                 case OptionsStates.GLOBAL:
@@ -122,16 +123,18 @@ namespace Reggie.Menus {
                 case OptionsStates.BACK:
                     if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed)
                     {
+                        buttonPressed = true;
                         mainMenu.getBackToMainMenu();
 
                     }
                     break;
-                    
             }
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f)
+
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f && GamePad.GetState(0).IsButtonUp(Buttons.A))
             {
                 buttonPressed = false;
             }
+
 
             globalVolumeSlider.moveSlider();
             audioManager.globalVolume = globalVolumeSlider.getCurrentState();

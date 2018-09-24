@@ -15,10 +15,10 @@ namespace Reggie.Enemies
         private AnimationManagerEnemy animationManager;
         public Ladybug(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 100;
+            enemyHP = 2;
             movementSpeed = 5f;
             knockBackValue = 15f;
-            attackDamage = 0.04f;
+            attackDamage = 0.08f;
             attackRange = 70f;
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
         }

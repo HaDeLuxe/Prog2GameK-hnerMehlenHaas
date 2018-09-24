@@ -275,7 +275,9 @@ namespace Reggie.Animations {
             
             if(player.invincibilityFrames)
             {
-                if ((int)(player.invincibilityTimer / 0.15) % 2 == 1)
+                if (player.playerSlowed && (int)(player.invincibilityTimer / 0.40) % 2 == 1)
+                    color = Color.Blue;
+                else if ((int)(player.invincibilityTimer / 0.40) % 2 == 1)
                     color = Color.Red;
                 else
                     color = Color.White;
