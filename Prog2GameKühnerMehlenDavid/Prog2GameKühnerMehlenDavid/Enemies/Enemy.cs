@@ -132,40 +132,40 @@ namespace Reggie.Enemies
 
         public void EnemyCheckCollision(GameTime gameTime, List<GameObject> platformList)
         {
-            foreach (var platform in platformList)
+            for (int i = 0; i < platformList.Count(); i++)
             {
-                if (velocity.X > 0 && IsTouchingLeftSide(platform))
+                if (velocity.X > 0 && IsTouchingLeftSide(platformList[i]))
                 {
                     velocity.X = 0;
                     movementDirectionGone = 1000;
-                    collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
+                    collisionBoxPosition.X = platformList[i].gameObjectPosition.X - collisionBoxSize.X;
                     pressedLeftKey = false;
                     pressedRightKey = false;
                     if (objectID == (int)Enums.ObjectsID.SPIDER && worm.playerSlowed)
                         velocity.Y = -10f;
                 }
-                else if (velocity.X < 0 && IsTouchingRightSide(platform))
+                else if (velocity.X < 0 && IsTouchingRightSide(platformList[i]))
                 {
                     velocity.X = 0;
                     movementDirectionGone = 0;
-                    collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
+                    collisionBoxPosition.X = platformList[i].gameObjectPosition.X + platformList[i].gameObjectRectangle.Width;
                     pressedLeftKey = false;
                     pressedRightKey = false;
                     if (objectID == (int)Enums.ObjectsID.SPIDER && worm.playerSlowed)
                         velocity.Y = -10f;
                 }
-                else if (IsTouchingBottomSide(platform, gravity))
+                else if (IsTouchingBottomSide(platformList[i], gravity))
                 {
                     velocity.Y = 0;
-                    collisionBoxPosition.Y = platform.gameObjectPosition.Y + platform.gameObjectRectangle.Height;
+                    collisionBoxPosition.Y = platformList[i].gameObjectPosition.Y + platformList[i].gameObjectRectangle.Height;
                     //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     gravityActive = true;
                 }
-                else if (IsTouchingTopSide(platform, gravity))
+                else if (IsTouchingTopSide(platformList[i], gravity))
                 {
                     resetBasicValues();
                     fallCooldown = 0;
-                    collisionBoxPosition.Y = platform.gameObjectPosition.Y - collisionBoxSize.Y;
+                    collisionBoxPosition.Y = platformList[i].gameObjectPosition.Y - collisionBoxSize.Y;
                     //Position.Y = CollisionBoxPosition.Y - ChangeCollisionBox.Y;
                     //EnemyAggroArea.Y = (int)(Position.Y - EnemyAggroAreaSize.Y);
 
@@ -176,7 +176,7 @@ namespace Reggie.Enemies
 
                 }
 
-                else if (!IsTouchingTopSide(platform, gravity) && isStanding == false && !attackAction)
+                else if (!IsTouchingTopSide(platformList[i], gravity) && isStanding == false && !attackAction)
                 {
                     gravityActive = true;
                     if (pressedRightKey && knockedBack == false)
@@ -187,10 +187,11 @@ namespace Reggie.Enemies
                         velocity.X = knockBackValue;
                     else if (pressedLeftKey && knockedBack)
                         velocity.X = -knockBackValue;
-                    if (IsTouchingLeftSide(platform) || IsTouchingRightSide(platform))
+                    if (IsTouchingLeftSide(platformList[i]) || IsTouchingRightSide(platformList[i]))
                         velocity.X = 0;
                 }
             }
+            
         }
         public void EnemyPositionCalculation(GameTime gameTime)
         {

@@ -299,7 +299,7 @@ namespace Reggie
                     {
                         foreach (var enemy in enemyList.ToList())
                         {
-                            enemy.Update(gameTime, levelObjectList);
+                            enemy.Update(gameTime, gameObjectsToRender);
                             if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
                                 enemyList.RemoveAt(enemyList.IndexOf(enemy));
                         }
@@ -453,6 +453,9 @@ namespace Reggie
 
         private void FillLists()
         {
+            interactiveObject.Clear();
+            cornnencyList.Clear();
+            enemySpawnList.Clear();
             for (int i = 0; i < allGameObjectList.Count(); i++)
             {
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
@@ -486,8 +489,8 @@ namespace Reggie
             {
                 if (platform.PlatformType == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
                     enemySpawnList.Add(platform);
-                //    if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
-                //        interactiveObject.Add(platform);
+                if (platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
+                    interactiveObject.Add(platform);
             }
         }
 

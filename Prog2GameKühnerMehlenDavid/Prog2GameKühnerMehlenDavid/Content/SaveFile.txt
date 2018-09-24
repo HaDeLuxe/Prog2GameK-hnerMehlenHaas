@@ -3238,7 +3238,7 @@ tileBrown_01,7616,1152
 tileBlue_02,-3840,5184
 tileBrown_03,9536,1408
 ENEMYSPAWNPOINT,9536,1408
-Playerposition, 7908,1392
+Playerposition, 3728,4400
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,False

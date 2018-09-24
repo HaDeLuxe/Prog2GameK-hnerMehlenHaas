@@ -71,7 +71,7 @@ namespace Reggie
                     if ((platformList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1000 && platformList[i].gameObjectPosition.X > wormPlayer.gameObjectPosition.X + 950) || (platformList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1000 && platformList[i].gameObjectRectangle.Right < wormPlayer.gameObjectPosition.X - 950)
                         && (platformList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 600 && platformList[i].gameObjectPosition.Y > wormPlayer.gameObjectPosition.Y + 550) || (platformList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 600 && platformList[i].gameObjectRectangle.Bottom < wormPlayer.gameObjectPosition.Y - 550))
                     {
-                        if(enemyList.Count() < 10)
+                        if(enemyList.Count() < 100)
                         {
                             platformList[i].enemySpawnCheck = true;
                             Random rand = new Random();
