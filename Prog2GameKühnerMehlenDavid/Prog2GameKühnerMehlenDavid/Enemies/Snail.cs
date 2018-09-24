@@ -197,10 +197,12 @@ namespace Reggie.Enemies
         }
         public override void DrawProjectile(SpriteBatch spriteBatch, Color color)
         {
-            foreach(var projectile in projectileList)
+            for (int i = 0; i < projectileList.Count(); i++)
             {
-                spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left,projectile.collisionRectangle.Top), color);
+                spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectileList[i].collisionRectangle.Left, projectileList[i].collisionRectangle.Top), color);
+
             }
+            
         }
     }
 }
