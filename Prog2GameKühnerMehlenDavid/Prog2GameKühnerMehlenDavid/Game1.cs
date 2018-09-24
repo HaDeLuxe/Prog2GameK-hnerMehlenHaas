@@ -33,6 +33,7 @@ namespace Reggie
         
         List<Platform> enemySpawnList;
         List<Enemy> enemyList;
+        List<Enemy> enemiesToConsider;
         List<Enemy> viewableEnemies;
         List<GameObject> gameObjectsToRender;
         List<GameObject> interactiveObject;
@@ -119,6 +120,7 @@ namespace Reggie
             cameraOffset = new Vector2(0, 0);
             texturesDictionary = new Dictionary<string, Texture2D>();
             enemyList = new List<Enemy>();
+            enemiesToConsider = new List<Enemy>();
             Enums = new Enums();
             splashScreen = new SplashScreen();
             mainMenu = new MainMenu();
@@ -295,15 +297,28 @@ namespace Reggie
                     viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
                     wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
 
-                    if(timeUntilNextFrame2 <= 0)
+
+                    for (int i = 0; i < enemyList.Count(); i++)
                     {
-                        foreach (var enemy in enemyList.ToList())
+                        if (enemyList[i].gameObjectPosition.X < wormPlayer.gameObjectPosition.X + 1350 && enemyList[i].gameObjectRectangle.Right > wormPlayer.gameObjectPosition.X - 1350
+                            && enemyList[i].gameObjectPosition.Y < wormPlayer.gameObjectPosition.Y + 750 && enemyList[i].gameObjectRectangle.Bottom > wormPlayer.gameObjectPosition.Y - 750)
+                        {
+                            enemiesToConsider.Add(enemyList[i]);
+                        }
+                    }
+
+                    if (timeUntilNextFrame2 <= 0)
+                    {
+                        foreach (var enemy in enemiesToConsider.ToList())
                         {
                             enemy.Update(gameTime, gameObjectsToRender);
-                            if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
-                                enemyList.RemoveAt(enemyList.IndexOf(enemy));
                         }
                         timeUntilNextFrame2 += animationFrameTime;
+                    }
+                    foreach(var enemy in enemyList.ToList())
+                    {
+                        if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
+                            enemyList.RemoveAt(enemyList.IndexOf(enemy));
                     }
                     break;
 

@@ -56,6 +56,7 @@ namespace Reggie
                 }
             }
             foreach (GameObject gameObject in interactiveObjectsList) interactiveObject.Add(gameObject);
+            
             return objectsToRender;
         }
 
