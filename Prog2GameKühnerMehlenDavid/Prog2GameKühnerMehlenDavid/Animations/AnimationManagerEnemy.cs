@@ -83,7 +83,18 @@ namespace Reggie.Animations {
 
         public void Animation(GameTime gameTime, Enemy enemy, SpriteBatch spriteBatch) 
         {
-            if(currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_LEFT
+            if (enemy.invincibilityFrames)
+            {
+                if ((int)(enemy.invincibilityTimer / 0.40) % 2 == 1)
+                    color = Color.Blue;
+                else if ((int)(enemy.invincibilityTimer / 0.40) % 2 == 1)
+                    color = Color.Red;
+                else
+                    color = Color.White;
+            }
+            else
+                color = Color.White;
+            if (currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_LEFT
                 || currentAnimation == Enums.EnemyAnimations.LADYBUG_FLY_RIGHT
                 || currentAnimation == Enums.EnemyAnimations.ANT_MOVE_LEFT
                 || currentAnimation == Enums.EnemyAnimations.ANT_MOVE_RIGHT

@@ -401,6 +401,7 @@ namespace Reggie.Enemies
         public void KnockBackPosition(bool knockBackDirectionRight, float playerDamage)
         {
             knockedBack = true;
+
             isStanding = false;
             velocity.Y = -knockBackValue;
             if (knockBackDirectionRight)

@@ -232,7 +232,7 @@ namespace Reggie
 
             foreach (var platform in gameObjectsToRender)
             {
-                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
+                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.W) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
                 {
                     if(velocity.X !=0 && isStanding)
                             audioManager.Play("ReggieMoves");
@@ -292,11 +292,19 @@ namespace Reggie
                             velocity.X = knockBackValue;
                         else if (pressedLeftKey && knockedBack)
                             velocity.X = -knockBackValue;
-                        if (IsTouchingLeftSide(platform) || IsTouchingRightSide(platform))
+                        if (IsTouchingLeftSide(platform))
                         {
                             velocity.X = 0;
                             pressedLeftKey = false;
                             pressedRightKey = false;
+                            collisionBoxPosition.X = platform.gameObjectPosition.X - collisionBoxSize.X;
+                        }
+                        if ( IsTouchingRightSide(platform))
+                        {
+                            velocity.X = 0;
+                            pressedLeftKey = false;
+                            pressedRightKey = false;
+                            collisionBoxPosition.X = platform.gameObjectPosition.X + platform.gameObjectRectangle.Width;
                         }
                         if ((previousState.IsKeyDown(Keys.Space)||previousGamepadState.IsButtonDown(Buttons.A)) && jumpButtonPressed)
                         {
@@ -351,7 +359,7 @@ namespace Reggie
         private void PlayerJump()
         {
             velocity.Y = jumpSpeed;
-            if (previousState.IsKeyDown(Keys.S) || previousGamepadState.ThumbSticks.Left.Y < -0.5f)
+            if (previousState.IsKeyDown(Keys.S) || previousGamepadState.ThumbSticks.Left.Y < -0.5f || previousGamepadState.IsButtonDown(Buttons.DPadDown))
                 velocity.Y = movementSpeed;
 
             //MediaPlayer.Play(Game1.songDictionnary["houseChord"]);
@@ -415,7 +423,7 @@ namespace Reggie
             {
                 //if (Keyboard.GetState().IsKeyDown(Keys.P))
                 //    ReducePlayerHP();
-                if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f)
+                if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(0).ThumbSticks.Left.X < -0.5f || GamePad.GetState(0).IsButtonDown(Buttons.DPadLeft))
                 {
 
                     //Camera won't move after simple turning
@@ -448,13 +456,13 @@ namespace Reggie
                     }
                         
 
-
+                    if(!playerGameElementInteraction)
                     velocity.X = -movementSpeed;
                     pressedLeftKey = true;
                     facingDirectionRight = false;
                     pressedRightKey = false;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D) || GamePad.GetState(0).ThumbSticks.Left.X > 0.5f)
+                else if (Keyboard.GetState().IsKeyDown(Keys.D) || GamePad.GetState(0).ThumbSticks.Left.X > 0.5f || GamePad.GetState(0).IsButtonDown(Buttons.DPadRight))
                 {
                     //Camera won't move after simple turning
                     camera.IncreaseRightCounter();
@@ -484,7 +492,7 @@ namespace Reggie
                             AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Hat_Right;
                         else AnimationManager.nextAnimation = AnimationManager.Animations.Walk_Right;
                     }
-
+                     if(!playerGameElementInteraction)
                     velocity.X = movementSpeed;
                     facingDirectionRight = true;
                     pressedLeftKey = false;
@@ -658,7 +666,7 @@ namespace Reggie
            
 
             //Player Gameelement Interactive Input
-            if((ButtonState.Pressed == mouseState.RightButton || Keyboard.GetState().IsKeyDown(Keys.W)) && !playerGameElementInteraction && !previousState.IsKeyDown(Keys.W))
+            if((ButtonState.Pressed == mouseState.RightButton || Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp) && !playerGameElementInteraction && !previousState.IsKeyDown(Keys.W) && !previousGamepadState.IsButtonDown(Buttons.DPadUp)))
             {
                 foreach(var vine in interactiveObject)
                 {
@@ -673,6 +681,7 @@ namespace Reggie
                         playerGameElementInteraction = true;
                         pressedLeftKey = false;
                         pressedRightKey = false;
+                        velocity.X = 0;
                         collisionBoxPosition.X = vine.gameObjectRectangle.X;
 
                         if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
@@ -683,14 +692,14 @@ namespace Reggie
                     }
                 }
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.W) && playerGameElementInteraction)
+            if((Keyboard.GetState().IsKeyDown(Keys.W)|| GamePad.GetState(0).IsButtonDown(Buttons.DPadUp)) && playerGameElementInteraction)
             {
                 climbAllowed = false;
-
+                velocity.X = 0;
                 velocity.Y = -movementSpeed - 2;
                 foreach (var vine in interactiveObject)
                 {
-                    if(Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 20)
+                    if(Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 5)
                     {
                         collisionBoxPosition.X = vine.gameObjectRectangle.X;
                         if (collisionRectangle.Bottom + velocity.Y >= vine.gameObjectRectangle.Top + 30)
@@ -708,13 +717,14 @@ namespace Reggie
                 else
                     velocity.Y = 0;
             }
-            else if(Keyboard.GetState().IsKeyDown(Keys.S) && playerGameElementInteraction)
+            else if((Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(0).IsButtonDown(Buttons.DPadDown)) && playerGameElementInteraction)
             {
                 climbAllowed = false;
+                velocity.X = 0;
                 velocity.Y = movementSpeed + 2;
                 foreach (var vine in interactiveObject)
                 {
-                    if (Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 20)
+                    if (Math.Abs(collisionBoxPosition.X - vine.gameObjectRectangle.X) <= 5)
                     {
                         collisionBoxPosition.X = vine.gameObjectRectangle.X;
                         if (collisionRectangle.Top + velocity.Y <= vine.gameObjectRectangle.Bottom - 80)

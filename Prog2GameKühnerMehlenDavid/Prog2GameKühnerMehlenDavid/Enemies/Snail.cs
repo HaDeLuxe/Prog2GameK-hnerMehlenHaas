@@ -18,9 +18,9 @@ namespace Reggie.Enemies
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 200;
+            enemyHP = 5;
             movementSpeed = 3f;
-            knockBackValue = 10f;
+            knockBackValue = 30f;
             attackDamage = 0.09f;
             attackRange = 400f;
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
@@ -58,7 +58,7 @@ namespace Reggie.Enemies
                     attackAction = true;
                 else
                     attackAction = false;
-             
+               // if (!DetectPlayer())
                     EnemyNeutralBehaviour(gameObjectList);
             }
             if (attackAction)

@@ -20,7 +20,7 @@ namespace Reggie.Enemies
             enemyHP = 3;
             movementSpeed = 6f;
             knockBackValue = 30f;
-            attackDamage = 0.09f;
+            attackDamage = 0.07f;
             attackRange = 400f;
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
             projectileList = new List<Projectile>();

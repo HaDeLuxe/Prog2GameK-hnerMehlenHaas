@@ -28,7 +28,10 @@ namespace Reggie
             tracedPlayerPosition = false;
             collisionBoxPosition = new Vector2(projectilePosition.X, projectilePosition.Y);
             collisionBoxSize = new Vector2(projectileSize.X, projectileSize.Y-40);
-            damage = 0f;
+            if (objectID == (int)Enums.ObjectsID.SPIDER)
+                damage = 0.09f;
+            else if (objectID == (int)Enums.ObjectsID.SNAIL)
+                damage = 0.09f;
             gravity = Vector2.Zero;
       
         }
