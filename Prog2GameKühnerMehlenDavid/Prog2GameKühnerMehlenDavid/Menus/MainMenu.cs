@@ -157,13 +157,13 @@ namespace Reggie.Menus {
         void newGameControlScreen(SpriteFont Font, SpriteBatch SpriteBatch, Dictionary<string, Texture2D> texturesDictionary, LoadAndSave loadAndSave, ref List<GameObject> allGameObjects, ref Player player, Game1 game1) {
             controlWindowOpen = true;
 
-            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp)) && !controlButtonPressed && controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up) || GamePad.GetState(0).IsButtonDown(Buttons.DPadUp) || GamePad.GetState(0).ThumbSticks.Left.Y > 0.5f) && !controlButtonPressed && controlWindowOpen)
             {
                 currentControlButton--;
                 if (currentControlButton < Enums.MainMenuButtons.CONTROLYES) currentControlButton = Enums.MainMenuButtons.CONTROLNO;
                 controlButtonPressed = true;
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !controlButtonPressed && controlWindowOpen)
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down) || GamePad.GetState(0).IsButtonDown(Buttons.DPadDown) || GamePad.GetState(0).ThumbSticks.Left.Y < -0.5f) && !controlButtonPressed && controlWindowOpen)
             {
                 currentControlButton++;
                 if (currentControlButton > Enums.MainMenuButtons.CONTROLNO) currentControlButton = Enums.MainMenuButtons.CONTROLYES;
@@ -179,7 +179,7 @@ namespace Reggie.Menus {
                     break;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !controlButtonPressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Enter)|| GamePad.GetState(0).IsButtonDown(Buttons.A)) && !controlButtonPressed)
             {
                 switch (currentControlButton)
                 {
@@ -198,7 +198,7 @@ namespace Reggie.Menus {
             }
 
 
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).IsButtonUp(Buttons.DPadUp))
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).IsButtonUp(Buttons.DPadUp) && GamePad.GetState(0).IsButtonUp(Buttons.A) && GamePad.GetState(0).IsButtonUp(Buttons.DPadDown) &&GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f)
             {
                 controlButtonPressed = false;
 

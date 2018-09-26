@@ -297,11 +297,11 @@ namespace Reggie
 
                     if(timeUntilNextFrame2 <= 0)
                     {
-                        foreach (var enemy in enemyList.ToList())
+                        foreach (var enemy in viewableEnemies.ToList())
                         {
-                            enemy.Update(gameTime, levelObjectList);
+                            enemy.Update(gameTime, gameObjectsToRender);
                             if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
-                                enemyList.RemoveAt(enemyList.IndexOf(enemy));
+                                viewableEnemies.RemoveAt(viewableEnemies.IndexOf(enemy));
                         }
                         timeUntilNextFrame2 += animationFrameTime;
                     }
@@ -368,31 +368,31 @@ namespace Reggie
 
                             //if (levelManager.currentLevel == Enums.Level.TUTORIAL)
                             //{
-                                for (int i = 0; i < enemyList.Count(); i++)
+                                for (int i = 0; i < viewableEnemies.Count(); i++)
                                 {
-                                    //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].enemyAggroAreaSize.Z), (int)(enemyList[i].enemyAggroAreaSize.W));
-                                    //colordata = new Color[(int)((enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z))];
-                                    //for (int j = 0; j < (enemyList[i].enemyAggroAreaSize.W) * (enemyList[i].enemyAggroAreaSize.Z); j++)
-                                    //    colordata[j] = Color.White;
-                                    //enemytexture.SetData<Color>(colordata);
-                                    //enemyaggroposition = new Vector2(enemyList[i].enemyAggroArea.X, enemyList[i].enemyAggroArea.Y);
-                                    //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
-                                    enemyList[i].EnemyAnimationUpdate(gameTime, spriteBatch);
-                                    if (enemyList[i].objectID == (int)Enums.ObjectsID.SNAIL)
-                                        enemyList[i].DrawProjectile(spriteBatch, Color.White);
+                                //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].collisionBoxSize.X), (int)(enemyList[i].collisionBoxSize.Y));
+                                //colordata = new Color[(int)((enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y))];
+                                //for (int j = 0; j < (enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y); j++)
+                                //    colordata[j] = Color.White;
+                                //enemytexture.SetData<Color>(colordata);
+                                //enemyaggroposition = new Vector2(enemyList[i].collisionRectangle.Left, enemyList[i].collisionRectangle.Top);
+                                //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                                viewableEnemies[i].EnemyAnimationUpdate(gameTime, spriteBatch);
+                                    if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL)
+                                    viewableEnemies[i].DrawProjectile(spriteBatch, Color.White);
                                // }
                             }
-
+                               
                             //This draws the player
 
                             //----Draw Hitbox----//
-                            playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                                playercolorData[i] = Color.Black;
-                            playertexture.SetData<Color>(playercolorData);
-                            playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                            spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
+                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
+                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
+                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
+                            //    playercolorData[i] = Color.Black;
+                            //playertexture.SetData<Color>(playercolorData);
+                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
+                          //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
                             //----End Draw Hitbox----//
                             shopKeeper.DrawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix, font, levelManager);
 
@@ -453,6 +453,9 @@ namespace Reggie
 
         private void FillLists()
         {
+            interactiveObject.Clear();
+            cornnencyList.Clear();
+            enemySpawnList.Clear();
             for (int i = 0; i < allGameObjectList.Count(); i++)
             {
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.VINE)
@@ -475,8 +478,8 @@ namespace Reggie
                     interactiveObject.Add(allGameObjectList[i]);
                 if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.CORNNENCY)
                     cornnencyList.Add(allGameObjectList[i]);
-                if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
-                    enemySpawnList.Add(allGameObjectList[i] as Platform);
+                //if (allGameObjectList[i].objectID == (int)Enums.ObjectsID.ENEMYSPAWNPOINT)
+                //    enemySpawnList.Add(allGameObjectList[i] as Platform);
                 //if(allGameObjectList[i].objectID == (int)Enums.ObjectsID.SPIDERWEB)
                 //    interactiveObject.Add(allGameObjectList[i]);
                 
