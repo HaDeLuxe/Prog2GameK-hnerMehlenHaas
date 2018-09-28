@@ -2433,12 +2433,12 @@ tileBlue_04,-7616,4288
 tileBlue_04,-7680,4224
 tileBlue_04,-7808,4160
 tileBlue_04,-7936,4096
-tileBlue_16,-8000,4095,75
-tileBlue_01,-8000,4031,75
-tileBlue_01,-8000,3775,75
+tileBlue_16,-8000,4095
+tileBlue_01,-8000,4031
+tileBlue_01,-8000,3775
 tileBlue_01,-8192,3968
 tileBlue_01,-8000,3712
-tileBlue_01,-8000,3839,75
+tileBlue_01,-8000,3839
 tileBlue_01,-8000,3584
 tileBlue_01,-8000,3648
 tileBlue_01,-8192,4032
@@ -2658,8 +2658,8 @@ tileGreen_01,-8128,-8256
 tileGreen_01,-8192,-8256
 tileGreen_01,-8000,-8256
 tileGreen_01,-8064,-8256
-tileGreen_01,-7872,-8256
-tileGreen_01,-7936,-8256
+tileGreen_01,-8640,-8000
+tileGreen_01,-8512,-8064
 tileGreen_01,-7744,-8256
 tileGreen_01,-7808,-8256
 tileGreen_01,-7616,-8256
@@ -2718,8 +2718,8 @@ tileGreen_01,-4800,-8256
 tileGreen_01,-4480,-8256
 tileGreen_01,-4416,-8256
 tileGreen_01,-4160,-8256
-tileBlue_01,-8000,3967,75
-tileBlue_01,-8000,3903,75
+tileBlue_01,-8000,3967
+tileBlue_01,-8000,3903
 tileBlue_01,-8000,2560
 tileBrown_01,-8192,1664
 tileBrown_01,-8192,1728
@@ -3741,7 +3741,7 @@ tileBrown_01,-4352,-3840
 tileBrown_01,-4352,-3776
 tileBrown_01,-4352,-3712
 tileBrown_01,-4352,-3648
-tileBrown_01,-4352,-3583,85
+tileBrown_01,-4352,-3583
 tileBrown_01,-4352,-3456
 tileBrown_01,-4352,-3392
 tileBrown_01,-4352,-4160
@@ -5005,9 +5005,9 @@ tileBrown_15,-7296,-4992
 tileBrown_17,-7424,-4992
 tileBrown_03,-7360,-4992
 tileBrown_16,-7936,-5440
-tileBrown_07,-7872,-5439,85
+tileBrown_07,-7872,-5439
 tileBrown_08,-7808,-5440
-HEALTHPOTION,-7872,-5503,15
+HEALTHPOTION,-7872,-5503
 tileBrown_08,-6336,-5248
 tileBrown_08,-5568,-5120
 tileBrown_08,-4608,-5248
@@ -5146,12 +5146,13 @@ tileBrown_07,-4416,-8064
 tileBrown_07,-4480,-8064
 tileBrown_06,-4544,-8064
 tileBrown_01,-4288,-7616
-Playerposition, -5954,-7947,65
+CORNNENCY,2600,4225
+Playerposition, -7964,-8144
 ArmorBOOL, False
 HelmetBOOL, False
 HealthPotionBOOL,True
-JumpPotionBOOL, False
-PowerPotionBOOL, False
+JumpPotionBOOL, True
+PowerPotionBOOL, True
 ScissorsBOOL, False
 ShovelBOOL, False
 GoldenUmbrellaBOOL, False
