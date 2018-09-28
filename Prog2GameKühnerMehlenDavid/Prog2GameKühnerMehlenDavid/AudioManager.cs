@@ -104,14 +104,16 @@ namespace Reggie
             if (s.Equals("ReggieJump")&& reggie_Jump_Timer>0.1f)
             {
                 var temp = reggie_Jump.CreateInstance();
-                temp.Volume = 0.03f;
+                //temp.Volume = 0.03f;
+                temp.Volume = 1f;
                 temp.Play();
                 reggie_Jump_Timer = 0;
             }
             if (s.Equals("ReggieAttack") && reggie_Attacks_Timer > 0.5f)
             {
                 var temp = reggie_Attacks.CreateInstance();
-                temp.Volume = 0.3f;
+                //temp.Volume = 0.3f;
+                temp.Volume = 1f;
                 temp.Play();
                 reggie_Attacks_Timer = 0;
             }
@@ -146,7 +148,8 @@ namespace Reggie
                     if ((int)randomTimer % 4 == 0)
                     {
                         var temp_0 = reggie_Attack_Groaning_1_HUU.CreateInstance();
-                        temp_0.Volume = 0.09f;
+                        //temp_0.Volume = 0.09f;
+                        temp_0.Volume = 1f;
                         temp_0.Play();
                         reggie_Attack_Groaning_Timer = 0;
                     }
@@ -154,7 +157,8 @@ namespace Reggie
                     if ((int)randomTimer % 4 == 1)
                     {
                         var temp_1 = reggie_Attack_Groaning_2_HAA.CreateInstance();
-                        temp_1.Volume = 0.09f;
+                        //temp_1.Volume = 0.09f;
+                        temp_1.Volume = 1f;
                         temp_1.Play();
                         reggie_Attack_Groaning_Timer = 0;
                     }
@@ -162,7 +166,8 @@ namespace Reggie
                     if ((int)randomTimer % 4 == 2)
                     {
                         var temp_2 = reggie_Attack_Groaning_3_HEE.CreateInstance();
-                        temp_2.Volume = 0.09f;
+                        //temp_2.Volume = 0.09f;
+                        temp_2.Volume = 1f;
                         temp_2.Play();
                         reggie_Attack_Groaning_Timer = 0;
                     }
@@ -170,7 +175,8 @@ namespace Reggie
                     if ((int)randomTimer % 4 == 3)
                     {
                         var temp_3 = reggie_Attack_Groaning_4_HOO.CreateInstance();
-                        temp_3.Volume = 0.09f;
+                        //temp_3.Volume = 0.09f;
+                        temp_3.Volume = 1f;
                         temp_3.Play();
                         reggie_Attack_Groaning_Timer = 0;
                     }
@@ -187,35 +193,40 @@ namespace Reggie
             if (s.Equals("ReggieAttackHits") && reggie_Attack_Hits_Timer > 0.2f)
             {
                 var temp = reggie_Attack_Hits.CreateInstance();
-                temp.Volume = 0.03f;
+                // temp.Volume = 0.03f;
+                temp.Volume = 1f;
                 temp.Play();
                 reggie_Attack_Hits_Timer = 0;
             }
             if (s.Equals("ReggieEquipedSomething")&&reggie_Equiped_Something_Timer>0.1f) //VOLUME
             {
                 var temp = reggie_Equiped_Something.CreateInstance();
-                temp.Volume = 0.5f;
+                //emp.Volume = 0.5f;
+                temp.Volume = 1f;
                 temp.Play();
                 reggie_Equiped_Something_Timer = 0;
             }
             if (s.Equals("ReggieOpensSchirm") && reggie_Opens_Schirm_Timer > 0.1f)
             {
                 var temp = reggie_Opens_Schirm.CreateInstance();
-                temp.Volume = 0.05f;
+                //temp.Volume = 0.05f;
+                temp.Volume = 1f;
                 temp.Play();
                 reggie_Opens_Schirm_Timer = 0;
             }
             if (s.Equals("ReggiePickupAnyItem")&& reggie_Pickup_Any_Item_Timer>0.1f)
             {
                 var temp = reggie_Pickup_Any_Item.CreateInstance();
-                temp.Volume = 0.003f;
+                //temp.Volume = 0.003f;
+                temp.Volume = .3f;
                 temp.Play();
                 reggie_Pickup_Any_Item_Timer = 0;
             }
             if (s.Equals("ReggieBoughtSomething")&& shopkeeper_Reggie_Bought_Something_Timer>0.1f) //VOLUME
             {
                 var temp = shopkeeper_Reggie_Bought_Something.CreateInstance();
-                temp.Volume = 0.5f;
+                //temp.Volume = 0.5f;
+                temp.Volume = 1f;
                 temp.Play();
                 shopkeeper_Reggie_Bought_Something_Timer = 0;
             }
@@ -224,14 +235,16 @@ namespace Reggie
                 if ((int)randomTimer % 2 == 0)
                 {
                     var temp = reggie_Hurt_1_AU.CreateInstance();
-                    temp.Volume = 0.09f;
+                    //temp.Volume = 0.09f;
+                    temp.Volume = 1f;
                     temp.Play();
                     reggie_Hurt_Timer = 0;
                 }
                 else
                 {
                     var temp = reggie_Hurt_2_AHHH.CreateInstance();
-                    temp.Volume = 0.09f;
+                    //temp.Volume = 0.09f;
+                    temp.Volume = 1f;
                     temp.Play();
                     reggie_Hurt_Timer = 0;
                 }
@@ -249,21 +262,24 @@ namespace Reggie
                 if ((int)randomTimer % 3 == 0)
                 {
                     var temp = announcer_Denied.CreateInstance();
-                    temp.Volume = 0.5f;
+                    //temp.Volume = 0.5f;
+                    temp.Volume = 1f;
                     temp.Play();
                     AnnouncerInsult_Timer = 0;
                 }
                 if ((int)randomTimer % 3 == 1)
                 {
                     var temp = announcer_Your_Grandma_Plays_Better.CreateInstance();
-                    temp.Volume = 0.5f;
+                    //temp.Volume = 0.5f;
+                    temp.Volume = 1f;
                     temp.Play();
                     AnnouncerInsult_Timer = 0;
                 }
                 if ((int)randomTimer % 3 == 2)
                 {
                     var temp = announcer110_Get_Rekt.CreateInstance();
-                    temp.Volume = 0.5f;
+                    //temp.Volume = 0.5f;
+                    temp.Volume = 1f;
                     temp.Play();
                     AnnouncerInsult_Timer = 0;
                 }
@@ -295,7 +311,8 @@ namespace Reggie
         public void PrepareSoundEffectInstancesAfterLoadingFilesFunction()
         {
             reggieMovesSound = reggie_Moves.CreateInstance();
-            reggieMovesSound.Volume = 0.06f;
+            //reggieMovesSound.Volume = 0.06f;
+            reggieMovesSound.Volume = 1f;
         }
 
         //Gets updated via update function in Game1
