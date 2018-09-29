@@ -195,15 +195,17 @@ namespace Reggie.Enemies
         }
         public void EnemyPositionCalculation(GameTime gameTime)
         {
-           
-            if (gravityActive && isStanding == false /*&& !attackAction*/)
+            if (objectID != (int)Enums.ObjectsID.BOSS)
             {
-                fallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-                gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
-                collisionBoxPosition += gravity;
+                if (gravityActive && isStanding == false /*&& !attackAction*/)
+                {
+                    fallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+                    gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
+                    collisionBoxPosition += gravity;
+                }
+                else
+                    gravity = Vector2.Zero;
             }
-            else
-                gravity = Vector2.Zero;
             collisionBoxPosition += velocity;
             velocity = Vector2.Zero;
             //if (fallCooldown >= 5)
@@ -211,9 +213,12 @@ namespace Reggie.Enemies
             if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
             {
                 gameObjectPosition = collisionBoxPosition - changeCollisionBox;
-                enemyAggroArea.X = (int)(gameObjectPosition.X - enemyAggroAreaSize.X);
-                enemyAggroArea.Y = (int)(gameObjectPosition.Y - enemyAggroAreaSize.Y);
-                isStanding = false;
+                if (objectID != (int)Enums.ObjectsID.BOSS)
+                {
+                    enemyAggroArea.X = (int)(gameObjectPosition.X - enemyAggroAreaSize.X);
+                    enemyAggroArea.Y = (int)(gameObjectPosition.Y - enemyAggroAreaSize.Y);
+                    isStanding = false;
+                }
             }
             //else
             //{

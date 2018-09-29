@@ -25,6 +25,7 @@ namespace Reggie
 
         public static Player wormPlayer;
         public Enemy ant;
+        public Boss hakume;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -189,6 +190,8 @@ namespace Reggie
             ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, playerSpriteSheets);
             FillLists();
             // MONO: use this.Content to load your game content here
+            hakume = new Boss(null, new Vector2(400, 422), new Vector2(-4500, -11450), (int)Enums.ObjectsID.BOSS, enemySpriteSheets);
+            hakume.SetPlayer(wormPlayer);
         }
 
         /// <summary>
@@ -297,12 +300,20 @@ namespace Reggie
 
                     if(timeUntilNextFrame2 <= 0)
                     {
-                        foreach (var enemy in viewableEnemies.ToList())
+                        if(levelManager.PlayerLevelLocation() != Enums.Level.CROWN)
+                            foreach (var enemy in viewableEnemies.ToList())
+                             {
+                                enemy.Update(gameTime, gameObjectsToRender);
+                                if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
+                                 viewableEnemies.RemoveAt(viewableEnemies.IndexOf(enemy));
+                             }
+                        if (levelManager.PlayerLevelLocation() == Enums.Level.CROWN)
                         {
-                            enemy.Update(gameTime, gameObjectsToRender);
-                            if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
-                                viewableEnemies.RemoveAt(viewableEnemies.IndexOf(enemy));
+                            hakume.Update(gameTime, gameObjectsToRender);
+                            if (hakume.EnemyAliveState() == false)
+                                hakume = null;
                         }
+                        
                         timeUntilNextFrame2 += animationFrameTime;
                     }
                     break;
@@ -358,8 +369,6 @@ namespace Reggie
 
                         if (lastGameState == currentGameState)
                         {
-
-                            
                             levelManager.drawLevelsBackground(spriteBatch, texturesDictionary);
 
 
@@ -368,36 +377,27 @@ namespace Reggie
                                 if (platformSprite.IsThisAVisibleObject())
                                     platformSprite.DrawSpriteBatch(spriteBatch);
 
-                          
+                            if (levelManager.PlayerLevelLocation() == Enums.Level.CROWN)
+                            {
+                                hakume.EnemyAnimationUpdate(gameTime, spriteBatch);
+                                hakume.DrawProjectile(spriteBatch, Color.White);
+                                
+                            }
+                            if (levelManager.PlayerLevelLocation() != Enums.Level.CROWN)
                                 for (int i = 0; i < viewableEnemies.Count(); i++)
                                 {
-                                //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].collisionBoxSize.X), (int)(enemyList[i].collisionBoxSize.Y));
-                                //colordata = new Color[(int)((enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y))];
-                                //for (int j = 0; j < (enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y); j++)
-                                //    colordata[j] = Color.White;
-                                //enemytexture.SetData<Color>(colordata);
-                                //enemyaggroposition = new Vector2(enemyList[i].collisionRectangle.Left, enemyList[i].collisionRectangle.Top);
-                                //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                                
                                 viewableEnemies[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                 viewableEnemies[i].drawHealthBar(spriteBatch, texturesDictionary);
 
-                                if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL)
+                                if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL || viewableEnemies[i].objectID == (int)Enums.ObjectsID.SPIDER)
                                 {
                                     viewableEnemies[i].DrawProjectile(spriteBatch, Color.White);
                                 }
+                               // }
                             }
                                
-                            //This draws the player
-
-                            //----Draw Hitbox----//
-                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                            //    playercolorData[i] = Color.Black;
-                            //playertexture.SetData<Color>(playercolorData);
-                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                          //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
-                            //----End Draw Hitbox----//
+                          
                             shopKeeper.DrawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix, font, levelManager);
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
