@@ -18,7 +18,7 @@ namespace Reggie.Enemies
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 5;
+            enemyHP = 3;
             movementSpeed = 3f;
             knockBackValue = 30f;
             attackDamage = 0.09f;
