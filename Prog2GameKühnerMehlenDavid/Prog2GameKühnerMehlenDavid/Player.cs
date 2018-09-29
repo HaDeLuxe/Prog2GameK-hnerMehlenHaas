@@ -39,9 +39,13 @@ namespace Reggie
         public bool isFloating;
         public float invincibilityTimer;
         public float playerDamage;
+        private float currentTime = 1f;
+
 
         public float invincibilityFixedTimer { get;  set; }
         public bool playerSlowed { get; set; }
+        private bool controllerVibration = false;
+        private bool firstVibrationCycle = true;
         private float defaultJumpValue;
         //MUSIC
         AudioManager audioManager;
@@ -115,7 +119,7 @@ namespace Reggie
             if (invincibilityFrames)
                 InvincibleFrameState(gameTime);
 
-
+            Vibration();
         }
 
         private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList, Levels levelManager, ref List<GameObject> allGameObjectsList)
@@ -368,9 +372,8 @@ namespace Reggie
         //Contains Player Movement in all 4 directions and the attack
         private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
         {
-
             //using item:
-            if((Keyboard.GetState().IsKeyDown(Keys.F) || GamePad.GetState(0).IsButtonUp(Buttons.B)) && !previousState.IsKeyDown(Keys.B) && previousGamepadState.IsButtonDown(Buttons.B))
+            if ((Keyboard.GetState().IsKeyDown(Keys.F) || GamePad.GetState(0).IsButtonUp(Buttons.B)) && !previousState.IsKeyDown(Keys.B) && previousGamepadState.IsButtonDown(Buttons.B))
             {
                 int temp = itemUIManager.RemoveObject();
                 if(temp == (int)Enums.ObjectsID.HEALTHPOTION)
@@ -830,7 +833,9 @@ namespace Reggie
 
         //Reduces player's hp if he is hit by the enemy
         public void ReducePlayerHP(float damage)
-        { 
+        {
+            controllerVibration = true;
+            
             if (playerHP > 0)
             {
                 playerHP -= damage;
@@ -911,6 +916,29 @@ namespace Reggie
         public void drawThirdTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset, Color color) 
         {
             spriteBatch.Draw(itemPlayerTexture, gameObjectPosition + offset, sourceRectangle, color, 0, Vector2.Zero, Vector2.One, spriteEffects, 0);
+        }
+
+        private void Vibration()
+        {
+            if (controllerVibration)
+            {
+                if (firstVibrationCycle)
+                {
+                    currentTime = 0;
+                    firstVibrationCycle = false;
+                }
+                if (currentTime < 1.2f)
+                {
+                    GamePad.SetVibration(0, 1f, 1f);
+                    currentTime += 0.1f;
+                }
+                else
+                {
+                    GamePad.SetVibration(0, 0f, 0f);
+                    firstVibrationCycle = true;
+                    controllerVibration = false;
+                }
+            }
         }
     }
 }

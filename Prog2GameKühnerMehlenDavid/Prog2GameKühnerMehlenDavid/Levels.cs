@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Reggie {
     internal class Levels {
 
+
         Rectangle TutorialRectangle = new Rectangle(5120, 0, 10240, 2048);
         //Rectangle DunghillRectangle = new Rectangle(0, -2048, 4096, 4096);
         Rectangle HubRectangle = new Rectangle(2048, 4096, 2048, 2048);

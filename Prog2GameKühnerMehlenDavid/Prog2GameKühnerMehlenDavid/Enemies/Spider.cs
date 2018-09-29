@@ -206,5 +206,14 @@ namespace Reggie.Enemies
                 spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
         }
+        public override void drawHealthBar(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary)
+        {
+            if (enemyHP < 3)
+            {
+                spriteBatch.Draw(texturesDictionary["enemyHBBorder"], this.gameObjectPosition + new Vector2(32, -50), Color.White);
+                spriteBatch.Draw(texturesDictionary["enemyHBFill"], this.gameObjectPosition + new Vector2(32, -50), null, Color.White, 0, Vector2.Zero, new Vector2(enemyHP / 3, 1), SpriteEffects.None, 0);
+            }
+            base.drawHealthBar(spriteBatch, texturesDictionary);
+        }
     }
 }
