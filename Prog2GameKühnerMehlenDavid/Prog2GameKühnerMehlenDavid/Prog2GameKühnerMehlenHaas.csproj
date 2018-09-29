@@ -51,6 +51,7 @@
     <Compile Include="Animations\UIAnimations.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Enemies\Boss.cs" />
     <Compile Include="Enemies\Snail.cs" />
     <Compile Include="Enemies\Spider.cs" />
     <Compile Include="Menus\Slider.cs" />

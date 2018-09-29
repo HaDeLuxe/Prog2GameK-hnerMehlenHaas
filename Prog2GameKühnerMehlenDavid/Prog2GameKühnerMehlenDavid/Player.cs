@@ -103,7 +103,7 @@ namespace Reggie
             justTouchedBottom = true;
         }
 
-        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, ref List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
         {
             if (!playerSlowed)
                 movementSpeed = 10f;

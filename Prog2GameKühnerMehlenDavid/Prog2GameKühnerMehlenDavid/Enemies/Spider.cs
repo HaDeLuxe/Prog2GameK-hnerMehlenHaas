@@ -17,7 +17,7 @@ namespace Reggie.Enemies
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Spider(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 3;
+            enemyHP = 1;
             movementSpeed = 6f;
             knockBackValue = 30f;
             attackDamage = 0.07f;

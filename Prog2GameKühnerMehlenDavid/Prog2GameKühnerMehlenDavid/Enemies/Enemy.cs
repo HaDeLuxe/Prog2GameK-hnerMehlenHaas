@@ -15,7 +15,7 @@ namespace Reggie.Enemies
         public Vector4 enemyAggroAreaSize;
         protected float attackRange;
         protected Player worm;
-        protected float enemyHP;
+        public float enemyHP;
         protected bool stillAlive;
         protected bool knockedBack;
         protected float knockBackValue;

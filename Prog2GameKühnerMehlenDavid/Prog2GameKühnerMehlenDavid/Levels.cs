@@ -178,19 +178,19 @@ namespace Reggie {
                 AntToTree = false;
             }
 
-            if (GazeboRectangle.Contains(PlayerPos))
-            {
-                Camera.enableCameraMovement = false;
+            //if (GazeboRectangle.Contains(PlayerPos))
+            //{
+            //    Camera.enableCameraMovement = false;
                 
-                Game1.cameraOffset = new Vector2(5000, 8000);
-                Camera.zoom = 0.05f;
-            }
-            else
-            {
-                Camera.enableCameraMovement = true;
-                //Game1.cameraOffset = new Vector2(0, 0);
-                Camera.zoom = 1f;
-            }
+            //    Game1.cameraOffset = new Vector2(5000, 8000);
+            //    Camera.zoom = 0.05f;
+            //}
+            //else
+            //{
+            //    Camera.enableCameraMovement = true;
+            //    //Game1.cameraOffset = new Vector2(0, 0);
+            //    Camera.zoom = 1f;
+            //}
 
            
         }

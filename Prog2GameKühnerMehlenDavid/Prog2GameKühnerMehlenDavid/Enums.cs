@@ -148,6 +148,7 @@ namespace Reggie {
             SPIDER,
             ANT,
             LADYBUG,
+            BOSS,
             ///ADD NEW ITEM HERE
 
         }
