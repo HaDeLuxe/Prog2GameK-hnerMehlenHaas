@@ -799,7 +799,6 @@ tileBrown_03,7872,1472
 VINE,7680,1408
 VINE,7680,1344
 VINE,7680,1280
-VINE,7616,1152
 tileBrown_01,7872,1151
 tileBrown_01,7808,1087
 tileBrown_04,8064,1472
@@ -827,12 +826,8 @@ tileBrown_01,7886,1118
 tileBrown_01,7886,1118
 tileBrown_01,7616,1536
 tileBrown_01,7616,1472
-tileBrown_01,7616,1344
 tileBrown_01,7616,1408
-tileBrown_01,7616,1280
-tileBrown_01,7616,1216
 tileBrown_01,7808,768
-tileBrown_01,7616,1152
 VINE,7680,1216
 VINE,7680,1152
 VINE,7680,1088
@@ -843,15 +838,9 @@ VINE,7680,832
 tileBrown_01,7808,831
 tileBrown_01,7808,895
 tileBrown_01,7808,767
-tileBrown_01,7616,1024
-tileBrown_01,7616,1088
-tileBrown_01,7616,831
-tileBrown_01,7616,896
-tileBrown_01,7616,960
 tileBrown_04,7616,768
 tileBrown_01,7616,511
 tileBrown_01,7808,575
-tileBrown_01,7616,832
 tileBrown_03,7552,768
 tileBrown_03,7488,768
 tileBrown_16,7680,447
@@ -904,8 +893,6 @@ tileBrown_01,6912,447
 tileBrown_01,6976,447
 tileBrown_01,6976,511
 tileBrown_01,6912,511
-tileBrown_01,7552,896
-tileBrown_01,7552,832
 tileBrown_01,8064,1792
 tileBrown_01,8000,1792
 tileBrown_01,7936,1792
@@ -985,25 +972,19 @@ tileBrown_01,7488,832
 tileBrown_01,7424,832
 tileBrown_01,7104,1280
 tileBrown_01,7360,895
-tileBrown_01,7552,960
 tileBrown_01,7232,1216
 tileBrown_01,7296,1216
-tileBrown_01,7552,1024
 tileBrown_01,7488,1024
 tileBrown_01,7424,1024
 tileBrown_01,7424,1088
 tileBrown_01,7488,1088
-tileBrown_01,7552,1088
 tileBrown_01,7424,1152
-tileBrown_01,7552,1152
 tileBrown_01,7488,1152
 tileBrown_01,7424,1216
 tileBrown_01,7488,1216
-tileBrown_01,7552,1216
 tileBrown_01,7424,1280
 tileBrown_01,7360,1280
 tileBrown_01,7488,1280
-tileBrown_01,7552,1280
 tileBrown_01,7168,1344
 tileBrown_01,7104,1344
 tileBrown_01,7488,1344
@@ -1199,7 +1180,6 @@ tileBrown_01,6848,575
 tileBrown_01,6848,447
 tileBrown_02,6848,383
 tileBrown_15,6912,383
-tileBrown_01,7552,1344
 CORNNENCY,11712,576
 CORNNENCY,11648,576
 CORNNENCY,11328,448
@@ -3222,12 +3202,40 @@ CORNNENCY,-1920,7360
 ENEMYSPAWNPOINT,-2112,7104
 ENEMYSPAWNPOINT,-2368,7104
 CORNNENCY,-3520,7232
-Playerposition, -2654,6576
+CORNNENCY,2600,4225
+tileBrown_01,7832,867
+tileBrown_01,7832,867
+tileBrown_01,7552,960
+tileBrown_01,7616,960
+tileBrown_01,7552,896
+tileBrown_01,7616,896
+tileBrown_01,7552,832
+tileBrown_01,7616,832
+tileBrown_01,7616,1024
+tileBrown_01,7552,1024
+tileBrown_01,7616,1152
+tileBrown_01,7552,1152
+tileBrown_01,7552,1088
+tileBrown_01,7616,1088
+tileBrown_01,7616,1344
+tileBrown_01,7552,1344
+tileBrown_01,7552,1280
+tileBrown_01,7616,1280
+tileBrown_01,7616,1216
+tileBrown_01,7552,1216
+ENEMYSPAWNPOINT,7488,768
+ENEMYSPAWNPOINT,7296,768
+ENEMYSPAWNPOINT,7744,1472
+CORNNENCY,7296,640
+CORNNENCY,7552,640
+CORNNENCY,8384,1600
+CORNNENCY,9664,1344
+Playerposition, 12444,1520
 ArmorBOOL, False
 HelmetBOOL, False
-HealthPotionBOOL,True
+HealthPotionBOOL,False
 JumpPotionBOOL, False
 PowerPotionBOOL, False
 ScissorsBOOL, False
 ShovelBOOL, False
-GoldenUmbrellaBOOL, True
+GoldenUmbrellaBOOL, False
