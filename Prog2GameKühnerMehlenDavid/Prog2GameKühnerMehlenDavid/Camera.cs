@@ -15,7 +15,7 @@ namespace Reggie
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        public static float zoom = 0.7f;
+        public static float zoom = 1f;
         public static bool enableCameraMovement = true;
         public bool spawnBoss = false;
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
@@ -105,11 +105,7 @@ namespace Reggie
                                     enemyList.Last().SetPlayer(wormPlayer);
 
                             }
-                            if (currentLevel == Enums.Level.CROWN && !spawnBoss)
-                            {
-                                enemyList.Add(new Boss(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.BOSS, enemySpriteSheets));
-                                spawnBoss = true;
-                            }
+                           
                         }
                         
                     }

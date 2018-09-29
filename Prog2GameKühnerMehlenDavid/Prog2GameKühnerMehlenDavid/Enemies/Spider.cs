@@ -208,10 +208,10 @@ namespace Reggie.Enemies
         }
         public override void drawHealthBar(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary)
         {
-            if (enemyHP < 3)
+            if (enemyHP < 1)
             {
                 spriteBatch.Draw(texturesDictionary["enemyHBBorder"], this.gameObjectPosition + new Vector2(32, -50), Color.White);
-                spriteBatch.Draw(texturesDictionary["enemyHBFill"], this.gameObjectPosition + new Vector2(32, -50), null, Color.White, 0, Vector2.Zero, new Vector2(enemyHP / 3, 1), SpriteEffects.None, 0);
+                spriteBatch.Draw(texturesDictionary["enemyHBFill"], this.gameObjectPosition + new Vector2(32, -50), null, Color.White, 0, Vector2.Zero, new Vector2(enemyHP / 1, 1), SpriteEffects.None, 0);
             }
             base.drawHealthBar(spriteBatch, texturesDictionary);
         }

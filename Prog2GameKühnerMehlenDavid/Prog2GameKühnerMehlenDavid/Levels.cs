@@ -84,9 +84,10 @@ namespace Reggie {
                 currentLevel = Enums.Level.HUB;
             if (AntRectangle.Contains(PlayerPos))
                 currentLevel = Enums.Level.ANTCAVE;
-            if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos))
+            if (TreeRectangle.Contains(PlayerPos))
                 currentLevel = Enums.Level.TREE;
-
+            if (CrownRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.CROWN;
 
             if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
             {

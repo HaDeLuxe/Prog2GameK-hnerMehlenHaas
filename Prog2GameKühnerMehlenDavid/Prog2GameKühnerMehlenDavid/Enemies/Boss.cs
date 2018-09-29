@@ -94,6 +94,7 @@ namespace Reggie.Enemies
             {
 
             }
+            EnemyPositionCalculation(gameTime);
         }
 
         private void BossRestLocation()
@@ -188,9 +189,15 @@ namespace Reggie.Enemies
 
         public override void DrawProjectile(SpriteBatch spriteBatch, Color color)
         {
+            if(bossPhase ==1)
             foreach (var projectile in projectileList)
             {
                 spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
+            }
+            else if(bossPhase == 3)
+            foreach (var projectile in projectileList)
+            {
+                    spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
         }
 
@@ -204,10 +211,11 @@ namespace Reggie.Enemies
                     else if (phase1Route <= 100)
                         facingDirectionRight = true;
                     if (facingDirectionRight)
-                        velocity.X += 10;
+                        velocity.X = 10;
                     else if (!facingDirectionRight)
-                        velocity.X -= 10;
+                        velocity.X = -10;
                     phase1Route += velocity.X;
+                    //collisionBoxPosition.X += velocity.X;
                     break;
                 case 2:
                     if (phase1Route >= 1600)
@@ -240,6 +248,7 @@ namespace Reggie.Enemies
                         }
                     }
                     phase1Route += velocity.X;
+                   // collisionBoxPosition += velocity;
                     break;
                 case 3:
                     if (phase1Route >= 1600)
@@ -247,9 +256,9 @@ namespace Reggie.Enemies
                     else if (phase1Route <= 100)
                         facingDirectionRight = true;
                     if (facingDirectionRight)
-                        velocity.X += 10;
+                        velocity.X = 10;
                     else if (!facingDirectionRight)
-                        velocity.X -= 10;
+                        velocity.X = -10;
 
                     if (!calculateCharge)
                         CalculationChargingVector();
