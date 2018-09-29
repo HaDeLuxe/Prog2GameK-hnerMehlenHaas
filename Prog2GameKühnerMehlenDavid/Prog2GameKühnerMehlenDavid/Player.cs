@@ -232,7 +232,7 @@ namespace Reggie
 
             foreach (var platform in gameObjectsToRender)
             {
-                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.W) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.ThumbSticks.Left.Y != 0 || previousGamepadState.ThumbSticks.Left.X != 0 || previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
+                if (((previousState.IsKeyDown(Keys.A) || previousState.IsKeyDown(Keys.D) || previousState.IsKeyDown(Keys.S) || previousState.IsKeyDown(Keys.W) || previousState.IsKeyDown(Keys.Space)) || gravityActive || previousGamepadState.IsButtonDown(Buttons.DPadDown) || previousGamepadState.IsButtonDown(Buttons.DPadUp)|| previousGamepadState.IsButtonDown(Buttons.DPadRight)|| previousGamepadState.IsButtonDown(Buttons.DPadLeft)|| previousGamepadState.IsButtonDown(Buttons.A) || previousGamepadState.IsButtonDown(Buttons.B)) && !playerGameElementInteraction && platform.objectID == (int)Enums.ObjectsID.PLATFORM)
                 {
                     if(velocity.X !=0 && isStanding)
                             audioManager.Play("ReggieMoves");
@@ -384,7 +384,7 @@ namespace Reggie
                 }
                 if(temp == (int)Enums.ObjectsID.JUMPPOTION)
                 {
-                    defaultJumpValue = -40f;
+                    defaultJumpValue = -22f;
                 }
             }
 

@@ -29,8 +29,8 @@ namespace Reggie {
         Rectangle HubToAntRectangle = new Rectangle(0, 4000, 1000, 2000);
         Rectangle AntToHubRectangle = new Rectangle(1000, 4000, 1000, 2000);
 
-        Rectangle AntToTreeRectangle = new Rectangle(-8000, 2100, 2000, 950);
-        Rectangle TreeToAntRectangle = new Rectangle(-8000, 3050, 2000, 950);
+        Rectangle AntToTreeRectangle = new Rectangle(-8200, 2100, 2100, 950);
+        Rectangle TreeToAntRectangle = new Rectangle(-8200, 3050, 2100, 950);
         
 
 

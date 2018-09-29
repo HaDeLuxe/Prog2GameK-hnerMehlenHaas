@@ -244,26 +244,22 @@ namespace Reggie
 
             if ((Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(0).ThumbSticks.Left.Y < -0.5f) && !buttonPressed)
             {
+                currentButton++;
+                if (currentButton > Enums.ShopKeeperItemButtons.HEALTHPOTION)
+                    currentButton = Enums.ShopKeeperItemButtons.STRENGTHPOTION;
+                
+                buttonPressed = true;
+            }
+
+            if ((Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(0).ThumbSticks.Left.Y > +0.5f) && !buttonPressed)
+            {
                 currentButton--;
                 if (currentButton < 0)
-                currentButton = Enums.ShopKeeperItemButtons.STRENGTHPOTION;
-
-                lastPadInput = GamePad.GetState(0);
-                buttonPressed = true;
-            }
-
-            if ((Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(0).ThumbSticks.Left.Y > +0.5f) && !buttonPressed && lastPadInput != GamePad.GetState(0))
-            {
-                currentButton++;
-                if (currentButton <= Enums.ShopKeeperItemButtons.STRENGTHPOTION)
-                    currentButton = Enums.ShopKeeperItemButtons.JUMPPOTION;
-                if (currentButton > Enums.ShopKeeperItemButtons.JUMPPOTION)
                     currentButton = Enums.ShopKeeperItemButtons.HEALTHPOTION;
 
-                lastPadInput = GamePad.GetState(0);
                 buttonPressed = true;
             }
-            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed &&lastPadInput!=GamePad.GetState(0))
+            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(0).IsButtonDown(Buttons.A)) && !buttonPressed)
             {
                 buttonPressed = true;
 
@@ -291,11 +287,10 @@ namespace Reggie
             {
                 shopOpen = false;
             }
-            if (Keyboard.GetState().GetPressedKeys().Count() == 0 || GamePad.GetState(0).ThumbSticks.Left.Y == 0 && GamePad.GetState(0).ThumbSticks.Left.X == 0)
+            if (Keyboard.GetState().GetPressedKeys().Count() == 0 && GamePad.GetState(0).ThumbSticks.Left.Y < 0.5f && GamePad.GetState(0).ThumbSticks.Left.Y > -0.5f)
             {
                 buttonPressed = false;
             }
-            lastPadInput = GamePad.GetState(0);
         }
 
         //MUSS DA NOCH NEN UPDATE GETRIGGERT WERDEN ODER NICHT?
@@ -306,6 +301,7 @@ namespace Reggie
                 if (ItemUIManager.cornnencyQuantity >= 5)
                 {
                     ItemUIManager.cornnencyQuantity -= 5;
+                    ItemUIManager.powerPickedUp = true;
                     ItemUIManager.powerPotionsCount++;
                     audioManager.Play("ReggieBoughtSomething");
                 }
@@ -315,6 +311,7 @@ namespace Reggie
                 if (ItemUIManager.cornnencyQuantity >= 5)
                 {
                     ItemUIManager.cornnencyQuantity -= 5;
+                    ItemUIManager.jumpPickedUp = true;
                     ItemUIManager.jumpPotionsCount++;
                     audioManager.Play("ReggieBoughtSomething");
                 }
@@ -324,6 +321,7 @@ namespace Reggie
                 if (ItemUIManager.cornnencyQuantity >= 5)
                 {
                     ItemUIManager.cornnencyQuantity -= 5;
+                    ItemUIManager.healthPickedUp = true;
                     ItemUIManager.healthPotionsCount++;
                     audioManager.Play("ReggieBoughtSomething");
                 }
