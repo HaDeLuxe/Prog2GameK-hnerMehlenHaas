@@ -27,10 +27,10 @@ namespace Reggie
         bool jumpButtonPressed;
         bool playerAttackPressed;
         bool playerGameElementInteraction;
-        bool stillAlive;
+        public bool stillAlive { set; get; }
         float jumpSpeed;
         float cooldown;
-        float playerHP;
+        public float playerHP { set; get; }
         bool climbAllowed;
         protected bool knockedBack;
         protected float knockBackValue;
