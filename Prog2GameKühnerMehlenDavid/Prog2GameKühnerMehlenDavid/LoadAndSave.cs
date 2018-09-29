@@ -303,6 +303,8 @@ namespace Reggie
             texturesDictionary.Add("enemyHBBorder", enemyHBBorder);
             Texture2D enemyHBFill = Content.Load<Texture2D>("Images\\UI\\EnemyHealthBarFill");
             texturesDictionary.Add("enemyHBFill", enemyHBFill);
+            Texture2D redBackground = Content.Load<Texture2D>("Images\\UI\\Red-Background");
+            texturesDictionary.Add("red", redBackground);
 
 
 

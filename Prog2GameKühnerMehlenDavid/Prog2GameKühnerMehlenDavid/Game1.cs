@@ -167,7 +167,7 @@ namespace Reggie
 
             animManager = new AnimationManager(playerSpriteSheets);
             wormPlayer = new Player(playerSpriteSheets["playerMoveSpriteSheet"], new Vector2(SpriteSheetSizes.spritesSizes["Reggie_Move_X"] / 5, SpriteSheetSizes.spritesSizes["Reggie_Move_Y"] / 5), new Vector2(13444, 1500), (int)Enums.ObjectsID.PLAYER);
-             
+
             //SHOP
             shopKeeper = new ShopKeeper(texturesDictionary["cornnency"], new Vector2(334,407), new Vector2(2600, 4225), (int)Enums.ObjectsID.SHOPKEEPER,texturesDictionary); //13494
 
@@ -212,7 +212,7 @@ namespace Reggie
             // MONO: Add your update logic here
 
             //In every State you are able to quit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || !wormPlayer.PlayerIsStillAlive())
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             lastGameState = currentGameState;
@@ -394,7 +394,7 @@ namespace Reggie
                                 {
                                     viewableEnemies[i].DrawProjectile(spriteBatch, Color.White);
                                 }
-                             
+                               // }
                             }
                                
                           
@@ -412,7 +412,10 @@ namespace Reggie
                                 minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
                         ingameMenus.drawUpdate(gameTime, transformationMatrix, ref wormPlayer);
-
+                        if (!wormPlayer.PlayerIsStillAlive())
+                        {
+                            deathLogic(spriteBatch);
+                        }
                         break;
 
                     case GameState.LEVELEDITOR:
@@ -504,6 +507,31 @@ namespace Reggie
             allGameObjectList.Add(shopKeeper);
             levelManager.sortGameObjects();
             FillLists();
+        }
+
+        float alpha = 0;
+        bool fadingIn = true;
+        public void deathLogic(SpriteBatch spriteBatch)
+        {
+            if(alpha <= 1.0f && fadingIn)
+            {
+                alpha += .01f;
+            }
+
+            if(alpha >= 1.0f)
+            {
+                loadAndSave.LoadGameObjects(ref allGameObjectList, ref wormPlayer);
+                wormPlayer.playerHP = 1f;
+                wormPlayer.stillAlive = true;
+                
+            }
+            
+            if(alpha > 0 && !fadingIn)
+            {
+                alpha -= .01f;
+            }
+            spriteBatch.Draw(texturesDictionary["red"], Vector2.Transform(new Vector2(0, 0), Matrix.Invert(transformationMatrix)), null, Color.White * alpha, 0, Vector2.Zero, new Vector2(1920, 1080) /*new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)*/, SpriteEffects.None, 0);
+
         }
 
     }
