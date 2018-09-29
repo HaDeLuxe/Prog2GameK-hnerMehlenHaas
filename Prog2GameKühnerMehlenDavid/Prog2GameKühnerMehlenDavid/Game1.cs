@@ -247,7 +247,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
                     break;
 
                 case GameState.GAMELOOP:
@@ -287,13 +287,13 @@ namespace Reggie
                     {
                         gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, levelObjectList, ref interactiveObject);
                         timeUntilNextFrame1 += animationFrameTime;
-
                     }
 
 
                     camera.SpawnEnemyOffScreen(wormPlayer, enemySpawnList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
-                    viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
+                    if(!camera.spawnBoss)
+                        viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -334,7 +334,7 @@ namespace Reggie
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
 
-            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU || currentGameState == GameState.GAMEMENU)
+            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU/* || currentGameState == GameState.GAMEMENU*/)
             spriteBatch.Begin(0, null, null, null, null, null, null);
             else
             spriteBatch.Begin(0, null, null, null, null, null, transformationMatrix);

@@ -15,9 +15,9 @@ namespace Reggie
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        public static float zoom = 0.05f;
+        public static float zoom = 0.7f;
         public static bool enableCameraMovement = true;
-
+        public bool spawnBoss = false;
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
         {
             this.cameraWorldPosition = cameraWorldPosition;
@@ -105,7 +105,11 @@ namespace Reggie
                                     enemyList.Last().SetPlayer(wormPlayer);
 
                             }
-
+                            if (currentLevel == Enums.Level.CROWN && !spawnBoss)
+                            {
+                                enemyList.Add(new Boss(null, new Vector2(100, 50), new Vector2(platformList[i].gameObjectPosition.X + (platformList[i].gameObjectSize.X / 2), platformList[i].gameObjectPosition.Y - 50), (int)Enums.ObjectsID.BOSS, enemySpriteSheets));
+                                spawnBoss = true;
+                            }
                         }
                         
                     }
@@ -118,9 +122,12 @@ namespace Reggie
         public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> enemyList)
         {
             List<Enemy> enemyToRender = new List<Enemy>();
+           
             for (int i = 0; i < enemyList.Count; i++)
             {
-                if (enemyList[i].gameObjectPosition.X < playerPosition.X + 1100 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 1100)
+                if (enemyList[i].enemyHP == 0)
+                    enemyList.RemoveAt(i);
+                 else if (enemyList[i].gameObjectPosition.X < playerPosition.X + 1100 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 1100)
                 {
                     if (enemyList[i].gameObjectPosition.Y < playerPosition.Y + 650 && enemyList[i].gameObjectRectangle.Bottom > playerPosition.Y - 650)
                     {

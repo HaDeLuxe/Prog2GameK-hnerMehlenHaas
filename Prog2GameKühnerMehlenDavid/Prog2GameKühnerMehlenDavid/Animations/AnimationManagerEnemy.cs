@@ -222,6 +222,26 @@ namespace Reggie.Animations {
                     tempRec = spider_Move_Right.Update(gameTime);
                     enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
                     break;
+                case Enums.EnemyAnimations.HAWK_FLY_LEFT:
+                    enemy.changeTexture(hawk_Fly_Left.texture);
+                    tempRec = hawk_Fly_Left.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Fly_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    break;
+                case Enums.EnemyAnimations.HAWK_FLY_RIGHT:
+                    enemy.changeTexture(hawk_Fly_Right.texture);
+                    tempRec = hawk_Fly_Right.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Fly_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    break;
+                case Enums.EnemyAnimations.HAWK_ATTACK_LEFT:
+                    enemy.changeTexture(hawk_Attack_Left.texture);
+                    tempRec = hawk_Attack_Left.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Attack_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    break;
+                case Enums.EnemyAnimations.HAWK_ATTACK_RIGHT:
+                    enemy.changeTexture(hawk_Fly_Right.texture);
+                    tempRec = hawk_Fly_Right.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Fly_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    break;
             }
         }
 
