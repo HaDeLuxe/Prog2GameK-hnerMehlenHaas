@@ -192,12 +192,12 @@ namespace Reggie.Enemies
             if(bossPhase ==1)
             foreach (var projectile in projectileList)
             {
-                spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
+                spriteBatch.Draw(EnemySpriteSheetsDic["feather"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
             else if(bossPhase == 3)
             foreach (var projectile in projectileList)
             {
-                    spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
+                    spriteBatch.Draw(EnemySpriteSheetsDic["egg"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
         }
 

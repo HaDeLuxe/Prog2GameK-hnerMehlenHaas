@@ -61,10 +61,10 @@ namespace Reggie.Animations {
             ant_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 37, 64, EnemySpriteSheetsDic["antMovingSpriteSheet"], 25);
             ant_Attack_Left = new Animation(false, SpriteEffects.None, 44, 64, EnemySpriteSheetsDic["antAttackSpriteSheet"], 50f);
             ant_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 44, 64, EnemySpriteSheetsDic["antAttackSpriteSheet"], 50f);
-            hawk_Fly_Left = new Animation(true, SpriteEffects.None, 400, 392, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
-            hawk_Fly_Right = new Animation(true, SpriteEffects.FlipHorizontally, 400, 392, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
-            hawk_Attack_Left = new Animation(false, SpriteEffects.None, 400, 422, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
-            hawk_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 400, 422, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
+            hawk_Fly_Left = new Animation(true, SpriteEffects.None, 400, 422, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
+            hawk_Fly_Right = new Animation(true, SpriteEffects.FlipHorizontally, 400, 422, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
+            hawk_Attack_Left = new Animation(false, SpriteEffects.None, 400, 397, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
+            hawk_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 400, 397, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
             spider_Move_Left = new Animation(true, SpriteEffects.None, 140, 70, EnemySpriteSheetsDic["spiderMovingSpriteSheet"], 25f);
             spider_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 140, 70, EnemySpriteSheetsDic["spiderMovingSpriteSheet"], 25f);
             spider_Attack_Left = new Animation(false, SpriteEffects.None, 140, 99, EnemySpriteSheetsDic["spiderAttackSpriteSheet"], 50f);
