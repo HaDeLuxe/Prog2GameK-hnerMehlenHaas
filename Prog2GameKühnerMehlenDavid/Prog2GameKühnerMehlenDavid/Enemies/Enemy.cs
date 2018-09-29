@@ -481,5 +481,7 @@ namespace Reggie.Enemies
                 movementDirectionGone = 1000;
         }
         public virtual void DrawProjectile(SpriteBatch spriteBatch, Color color){ }
+
+        public virtual void drawHealthBar(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary) {}
     }
 }

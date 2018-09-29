@@ -299,6 +299,10 @@ namespace Reggie
             texturesDictionary.Add("sliderbar", sliderbar);
             Texture2D sliderknob = Content.Load<Texture2D>("Images\\UI\\Sliderknob");
             texturesDictionary.Add("sliderknob", sliderknob);
+            Texture2D enemyHBBorder = Content.Load<Texture2D>("Images\\UI\\EnemyHealthBarBorder");
+            texturesDictionary.Add("enemyHBBorder", enemyHBBorder);
+            Texture2D enemyHBFill = Content.Load<Texture2D>("Images\\UI\\EnemyHealthBarFill");
+            texturesDictionary.Add("enemyHBFill", enemyHBFill);
 
 
 

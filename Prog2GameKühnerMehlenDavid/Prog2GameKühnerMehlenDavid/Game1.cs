@@ -378,8 +378,12 @@ namespace Reggie
                                 //enemyaggroposition = new Vector2(enemyList[i].collisionRectangle.Left, enemyList[i].collisionRectangle.Top);
                                 //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
                                 viewableEnemies[i].EnemyAnimationUpdate(gameTime, spriteBatch);
-                                    if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL)
+                                viewableEnemies[i].drawHealthBar(spriteBatch, texturesDictionary);
+
+                                if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL)
+                                {
                                     viewableEnemies[i].DrawProjectile(spriteBatch, Color.White);
+                                }
                                // }
                             }
                                
