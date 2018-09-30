@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Reggie
 {
+    /// <summary>
+    /// Class that is used by every normal platform in the game.
+    /// </summary>
     public class Platform : GameObject
     {
         public bool enemySpawnCheck;

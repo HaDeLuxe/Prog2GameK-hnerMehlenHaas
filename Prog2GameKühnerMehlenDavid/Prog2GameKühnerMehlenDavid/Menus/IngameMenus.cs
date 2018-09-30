@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Reggie.Menus
 {
+    /// <summary>
+    /// Contains the Tutorial Animations and the Save Animation
+    /// </summary>
     public class IngameMenus
     {
         SpriteBatch spriteBatch { get; }

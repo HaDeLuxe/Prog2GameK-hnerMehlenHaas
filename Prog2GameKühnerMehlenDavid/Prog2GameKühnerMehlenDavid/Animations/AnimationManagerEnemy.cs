@@ -8,6 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie.Animations {
+    /// <summary>
+    /// Contains all animations for enemies.
+    /// Defines them every single animation.
+    /// Draws the current enemy animation.
+    /// To call an animation, set next "nextAnimation" to EnemyAnimationEnum.
+    /// </summary>
     class AnimationManagerEnemy {
 
         protected Color color = Color.White;
@@ -205,22 +211,22 @@ namespace Reggie.Animations {
                 case Enums.EnemyAnimations.SPIDER_ATTACK_RIGHT:
                     enemy.changeTexture(spider_Attack_Right.texture);
                     tempRec = spider_Attack_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color, scale);
                     break;
                 case Enums.EnemyAnimations.SPIDER_ATTACK_LEFT:
                     enemy.changeTexture(spider_Attack_Left.texture);
                     tempRec = spider_Attack_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Left.getSpriteEffects(), new Vector2(0, -30), color, scale);
                     break;
                 case Enums.EnemyAnimations.SPIDER_MOVE_LEFT:
                     enemy.changeTexture(spider_Move_Left.texture);
                     tempRec = spider_Move_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Left.getSpriteEffects(), new Vector2(0, -0), color, scale);
                     break;
                 case Enums.EnemyAnimations.SPIDER_MOVE_RIGHT:
                     enemy.changeTexture(spider_Move_Right.texture);
                     tempRec = spider_Move_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Right.getSpriteEffects(), new Vector2(0, -0), color, scale);
                     break;
                 case Enums.EnemyAnimations.HAWK_FLY_LEFT:
                     enemy.changeTexture(hawk_Fly_Left.texture);

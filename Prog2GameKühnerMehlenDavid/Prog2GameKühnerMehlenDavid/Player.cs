@@ -10,12 +10,14 @@ using Microsoft.Xna.Framework.Media;
 using Reggie.Animations;
 using Reggie.Enemies;
 using Reggie.Menus;
-//SOUNDEFFECTS
 using Microsoft.Xna.Framework.Audio;
 
 
 namespace Reggie
 {
+    /// <summary>
+    /// Contains the Player Controls and draw and animtion logic.
+    /// </summary>
     public class Player : GameObject
     {
         private KeyboardState previousState;

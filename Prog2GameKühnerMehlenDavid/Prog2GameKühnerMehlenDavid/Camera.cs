@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace Reggie
 {
+    /// <summary>
+    /// Contains the logic to calculate the transformation matrix to manage the viewport and the gameworld positions and to change between them.
+    /// Contains the logic to move the camera upon movement. Allows the player see more where the player move towards.
+    /// </summary>
     class Camera
     {
         

@@ -9,6 +9,9 @@ using Reggie.Animations;
 
 namespace Reggie.Enemies
 { 
+    /// <summary>
+    /// Contains moveset for Snail and its attack pattern.
+    /// </summary>
     public class Snail : Enemy
     {
         private AnimationManagerEnemy animationManager;

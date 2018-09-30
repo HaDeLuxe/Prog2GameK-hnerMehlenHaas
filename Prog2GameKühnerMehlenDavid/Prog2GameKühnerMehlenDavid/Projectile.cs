@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Reggie
 {
+    /// <summary>
+    /// Projection that flies in wanted direction
+    /// </summary>
     public class Projectile : GameObject
     {
         private bool stillExist;

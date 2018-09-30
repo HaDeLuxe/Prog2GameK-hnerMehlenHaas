@@ -54,6 +54,7 @@
     <Compile Include="Enemies\Boss.cs" />
     <Compile Include="Enemies\Snail.cs" />
     <Compile Include="Enemies\Spider.cs" />
+    <Compile Include="Menus\Credits.cs" />
     <Compile Include="Menus\Slider.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="ShopKeeper.cs" />

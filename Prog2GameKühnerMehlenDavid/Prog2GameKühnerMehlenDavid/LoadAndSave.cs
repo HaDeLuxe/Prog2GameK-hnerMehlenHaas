@@ -11,6 +11,11 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Reggie
 {
+        /// <summary>
+        /// Loads all Sprites into the texturesDictionary
+        /// Contains an New Game and an Load Game Load Function
+        /// Contains a Save Function that creates an txt File in the Content folder which contains some game data and all gameobjects enums with their respective worldgameposition.
+        /// </summary>
         public class LoadAndSave {
 
         private List<GameObject> gameObjectList;

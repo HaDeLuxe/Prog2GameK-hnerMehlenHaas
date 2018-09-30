@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Reggie.Menus
 {
+    /// <summary>
+    /// Simple Slider logic.
+    /// Return a float value between 0 and 1.
+    /// </summary>
     class Slider
     {
         

@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace Reggie.Animations
 {
+    /// <summary>
+    /// Contains all animations for UI.
+    /// Defines them every single animation.
+    /// Draws the current UI animation.
+    /// To call an animation, set next "nextAnimation" to EnemyAnimationEnum.
+    /// </summary>
     class UIAnimations
     {
         public uiAnimations currentAnimation = uiAnimations.None;

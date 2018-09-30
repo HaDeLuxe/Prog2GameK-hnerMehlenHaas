@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
-
+    /// <summary>
+    /// abstract class that is base class for most objects in our game.
+    /// </summary>
     public abstract class GameObject {
 
         protected Texture2D gameObjectTexture;

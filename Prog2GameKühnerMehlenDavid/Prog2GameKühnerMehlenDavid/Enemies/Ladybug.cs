@@ -9,6 +9,9 @@ using Reggie.Animations;
 
 namespace Reggie.Enemies
 {
+    /// <summary>
+    /// Contains moveset for Ladybug and its attack pattern.
+    /// </summary>
     public class Ladybug : Enemy
     {
 

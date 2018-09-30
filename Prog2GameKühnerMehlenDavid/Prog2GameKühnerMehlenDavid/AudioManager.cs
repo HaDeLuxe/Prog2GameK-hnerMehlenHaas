@@ -10,7 +10,10 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Reggie
 {
-    //Alles für Kopfhörer optimiert, ansonsten viel zu leise!
+    /// <summary>
+    /// Manages how long a sound is played and how it is manipulated.
+    /// Allows you to call whatever sound or song you want to be played.
+    /// </summary>
     public class AudioManager
     {
         private static AudioManager singletonInstance = null;

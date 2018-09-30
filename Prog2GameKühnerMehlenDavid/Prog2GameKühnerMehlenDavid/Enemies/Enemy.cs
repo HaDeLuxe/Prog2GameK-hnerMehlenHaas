@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Reggie.Enemies
 {
+    /// <summary>
+    /// Contains enemy logic
+    /// Is the parent class for Ladybug, Snail and Spider class.
+    /// </summary>
     public class Enemy : GameObject
     {
         #region Field

@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie.Menus {
+    /// <summary>
+    /// Manages the options menu.
+    /// Contains Sliders for manipulation music and sound volume.
+    /// </summary>
     class Options {
 
         Slider globalVolumeSlider = null;

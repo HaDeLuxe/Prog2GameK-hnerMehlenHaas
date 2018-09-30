@@ -5061,7 +5061,7 @@ tileBrown_07,-6592,-8064
 tileBrown_07,-6720,-8064
 tileBrown_06,-5888,-7808
 tileBrown_08,-5824,-7808
-tileBrown_07,-6208,-8064
+tileBrown_07,13567,6208
 tileBrown_07,-6272,-8064
 tileBrown_07,-6336,-8064
 tileBrown_07,-6144,-8064
@@ -5628,7 +5628,7 @@ tileGreen_02,-10176,-10496
 tileGreen_02,-10112,-10944
 tileGreen_02,-10048,-11200
 tileGreen_02,-9984,-11456
-tileGreen_02,-9920,-11520
+tileGreen_02,4032,8064
 tileGreen_02,-9856,-11648
 tileGreen_02,-9792,-11776
 tileGreen_02,-9664,-11840
@@ -6556,7 +6556,6 @@ CORNNENCY,-4672,-4480
 CORNNENCY,-4544,-4608
 CORNNENCY,-6016,-4160
 CORNNENCY,-5376,-4032
-CORNNENCY,-6656,-4480
 CORNNENCY,-7552,-4352
 CORNNENCY,-4800,-3520
 CORNNENCY,-6848,-2496
@@ -6722,12 +6721,12 @@ VINE,-4160,832
 CORNNENCY,-4672,1472
 CORNNENCY,-5824,1536
 CORNNENCY,2600,4225
-Playerposition, 3708,4400
+Playerposition, -5216,-208
 ArmorBOOL, False
-HelmetBOOL, False
+HelmetBOOL, True
 HealthPotionBOOL,False
-JumpPotionBOOL, False
-PowerPotionBOOL, False
+JumpPotionBOOL, True
+PowerPotionBOOL, True
 ScissorsBOOL, False
 ShovelBOOL, False
 GoldenUmbrellaBOOL, False

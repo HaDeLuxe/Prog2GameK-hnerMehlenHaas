@@ -9,6 +9,10 @@ using Reggie.Animations;
 
 namespace Reggie.Enemies
 {
+    /// <summary>
+    /// Contains logic for the boss fight with Hakume
+    /// Contains moveset and attackmoveset
+    /// </summary>
     public class Boss : Enemy
     {
         private AnimationManagerEnemy animationManager;
@@ -365,6 +369,16 @@ namespace Reggie.Enemies
                 collisionBoxPosition.X = bossLastPosition.X;
                 collisionBoxPosition.Y = bossLastPosition.Y;
             }
+        }
+
+        public void drawHealthBar(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary)
+        {
+            if (enemyHP < 100)
+            {
+                spriteBatch.Draw(texturesDictionary["enemyHBBorder"], this.gameObjectPosition + new Vector2(32, -50), Color.White);
+                spriteBatch.Draw(texturesDictionary["enemyHBFill"], this.gameObjectPosition + new Vector2(32, -50), null, Color.White, 0, Vector2.Zero, new Vector2(enemyHP / 100, 1), SpriteEffects.None, 0);
+            }
+            base.drawHealthBar(spriteBatch, texturesDictionary);
         }
     }
 }

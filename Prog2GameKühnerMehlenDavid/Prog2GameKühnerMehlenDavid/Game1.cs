@@ -71,6 +71,7 @@ namespace Reggie
         SplashScreen splashScreen;
         MainMenu mainMenu;
         GameMenu gameMenu;
+        Credits credits;
         
         Enums Enums;
 
@@ -124,6 +125,7 @@ namespace Reggie
             splashScreen = new SplashScreen();
             mainMenu = new MainMenu();
             gameMenu = new GameMenu();
+            credits = new Credits();
             itemUIManager = new ItemUIManager();
             minimap = new Minimap();
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
@@ -327,6 +329,9 @@ namespace Reggie
                 case GameState.GAMEMENU:
                     gameMenu.Update(this, loadAndSave);
                     break;
+                case GameState.CREDITS:
+                    credits.UpdateCredits();
+                    break;
             }
         }
 
@@ -346,7 +351,7 @@ namespace Reggie
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
 
-            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU/* || currentGameState == GameState.GAMEMENU*/)
+            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU || currentGameState == GameState.GAMEMENU || currentGameState == GameState.CREDITS)
             spriteBatch.Begin(0, null, null, null, null, null, null);
             else
             spriteBatch.Begin(0, null, null, null, null, null, transformationMatrix);
@@ -384,6 +389,7 @@ namespace Reggie
                                 {
                                     hakume.EnemyAnimationUpdate(gameTime, spriteBatch);
                                     hakume.DrawProjectile(spriteBatch, Color.White);
+                                    hakume.drawHealthBar(spriteBatch, texturesDictionary);
                                 }
                                 
                             }
@@ -442,6 +448,9 @@ namespace Reggie
                         break;
                     case GameState.GAMEMENU:
                         gameMenu.DrawGameMenu(texturesDictionary, spriteBatch, font);
+                        break;
+                    case GameState.CREDITS:
+                        credits.drawCredits(spriteBatch,texturesDictionary,font);
                         break;
                 }
 

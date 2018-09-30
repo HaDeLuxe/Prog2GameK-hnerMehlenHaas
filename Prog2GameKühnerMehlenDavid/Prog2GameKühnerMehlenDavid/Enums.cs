@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
+    /// <summary>
+    /// Contains various enums lists.
+    /// </summary>
     class Enums {
 
         /// <summary>

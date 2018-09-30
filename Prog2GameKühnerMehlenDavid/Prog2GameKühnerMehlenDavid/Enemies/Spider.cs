@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Reggie.Enemies
 {
+    /// <summary>
+    /// Contains moveset for Spider and its attack pattern.
+    /// </summary>
     class Spider : Enemy
     {
         private AnimationManagerEnemy animationManager;

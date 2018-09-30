@@ -7,6 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
+    /// <summary>
+    /// Contains the Destination Rectangles for all Levels
+    /// Sorts all Gameobjects into respective LevelGameObjectList
+    /// Changes currentLevelGameObjects list when changing level.
+    /// </summary>
     internal class Levels {
 
 

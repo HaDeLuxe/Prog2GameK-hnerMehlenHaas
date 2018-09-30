@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Reggie {
+    /// <summary>
+    /// Reads the spritesheet size form the SpriteSheetSizes.txt and adds them to the spriteSizesDictionary.
+    /// </summary>
     class SpriteSheetSizes {
 
         private List<String> spriteSheetsData;
