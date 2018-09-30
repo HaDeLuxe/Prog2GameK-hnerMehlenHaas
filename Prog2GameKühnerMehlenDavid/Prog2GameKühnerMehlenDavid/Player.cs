@@ -57,6 +57,7 @@ namespace Reggie
 
         Camera camera = new Camera();
        
+        //Player Hitbox
         public Rectangle attackRectangle
         {
             get
@@ -68,7 +69,7 @@ namespace Reggie
             }
         }
 
-
+        //Player Constructor
         public Player(Texture2D playerTexture,Vector2 playerSize, Vector2 playerPosition, int gameObjectID) : base(playerTexture,playerSize, playerPosition, gameObjectID)
         {
             gravityActive = true;
@@ -103,7 +104,8 @@ namespace Reggie
             justTouchedBottom = true;
         }
 
-        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, ref List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
+        //Player Update Function that covers collision,controls,movement and inputs
+        internal void Update(GameTime gameTime, List<GameObject> gameObjectsToRender, ref List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> gameObjects, LoadAndSave loadAndSave, IngameMenus ingameMenus, Levels levelManager,ref List<GameObject> allGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager, ref Boss hakume)
         {
             if (!playerSlowed)
                 movementSpeed = 10f;
@@ -112,7 +114,7 @@ namespace Reggie
             else
                 changeCollisionBox.X = 50;
             if(!shopKeeper.shopOpen)
-            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper, itemUIManager);
+            PlayerControls(gameTime, enemyList, interactiveObject, ref gameObjects, loadAndSave, ingameMenus, gameObjects, shopKeeper, itemUIManager, hakume);
             collisionBoxPosition = gameObjectPosition + changeCollisionBox;
             PlayerPositionCalculation(gameTime, gameObjectsToRender, interactiveObject);
             ItemCollisionManager(ref interactiveObject, ref gameObjects, levelManager, ref allGameObjects);
@@ -122,6 +124,7 @@ namespace Reggie
             Vibration();
         }
 
+        //Player's itemcollisionChecker
         private void ItemCollisionManager(ref List<GameObject> interactiveObject, ref List<GameObject> gameObjectList, Levels levelManager, ref List<GameObject> allGameObjectsList)
         {
             for (int i = 0; i < interactiveObject.Count(); i++)
@@ -215,22 +218,24 @@ namespace Reggie
             }
         }
 
+        //Change player's texture if needed
         public void changeTexture(Texture2D texture)
         {
             this.gameObjectTexture = texture;
         }
 
+        //Change player's texture if needed
         public void changeSecondTexture(Texture2D texture) 
         {
             this.UmbrellaTexture = texture;
         }
-
+        //Change player's texture if needed
         public void changeThirdTexture(Texture2D texture) 
         {
             this.itemPlayerTexture = texture;
         }
 
-
+        //Calculate player's post update position
         private void PlayerPositionCalculation(GameTime gameTime, List<GameObject> gameObjectsToRender,List <GameObject> interactiveObject)
         {
 
@@ -360,6 +365,7 @@ namespace Reggie
             velocity = Vector2.Zero;
         }
 
+        //Execute player's jump
         private void PlayerJump()
         {
             velocity.Y = jumpSpeed;
@@ -370,7 +376,7 @@ namespace Reggie
         }
 
         //Contains Player Movement in all 4 directions and the attack
-        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager)
+        private void PlayerControls(GameTime gameTime, List<Enemy> enemyList, List<GameObject> interactiveObject, ref List<GameObject> GameObjectsList, LoadAndSave loadAndSave, IngameMenus ingameMenus, List<GameObject> levelGameObjects, ShopKeeper shopKeeper, ItemUIManager itemUIManager, Boss hakume)
         {
             //using item:
             if ((Keyboard.GetState().IsKeyDown(Keys.F) || GamePad.GetState(0).IsButtonUp(Buttons.B)) && !previousState.IsKeyDown(Keys.B) && previousGamepadState.IsButtonDown(Buttons.B))
@@ -585,6 +591,7 @@ namespace Reggie
                 if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SCISSORS)
                 {
                     //Platform temp = null;
+                    playerDamage = 3;
                     foreach (Platform platform in levelGameObjects.Cast<GameObject>().OfType<Platform>().ToList())
                     {
                         if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.SPIDERWEB)
@@ -596,10 +603,14 @@ namespace Reggie
                     }
                     //GameObjectsList.Remove(temp);
                 }
-
-                //TODO:Destroyable? temp
-                // Platform temp = null;
-                foreach (Platform platform in levelGameObjects.Cast<GameObject>().OfType<Platform>().ToList())
+                if (ItemUIManager.currentItemEquipped.objectID == (int)Enums.ObjectsID.SHOVEL)
+                {
+                    movementSpeed = 20f;
+                    defaultJumpValue = 20f;
+                }
+                    //TODO:Destroyable? temp
+                    // Platform temp = null;
+                    foreach (Platform platform in levelGameObjects.Cast<GameObject>().OfType<Platform>().ToList())
                 {
                     if (DetectCollision(platform) && platform.PlatformType == (int)Enums.ObjectsID.VINEDOOR)
                     {
@@ -655,6 +666,8 @@ namespace Reggie
                             //enemy.KnockBackPosition(facingDirectionRight);
                         }
                     }
+                    if (PlayerAttackCollision(hakume))
+                        hakume.ReduceEnemyHP(playerDamage);
                 }
                 else
                     attackTimer = 0;
@@ -761,7 +774,7 @@ namespace Reggie
             previousGamepadState = GamePad.GetState(0);
         }
 
-        
+        //Draw function that can draw the player
         public void drawUpdate(List<GameObject> GameObjectsList, ref IngameMenus ingameMenus)
         {
             for (int i = 0; i < GameObjectsList.Count(); i++)
@@ -777,6 +790,7 @@ namespace Reggie
             }
         }
 
+        //Collision with levelObjects
         private bool DetectCollision(GameObject gameObject)
         {
             if (collisionRectangle.Right + velocity.X >= gameObject.gameObjectRectangle.Left &&
@@ -863,16 +877,19 @@ namespace Reggie
             }
         }
 
+        // Returns player's current HP
         public float PlayersCurrentHP()
         {
             return playerHP;
         }
 
+        //Returns player's current state
         public bool PlayerIsStillAlive()
         {
             return stillAlive;
         }
 
+        //Activate invincibleframes if the player was hit
         public void InvincibleFrameState(GameTime gameTime)
         {
             invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
@@ -886,27 +903,7 @@ namespace Reggie
         }
       
 
-        //public void KnockBackPosition(bool knockBackDirectionRight, float knockvalue)
-        //{
-        //    knockBackValue = knockvalue;
-        //    knockedBack = true;
-        //    isStanding = false;
-        //    velocity.Y = -knockBackValue;
-        //    if (knockBackDirectionRight)
-        //    {
-        //        velocity.X = knockBackValue;
-        //        pressedRightKey = true;
-        //        pressedLeftKey = false;
-        //    }
-        //    else
-        //    {
-        //        velocity.X = -knockBackValue;
-        //        pressedRightKey = false;
-        //        pressedLeftKey = true;
-        //    }
-        //    ReducePlayerHP();
-        //    knockBackValue = 0;
-        //}
+      
 
         public void drawSecondTexture(SpriteBatch spriteBatch, Rectangle sourceRectangle, SpriteEffects spriteEffects, Vector2 offset, Color color) 
         {

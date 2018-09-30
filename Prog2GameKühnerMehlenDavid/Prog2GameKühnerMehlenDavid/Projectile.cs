@@ -178,7 +178,7 @@ namespace Reggie
                         else
                             worm.ReducePlayerHP(damage);
                     }
-                    else if(objectID != (int)Enums.ObjectsID.BOSS)
+                    else if(objectID == (int)Enums.ObjectsID.BOSS)
                     {
                     if (bossPhase == 1)
                         worm.ReducePlayerHP(projectileEggAttackDamage);
@@ -244,9 +244,12 @@ namespace Reggie
         #region ProjectileMovement
         protected void ProjectileMovement(GameTime gameTime)
         {
-            if (objectID != (int)Enums.ObjectsID.BOSS)
+            if (objectID != (int)Enums.ObjectsID.BOSS || bossPhase == 3)
             {
-                gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if(bossPhase ==3)
+                gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds *40;
+                else
+                    gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 collisionBoxPosition = collisionBoxPosition + velocity + gravity;
                 gameObjectPosition = collisionBoxPosition;
             }
@@ -254,7 +257,9 @@ namespace Reggie
             {
                 if (!tracedplayer)
                 {
-                    if (collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X == featherProjectileRange)
+                    if (bossPhase == 3)
+                    {
+                        if (collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X == featherProjectileRange)
                     {
                         velocity.X = -10f;
                     }
@@ -262,21 +267,25 @@ namespace Reggie
                     {
                         velocity.X = 10f;
                     }
-
-                    if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 <= bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 >= bossLocation.X)
-                        collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X) / featherProjectileRange)) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
-                    else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 <= bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 < bossLocation.X)
-                        collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((-collisionBoxPosition.X + collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange)) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
-                    else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 > bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 < bossLocation.X)
-                        collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((-collisionBoxPosition.X + collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange) + (Math.PI) / 2) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
-                    else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 > bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 >= bossLocation.X)
-                        collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((collisionBoxPosition.X - collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange) - (Math.PI) / 2) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                    
+                        if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 <= bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 >= bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X) / featherProjectileRange)) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                        else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 <= bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 < bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((-collisionBoxPosition.X + collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange)) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                        else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 > bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 < bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((-collisionBoxPosition.X + collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange) + (Math.PI) / 2) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                        else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 > bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 >= bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((collisionBoxPosition.X - collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange) - (Math.PI) / 2) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                    }
                     collisionBoxPosition.X = collisionBoxPosition.X + velocity.X;
                     if (launch)
                         TracedPlayerLocation();
+                    gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds*20;
+                    collisionBoxPosition = collisionBoxPosition + velocity + gravity;
+                    gameObjectPosition = collisionBoxPosition;
                 }
                // collisionBoxPosition.Y = (float)Math.Sqrt(Math.Pow(featherProjectileRange, 2) -Math.Pow(collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X,2));
-               else if(tracedplayer)
+               else if(tracedplayer || bossPhase == 3)
                 {
                     collisionBoxPosition = collisionBoxPosition + velocity;
                 }
@@ -289,7 +298,7 @@ namespace Reggie
         {
             if (stillExist)
             {
-                        if (objectID == (int)Enums.ObjectsID.SNAIL && !tracedPlayerPosition)
+                        if ((objectID == (int)Enums.ObjectsID.SNAIL || objectID == (int)Enums.ObjectsID.BOSS) && !tracedPlayerPosition)
                         {
                             TracedPlayerLocation();
                             tracedPlayerPosition = true;
@@ -315,7 +324,7 @@ namespace Reggie
                 traveltimer = 0;
                 stillExist = false;
             }
-            if (traveltimer > 5f && objectID == (int)Enums.ObjectsID.BOSS)
+            if (traveltimer > 3f && objectID == (int)Enums.ObjectsID.BOSS)
             {
                 traveltimer = 0;
                 stillExist = false;

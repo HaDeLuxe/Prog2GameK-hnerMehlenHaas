@@ -24,7 +24,7 @@ namespace Reggie.Enemies
         private float ellipseYValue;
         private float ellipseXStartValue;
         private float ellipseYStartValue;
-
+        private int changeDirection;
         private Vector2 bossLastPosition;
         private int chargeCounter;
         private bool bossRest;
@@ -48,6 +48,7 @@ namespace Reggie.Enemies
             attackAction = false;
             restCooldown = 0;
             projectileSpawnCooldown = 0;
+            changeDirection = 0;
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjectList)
@@ -66,7 +67,7 @@ namespace Reggie.Enemies
                 BossRestLocation();
                 BossRestCooldown(gameTime);
             }
-            if(projectileList.Count!=0 && bossPhase == 1)
+            if(projectileList.Count != 0 && bossPhase == 1)
             {
                 foreach (var projectile in projectileList.ToList())
                 {
@@ -77,23 +78,20 @@ namespace Reggie.Enemies
                         projectileList.RemoveAt(projectileList.IndexOf(projectile));
                 }
             }
-            if (projectileList.Count != 0 && bossPhase == 3)
+            if (bossPhase == 3 && projectileList.Count() != 0)
             {
-                if(projectileList.Count ==4)
+                
                 foreach (var projectile in projectileList.ToList())
                 {
-                   projectile.Launch(true);
-                   //projectile.TracedPlayerLocation();
-                    projectile.BossOriginLocation(collisionBoxPosition.X + collisionBoxSize.X / 2, collisionBoxPosition.Y + collisionBoxSize.Y / 2);
+                   //projectile.Launch(true);
+                   projectile.TracedPlayerLocation();
+                    //projectile.BossOriginLocation(collisionBoxPosition.X + collisionBoxSize.X / 2, collisionBoxPosition.Y + collisionBoxSize.Y / 2);
                     projectile.Update(gameTime, gameObjectList);
                     if (!projectile.ProjectileState())
                         projectileList.RemoveAt(projectileList.IndexOf(projectile));
                 }
             }
-            if(projectileList.Count == 0 && bossPhase == 3)
-            {
-
-            }
+            
             EnemyPositionCalculation(gameTime);
         }
 
@@ -102,31 +100,32 @@ namespace Reggie.Enemies
             if(bossPhase == 1)
             {
                 collisionBoxPosition.X = -4477;
-                collisionBoxPosition.Y = -9778;
+                collisionBoxPosition.Y = -10253;
+                changeDirection = 0;
             }
             else if (bossPhase == 2)
             {
                 collisionBoxPosition.X = -3327;
-                collisionBoxPosition.Y = -10359;
+                collisionBoxPosition.Y = -10941;
             }
             else if(bossPhase == 3)
             {
               
                 collisionBoxPosition.X = -3902;
-                collisionBoxPosition.Y = -10833;
+                collisionBoxPosition.Y = -11361;
             }
         }
 
         public override void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (!facingDirectionRight && !attackAction)
+            if (!facingDirectionRight /*&& !attackAction*/)
                 animationManager.nextAnimation = Enums.EnemyAnimations.HAWK_FLY_LEFT;
-            else if (facingDirectionRight && !attackAction)
+            else if (facingDirectionRight /*&& !attackAction*/)
                 animationManager.nextAnimation = Enums.EnemyAnimations.HAWK_FLY_RIGHT;
-            else if (!facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.HAWK_ATTACK_LEFT;
-            else if (facingDirectionRight && attackAction)
-                animationManager.nextAnimation = Enums.EnemyAnimations.HAWK_ATTACK_RIGHT;
+            //else if (!facingDirectionRight && calculateCharge)
+            //    animationManager.nextAnimation = Enums.EnemyAnimations.HAWK_ATTACK_LEFT;
+            //else if (facingDirectionRight && calculateCharge)
+            //    animationManager.nextAnimation = Enums.EnemyAnimations.HAWK_ATTACK_RIGHT;
             animationManager.Animation(gameTime, this, spriteBatch);
         }
 
@@ -153,18 +152,15 @@ namespace Reggie.Enemies
                     }
                     break;
                 case 3:
-                    if(projectileSpawnCooldown == 0 && projectileList.Count <= 4)
+                    if (projectileList.Count() <= 50)
                     {
-                        projectileList.Add(new Projectile(null, new Vector2(100, 100), new Vector2(collisionBoxPosition.X + collisionBoxSize.X / 2+200, collisionBoxPosition.Y + collisionBoxSize.Y/2), (int)Enums.ObjectsID.BOSS));
+                        projectileList.Add(new Projectile(null, new Vector2(100, 100), new Vector2(collisionBoxPosition.X + collisionBoxSize.X / 2 + 200, collisionBoxPosition.Y + collisionBoxSize.Y / 2), (int)Enums.ObjectsID.BOSS));
                         projectileList.Last().SetPlayer(worm);
                         projectileList.Last().SetBossPhase(bossPhase);
-                        ProjectileSpawnCalc(gameTime);
                     }
-                    else
-                        ProjectileSpawnCalc(gameTime);
+                  
                     break;
-                case 4:
-                    break;
+              
             }
         }
 
@@ -177,13 +173,45 @@ namespace Reggie.Enemies
 
         private void CalculationChargingVector()
         {
-            if (collisionBoxPosition.X + collisionBoxSize.X / 2 <= worm.collisionBoxPosition.X + worm.collisionBoxSize.X / 2)
-                ellipseXValue = worm.collisionBoxPosition.X + worm.collisionBoxSize.X / 2 - (collisionBoxPosition.X + collisionBoxSize.X / 2);
-            else
-                ellipseXValue = collisionBoxPosition.X + collisionBoxSize.X / 2 - (worm.collisionBoxPosition.X + worm.collisionBoxSize.X / 2);
-            ellipseYValue = worm.collisionBoxPosition.Y + worm.collisionBoxSize.Y / 2 - (collisionBoxPosition.Y + collisionBoxSize.Y / 2);
-            ellipseYStartValue = collisionBoxPosition.Y + collisionBoxSize.Y / 2;
-            ellipseXStartValue = collisionBoxPosition.X + collisionBoxSize.X / 2;
+            //if (collisionBoxPosition.X + collisionBoxSize.X / 2 <= worm.collisionBoxPosition.X + worm.collisionBoxSize.X / 2)
+            //    ellipseXValue = worm.collisionBoxPosition.X + worm.collisionBoxSize.X / 2 - (collisionBoxPosition.X + collisionBoxSize.X / 2);
+            //else
+            //    ellipseXValue = collisionBoxPosition.X + collisionBoxSize.X / 2 - (worm.collisionBoxPosition.X + worm.collisionBoxSize.X / 2);
+            //ellipseYValue = worm.collisionBoxPosition.Y + worm.collisionBoxSize.Y / 2 - (collisionBoxPosition.Y + collisionBoxSize.Y / 2);
+            //ellipseYStartValue = collisionBoxPosition.Y + collisionBoxSize.Y / 2;
+            //ellipseXStartValue = collisionBoxPosition.X + collisionBoxSize.X / 2;
+        
+
+            if (chargingVector == Vector2.Zero)
+            {
+                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) == 0)
+                    chargingVector.X = 0;
+                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) == 0)
+                    chargingVector.Y = 0;
+            }
+            if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 != 0)
+            {
+                chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) != 0)
+                    chargingVector.X = chargingVector.X / Math.Abs(chargingVector.Y) * 9;
+                if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) > 0)
+                    chargingVector.Y = 9;
+                else
+                    chargingVector.Y = -9;
+            }
+            else if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) >= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.X / 60 - collisionRectangle.X / 60 != 0)
+            {
+                chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) != 0)
+                    chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 9;
+                if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) > 0)
+                    chargingVector.X = 9;
+                else
+                    chargingVector.X = -9;
+            }
+            velocity = chargingVector;
             calculateCharge = true;
         }
 
@@ -192,12 +220,12 @@ namespace Reggie.Enemies
             if(bossPhase ==1)
             foreach (var projectile in projectileList)
             {
-                spriteBatch.Draw(EnemySpriteSheetsDic["feather"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
+                spriteBatch.Draw(EnemySpriteSheetsDic["egg"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
             else if(bossPhase == 3)
             foreach (var projectile in projectileList)
             {
-                    spriteBatch.Draw(EnemySpriteSheetsDic["egg"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
+                    spriteBatch.Draw(EnemySpriteSheetsDic["feather"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
         }
 
@@ -207,20 +235,32 @@ namespace Reggie.Enemies
             {
                 case 1:
                     if (phase1Route >= 1600)
+                    {
                         facingDirectionRight = false;
+                        changeDirection++;
+
+                    }
                     else if (phase1Route <= 100)
+                    {
                         facingDirectionRight = true;
+                        changeDirection++;
+                    }
+                    if (changeDirection == 6)
+                    {
+                        bossRest = true;
+                        bossLastPosition = new Vector2(collisionBoxPosition.X, collisionBoxPosition.Y);
+                    }
                     if (facingDirectionRight)
-                        velocity.X = 10;
+                        velocity.X = 30;
                     else if (!facingDirectionRight)
-                        velocity.X = -10;
+                        velocity.X = -30;
                     phase1Route += velocity.X;
                     //collisionBoxPosition.X += velocity.X;
                     break;
                 case 2:
-                    if (phase1Route >= 1600)
+                    if (phase1Route >= 1300)
                         facingDirectionRight = false;
-                    else if (phase1Route <= 100)
+                    else if (phase1Route <= 300)
                         facingDirectionRight = true;
                     if (facingDirectionRight)
                         velocity.X += 10;
@@ -231,14 +271,17 @@ namespace Reggie.Enemies
                         CalculationChargingVector();
                     if(attackAction && !attackExecuted)
                     {
-                        velocity.Y = (1 - ((float)Math.Pow((double)(collisionBoxPosition.X + collisionBoxSize.X - ellipseXStartValue), 2 ) 
-                                     / (float)Math.Pow((double)ellipseXValue,2))) * (float)Math.Pow((double)ellipseYValue,2);
-
-                        if (ellipseYStartValue == collisionBoxPosition.Y + collisionBoxSize.Y / 2 && collisionBoxPosition.X + collisionBoxSize.X / 2 == ellipseXStartValue + 2 * ellipseXValue)
+                        if (ellipseYValue - velocity.Y <= 0)
+                            velocity.Y = -velocity.Y;
+                        ellipseYValue += velocity.Y;
+                        if (ellipseYValue >= 1737)
+                            velocity.Y = -velocity.Y;
+                        if (ellipseYValue == 0)
                         {
                             attackAction = false;
                             attackExecuted = true;
                             chargeCounter++;
+                            calculateCharge = false;
                             if (chargeCounter == 3 && !bossRest)
                             {
                                 bossRest = true;
@@ -248,7 +291,7 @@ namespace Reggie.Enemies
                         }
                     }
                     phase1Route += velocity.X;
-                   // collisionBoxPosition += velocity;
+                   collisionBoxPosition += velocity;
                     break;
                 case 3:
                     if (phase1Route >= 1600)
@@ -262,10 +305,10 @@ namespace Reggie.Enemies
 
                     if (!calculateCharge)
                         CalculationChargingVector();
-                    if (attackAction && !attackExecuted && projectileList.Count() ==0)
+                    if (attackAction && !attackExecuted)
                     {
-                        velocity.Y = (1 - ((float)Math.Pow((double)(collisionBoxPosition.X + collisionBoxSize.X - ellipseXStartValue), 2)
-                                     / (float)Math.Pow((double)ellipseXValue, 2))) * (float)Math.Pow((double)ellipseYValue, 2);
+                        if (ellipseYValue - velocity.Y <= 0)
+                            velocity.Y = -velocity.Y;
 
                         if (ellipseYStartValue == collisionBoxPosition.Y + collisionBoxSize.Y / 2 && collisionBoxPosition.X + collisionBoxSize.X / 2 == ellipseXStartValue + 2 * ellipseXValue)
                         {
@@ -319,6 +362,8 @@ namespace Reggie.Enemies
             {
                 restCooldown = 0;
                 bossRest = false;
+                collisionBoxPosition.X = bossLastPosition.X;
+                collisionBoxPosition.Y = bossLastPosition.Y;
             }
         }
     }
