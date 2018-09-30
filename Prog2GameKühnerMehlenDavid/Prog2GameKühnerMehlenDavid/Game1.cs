@@ -190,7 +190,7 @@ namespace Reggie
             ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, playerSpriteSheets);
             FillLists();
             // MONO: use this.Content to load your game content here
-            hakume = new Boss(null, new Vector2(400, 422), new Vector2(-4500, -11450), (int)Enums.ObjectsID.BOSS, enemySpriteSheets);
+            hakume = new Boss(null, new Vector2(400, 422), new Vector2(-4750, -11450), (int)Enums.ObjectsID.BOSS, enemySpriteSheets);
             hakume.SetPlayer(wormPlayer);
         }
 
@@ -250,7 +250,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager,ref hakume);
                     break;
 
                 case GameState.GAMELOOP:
@@ -296,7 +296,7 @@ namespace Reggie
                     camera.SpawnEnemyOffScreen(wormPlayer, enemySpawnList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
                     if(!camera.spawnBoss)
                         viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager, ref hakume);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
@@ -309,6 +309,7 @@ namespace Reggie
                              }
                         if (levelManager.PlayerLevelLocation() == Enums.Level.CROWN)
                         {
+                            if(hakume !=null)
                             hakume.Update(gameTime, gameObjectsToRender);
                             if (hakume.EnemyAliveState() == false)
                                 hakume = null;
@@ -379,8 +380,11 @@ namespace Reggie
 
                             if (levelManager.PlayerLevelLocation() == Enums.Level.CROWN)
                             {
-                                hakume.EnemyAnimationUpdate(gameTime, spriteBatch);
-                                hakume.DrawProjectile(spriteBatch, Color.White);
+                                if (hakume != null)
+                                {
+                                    hakume.EnemyAnimationUpdate(gameTime, spriteBatch);
+                                    hakume.DrawProjectile(spriteBatch, Color.White);
+                                }
                                 
                             }
                             if (levelManager.PlayerLevelLocation() != Enums.Level.CROWN)
@@ -390,7 +394,7 @@ namespace Reggie
                                 viewableEnemies[i].EnemyAnimationUpdate(gameTime, spriteBatch);
                                 viewableEnemies[i].drawHealthBar(spriteBatch, texturesDictionary);
 
-                                if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL || viewableEnemies[i].objectID == (int)Enums.ObjectsID.SPIDER)
+                                if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL )
                                 {
                                     viewableEnemies[i].DrawProjectile(spriteBatch, Color.White);
                                 }
