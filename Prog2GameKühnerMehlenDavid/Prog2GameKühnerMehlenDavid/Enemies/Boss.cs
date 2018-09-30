@@ -33,7 +33,7 @@ namespace Reggie.Enemies
 
         public Boss(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 20;
+            enemyHP = 100;
             
             diveDamage = 0.1f;
             animationManager = new AnimationManagerEnemy(EnemySpriteSheetsDic);
@@ -332,11 +332,11 @@ namespace Reggie.Enemies
 
         private void UpdateBossFightState()
         {
-            if (enemyHP > 16)
+            if (enemyHP > 75)
                 bossPhase = 1;
-            else if (enemyHP > 12)
+            else if (enemyHP > 50)
                 bossPhase = 2;
-            else if (enemyHP > 8)
+            else if (enemyHP > 25)
                 bossPhase = 3;
           
             //else if (bossPhase > 4)
