@@ -11,13 +11,17 @@ using System.Threading.Tasks;
 
 namespace Reggie
 {
+    /// <summary>
+    /// Contains the logic to calculate the transformation matrix to manage the viewport and the gameworld positions and to change between them.
+    /// Contains the logic to move the camera upon movement. Allows the player see more where the player move towards.
+    /// </summary>
     class Camera
     {
         
         Vector2 cameraWorldPosition = new Vector2(0, 0);
-        public static float zoom = 0.05f;
+        public static float zoom = 1f;
         public static bool enableCameraMovement = true;
-
+        public bool spawnBoss = false;
         public void setCameraWorldPosition(Vector2 cameraWorldPosition)
         {
             this.cameraWorldPosition = cameraWorldPosition;
@@ -105,7 +109,7 @@ namespace Reggie
                                     enemyList.Last().SetPlayer(wormPlayer);
 
                             }
-
+                           
                         }
                         
                     }
@@ -118,9 +122,12 @@ namespace Reggie
         public List<Enemy> RenderedEnemies(Vector2 playerPosition, List<Enemy> enemyList)
         {
             List<Enemy> enemyToRender = new List<Enemy>();
+           
             for (int i = 0; i < enemyList.Count; i++)
             {
-                if (enemyList[i].gameObjectPosition.X < playerPosition.X + 1100 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 1100)
+                if (enemyList[i].enemyHP == 0)
+                    enemyList.RemoveAt(i);
+                 else if (enemyList[i].gameObjectPosition.X < playerPosition.X + 1100 && enemyList[i].gameObjectRectangle.Right > playerPosition.X - 1100)
                 {
                     if (enemyList[i].gameObjectPosition.Y < playerPosition.Y + 650 && enemyList[i].gameObjectRectangle.Bottom > playerPosition.Y - 650)
                     {

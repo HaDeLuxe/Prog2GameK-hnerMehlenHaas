@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Reggie.Menus {
+    /// <summary>
+    /// Opens the pause menu by pressing P on the keyboard or Start on the GameController
+    /// Contains the logic when pressing a button.
+    /// </summary>
     class GameMenu {
         Enums.GameMenuButtons currentButton;
         bool buttonPressed;

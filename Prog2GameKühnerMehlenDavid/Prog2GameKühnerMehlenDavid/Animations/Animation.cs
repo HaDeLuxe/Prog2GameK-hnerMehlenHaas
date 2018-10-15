@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Reggie.Animations {
 
+    /// <summary>
+    /// Summary: Foundation for every animation.
+    /// Contains all data for single animation.
+    /// Returns the current Rectangle to draw on the sprite sheet based on speed given.
+    /// </summary>
     class Animation {
 
         List<Rectangle> spriteSheetDestRectangle = new List<Rectangle>();

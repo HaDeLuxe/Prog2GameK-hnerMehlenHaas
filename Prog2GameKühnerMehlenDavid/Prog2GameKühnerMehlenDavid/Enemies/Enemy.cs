@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Reggie.Enemies
 {
+    /// <summary>
+    /// Contains enemy logic
+    /// Is the parent class for Ladybug, Snail and Spider class.
+    /// </summary>
     public class Enemy : GameObject
     {
         #region Field
@@ -15,7 +19,7 @@ namespace Reggie.Enemies
         public Vector4 enemyAggroAreaSize;
         protected float attackRange;
         protected Player worm;
-        protected float enemyHP;
+        public float enemyHP;
         protected bool stillAlive;
         protected bool knockedBack;
         protected float knockBackValue;
@@ -43,15 +47,17 @@ namespace Reggie.Enemies
         protected float attackDamage;
         #endregion
 
+        //Enemy Left foot, needed to check if one part of the sprite is still on a plattform
         protected Rectangle leftFootRect
         {
             get { return new Rectangle((int)collisionBoxPosition.X, (int)(collisionBoxPosition.Y + collisionBoxSize.Y), 1, 1); }
         }
+        //Enemy right foot, needed to check if one part of the sprite is still on a plattform
         protected Rectangle rightFootRect
         {
             get { return new Rectangle((int)(collisionBoxPosition.X+collisionBoxSize.X-1), (int)(collisionBoxPosition.Y + collisionBoxSize.Y), 1, 1); }
         }
-
+        //enemy's constructor
         public Enemy(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID)
         {
             gravityActive = true;
@@ -83,53 +89,30 @@ namespace Reggie.Enemies
 
         }
 
+
+        //enemy's animation update but as virtual, specified instructions are in the childrens classes
         public virtual void EnemyAnimationUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
             
         }
 
         
-
+        //change the enemy's texture if needed
         public void changeTexture(Texture2D texture) {
             this.gameObjectTexture = texture;
         }
 
-        public void ResizeEnemyAggroArea(List<GameObject> spriteList)
-        {
-           // EnemyAggroAreaSize = new Vector4(100, 100, 150, 150);
-            //foreach(var sprite in spriteList)
-            //{
-            //    if (EnemyAggroArea.Right + Velocity.X > sprite.SpriteRectangle.Left &&
-            //  EnemyAggroArea.Left < sprite.SpriteRectangle.Left &&
-            //  EnemyAggroArea.Bottom > sprite.SpriteRectangle.Top &&
-            //  EnemyAggroArea.Top < sprite.SpriteRectangle.Bottom)
-            //        EnemyAggroAreaSize.Z -= EnemyAggroArea.Right + Velocity.X - Math.Abs(sprite.SpriteRectangle.Left);
-            //    else if (EnemyAggroArea.Left + Velocity.X < sprite.SpriteRectangle.Right &&
-            //      EnemyAggroArea.Right > sprite.SpriteRectangle.Right &&
-            //      EnemyAggroArea.Bottom > sprite.SpriteRectangle.Top &&
-            //      EnemyAggroArea.Top < sprite.SpriteRectangle.Bottom)
-            //        EnemyAggroAreaSize.X = Position.X - sprite.SpriteRectangle.Right;
-            //    else if (EnemyAggroArea.Bottom + Velocity.Y + Gravity.Y > sprite.SpriteRectangle.Top &&
-            //    EnemyAggroArea.Top < sprite.SpriteRectangle.Top &&
-            //    EnemyAggroArea.Right > sprite.SpriteRectangle.Left &&
-            //    EnemyAggroArea.Left < sprite.SpriteRectangle.Right)
-            //        EnemyAggroAreaSize.W = sprite.SpriteRectangle.Top;
-            //    else if (EnemyAggroArea.Top + Velocity.Y < sprite.SpriteRectangle.Bottom &&
-            //   EnemyAggroArea.Bottom > sprite.SpriteRectangle.Bottom &&
-            //   EnemyAggroArea.Right > sprite.SpriteRectangle.Left &&
-            //   EnemyAggroArea.Left < sprite.SpriteRectangle.Right)
-            //        EnemyAggroAreaSize.Y = Position.Y - sprite.SpriteRectangle.Bottom;
 
-            //    //EnemyAggroArea.Width = (int)(Position.X + EnemyAggroAreaSize.Z);
-            //    //EnemyAggroArea.Height = (int)(Position.Y + EnemyAggroAreaSize.W);
-            //}
-        }
 
+       
+        //setter that will let the enemy know about the player
         public void SetPlayer(Player wormPlayer)
         {
             worm = wormPlayer;
         }
 
+
+        //enemy's collision mangaer for every platform
         public void EnemyCheckCollision(GameTime gameTime, List<GameObject> platformList)
         {
             for (int i = 0; i < platformList.Count(); i++)
@@ -193,17 +176,21 @@ namespace Reggie.Enemies
             }
             
         }
+
+        //enemy's post update calculator , that calculates enemy's position after collision and self movement input
         public void EnemyPositionCalculation(GameTime gameTime)
         {
-           
-            if (gravityActive && isStanding == false /*&& !attackAction*/)
+            if (objectID != (int)Enums.ObjectsID.BOSS)
             {
-                fallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
-                gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
-                collisionBoxPosition += gravity;
+                if (gravityActive && isStanding == false /*&& !attackAction*/)
+                {
+                    fallCooldown += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
+                    gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 15;
+                    collisionBoxPosition += gravity;
+                }
+                else
+                    gravity = Vector2.Zero;
             }
-            else
-                gravity = Vector2.Zero;
             collisionBoxPosition += velocity;
             velocity = Vector2.Zero;
             //if (fallCooldown >= 5)
@@ -211,9 +198,12 @@ namespace Reggie.Enemies
             if (gameObjectPosition != collisionBoxPosition - changeCollisionBox)
             {
                 gameObjectPosition = collisionBoxPosition - changeCollisionBox;
-                enemyAggroArea.X = (int)(gameObjectPosition.X - enemyAggroAreaSize.X);
-                enemyAggroArea.Y = (int)(gameObjectPosition.Y - enemyAggroAreaSize.Y);
-                isStanding = false;
+                if (objectID != (int)Enums.ObjectsID.BOSS)
+                {
+                    enemyAggroArea.X = (int)(gameObjectPosition.X - enemyAggroAreaSize.X);
+                    enemyAggroArea.Y = (int)(gameObjectPosition.Y - enemyAggroAreaSize.Y);
+                    isStanding = false;
+                }
             }
             //else
             //{
@@ -225,6 +215,8 @@ namespace Reggie.Enemies
 
         }
 
+
+        //enemy's independant movement
         public void EnemyMovement()
         {
             if (enemyAggroArea.Left + velocity.X + enemyAggroAreaSize.X > worm.collisionRectangle.Right &&
@@ -262,8 +254,12 @@ namespace Reggie.Enemies
                 facingDirectionRight = true;
         }
 
+
+        //enemy attacks are specified in their children classes
         public virtual void EnemyAttack(GameTime gameTime) { }
         public virtual void EnemyAttack(GameTime gameTime, List<GameObject> gameObjectList) { }
+
+        //tries to locate the player if the player is within a certain range
         public bool DetectPlayer()
         {
             if (enemyAggroArea.Right + velocity.X > worm.collisionRectangle.Left &&
@@ -326,6 +322,8 @@ namespace Reggie.Enemies
                 return false;
         }
 
+
+        //if the player is within an even smaller range, the enemy will attack the player
         public void MeleePlayer()
         {
             if (collisionRectangle.Right + velocity.X +10 > worm.collisionRectangle.Left &&
@@ -357,7 +355,7 @@ namespace Reggie.Enemies
                 meleeAttack=  false;
         }
 
-
+        //checks if the enemys attack actually collides with the players hitbox
         public bool HitPlayer()
         {
             if (collisionRectangle.Right + velocity.X > worm.collisionRectangle.Left &&
@@ -385,7 +383,7 @@ namespace Reggie.Enemies
         }
 
 
-
+        //reduce enemy's health if he was hit by the player
         public void ReduceEnemyHP(float playerDamage)
         {
             if (stillAlive)
@@ -394,11 +392,15 @@ namespace Reggie.Enemies
                 stillAlive = false;  
         }
 
+
+        //returns a bool if the enemy is still alive or not
         public bool EnemyAliveState()
         {
             return stillAlive;
         }
 
+
+        //the enemy is thrown away if he was hit by the player
         public void KnockBackPosition(bool knockBackDirectionRight, float playerDamage)
         {
             knockedBack = true;
@@ -421,6 +423,8 @@ namespace Reggie.Enemies
             ReduceEnemyHP(playerDamage);
         }
 
+
+        // reset some enemy values
         public void resetBasicValues()
         {
             velocity.Y = 0;
@@ -429,6 +433,8 @@ namespace Reggie.Enemies
             isStanding = true;
         }
 
+
+        // makes the enemy invincible for a couple of frames
         public void InvincibleFrameState(GameTime gameTime)
         {
             invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds * 2;
@@ -438,6 +444,8 @@ namespace Reggie.Enemies
                 invincibilityFrames = false;
             }
         }
+
+        // enemy neutral movement pattern when he hasnt found the player yet
         protected void EnemyNeutralBehaviour(List<GameObject> gameObjectList)
         {
             if (movementDirectionGone == 1000)
@@ -480,6 +488,11 @@ namespace Reggie.Enemies
             if (rightFootAir)
                 movementDirectionGone = 1000;
         }
+
+        //draw enemy's projectile if he uses them
         public virtual void DrawProjectile(SpriteBatch spriteBatch, Color color){ }
+
+        //draws enemy's healthbar if he has lost some hp 
+        public virtual void drawHealthBar(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary) {}
     }
 }

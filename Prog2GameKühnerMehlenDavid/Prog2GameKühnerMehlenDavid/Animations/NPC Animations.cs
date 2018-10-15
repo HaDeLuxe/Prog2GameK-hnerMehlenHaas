@@ -8,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace Reggie.Animations
 {
-
+    /// <summary>
+    /// Contains all animations for NPCS.
+    /// Defines them every single animation.
+    /// Draws the current NPC animation.
+    /// To call an animation, set next "nextAnimation" to NPCAnimations.
+    /// </summary>
     class NPC_Animations
     {
         public NPCAnimations currentAnimation = NPCAnimations.None;

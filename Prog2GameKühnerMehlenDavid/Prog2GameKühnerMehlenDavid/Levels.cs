@@ -7,7 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
+    /// <summary>
+    /// Contains the Destination Rectangles for all Levels
+    /// Sorts all Gameobjects into respective LevelGameObjectList
+    /// Changes currentLevelGameObjects list when changing level.
+    /// </summary>
     internal class Levels {
+
 
         Rectangle TutorialRectangle = new Rectangle(5120, 0, 10240, 2048);
         //Rectangle DunghillRectangle = new Rectangle(0, -2048, 4096, 4096);
@@ -29,8 +35,8 @@ namespace Reggie {
         Rectangle HubToAntRectangle = new Rectangle(0, 4000, 1000, 2000);
         Rectangle AntToHubRectangle = new Rectangle(1000, 4000, 1000, 2000);
 
-        Rectangle AntToTreeRectangle = new Rectangle(-8000, 2100, 2000, 950);
-        Rectangle TreeToAntRectangle = new Rectangle(-8000, 3050, 2000, 950);
+        Rectangle AntToTreeRectangle = new Rectangle(-8200, 2100, 2100, 950);
+        Rectangle TreeToAntRectangle = new Rectangle(-8200, 3050, 2100, 950);
         
 
 
@@ -83,9 +89,10 @@ namespace Reggie {
                 currentLevel = Enums.Level.HUB;
             if (AntRectangle.Contains(PlayerPos))
                 currentLevel = Enums.Level.ANTCAVE;
-            if (TreeRectangle.Contains(PlayerPos) || CrownRectangle.Contains(PlayerPos))
+            if (TreeRectangle.Contains(PlayerPos))
                 currentLevel = Enums.Level.TREE;
-
+            if (CrownRectangle.Contains(PlayerPos))
+                currentLevel = Enums.Level.CROWN;
 
             if (TutHubBorderRectangle.Contains(PlayerPos) && !TutToHub)
             {
@@ -177,19 +184,19 @@ namespace Reggie {
                 AntToTree = false;
             }
 
-            if (GazeboRectangle.Contains(PlayerPos))
-            {
-                Camera.enableCameraMovement = false;
+            //if (GazeboRectangle.Contains(PlayerPos))
+            //{
+            //    Camera.enableCameraMovement = false;
                 
-                Game1.cameraOffset = new Vector2(5000, 8000);
-                Camera.zoom = 0.05f;
-            }
-            else
-            {
-                Camera.enableCameraMovement = true;
-                //Game1.cameraOffset = new Vector2(0, 0);
-                Camera.zoom = 1f;
-            }
+            //    Game1.cameraOffset = new Vector2(5000, 8000);
+            //    Camera.zoom = 0.05f;
+            //}
+            //else
+            //{
+            //    Camera.enableCameraMovement = true;
+            //    //Game1.cameraOffset = new Vector2(0, 0);
+            //    Camera.zoom = 1f;
+            //}
 
            
         }

@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+
 namespace Reggie
 {
+    /// <summary>
+    /// Projection that flies in wanted direction
+    /// </summary>
     public class Projectile : GameObject
     {
         private bool stillExist;
@@ -18,6 +22,14 @@ namespace Reggie
         public Texture2D enemytexture;
         private Vector2 chargingVector;
         private bool tracedPlayerPosition;
+        private double featherProjectileRange;
+        private Vector2 bossLocation;
+        public bool launch;
+        public bool tracedplayer;
+        public int bossPhase;
+        private float projectileEggAttackDamage;
+        private float projectileFeatherDamage;
+
         public Projectile(Texture2D projectileTexture, Vector2 projectileSize, Vector2 projectilePosition, int gameObjectID) : base(projectileTexture, projectileSize, projectilePosition, gameObjectID)
         {
             stillExist = true;
@@ -28,12 +40,19 @@ namespace Reggie
             tracedPlayerPosition = false;
             collisionBoxPosition = new Vector2(projectilePosition.X, projectilePosition.Y);
             collisionBoxSize = new Vector2(projectileSize.X, projectileSize.Y-40);
+            if (objectID == (int)Enums.ObjectsID.BOSS)
+                featherProjectileRange = 200;
             if (objectID == (int)Enums.ObjectsID.SPIDER)
                 damage = 0.09f;
             else if (objectID == (int)Enums.ObjectsID.SNAIL)
                 damage = 0.09f;
             gravity = Vector2.Zero;
-      
+            launch = false;
+            tracedplayer = false;
+            bossPhase = 1;
+            projectileFeatherDamage = 0.01f;
+            projectileEggAttackDamage = 0.05f;
+
         }
         public void TracedPlayerLocation()
         {
@@ -96,11 +115,52 @@ namespace Reggie
                     else
                         chargingVector.X = -6;
                 }
-                // calculateCharge = true;
-                velocity = chargingVector;
+
+
+                if (objectID == (int)Enums.ObjectsID.BOSS)
+                {
+                    if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) <= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60 != 0)
+                    {
+                        chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                        chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                        if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) != 0)
+                            chargingVector.X = chargingVector.X / Math.Abs(chargingVector.Y) * 8;
+                        if ((worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) > 0)
+                            chargingVector.Y = 8;
+                        else
+                            chargingVector.Y = -8;
+                    }
+                    else if (Math.Abs(worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) >= Math.Abs(worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60) && worm.collisionRectangle.X / 60 - collisionRectangle.X / 60 != 0)
+                    {
+                        chargingVector.X = worm.collisionRectangle.X / 60 - collisionRectangle.X / 60;
+                        chargingVector.Y = worm.collisionRectangle.Y / 60 - collisionRectangle.Y / 60;
+                        if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) != 0)
+                            chargingVector.Y = chargingVector.Y / Math.Abs(chargingVector.X) * 8;
+                        if ((worm.collisionRectangle.X / 60 - collisionRectangle.X / 60) > 0)
+                            chargingVector.X = 8;
+                        else
+                            chargingVector.X = -8;
+                    }
+                    tracedplayer = true;
+                    velocity = chargingVector;
+                }
             }
         }
 
+        internal void Launch(bool launch)
+        {
+            this.launch = launch;
+        }
+
+        public void BossOriginLocation(float bossXPosition, float bossYPosition)
+        {
+            bossLocation.X = bossXPosition;
+            bossLocation.Y = bossYPosition;
+        }
+        public void SetBossPhase(int bossPhase)
+        {
+            this.bossPhase = bossPhase;
+        }
         public void SetPlayer(Player wormPlayer)
         {
             worm = wormPlayer;
@@ -109,21 +169,30 @@ namespace Reggie
         #region CollisionCheck
         public void ProjectileCollisionCheck(List<GameObject> platformList)
         {
-            if (HitPlayer()) 
-            {
-                if (!worm.invincibilityFrames)
+           
+                if (HitPlayer())
                 {
-                    worm.invincibilityFrames = true;
-                    worm.invincibilityFixedTimer = 3f;
-                    if (objectID == (int)Enums.ObjectsID.SPIDER)
-                        worm.ReducePlayerHP(damage, 6f);
-                    else
-                        worm.ReducePlayerHP(damage);
+                    if (!worm.invincibilityFrames && objectID != (int)Enums.ObjectsID.BOSS)
+                    {
+                        worm.invincibilityFrames = true;
+                        worm.invincibilityFixedTimer = 3f;
+                        if (objectID == (int)Enums.ObjectsID.SPIDER)
+                            worm.ReducePlayerHP(damage, 6f);
+                        else
+                            worm.ReducePlayerHP(damage);
+                    }
+                    else if(objectID == (int)Enums.ObjectsID.BOSS)
+                    {
+                    if (bossPhase == 1)
+                        worm.ReducePlayerHP(projectileEggAttackDamage);
+                    else if (bossPhase == 3)
+                        worm.ReducePlayerHP(projectileFeatherDamage);
+                    }
+                    stillExist = false;
                 }
-                stillExist = false;
-            }
+        
             if(stillExist)
-                if(objectID == (int)Enums.ObjectsID.SPIDER)
+                if(objectID == (int)Enums.ObjectsID.SPIDER /*|| objectID == (int)Enums.ObjectsID.BOSS*/)
             foreach (var platform in platformList)
             {
                     if (velocity.X > 0 && IsTouchingLeftSide(platform))
@@ -131,20 +200,13 @@ namespace Reggie
                     else if (velocity.X < 0 && IsTouchingRightSide(platform))
                         stillExist = false;
                     else if (IsTouchingBottomSide(platform, gravity))
-                    {
                         stillExist = false;
-                        //if (objectID == (int)(Enums.ObjectsID.SNAIL))
-                        //    SetSnailSlime();
-                    }
                     else if (IsTouchingTopSide(platform, gravity))
                         stillExist = false;
             }
         }
 
-        private void SetSnailSlime()
-        {
-            throw new NotImplementedException();
-        }
+     
         #endregion
 
         #region ProjectileExistance
@@ -185,9 +247,52 @@ namespace Reggie
         #region ProjectileMovement
         protected void ProjectileMovement(GameTime gameTime)
         {
-            gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            collisionBoxPosition = collisionBoxPosition + velocity + gravity;
-            gameObjectPosition = collisionBoxPosition;
+            if (objectID != (int)Enums.ObjectsID.BOSS || bossPhase == 3)
+            {
+                if(bossPhase ==3)
+                gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds *40;
+                else
+                    gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                collisionBoxPosition = collisionBoxPosition + velocity + gravity;
+                gameObjectPosition = collisionBoxPosition;
+            }
+            else if(objectID == (int)Enums.ObjectsID.BOSS)
+            {
+                if (!tracedplayer)
+                {
+                    if (bossPhase == 3)
+                    {
+                        if (collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X == featherProjectileRange)
+                    {
+                        velocity.X = -10f;
+                    }
+                    else if (collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X == -featherProjectileRange)
+                    {
+                        velocity.X = 10f;
+                    }
+                    
+                        if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 <= bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 >= bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X) / featherProjectileRange)) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                        else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 <= bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 < bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((-collisionBoxPosition.X + collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange)) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                        else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 > bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 < bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((-collisionBoxPosition.X + collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange) + (Math.PI) / 2) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                        else if (collisionBoxPosition.Y + collisionBoxSize.Y / 2 > bossLocation.Y && collisionBoxPosition.X + collisionBoxSize.X / 2 >= bossLocation.X)
+                            collisionBoxPosition.Y = (float)(Math.Sin((float)Math.Acos((collisionBoxPosition.X - collisionBoxSize.X / 2 + bossLocation.X) / featherProjectileRange) - (Math.PI) / 2) * featherProjectileRange) + bossLocation.Y - collisionBoxSize.Y;
+                    }
+                    collisionBoxPosition.X = collisionBoxPosition.X + velocity.X;
+                    if (launch)
+                        TracedPlayerLocation();
+                    gravity.Y += (float)gameTime.ElapsedGameTime.TotalSeconds*20;
+                    collisionBoxPosition = collisionBoxPosition + velocity + gravity;
+                    gameObjectPosition = collisionBoxPosition;
+                }
+               // collisionBoxPosition.Y = (float)Math.Sqrt(Math.Pow(featherProjectileRange, 2) -Math.Pow(collisionBoxPosition.X + collisionBoxSize.X / 2 - bossLocation.X,2));
+               else if(tracedplayer || bossPhase == 3)
+                {
+                    collisionBoxPosition = collisionBoxPosition + velocity;
+                }
+            }
         }
         #endregion
 
@@ -196,14 +301,14 @@ namespace Reggie
         {
             if (stillExist)
             {
-                if (objectID == (int)Enums.ObjectsID.SNAIL && !tracedPlayerPosition)
-                {
-                    TracedPlayerLocation();
-                    tracedPlayerPosition = true;
-                }
-                ProjectileMovement(gameTime);
-                ProjectileCollisionCheck(gameObjectList);
-                CalculationCooldown(gameTime);
+                        if ((objectID == (int)Enums.ObjectsID.SNAIL || objectID == (int)Enums.ObjectsID.BOSS) && !tracedPlayerPosition)
+                        {
+                            TracedPlayerLocation();
+                            tracedPlayerPosition = true;
+                        }
+                        ProjectileMovement(gameTime);
+                        ProjectileCollisionCheck(gameObjectList);
+                        CalculationCooldown(gameTime);
             }
         }
         #endregion
@@ -222,7 +327,14 @@ namespace Reggie
                 traveltimer = 0;
                 stillExist = false;
             }
+            if (traveltimer > 3f && objectID == (int)Enums.ObjectsID.BOSS)
+            {
+                traveltimer = 0;
+                stillExist = false;
+            }
         }
         #endregion
+
+
     }
 }

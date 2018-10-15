@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
+    /// <summary>
+    /// Draws the User interface.
+    /// Manages the Items being picked up or not.
+    /// Makes the useable.
+    /// </summary>
     class ItemUIManager {
 
         public static bool snailShellPickedUp { get; set; } = false;

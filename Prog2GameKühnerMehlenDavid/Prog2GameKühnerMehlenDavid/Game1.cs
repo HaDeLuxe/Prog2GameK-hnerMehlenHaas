@@ -25,6 +25,7 @@ namespace Reggie
 
         public static Player wormPlayer;
         public Enemy ant;
+        public Boss hakume;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -70,6 +71,7 @@ namespace Reggie
         SplashScreen splashScreen;
         MainMenu mainMenu;
         GameMenu gameMenu;
+        Credits credits;
         
         Enums Enums;
 
@@ -123,6 +125,7 @@ namespace Reggie
             splashScreen = new SplashScreen();
             mainMenu = new MainMenu();
             gameMenu = new GameMenu();
+            credits = new Credits();
             itemUIManager = new ItemUIManager();
             minimap = new Minimap();
             loadAndSave = new LoadAndSave(allGameObjectList, texturesDictionary);
@@ -189,6 +192,8 @@ namespace Reggie
             ingameMenus = new IngameMenus(spriteBatch, texturesDictionary, playerSpriteSheets);
             FillLists();
             // MONO: use this.Content to load your game content here
+            hakume = new Boss(null, new Vector2(400, 422), new Vector2(-4750, -11450), (int)Enums.ObjectsID.BOSS, enemySpriteSheets);
+            hakume.SetPlayer(wormPlayer);
         }
 
         /// <summary>
@@ -209,7 +214,7 @@ namespace Reggie
             // MONO: Add your update logic here
 
             //In every State you are able to quit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || !wormPlayer.PlayerIsStillAlive())
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             lastGameState = currentGameState;
@@ -247,7 +252,7 @@ namespace Reggie
                         levelEditor.moveCamera(ref cameraOffset);
                     // Makes player movable in the leveleditor //Enemies are alive but not visible
                     gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, allGameObjectList, ref interactiveObject);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref allGameObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager,ref hakume);
                     break;
 
                 case GameState.GAMELOOP:
@@ -287,22 +292,31 @@ namespace Reggie
                     {
                         gameObjectsToRender = camera.GameObjectsToRender(wormPlayer.gameObjectPosition, levelObjectList, ref interactiveObject);
                         timeUntilNextFrame1 += animationFrameTime;
-
                     }
 
 
                     camera.SpawnEnemyOffScreen(wormPlayer, enemySpawnList, ref enemyList, enemySpriteSheets, levelManager.PlayerLevelLocation());
-                    viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
-                    wormPlayer.Update(gameTime, gameObjectsToRender, viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager);
+                    if(!camera.spawnBoss)
+                        viewableEnemies = camera.RenderedEnemies(wormPlayer.gameObjectPosition, enemyList);
+                    wormPlayer.Update(gameTime, gameObjectsToRender, ref viewableEnemies, interactiveObject, ref levelObjectList, loadAndSave, ingameMenus, levelManager, ref allGameObjectList, shopKeeper, itemUIManager, ref hakume);
 
                     if(timeUntilNextFrame2 <= 0)
                     {
-                        foreach (var enemy in viewableEnemies.ToList())
+                        if(levelManager.PlayerLevelLocation() != Enums.Level.CROWN)
+                            foreach (var enemy in viewableEnemies.ToList())
+                             {
+                                enemy.Update(gameTime, gameObjectsToRender);
+                                if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
+                                 viewableEnemies.RemoveAt(viewableEnemies.IndexOf(enemy));
+                             }
+                        if (levelManager.PlayerLevelLocation() == Enums.Level.CROWN)
                         {
-                            enemy.Update(gameTime, gameObjectsToRender);
-                            if (enemy.EnemyAliveState() == false || enemy.fallOutOfMap)
-                                viewableEnemies.RemoveAt(viewableEnemies.IndexOf(enemy));
+                            if(hakume !=null)
+                            hakume.Update(gameTime, gameObjectsToRender);
+                            if (hakume.EnemyAliveState() == false)
+                                hakume = null;
                         }
+                        
                         timeUntilNextFrame2 += animationFrameTime;
                     }
                     break;
@@ -314,6 +328,9 @@ namespace Reggie
                     break;
                 case GameState.GAMEMENU:
                     gameMenu.Update(this, loadAndSave);
+                    break;
+                case GameState.CREDITS:
+                    credits.UpdateCredits();
                     break;
             }
         }
@@ -334,7 +351,7 @@ namespace Reggie
             camera.setCameraWorldPosition(wormPlayer.gameObjectPosition);
             transformationMatrix = camera.cameraTransformationMatrix(viewport, screenCenter);
 
-            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU || currentGameState == GameState.GAMEMENU)
+            if(currentGameState == GameState.SPLASHSCREEN || currentGameState == GameState.MAINMENU || currentGameState == GameState.GAMEMENU || currentGameState == GameState.CREDITS)
             spriteBatch.Begin(0, null, null, null, null, null, null);
             else
             spriteBatch.Begin(0, null, null, null, null, null, transformationMatrix);
@@ -366,34 +383,31 @@ namespace Reggie
                                 if (platformSprite.IsThisAVisibleObject())
                                     platformSprite.DrawSpriteBatch(spriteBatch);
 
-                            //if (levelManager.currentLevel == Enums.Level.TUTORIAL)
-                            //{
+                            if (levelManager.PlayerLevelLocation() == Enums.Level.CROWN)
+                            {
+                                if (hakume != null)
+                                {
+                                    hakume.EnemyAnimationUpdate(gameTime, spriteBatch);
+                                    hakume.DrawProjectile(spriteBatch, Color.White);
+                                    hakume.drawHealthBar(spriteBatch, texturesDictionary);
+                                }
+                                
+                            }
+                            if (levelManager.PlayerLevelLocation() != Enums.Level.CROWN)
                                 for (int i = 0; i < viewableEnemies.Count(); i++)
                                 {
-                                //enemytexture = new Texture2D(this.GraphicsDevice, (int)(enemyList[i].collisionBoxSize.X), (int)(enemyList[i].collisionBoxSize.Y));
-                                //colordata = new Color[(int)((enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y))];
-                                //for (int j = 0; j < (enemyList[i].collisionBoxSize.X) * (enemyList[i].collisionBoxSize.Y); j++)
-                                //    colordata[j] = Color.White;
-                                //enemytexture.SetData<Color>(colordata);
-                                //enemyaggroposition = new Vector2(enemyList[i].collisionRectangle.Left, enemyList[i].collisionRectangle.Top);
-                                //spriteBatch.Draw(enemytexture, enemyaggroposition, Color.White);
+                                
                                 viewableEnemies[i].EnemyAnimationUpdate(gameTime, spriteBatch);
-                                    if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL)
+                                viewableEnemies[i].drawHealthBar(spriteBatch, texturesDictionary);
+
+                                if (viewableEnemies[i].objectID == (int)Enums.ObjectsID.SNAIL )
+                                {
                                     viewableEnemies[i].DrawProjectile(spriteBatch, Color.White);
+                                }
                                // }
                             }
                                
-                            //This draws the player
-
-                            //----Draw Hitbox----//
-                            //playertexture = new Texture2D(this.GraphicsDevice, (int)(wormPlayer.collisionBoxSize.X), (int)(wormPlayer.collisionBoxSize.Y));
-                            //playercolorData = new Color[(int)((wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y))];
-                            //for (int i = 0; i < (wormPlayer.collisionBoxSize.X) * (wormPlayer.collisionBoxSize.Y); i++)
-                            //    playercolorData[i] = Color.Black;
-                            //playertexture.SetData<Color>(playercolorData);
-                            //playeraggroposition = new Vector2(wormPlayer.collisionBoxPosition.X, wormPlayer.collisionBoxPosition.Y);
-                          //spriteBatch.Draw(playertexture, playeraggroposition, Color.Black);
-                            //----End Draw Hitbox----//
+                          
                             shopKeeper.DrawShopKeeper(spriteBatch, gameTime, texturesDictionary,transformationMatrix, font, levelManager);
 
                             if (wormPlayer.invincibilityFrames || (wormPlayer.invincibilityTimer>0 && wormPlayer.invincibilityTimer<0.25f) || (wormPlayer.invincibilityTimer > 0.5 && wormPlayer.invincibilityTimer < 0.75f) || (wormPlayer.invincibilityTimer > 1 && wormPlayer.invincibilityTimer < 1.25f) || (wormPlayer.invincibilityTimer > 1.5 && wormPlayer.invincibilityTimer < 1.75f) )
@@ -408,7 +422,10 @@ namespace Reggie
                                 minimap.drawMinimap(transformationMatrix,spriteBatch,wormPlayer.gameObjectPosition, ref texturesDictionary, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
                         }
                         ingameMenus.drawUpdate(gameTime, transformationMatrix, ref wormPlayer);
-
+                        if (!wormPlayer.PlayerIsStillAlive())
+                        {
+                            deathLogic(spriteBatch);
+                        }
                         break;
 
                     case GameState.LEVELEDITOR:
@@ -431,6 +448,9 @@ namespace Reggie
                         break;
                     case GameState.GAMEMENU:
                         gameMenu.DrawGameMenu(texturesDictionary, spriteBatch, font);
+                        break;
+                    case GameState.CREDITS:
+                        credits.drawCredits(spriteBatch,texturesDictionary,font);
                         break;
                 }
 
@@ -500,6 +520,31 @@ namespace Reggie
             allGameObjectList.Add(shopKeeper);
             levelManager.sortGameObjects();
             FillLists();
+        }
+
+        float alpha = 0;
+        bool fadingIn = true;
+        public void deathLogic(SpriteBatch spriteBatch)
+        {
+            if(alpha <= 1.0f && fadingIn)
+            {
+                alpha += .01f;
+            }
+
+            if(alpha >= 1.0f)
+            {
+                loadAndSave.LoadGameObjects(ref allGameObjectList, ref wormPlayer);
+                wormPlayer.playerHP = 1f;
+                wormPlayer.stillAlive = true;
+                
+            }
+            
+            if(alpha > 0 && !fadingIn)
+            {
+                alpha -= .01f;
+            }
+            spriteBatch.Draw(texturesDictionary["red"], Vector2.Transform(new Vector2(0, 0), Matrix.Invert(transformationMatrix)), null, Color.White * alpha, 0, Vector2.Zero, new Vector2(1920, 1080) /*new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)*/, SpriteEffects.None, 0);
+
         }
 
     }

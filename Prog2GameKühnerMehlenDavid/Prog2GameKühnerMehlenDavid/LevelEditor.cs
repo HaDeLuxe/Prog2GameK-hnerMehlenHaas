@@ -11,6 +11,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
+    /// <summary>
+    /// LevelEditor Mode:
+    /// Draw the User interface for the LevelEditor
+    /// Creates new gameObjects when selected.
+    /// GameObjects can replaced with mouse by 64 pixel steps.
+    /// </summary>
     class LevelEditor {
 
         Vector2 mousePosition;

@@ -8,7 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie.Animations {
-   public class AnimationManager {
+    /// <summary>
+    /// Contains all animations for player.
+    /// Defines them every single animation.
+    /// Draws the current player animation.
+    /// To call an animation, set next "nextAnimation" to Animatoins Enum.
+    /// </summary>
+    public class AnimationManager {
 
         public enum Animations{
             None,

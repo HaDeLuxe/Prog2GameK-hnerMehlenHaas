@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Reggie.Menus
 {
+    /// <summary>
+    /// Draws a beautiful splashscreen and changes GameState to Mainmenu after pressing buttons.
+    /// </summary>
     public class SplashScreen
     {
         //ContentManager Content;

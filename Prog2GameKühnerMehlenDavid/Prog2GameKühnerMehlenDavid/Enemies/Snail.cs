@@ -9,6 +9,9 @@ using Reggie.Animations;
 
 namespace Reggie.Enemies
 { 
+    /// <summary>
+    /// Contains moveset for Snail and its attack pattern.
+    /// </summary>
     public class Snail : Enemy
     {
         private AnimationManagerEnemy animationManager;
@@ -18,7 +21,7 @@ namespace Reggie.Enemies
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Snail(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 5;
+            enemyHP = 3;
             movementSpeed = 3f;
             knockBackValue = 30f;
             attackDamage = 0.09f;
@@ -204,6 +207,15 @@ namespace Reggie.Enemies
 
             }
             
+        }
+        public override void drawHealthBar(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary)
+        {
+            if (enemyHP < 3)
+            {
+                spriteBatch.Draw(texturesDictionary["enemyHBBorder"], this.gameObjectPosition + new Vector2(32, -50), Color.White);
+                spriteBatch.Draw(texturesDictionary["enemyHBFill"], this.gameObjectPosition + new Vector2(32, -50), null, Color.White, 0, Vector2.Zero, new Vector2(enemyHP / 3, 1), SpriteEffects.None, 0);
+            }
+            base.drawHealthBar(spriteBatch, texturesDictionary);
         }
     }
 }

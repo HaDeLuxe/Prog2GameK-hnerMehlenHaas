@@ -11,6 +11,11 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Reggie
 {
+        /// <summary>
+        /// Loads all Sprites into the texturesDictionary
+        /// Contains an New Game and an Load Game Load Function
+        /// Contains a Save Function that creates an txt File in the Content folder which contains some game data and all gameobjects enums with their respective worldgameposition.
+        /// </summary>
         public class LoadAndSave {
 
         private List<GameObject> gameObjectList;
@@ -168,6 +173,10 @@ namespace Reggie
             EnemySpriteSheets.Add("hawkFlightSpriteSheet", hawk_Flight);
             Texture2D hawk_Attack = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\AttackLeft");
             EnemySpriteSheets.Add("hawkAttackSpriteSheet", hawk_Attack);
+            Texture2D egg = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Egg");
+            EnemySpriteSheets.Add("egg", egg);
+            Texture2D feather = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Feather");
+            EnemySpriteSheets.Add("feather", feather);
 
             //Snail
             Texture2D snail_Moving = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\Snail_Walking");
@@ -192,6 +201,8 @@ namespace Reggie
             EnemySpriteSheets.Add("spiderAttackSpriteSheet", spiderAttack);
             Texture2D spiderWeb = Content.Load<Texture2D>("Images\\Enemies Sprite Sheets\\SpiderWebSKATCH");
             EnemySpriteSheets.Add("spiderWebProjectile", spiderWeb);
+
+
 
 
         }
@@ -299,6 +310,12 @@ namespace Reggie
             texturesDictionary.Add("sliderbar", sliderbar);
             Texture2D sliderknob = Content.Load<Texture2D>("Images\\UI\\Sliderknob");
             texturesDictionary.Add("sliderknob", sliderknob);
+            Texture2D enemyHBBorder = Content.Load<Texture2D>("Images\\UI\\EnemyHealthBarBorder");
+            texturesDictionary.Add("enemyHBBorder", enemyHBBorder);
+            Texture2D enemyHBFill = Content.Load<Texture2D>("Images\\UI\\EnemyHealthBarFill");
+            texturesDictionary.Add("enemyHBFill", enemyHBFill);
+            Texture2D redBackground = Content.Load<Texture2D>("Images\\UI\\Red-Background");
+            texturesDictionary.Add("red", redBackground);
 
 
 

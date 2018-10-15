@@ -8,6 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie.Animations {
+    /// <summary>
+    /// Contains all animations for enemies.
+    /// Defines them every single animation.
+    /// Draws the current enemy animation.
+    /// To call an animation, set next "nextAnimation" to EnemyAnimationEnum.
+    /// </summary>
     class AnimationManagerEnemy {
 
         protected Color color = Color.White;
@@ -61,10 +67,10 @@ namespace Reggie.Animations {
             ant_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 37, 64, EnemySpriteSheetsDic["antMovingSpriteSheet"], 25);
             ant_Attack_Left = new Animation(false, SpriteEffects.None, 44, 64, EnemySpriteSheetsDic["antAttackSpriteSheet"], 50f);
             ant_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 44, 64, EnemySpriteSheetsDic["antAttackSpriteSheet"], 50f);
-            hawk_Fly_Left = new Animation(true, SpriteEffects.None, 400, 392, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
-            hawk_Fly_Right = new Animation(true, SpriteEffects.FlipHorizontally, 400, 392, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
-            hawk_Attack_Left = new Animation(false, SpriteEffects.None, 400, 422, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
-            hawk_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 400, 422, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
+            hawk_Fly_Left = new Animation(true, SpriteEffects.None, 400, 422, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
+            hawk_Fly_Right = new Animation(true, SpriteEffects.FlipHorizontally, 400, 422, EnemySpriteSheetsDic["hawkFlightSpriteSheet"], 25f);
+            hawk_Attack_Left = new Animation(false, SpriteEffects.None, 400, 397, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
+            hawk_Attack_Right = new Animation(false, SpriteEffects.FlipHorizontally, 400, 397, EnemySpriteSheetsDic["hawkAttackSpriteSheet"], 50f);
             spider_Move_Left = new Animation(true, SpriteEffects.None, 140, 70, EnemySpriteSheetsDic["spiderMovingSpriteSheet"], 25f);
             spider_Move_Right = new Animation(true, SpriteEffects.FlipHorizontally, 140, 70, EnemySpriteSheetsDic["spiderMovingSpriteSheet"], 25f);
             spider_Attack_Left = new Animation(false, SpriteEffects.None, 140, 99, EnemySpriteSheetsDic["spiderAttackSpriteSheet"], 50f);
@@ -205,22 +211,42 @@ namespace Reggie.Animations {
                 case Enums.EnemyAnimations.SPIDER_ATTACK_RIGHT:
                     enemy.changeTexture(spider_Attack_Right.texture);
                     tempRec = spider_Attack_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Right.getSpriteEffects(), new Vector2(0, -40), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Right.getSpriteEffects(), new Vector2(0, -30), color, scale);
                     break;
                 case Enums.EnemyAnimations.SPIDER_ATTACK_LEFT:
                     enemy.changeTexture(spider_Attack_Left.texture);
                     tempRec = spider_Attack_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Left.getSpriteEffects(), new Vector2(0, -40), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Attack_Left.getSpriteEffects(), new Vector2(0, -30), color, scale);
                     break;
                 case Enums.EnemyAnimations.SPIDER_MOVE_LEFT:
                     enemy.changeTexture(spider_Move_Left.texture);
                     tempRec = spider_Move_Left.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Left.getSpriteEffects(), new Vector2(0, -0), color, scale);
                     break;
                 case Enums.EnemyAnimations.SPIDER_MOVE_RIGHT:
                     enemy.changeTexture(spider_Move_Right.texture);
                     tempRec = spider_Move_Right.Update(gameTime);
-                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, spider_Move_Right.getSpriteEffects(), new Vector2(0, -0), color, scale);
+                    break;
+                case Enums.EnemyAnimations.HAWK_FLY_LEFT:
+                    enemy.changeTexture(hawk_Fly_Left.texture);
+                    tempRec = hawk_Fly_Left.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Fly_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    break;
+                case Enums.EnemyAnimations.HAWK_FLY_RIGHT:
+                    enemy.changeTexture(hawk_Fly_Right.texture);
+                    tempRec = hawk_Fly_Right.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Fly_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    break;
+                case Enums.EnemyAnimations.HAWK_ATTACK_LEFT:
+                    enemy.changeTexture(hawk_Attack_Left.texture);
+                    tempRec = hawk_Attack_Left.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Attack_Left.getSpriteEffects(), new Vector2(0, -15), color, scale);
+                    break;
+                case Enums.EnemyAnimations.HAWK_ATTACK_RIGHT:
+                    enemy.changeTexture(hawk_Fly_Right.texture);
+                    tempRec = hawk_Fly_Right.Update(gameTime);
+                    enemy.DrawSpriteBatch(spriteBatch, tempRec, hawk_Fly_Right.getSpriteEffects(), new Vector2(0, -15), color, scale);
                     break;
             }
         }

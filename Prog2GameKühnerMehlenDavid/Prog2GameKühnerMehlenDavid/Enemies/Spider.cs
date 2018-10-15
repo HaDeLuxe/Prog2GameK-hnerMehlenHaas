@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Reggie.Enemies
 {
+    /// <summary>
+    /// Contains moveset for Spider and its attack pattern.
+    /// </summary>
     class Spider : Enemy
     {
         private AnimationManagerEnemy animationManager;
@@ -17,7 +20,7 @@ namespace Reggie.Enemies
         Dictionary<string, Texture2D> EnemySpriteSheetsDic;
         public Spider(Texture2D enemyTexture, Vector2 enemySize, Vector2 enemyPosition, int gameObjectID, Dictionary<string, Texture2D> EnemySpriteSheetsDic) : base(enemyTexture, enemySize, enemyPosition, gameObjectID, EnemySpriteSheetsDic)
         {
-            enemyHP = 3;
+            enemyHP = 1;
             movementSpeed = 6f;
             knockBackValue = 30f;
             attackDamage = 0.07f;
@@ -205,6 +208,15 @@ namespace Reggie.Enemies
             {
                 spriteBatch.Draw(EnemySpriteSheetsDic["spiderWebProjectile"], new Vector2(projectile.collisionRectangle.Left, projectile.collisionRectangle.Top), color);
             }
+        }
+        public override void drawHealthBar(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texturesDictionary)
+        {
+            if (enemyHP < 1)
+            {
+                spriteBatch.Draw(texturesDictionary["enemyHBBorder"], this.gameObjectPosition + new Vector2(32, -50), Color.White);
+                spriteBatch.Draw(texturesDictionary["enemyHBFill"], this.gameObjectPosition + new Vector2(32, -50), null, Color.White, 0, Vector2.Zero, new Vector2(enemyHP / 1, 1), SpriteEffects.None, 0);
+            }
+            base.drawHealthBar(spriteBatch, texturesDictionary);
         }
     }
 }

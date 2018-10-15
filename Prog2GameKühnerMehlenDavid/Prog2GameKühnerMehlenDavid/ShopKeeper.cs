@@ -10,6 +10,11 @@ using Reggie.Animations;
 
 namespace Reggie
 {
+    /// <summary>
+    /// Contains logic for Shopkeeper
+    /// Draws the menu when Shopkeeper is actived.
+    /// Lets you buy items for 5 Coins each.
+    /// </summary>
     public class ShopKeeper : GameObject
     {
         NPC_Animations nPC_Animations;

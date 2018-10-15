@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie.Menus {
+    /// <summary>
+    /// Logic for the MainMenu and takes action after pushing a button.
+    /// </summary>
     class MainMenu {
 
 
@@ -111,7 +114,7 @@ namespace Reggie.Menus {
                                 currentState = Enums.MainMenuStates.OPTION;
                                 break;
                             case Enums.MainMenuButtons.CREDITS:
-                                currentState = Enums.MainMenuStates.OPTION;
+                                Game1.currentGameState = Game1.GameState.CREDITS;
                                 break;
                             case Enums.MainMenuButtons.EXIT:
                                 Game.Exit();

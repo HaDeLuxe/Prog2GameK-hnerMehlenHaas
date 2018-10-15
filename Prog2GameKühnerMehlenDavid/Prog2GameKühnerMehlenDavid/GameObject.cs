@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reggie {
-
+    /// <summary>
+    /// abstract class that is base class for most objects in our game.
+    /// </summary>
     public abstract class GameObject {
 
         protected Texture2D gameObjectTexture;
@@ -30,12 +32,14 @@ namespace Reggie {
         public int objectID;
 
 
-
+        //returns a rectangle that represents the gameobject collisionbox
         public Rectangle collisionRectangle
         {
         get { return new Rectangle((int)collisionBoxPosition.X, (int)collisionBoxPosition.Y, (int)collisionBoxSize.X, (int)collisionBoxSize.Y); }
         }
 
+
+        //returns a rectangle that contains the location the gameobjects sprite/texture etc
         public Rectangle gameObjectRectangle {
             get { return new Rectangle((int)gameObjectPosition.X, (int)gameObjectPosition.Y, (int)gameObjectSize.X, (int)gameObjectSize.Y); } set{; }
         }
@@ -66,6 +70,8 @@ namespace Reggie {
             return getsDrawn;
         }
 
+
+        //some draw fucntions for the gameobjects
         public virtual void DrawSpriteBatch(SpriteBatch spriteBatch) {
             spriteBatch.Draw(gameObjectTexture, gameObjectPosition, color);
         }
@@ -88,7 +94,7 @@ namespace Reggie {
             spriteBatch.Draw(texture, position, sourceRectangle, color);
         }
 
-        // SpriteCollision
+        // GameobjectCollision --> important part to check if 2 intended gameobjects collides with each other
         protected bool IsTouchingLeftSide(GameObject sprite) {
             return collisionRectangle.Right + velocity.X > sprite.gameObjectRectangle.Left
                 && collisionRectangle.Left < sprite.gameObjectRectangle.Left
